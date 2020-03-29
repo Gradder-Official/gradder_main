@@ -1,16 +1,19 @@
 from werkzeug.security import generate_password_hash, check_password_hash
-from .. import DB_API
-from app.exceptions import NoUserError
+from .. import db
 
 class User:
-    def __init__(self, _email:str, _first_name:str, _last_name:str):
-        self.email = _email
-        self.first_name = _first_name
-        self.last_name = _last_name
-        self.ID = 1 # get the latest from the database and assign next
+    def __init__(self, email:str, first_name:str, last_name:str):
+        self.email = email
+        self.first_name = first_name
+        self.last_name = last_name
+        self.ID = db.get_new_id()
 
     def __repr__(self):
         return f'<User {self.ID}'
+
+    
+    def new_id(self):
+        self.ID = db.get_new_id()
 
 
     @property
@@ -31,47 +34,24 @@ class User:
             'email': self.email,
             'first_name': self.first_name,
             'last_name': self.last_name,
-            'ID': self.ID
+            'ID': self.ID,
+            'password_hash': self.password_hash
         }
         return json_user
 
-
-class Teacher(User):
-    def __init__(self, _email:str, _first_name:str, _last_name:str, _class_list:list=None, 
-                 _subjects:list=None):
-        super().__init__(_email, _first_name, _last_name)
-        if _class_list:
-            self.class_list = _class_list
-        if _subjects:
-            self.subjects = _subjects
-
-    def __repr__(self):
-        return f'<Teacher {self.ID}'
-
     
-    # Methods for accessing/posting homework and grades
+    def to_dict(self):
+        return self.to_json()
 
+    @staticmethod
+    def from_dict(dictionary:dict):
+        user = User(email=dictionary['email'],
+                    first_name=dictionary['first_name'],
+                    last_name=dictionary['last_name'])
 
-class Student(User):
-    def __init__(self, _email:str, _first_name:str, _last_name:str, _class:str):
-        super().__init__(_email, _first_name, _last_name)
-        self.className = _class.lower()
+        if 'password' in dictionary:
+            user.set_password(dictionary['password'])
 
-    def __repr__(self):
-        return f'<Student {self.ID}'
-
-    
-    # Methods for accessing/posting homework and grades
-
-
-class Parent(User):
-    def __init__(self, _email:str, _first_name:str, _last_name:str, _children:list):
-        super().__init__(_email, _first_name, _last_name)
+        user.new_id()
         
-        self.children = []
-        for child in _children:
-            try:
-                user = DB_API.get_user_by_name(first_name=child['first_name'], last_name=child['last_name'])
-                self.children.append(user.ID)
-            except BaseException:
-                raise NoUserError
+        return user

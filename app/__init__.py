@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_login import LoginManager
+import firebase_admin
 from config import config
 
 login_manager = LoginManager()
@@ -12,6 +13,7 @@ def create_app(config_name):
     config[config_name].init_app(app)
 
     login_manager.init_app(app)
+    firebase_admin.initialize_app()
 
     from . import main as main_blueprint
     app.register_blueprint(main_blueprint)

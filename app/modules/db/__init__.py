@@ -1,1 +1,3 @@
-from .api import DB as DB_API
+from . import api 
+
+db = api.DB()

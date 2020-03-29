@@ -1,8 +1,8 @@
-from .. import DB_API
+from .. import db
 
 class Subscriber:
-    def __init__(self, _email, _first_name, _last_name):
-        self.email = _email
-        self.first_name = _first_name
-        self.last_name = _last_name
-        self.ID = DB_API.get_last_id('subscriber') + 1
+    def __init__(self, email, first_name, last_name):
+        self.email = email
+        self.first_name = first_name
+        self.last_name = last_name
+        self.ID = db.get_new_id()
