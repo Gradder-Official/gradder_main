@@ -1,4 +1,3 @@
-from . import db
 from .classes import User, Subscriber
 
 class DB:
