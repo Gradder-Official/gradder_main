@@ -1,17 +1,19 @@
 from .user import User
 from app.exceptions import NoUserError
-from .. import db
 from .access_level import ACCESS_LEVEL
+from .student import Student
 
 
 class Parent(User):
     def __init__(self, email:str, first_name:str, last_name:str, children:list=None):
+        from app import db
         super().__init__(email=email, first_name=first_name, last_name=last_name)
         
         self.children = []
         for child in children:
             try:
-                user = db.get_user_by_name(first_name=child['first_name'], 
+                user = db.get_user_by_name(usertype=Student,
+                                           first_name=child['first_name'], 
                                            last_name=child['last_name'])
                 self.children.append(user.ID)
             except BaseException:
@@ -30,7 +32,7 @@ class Parent(User):
             'first_name': self.first_name,
             'last_name': self.last_name,
             'ID': self.ID,
-            'password_hash': self.password_hash,
+            'password': self.password_hash,
             'children': self.children
         }
         return json_user
@@ -46,6 +48,7 @@ class Parent(User):
     
     @staticmethod
     def from_dict(dictionary:dict):
+        from app import db
         user = Parent(email=dictionary['email'],
                       first_name=dictionary['first_name'],
                       last_name=dictionary['last_name'])
@@ -54,7 +57,8 @@ class Parent(User):
             children_id_list = []
             for child in dictionary['children']:
                 try:
-                    user = db.get_user_by_name(first_name=child['first_name'],
+                    user = db.get_user_by_name(usertype=Student,
+                                               first_name=child['first_name'],
                                                last_name=child['last_name'])
                     children_id_list.append(user.ID)
                 except BaseException:

@@ -1,3 +1,1 @@
-from . import api 
-
-db = api.DB()
+from . import api
