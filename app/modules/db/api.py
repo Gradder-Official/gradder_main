@@ -9,7 +9,7 @@ class DB:
         self.collection_parents = self.db.collection('parents')
         self.collection_students = self.db.collection('students')
         self.collection_teachers = self.db.collection('teachers')
-        self.collection_admins = self.db.collectoin('admins')
+        self.collection_admins = self.db.collection('admins')
         self.collection_subscribers = self.db.collection('subscribers')
     
 
@@ -22,51 +22,54 @@ class DB:
         return generate_password_hash(str(datetime.utcnow()))
 
     def get_user(self, user:User):
-        if type(user) == Teacher:
-            received_user = self.collection_teachers.document(user.ID)
-            if received_user:
-                return Teacher.from_dict(received_user.get())
-            else:
-                return None
-        elif type(user) == Student:
-            received_user = self.collection_students.document(user.ID)
-            if received_user:
-                return Student.from_dict(received_user.get())
-            else:
-                return None
-        elif type(user) == Parent:
-            received_user = self.collection_parents.document(user.ID)
-            if received_user:
-                return Parent.from_dict(received_user.get())
-            else:
-                return None
-        elif type(user) == Student:
-            received_user = self.collection_students.document(user.ID)
-            if received_user:
-                return Student.from_dict(received_user.get())
-            else:
-                return None
+        received_user = exec(f'self.collection_{type(user).__name__.lower()+"s"}.document(user.ID)')
+        if received_user:
+            received_user = exec(f'{type(user).__name__}.from_dict(received_user.get())')
+            return exec(f'{type(user).__name__}.from_dict(received_user)')
+        else:
+            return None
 
-    def get_user_by_name(self, first_name:str, last_name:str):
-        user = None
-        return user
+    def get_user_by_name(self, usertype:User, first_name:str, last_name:str):
+        if first_name and last_name:
+            received_user = exec(f'self.collection_{type(usertype).__name__.lower()+"s"}\
+                .where(u"last_name", u"==", {last_name.decode("utf-8")})\
+                .where(u"first_name", u"==", {first_name.decode("utf-8")})')
+            if received_user:
+                received_user = exec(f'{type(usertype).__name__}.from_dict(received_user.get())')
+                return exec(f'{type(usertype).__name__}.from_dict(received_user)')
+            else:
+                return None
 
     def add_user(self, user:User):
-        status = False # add the user to the database and get the status
-        return status
+        try:
+            exec(f'self.collection_{type(user).__name__.lower()+"s"}.document(str(user.ID)\
+                .decode("utf-8")).set(user.to_dict())')
+            return True
+        except BaseException:
+            return False
 
     def delete_user(self, user:User):
-        status = False # delete the user from the databse and return the status
-        return status
+        exec(f'self.collection_{type(user).__name__.lower()+"s"}.document(str(user.ID)\
+            .decode("utf-8")).delete()')
 
     def get_subscriber(self, subscriber:Subscriber):
-        subscriber = None # get the subsciber from the database
-        return subscriber
+        subscr = self.collection_subscribers.document(str(subscriber.ID).decode("utf-8"))
+        if subscr:
+            return subsciber.to_dict(subscr)
+        else:
+            return None
 
-    def add_subscriber(self, subsciber:Subscriber):
-        status = False # add the subscriber to the database and get the status
-        return status
+    def add_subscriber(self, subscriber:Subscriber):
+        try:
+            self.collection_subscribers.document(str(subscriber.ID).decode("utf-8"))\
+                .set(subscriber.to_dict())
+            return True
+        except BaseException:
+            return False
 
     def delete_subscriber(self, subsciber:Subscriber):
-        status = False # delere the subscriber from the database and get the status
-        return status
+        try:
+            self.collection_subscribers.document(str(subsciber.ID).decode("utf-8")).delete()
+            return True
+        except BaseException:
+            return False

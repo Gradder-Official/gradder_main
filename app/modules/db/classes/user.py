@@ -1,5 +1,6 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from .. import db
+from .access_level import ACCESS_LEVEL
 
 class User:
     def __init__(self, email:str, first_name:str, last_name:str):
@@ -7,6 +8,7 @@ class User:
         self.first_name = first_name
         self.last_name = last_name
         self.ID = db.get_new_id()
+        self.access_level = ACCESS_LEVEL.EMPTY
 
     def __repr__(self):
         return f'<User {self.ID}'

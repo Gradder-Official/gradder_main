@@ -1,6 +1,7 @@
 from .user import User
 from app.exceptions import NoUserError
 from .. import db
+from .access_level import ACCESS_LEVEL
 
 
 class Parent(User):
@@ -15,6 +16,8 @@ class Parent(User):
                 self.children.append(user.ID)
             except BaseException:
                 raise NoUserError
+        
+        self.access_level = ACCESS_LEVEL.PARENT
     
 
     def __repr__(self):
@@ -32,17 +35,36 @@ class Parent(User):
         }
         return json_user
 
+    @property
+    def children(self):
+        return self.children
+
+    @children.setter
+    def set_children(self, new_children_list:str):
+        self.children = new_children_list
+
+    
     @staticmethod
     def from_dict(dictionary:dict):
         user = Parent(email=dictionary['email'],
                       first_name=dictionary['first_name'],
-                      last_name=dictionary['last_name'],
-                      )
+                      last_name=dictionary['last_name'])
+        
+        if 'children' in dictionary:
+            children_id_list = []
+            for child in dictionary['children']:
+                try:
+                    user = db.get_user_by_name(first_name=child['first_name'],
+                                               last_name=child['last_name'])
+                    children_id_list.append(user.ID)
+                except BaseException:
+                    raise NoUserError
+            
+            user.set_children(children_id_list)
 
         if 'password' in dictionary:
             user.set_password(dictionary['password'])
-    
-
+        
         return user
 
     # Methods for accessing grades
