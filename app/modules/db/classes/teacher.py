@@ -22,7 +22,7 @@ class Teacher(User):
             'first_name': self.first_name,
             'last_name': self.last_name,
             'ID': self.ID,
-            'password_hash': self.password_hash,
+            'password': self.password_hash,
             'class_list': self.class_list,
             'subjects': self.subjects
         }

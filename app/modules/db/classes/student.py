@@ -16,7 +16,7 @@ class Student(User):
             'first_name': self.first_name,
             'last_name': self.last_name,
             'ID': self.ID,
-            'password_hash': self.password_hash,
+            'password': self.password_hash,
             'class_name': self.class_name
         }
         return json_user
