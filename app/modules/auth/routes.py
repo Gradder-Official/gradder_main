@@ -5,16 +5,6 @@ from . import auth
 from .forms import LoginForm, RegistrationForm
 from app.modules.db.classes import Admin, Teacher, Student, Parent
 
-@auth.before_app_request
-def before_request():
-    if current_user.is_authenticated:
-        current_user.ping()
-        if request.endpoint \
-           and request.blueprint != 'auth' \
-           and request.endpoint != 'static':
-            return redirect(url_for('auth.unconfirmed'))
-
-
 @auth.route('/unconfirmed')
 def unconfirmed():
     if current_user.is_anonymous():
@@ -28,12 +18,13 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = db.get_user_by_email(form.email.data.lower())
-        print(user)
         if user is not None and user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
+
             next = request.args.get('next')
             if next is None or not next.startswith('/'):
                 next = url_for('main.dashboard')
+            print(current_user.is_authenticated)
             return redirect(next)
         flash('Invalid email or password.')
     

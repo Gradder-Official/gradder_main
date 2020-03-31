@@ -5,9 +5,9 @@ from .student import Student
 
 
 class Parent(User):
-    def __init__(self, email:str, first_name:str, last_name:str, children:list=None):
+    def __init__(self, email:str, first_name:str, last_name:str, children:list=None, ID:str=None):
         from app import db
-        super().__init__(email=email, first_name=first_name, last_name=last_name)
+        super().__init__(email=email, first_name=first_name, last_name=last_name, ID=ID)
         
         self.children = []
         for child in children:
@@ -51,7 +51,8 @@ class Parent(User):
         from app import db
         user = Parent(email=dictionary['email'],
                       first_name=dictionary['first_name'],
-                      last_name=dictionary['last_name'])
+                      last_name=dictionary['last_name'],
+                      ID=dictionary['ID'] if 'ID' in dictionary else None)
         
         if 'children' in dictionary:
             children_id_list = []

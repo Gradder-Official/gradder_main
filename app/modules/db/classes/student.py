@@ -2,8 +2,8 @@ from .user import User
 from .access_level import ACCESS_LEVEL
 
 class Student(User):
-    def __init__(self, email:str, first_name:str, last_name:str, class_name:str=None):
-        super().__init__(email=email, first_name=first_name, last_name=last_name)
+    def __init__(self, email:str, first_name:str, last_name:str, class_name:str=None, ID:str=None):
+        super().__init__(email=email, first_name=first_name, last_name=last_name, ID=ID)
         self.class_name = class_name.lower()
         self.access_level = ACCESS_LEVEL.STUDENT
 
@@ -35,7 +35,8 @@ class Student(User):
     def from_dict(dictionary:dict):
         user = Student(email=dictionary['email'],
                        first_name=dictionary['first_name'],
-                       last_name=dictionary['last_name'])
+                       last_name=dictionary['last_name'],
+                       ID=dictionary['ID'] if 'ID' in dictionary else None)
         
         if 'class_name' in dictionary:
             user.set_class_name(dictionary['class_name'])

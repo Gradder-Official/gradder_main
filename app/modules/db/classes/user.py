@@ -5,22 +5,20 @@ from flask_login import UserMixin
 from .access_level import ACCESS_LEVEL
 
 class User(UserMixin):
-    def __init__(self, email:str, first_name:str, last_name:str, active:bool=True):
+    def __init__(self, email:str, first_name:str, last_name:str, ID:str=None):
         from app import db
         self.email = email
         self.first_name = first_name
         self.last_name = last_name
-        self.ID = db.get_new_id()
+        if ID is not None:
+            self.ID = ID
+        else:
+            self.ID = db.get_new_id()
         self.access_level = ACCESS_LEVEL.EMPTY
-        self.is_active = active
 
     def __repr__(self):
         return f'<User {self.ID}'
 
-    
-    def new_id(self):
-        from app import db
-        self.ID = db.get_new_id()
 
     def set_password(self, password:str):
         if match(r"(pbkdf2:sha256:)([^\$.]+)(\$)([^\$.]+)(\$)([^\$.]+)", password) is not None:
@@ -31,14 +29,10 @@ class User(UserMixin):
     def verify_password(self, password:str):
         return check_password_hash(self.password_hash, password)
 
+
     def get_id(self):
         return self.ID
-
-    def is_authenticated(self):
-        return True
-
-    def is_anonymous(self):
-        return False
+    
 
     def to_json(self):
         json_user = {
@@ -58,11 +52,10 @@ class User(UserMixin):
     def from_dict(dictionary:dict):
         user = User(email=dictionary['email'],
                     first_name=dictionary['first_name'],
-                    last_name=dictionary['last_name'])
+                    last_name=dictionary['last_name'], 
+                    ID=dictionary['ID'] if 'ID' in dictionary else None)
 
         if 'password' in dictionary:
             user.set_password(dictionary['password'])
-
-        user.new_id()
         
         return user

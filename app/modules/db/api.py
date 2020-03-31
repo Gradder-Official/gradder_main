@@ -128,8 +128,8 @@ class DB:
         try:
             eval(f'self.collection_{type(user).__name__.lower()+"s"}.document(str(user.ID)).set(user.to_dict())')
             return True
-        except BaseException:
-            # TODO: logger
+        except BaseException as e:
+            print(e)
             return False
 
     def delete_user(self, user:User):

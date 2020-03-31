@@ -44,8 +44,8 @@ class RegistrationForm(FlaskForm):
 
     def validate_auth_token(self, field):
         from app import db
-        token = db.collection_tokens.document(field.data)
-        if token:
+        token = db.collection_tokens.document(field.data).get().to_dict()
+        if token is not None:
             return True
         else:
             raise ValidationError("Invalid token")
