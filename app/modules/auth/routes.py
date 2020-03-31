@@ -5,6 +5,7 @@ from . import auth
 from .forms import LoginForm, RegistrationForm
 from app.modules.db.classes import Admin, Teacher, Student, Parent
 
+
 @auth.route('/unconfirmed')
 def unconfirmed():
     if current_user.is_anonymous():
@@ -20,14 +21,13 @@ def login():
         user = db.get_user_by_email(form.email.data.lower())
         if user is not None and user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
-
             next = request.args.get('next')
             if next is None or not next.startswith('/'):
                 next = url_for('main.dashboard')
             print(current_user.is_authenticated)
             return redirect(next)
         flash('Invalid email or password.')
-    
+
     return render_template('auth/login.html', form=form)
 
 
@@ -41,10 +41,11 @@ def logout():
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
-    from app import db 
+    from app import db
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = eval(f'{form.user_type.data}(email=form.email.data.lower(), first_name=form.first_name.data, last_name=form.last_name.data)')
+        user = eval(
+            f'{form.user_type.data}(email=form.email.data.lower(), first_name=form.first_name.data, last_name=form.last_name.data)')
 
         user.set_password(form.password.data)
 
@@ -53,5 +54,5 @@ def register():
             return redirect(url_for('auth.login'))
         else:
             flash('Unknown error while registering.')
-    
+
     return render_template('auth/register.html', form=form)
