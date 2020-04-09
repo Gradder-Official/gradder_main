@@ -27,6 +27,9 @@ class Admin(User):
 
         if 'password' in dictionary:
             user.set_password(dictionary['password'])
+        
+        if 'secret_question' in dictionary and 'secret_answer' in dictionary:
+            user.set_secret_question(dictionary['secret_question'], dictionary['secret_answer'])
 
         return user
 

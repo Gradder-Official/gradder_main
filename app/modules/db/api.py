@@ -120,11 +120,12 @@ class DB:
                 return Parent.from_dict(user)
             except:
                 return None
+                
 
     def add_user(self, user: User):
         try:
             eval(
-                f'self.collection_{type(user).__name__.lower()+"s"}.document(str(user.ID)).set(user.to_dict())')
+                f'self.collection_{user.to_dict()["usertype"] + "s"}.document(user.ID).set(user.to_dict())')
             return True
         except BaseException as e:
             print(e)

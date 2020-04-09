@@ -24,11 +24,15 @@ class RegistrationForm(FlaskForm):
                                      ('Teacher', 'Teacher'), ('Parent', 'Parent')],
                             validators=[DataRequired()])
     auth_token = StringField('Authorization token', validators=[DataRequired()])
+    secret_question = StringField('Secret question', validators=[DataRequired()])
+    secret_answer = StringField('Answer to the secret question', validators=[DataRequired()])
+
     submit = SubmitField('Register')
 
 
     def validate_email(self, field):
         from app import db
+
         checks = [
             list(db.collection_admins.where(u'email', u'==', field.data.lower()).stream()),
             list(db.collection_parents.where(u'email', u'==', field.data.lower()).stream()),
@@ -49,3 +53,21 @@ class RegistrationForm(FlaskForm):
             return True
         else:
             raise ValidationError("Invalid token")
+
+
+class PasswordChangeForm(FlaskForm):
+    new_password = PasswordField('New password', validators=[DataRequired(), EqualTo('new_password2', message='New passwords must match.')])
+    new_password2 = PasswordField('Confirm new password', validators=[DataRequired()])
+
+    secret_question = StringField('Answer to your secret question', validators=[DataRequired()])
+
+    submit = SubmitField('Change password')
+
+
+class SecretQuestionChangeForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired()])
+
+    new_secret_question = StringField('New secret question', validators=[DataRequired()])
+    new_secret_answer = StringField('Answer to the new secret question', validators=[DataRequired()])
+
+    submit = SubmitField('Change secret question')

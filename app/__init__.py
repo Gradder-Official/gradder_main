@@ -21,7 +21,7 @@ def create_app(config_name):
     login_manager.init_app(app)
     bootstrap.init_app(app)
 
-    cred = credentials.Certificate("C:\\Users\\vika_\\Desktop\\Projects\\Gradder\\new_app\\credentials\\firebase_key.json")
+    cred = credentials.Certificate(app.config["FIREBASE_CERTIFICATE"])
     firebase_admin.initialize_app(cred)
 
     from .main import main as main_blueprint

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Gradder | Profile{% endblock %}
+
+{% block content %}
+Welcome, {{ current_user.first_name }}! You are {% if current_user.usertype != 'admin' %} a {% else %} an {% endif %} {{ current_user.usertype }}!
+
+<br>
+<a href="{{ url_for('auth.change_password') }}">Change your password</a>
+<br>
+<a href="{{ url_for('auth.change_secret_question') }}">Change your secret question</a>
+<br>
+
+{% if current_user.usertype == 'admin' %} 
+    {% include "auth/admin.html" %}
+{% endif %}
+
+{% if current_user.usertype == 'teacher' %}     
+    {% include "auth/teacher.html" %}
+{% endif %}
+
+{% if current_user.usertype == 'student' %} 
+    {% include "auth/student.html" %}
+{% endif %}
+
+{% if current_user.usertype == 'parent' %} 
+    {% include "auth/parent.html" %}
+{% endif %}
+
+{% endblock %}

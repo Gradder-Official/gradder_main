@@ -16,6 +16,8 @@ class User(UserMixin):
             self.ID = ID
         else:
             self.ID = db.get_new_id()
+        self.secret_question = None
+        self.secret_answer = None
         self.access_level = ACCESS_LEVEL.EMPTY
 
     def __repr__(self):
@@ -30,6 +32,19 @@ class User(UserMixin):
     def verify_password(self, password: str):
         return check_password_hash(self.password_hash, password)
 
+    
+    def set_secret_question(self, question:str, answer:str):
+        self.secret_question = question
+        if match(r"(pbkdf2:sha256:)([^\$.]+)(\$)([^\$.]+)(\$)([^\$.]+)", answer) is not None:
+            self.secret_answer = answer
+        else:
+            self.secret_answer = generate_password_hash(answer)
+
+    
+    def verify_secret_question(self, answer:str):
+        return check_password_hash(self.secret_answer, answer)
+
+
     def get_id(self):
         return self.ID
 
@@ -40,7 +55,9 @@ class User(UserMixin):
             'last_name': self.last_name,
             'ID': self.ID,
             'password': self.password_hash,
-            'usertype': self.usertype
+            'usertype': self.usertype,
+            'secret_question': self.secret_question,
+            'secret_answer': self.secret_answer
         }
         return json_user
 
@@ -57,5 +74,8 @@ class User(UserMixin):
 
         if 'password' in dictionary:
             user.set_password(dictionary['password'])
+
+        if 'secret_question' in dictionary and 'secret_answer' in dictionary:
+            user.set_secret_question(dictionary['secret_question'], dictionary['secret_answer'])
 
         return user
