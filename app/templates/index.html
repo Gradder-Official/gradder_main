@@ -1,8 +1,37 @@
 {% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}Gradder{% endblock %}
+<!-- Do not remove this, as it overwrites the navbar from the base html, which is used for other page -->
+{% block navbar %}
+{% endblock %}
 
 {% block page_content %}
-Welcome to a really cool homepage
+<div class="new-landing">
+	<div class="navbar">
+		<div class="logo">
+			<img src="{{ url_for('static', filename='images/even more resized-09.png') }}" alt="Gradder logo">
+			<p>Gradder</p>
+		</div>
+		<ul class="menu">
+			<li><a href="#home" class="active">Home</a></li>
+			<li><a href="{{ url_for('main.contact') }}">Contact</a></li>
+		</ul>	
+	</div>
+	<div class="left-container">
+		<div class="hero-text">
+			<p>AI-driven School Dashboard</p>
+			<h1>Your Smart<br>School Diary</h1>
+			<h3>What if you didn't have to end your education when at home?</h3>
+			<a href="{{ url_for('auth.register') }}">
+				<div class="button">
+					Get Started
+				</div>
+			</a>
+		</div>	
+	</div>
+	<div class="right-container">
+		<div class="hero-image">
+			<p>AI-driven School Dashboard</p>
+		</div>
+	</div>
+</div>
 {% endblock %}

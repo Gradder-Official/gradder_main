@@ -31,6 +31,7 @@ class Assignment:
         self.due_by = due_by
         self.content = content
         self.estimated_time = estimated_time
+        self.ID = ID if ID is not None else 'egrg34g334g43g4'  # generate a new ID
 
 
 

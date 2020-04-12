@@ -1,70 +1,45 @@
-{% extends "bootstrap/base.html" %}
+<!DOCTYPE html>
 
-{% block title %}Gradder{% endblock %}
+<html>
+<head>
+    {% block head %}
+    <meta name="title" content="Gradder - Your Smart  School Diary">
+    <meta name="google" content="notranslate">
+    <meta name="theme-color" content="#2B9264">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap&subset=cyrillic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:600&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/even more resized-09.png') }}"
+        type="image/x-icon">
+    <link rel="icon" sizes="192x192" href="{{ url_for('static', filename='images/even more resized-09.png') }}"
+        type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/main.css') }}">
+    {% endblock %}
+    <title>{% block title %}Gradder | Your Smart  School Diary{% endblock %}</title>
+</head>
 
-{% block head %}
-{{ super() }}
-<meta name="title" content="Gradder - AI-driven platform for Ukrainian public schools">
-<meta name="google" content="notranslate">
-<meta name="theme-color" content="#2B9264">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap&subset=cyrillic" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:600&display=swap" rel="stylesheet">
-<link rel="shortcut icon" href="{{ url_for('static', filename='images/even more resized-09.png') }}"
-    type="image/x-icon">
-<link rel="icon" sizes="192x192" href="{{ url_for('static', filename='images/even more resized-09.png') }}"
-    type="image/x-icon">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/main.css') }}">
-{% endblock %}
-
-{% block navbar %}
-<div class="navbar navbar-inverse" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="{{ url_for('main.index') }}"><img style="width:20px; height:20px;"
-                    src="{{ url_for('static', filename='images/even more resized-09.png') }}" />Gradder</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="{{ url_for('main.index') }}">Home</a></li>
-                {% if current_user.is_authenticated %}
-                <li><a href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
-                <li><a href="{{ url_for('main.profile') }}">Profile</a></li>
-                {% endif %}
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                {% if current_user.is_authenticated %}
-                <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
-                {% else %}
-                <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    </div>
-</div>
-{% endblock %}
-
+<body>
 {% block content %}
-<div class="container">
-    {% for message in get_flashed_messages() %}
-    <div class="alert alert-warning">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        {{ message }}
-    </div>
-    {% endfor %}
+    <div class="container">
+        {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+        {% endfor %}
 
-    {% block page_content %}{% endblock %}
-</div>
+        {% block page_content %}{% endblock %}
+    </div>
 {% endblock %}
 
 {% block scripts %}
-{{ super() }}
-{{ moment.include_moment() }}
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery-1.12.4.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='scripts/language_switcher.js') }}"></script>
+	<script type='text/javascript' src="{{ url_for('static', filename='scripts/landing.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts/animations.js') }}"></script>
+     {{ moment.include_moment() }}
 {% endblock %}
+
+</body>
+</html>
