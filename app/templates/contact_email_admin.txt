@@ -1,0 +1,8 @@
+The following message has been received:
+
+Name: {{ first_name }} {{ last_name }}
+Subject: {{ subject_msg }}
+ID: {{ message_id }}
+
+Message:
+{{ message }}

@@ -1,0 +1,13 @@
+Dear {{ first_name }},
+Your message has been received by the Gradder Team. We are already typing the answer :) It should not take more than 24 hours.
+
+"
+Subject: {{ subject_msg }}
+{{ message }}
+"
+
+Sincerely,
+
+The Gradder Team
+
+Please do not reply to this message.

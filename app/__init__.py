@@ -2,6 +2,7 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
+from flask_mail import Mail
 import firebase_admin
 from firebase_admin import credentials
 from config import config
@@ -11,6 +12,7 @@ login_manager.login_view = 'auth.login'
 
 bootstrap = Bootstrap()
 moment = Moment()
+mail = Mail()
 
 from .modules.db.api import DB
 db = DB()
@@ -23,6 +25,7 @@ def create_app(config_name):
     login_manager.init_app(app)
     bootstrap.init_app(app)
     moment.init_app(app)
+    mail.init_app(app)
 
     cred = credentials.Certificate(app.config["FIREBASE_CERTIFICATE"])
     firebase_admin.initialize_app(cred)

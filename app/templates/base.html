@@ -15,8 +15,8 @@
     <link rel="icon" sizes="192x192" href="{{ url_for('static', filename='images/even more resized-09.png') }}"
         type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/main.css') }}">
-    {% endblock %}
-    <title>{% block title %}Gradder | Your Smart  School Diary{% endblock %}</title>
+    <title>{% block title %}Gradder | Your Smart  School Diary{% endblock title %}</title>
+    {% endblock head %}
 </head>
 
 <body>
@@ -29,9 +29,9 @@
         </div>
         {% endfor %}
 
-        {% block page_content %}{% endblock %}
+        {% block page_content %}{% endblock page_content %}
     </div>
-{% endblock %}
+{% endblock content%}
 
 {% block scripts %}
     <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery-1.12.4.min.js') }}"></script>
@@ -39,7 +39,6 @@
 	<script type='text/javascript' src="{{ url_for('static', filename='scripts/landing.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='scripts/animations.js') }}"></script>
      {{ moment.include_moment() }}
-{% endblock %}
-
+{% endblock scripts %}
 </body>
 </html>

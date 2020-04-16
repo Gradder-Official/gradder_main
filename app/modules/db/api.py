@@ -1,4 +1,4 @@
-from .classes import Subscriber, User, Teacher, Parent, Student, Admin
+from .classes import Subscriber, User, Teacher, Parent, Student, Admin, Message
 from google.cloud import firestore
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
@@ -14,6 +14,7 @@ class DB:
         self.collection_admins = self.db.collection('admins')
         self.collection_subscribers = self.db.collection('subscribers')
         self.collection_tokens = self.db.collection('tokens')
+        self.collection_messages = self.db.collection('messages')
         self.ADMIN_TOKEN_HASH = 'pbkdf2:sha256:150000$p1711QE3$5fd0be7223ce989f55697f3afb3665e1b2a011214455c7e5f96d38586130969f'
 
     def __repr__(self):
@@ -155,4 +156,13 @@ class DB:
             self.collection_subscribers.document(str(subsciber.ID)).delete()
             return True
         except BaseException:
+            return False
+
+
+    def add_message(self, message: Message):
+        try:
+            self.collection_messages.document(message.ID).set(message.to_dict())
+            return True
+        except BaseException as e:
+            print(e)
             return False
