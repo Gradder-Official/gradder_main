@@ -6,13 +6,6 @@ from .forms import LoginForm, RegistrationForm, PasswordChangeForm, SecretQuesti
 from app.modules.db.classes import Admin, Teacher, Student, Parent
 
 
-@auth.route('/unconfirmed')
-def unconfirmed():
-    if current_user.is_anonymous():
-        return redirect(url_for('main.index'))
-    return render_template('auth/unconfirmed.html')
-
-
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     from app import db

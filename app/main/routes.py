@@ -12,11 +12,6 @@ def index():
     return render_template('index.html')
 
 
-@main.route('/features')
-def features():
-    return render_template('features.html')
-
-
 @main.route('/contact', methods=['GET', 'POST'])
 def contact():
     from app import db

@@ -36,7 +36,4 @@ def create_app(config_name):
     from .modules.auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
 
-    from .modules.error_handler import error_handler as error_handler_blueprint
-    app.register_blueprint(error_handler_blueprint)
-
     return app
