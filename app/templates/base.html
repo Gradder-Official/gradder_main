@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <html>
+
 <head>
     {% block head %}
     <meta name="title" content="Gradder - Your Smart  School Diary">
@@ -8,7 +9,8 @@
     <meta name="theme-color" content="#2B9264">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap&subset=cyrillic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap&subset=cyrillic"
+        rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:600&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/even more resized-09.png') }}"
         type="image/x-icon">
@@ -20,7 +22,7 @@
 </head>
 
 <body>
-{% block content %}
+    {% block content %}
     <div class="container">
         {% for message in get_flashed_messages() %}
         <div class="alert alert-warning">
@@ -31,14 +33,15 @@
 
         {% block page_content %}{% endblock page_content %}
     </div>
-{% endblock content%}
+    {% endblock content%}
 
-{% block scripts %}
+    {% block scripts %}
     <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery-1.12.4.min.js') }}"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='scripts/language_switcher.js') }}"></script>
-	<script type='text/javascript' src="{{ url_for('static', filename='scripts/landing.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts/language_switcher.js') }}"></script>
+    <script type='text/javascript' src="{{ url_for('static', filename='scripts/landing.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='scripts/animations.js') }}"></script>
-     {{ moment.include_moment() }}
-{% endblock scripts %}
+    {{ moment.include_moment() }}
+    {% endblock scripts %}
 </body>
+
 </html>

@@ -67,7 +67,8 @@ submit {
 	border:none; 
 } 
 input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 1000px white inset;
+	-webkit-box-shadow: 0 0 0 1000px white inset;
+	box-shadow: 0 0 0 1000px white inset;
     z-index: 0;
 }
 input[type=number]::-webkit-inner-spin-button,
@@ -1950,7 +1951,7 @@ body {
 	.new-landing .menu li a  {
 	  	border: 2px solid #E6E6EF;
 	  	transition: border 0.25s ease;
-	  	margin-right: 
+	  	margin-right: 0;
 	}
 	.new-landing .menu li a:hover  {
 		background: none;
@@ -2330,8 +2331,8 @@ body {
 	font-size: 16px;
 	color: #9B9B9B;
 }
-#upload-form .button {
-}
+/* #upload-form .button {
+} */
 #upload-form .button label {
 	padding: 11px 30px;
   	background: #F5F5F5;

@@ -1,19 +1,21 @@
-class Message:
-    def __init__(self, email: str, subject: str, first_name: str, last_name: str, message: str, ID: str):
+class Application:
+    def __init__(self, email: str, job: str, ID: str, first_name: str, last_name: str, resume_url: str, comments: str):
         self.email = email
-        self.subject = subject
+        self.job = job
         self.first_name = first_name
         self.last_name = last_name
-        self.message = message
+        self.resume_url = resume_url
+        self.comments = comments
         self.ID = ID
 
     def to_dict(self):
         json_dict = {
             'email': self.email,
-            'subject': self.subject,
+            'job': self.job,
             'first_name': self.first_name,
             'last_name': self.last_name,
-            'message': self.subject,
+            'resume_url': self.resume_url,
+            'comments': self.comments,
             'id': self.ID
         }
 

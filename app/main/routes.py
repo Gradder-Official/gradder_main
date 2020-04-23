@@ -1,9 +1,13 @@
-from flask import redirect, url_for, render_template, flash
+import os
+
+from flask import redirect, url_for, render_template, flash, current_app
 from flask_login import login_required, current_user
-from .forms import ContactUsForm
+from werkzeug.utils import secure_filename
+
+from .forms import ContactUsForm, CareersForm
 from ..email import send_email
 from . import main
-from ..modules.db.classes.message import Message
+from ..modules.db.classes import Message, Application
 
 
 @main.route('/')
@@ -24,22 +28,54 @@ def contact():
 
         try:
             send_email(to=form.email.data.lower(), subject=f'Message #{ new_id }',
-                template='contact_email_user', first_name=form.first_name.data, message=form.message.data, subject_msg=form.subject.data)
-            
-            print("First email sent!")
+                       template='contact_email_user', first_name=form.first_name.data, message=form.message.data, subject_msg=form.subject.data)
 
             send_email(to="team@gradder.io", subject=f'{ form.subject.data } | Message #{ new_id }',
-                template='contact_email_admin', first_name=form.first_name.data, last_name=form.last_name.data, message=form.message.data, subject_msg=form.subject.data, message_id=new_id)
+                       template='contact_email_admin', first_name=form.first_name.data,
+                       last_name=form.last_name.data, message=form.message.data, subject_msg=form.subject.data, message_id=new_id)
 
-            msg_id.set({'id': new_id })
+            msg_id.set({'id': new_id})
 
-            db.add_message(Message(email=form.email.data.lower(), subject=form.subject.data, message=form.message.data, ID=msg_id.get().to_dict()["id"]))
+            db.add_message(Message(email=form.email.data.lower(
+            ), subject=form.subject.data, first_name=form.first_name.data, last_name=form.last_name.data, message=form.message.data, ID=new_id))
 
         except BaseException as e:
             print(e)
             flash('Error while sending the message. Please try again')
 
     return render_template('contact.html', form=form)
+
+
+@main.route('/careers', methods=['GET', 'POST'])
+def careers():
+    from app import db
+
+    form = CareersForm()
+
+    resume_filename = form.resume.data.filename
+    resume_content = form.resume.data.read()
+
+    if form.validate_on_submit():
+        old_id = db.collection_applications.document("last_application_id")
+        new_id = str(int(old_id.get().to_dict()["id"]) + 1)
+
+        try:
+            send_email(to=form.email.data.lower(), subject=f'We received your application!',
+                       template='careers_email_user', first_name=form.first_name.data, job=form.job.data, files=[(resume_filename, resume_content)], comments=form.comments.data)
+
+            send_email(to="team@gradder.io", subject=f'Application #{new_id} | {form.job.data}',
+                       template='careers_email_admin', first_name=form.first_name.data,
+                       last_name=form.last_name.data, job=form.job.data, ID=new_id, files=[(resume_filename, resume_content)], comments=form.comments.data)
+
+            old_id.set({'id': new_id})
+
+            flash('Your application was received!')
+
+        except BaseException as e:
+            print(e)
+            flash('Error while sending the application. Please try again')
+
+    return render_template('careers.html', form=form)
 
 
 @main.route('/dashboard')
@@ -56,44 +92,44 @@ def profile():
 
 @main.route('/add-classes')
 def add_classes():
-    pass
+    return redirect(url_for('index'))
 
 
 @main.route('/view-classes')
 def view_classes():
-    pass
+    return redirect(url_for('index'))
 
 
 @main.route('/add-subjects')
 def add_subjects():
-    pass
+    return redirect(url_for('index'))
 
 
 @main.route('/new-auth-token')
 def new_auth_token():
-    pass
+    return redirect(url_for('index'))
 
 
 @main.route('/manage-school')
 def manage_school():
-    pass
+    return redirect(url_for('index'))
 
 
 @main.route('/view-assignments')
 def view_assignments():
-    pass
+    return redirect(url_for('index'))
 
 
 @main.route('/view-grades')
 def view_grades():
-    pass
+    return redirect(url_for('index'))
 
 
 @main.route('/add-children')
 def add_children():
-    pass
+    return redirect(url_for('index'))
 
 
 @main.route('/children_progress')
 def children_progress():
-    pass
+    return redirect(url_for('index'))

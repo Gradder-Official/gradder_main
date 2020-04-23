@@ -1,0 +1,11 @@
+The following application was received:
+Name: {{ first_name }} {{ last_name }}
+
+Job: {{ job }}
+
+ID: {{ ID }}
+
+The resume is attached.
+
+Comments:
+    {{ comments }}
