@@ -17,40 +17,6 @@ function maskHeight() {
    $('.slider').css({ height: slideHeight });
 }
 
-/* Анимация полей для ввода при фокусе or блюре or загрузке */
-$(".input input").focus(function () {
-   $(this).parent(".input").each(function () {
-      $("label", this).css({
-         "font-size": "12px",
-         "top": "-2px"
-      })
-      $(this).css({
-         "border": "2px solid #4DB071"
-      })
-   });
-}).blur(function () {
-   $(".input").css({
-      "border": "2px solid #D5D7DA"
-   })
-   if ($(this).val() == "") {
-      $(this).parent(".input").each(function () {
-         $("label", this).css({
-            "font-size": "16px",
-            "top": "10px"
-         })
-      });
-   }
-});
-
-/* Открыть ссылки */
-function linkOpen(url, type) {
-   if (type == 'blank') {
-      window.open(url); // в новой вкладке
-   } else if (type == 'curr') {
-      window.location.assign(url); // в текущем окне
-   }
-}
-
 /* События при загрузке */
 window.onload = function () {
    greetingsLang();
@@ -81,11 +47,6 @@ function letterBugFix() {
          document.getElementById('lettercase_li').innerHTML = '<img src="../static/icons/circle.svg?v={{ version }}">&nbsp;&nbsp;<span data-translate="_charge3">Имеются большие и малые латинские &nbsp;&nbsp;буквы</span>';
       }
    }   
-}
-
-/* Открыть ссылку в текущем окне */
-function openLink(link) {
-   window.open(link);
 }
 
 /* Запоминание класса */

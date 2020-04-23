@@ -4,24 +4,47 @@
 
 <head>
     {% block head %}
+    {% block metas %}
     <meta name="title" content="Gradder - Your Smart  School Diary">
     <meta name="google" content="notranslate">
     <meta name="theme-color" content="#2B9264">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% endblock metas %}
+    {% block fonts %}
+    {% endblock fonts %}
+    {% block styles %}
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap&subset=cyrillic"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:600&display=swap" rel="stylesheet">
+
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/even more resized-09.png') }}"
         type="image/x-icon">
     <link rel="icon" sizes="192x192" href="{{ url_for('static', filename='images/even more resized-09.png') }}"
         type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/main.css') }}">
+    {% endblock styles %}
     <title>{% block title %}Gradder | Your Smart  School Diary{% endblock title %}</title>
     {% endblock head %}
 </head>
 
 <body>
+    <div class="loader-wrapper">
+        Gradder
+    </div>
+    <div class="navbar">
+        {% block navbar %}
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/even more resized-09.png') }}" alt="Gradder logo">
+            <p>Gradder</p>
+        </div>
+        <ul class="menu">
+            <li><a href="{{ url_for('main.index') }}" class="active">Home</a></li>
+            <li><a href="{{ url_for('main.careers') }}">Careers</a></li>
+            <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
+        </ul>
+        {% endblock navbar %}
+    </div>
     {% block content %}
     <div class="container">
         {% for message in get_flashed_messages() %}
@@ -37,9 +60,9 @@
 
     {% block scripts %}
     <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery-1.12.4.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='scripts/language_switcher.js') }}"></script>
-    <script type='text/javascript' src="{{ url_for('static', filename='scripts/landing.js') }}"></script>
+    <script type='text/javascript' src="{{ url_for('static', filename='scripts/main.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='scripts/animations.js') }}"></script>
+
     {{ moment.include_moment() }}
     {% endblock scripts %}
 </body>

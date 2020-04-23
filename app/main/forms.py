@@ -31,9 +31,8 @@ class CareersForm(FlaskForm):
     email = StringField('Email', validators=[
                         DataRequired(), Email(), Length(1, 64)])
 
-    job = SelectField('Job you are applying for',
-                      choices=[('Front-end developer', 'Front-end developer'), ('Flask web developer', 'Flask web developer'),
-                               ('Graphic Designer', 'Graphic Designer'), ('SMM Specialist', 'SMM Specialist')],
+    job = SelectField('', choices=[('', 'I am applying for...'), ('Front-end', 'Front-end developer'), ('Flask', 'Flask web developer'),
+                                   ('Designer', 'Graphic Designer'), ('SMM', 'SMM Specialist')],
                       validators=[DataRequired()])
 
     resume = FileField('Upload your resume', validators=[

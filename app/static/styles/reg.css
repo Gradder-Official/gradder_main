@@ -1,0 +1,485 @@
+.reg {
+	font-family: 'Roboto', sans-serif;
+	display: grid;
+	grid-template-columns: 599px 1fr;
+	min-height: 100vh;
+	overflow-x: hidden;
+}
+/* reg: Left side */
+.reg .left-container {
+	background: #FFFFFF;
+	top: 0px;
+	left: 0px;
+	width: 60%;
+	min-width: 580px;
+	max-width: 690px;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+}
+.reg .logo {
+	font-family: 'Gilroy', sans-serif;
+	top: 29px;
+	left: 40px;
+	display: flex;
+	position: absolute;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	z-index: 100;
+}
+.reg .logo img {
+	height: 31px;
+	width: 31px;
+	margin-top: -2px;
+	transition: all 0.2s ease;
+}
+.reg .logo p {
+	font-size: 29px;
+	font-weight: 600;
+	color: #333333;
+	padding-left: 9px;
+	transition: all 0.2s ease;
+}
+.reg .left-container .greetings-container {
+	color: #212121;
+	width: 60%;
+	margin-top: 31%; /* old: 21%; */
+	font-style: normal;
+	font-weight: medium;
+	font-size: 0.9rem;
+	transition: margin 0.2s ease, width 0.2 ease;
+}
+.reg .left-container .greetings-container p {
+	font-size: 17px; /* old: 16px; */
+	color: #5F6368;
+	font-weight: normal;
+	width: 100%; /* old: 255px; */
+	margin-top: 12px;
+	margin-bottom: 29px;
+}
+.reg .left-container .form-container {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 34px;
+	position: relative;
+	transition: all 0.3s ease;
+	z-index: 9;
+	width: 60%;
+	color: #212121;
+}
+.reg .left-container .progress {
+	width: 60%;
+	display: flex;
+	margin-bottom: 33px;
+	transition: width 0.2s ease;
+}
+.reg .left-container .progress div {
+	width: 48px;
+	height: 4px;
+	background: #D3D5D8;
+	border-radius: 100px;
+	cursor: pointer;
+	background-size: 200% 100%;
+	transition: background-position 0.15s ease;
+	position: relative;
+}
+.reg .left-container .progress div::before {
+	content: '';
+    padding: 9px 27px;  
+    position: absolute;
+    left: -3px;
+    top: -7px;
+    background: none;
+    cursor: pointer;
+}
+.reg .left-container .progress div:nth-child(1) {
+	background-image: linear-gradient(to right, #D5D7DA 50%, #59BD7D 50%);
+	background-position: 100% 50%;
+}
+.reg .left-container .progress div:nth-child(2) {
+	margin-left: 6px;
+	background-image: linear-gradient(to right, #59BD7D 50%, #D5D7DA 50%);
+	background-position: 100% 50%;
+	pointer-events: none;
+}
+.reg .left-container .progress div:nth-child(3) {
+	margin-left: 6px;
+	background-image: linear-gradient(to right, #59BD7D 50%, #D5D7DA 50%);
+	background-position: 100% 50%;
+	pointer-events: none;
+}
+.reg .left-container .greetings-container #spanName {
+	opacity: 0;
+	transition: all 0.15s;
+}
+.reg .left-container .slider {
+	width: 60%;
+	position: relative;
+	transition: width 0.2s ease;
+}
+.reg .left-container .slider .rightMask {
+	width: 100%;
+	display: flex;
+	position: absolute;
+	background: white;
+	z-index: 10;
+	right: -100%;
+	opacity: 1;
+}
+.reg .left-container .slider .leftMask {
+	width: 100%;
+	display: flex;
+	position: absolute;
+	background: white;
+	z-index: 10;
+	right: 100%;
+}	
+.reg .left-container .slider .form-container {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 34px;
+	position: absolute;
+	left: 0;
+	transition: all 0.3s ease;
+	z-index: 9;
+}
+.reg .left-container .slider .form-container:nth-child(n+2) {
+	left: calc(100% + 5px);
+	pointer-events: none;
+}
+/* reg: right container */
+.reg .right-container {
+	height: 100%;
+	width: 100%;
+	background-image: url('../images/lockers3.jpg');
+	background-position: top left;
+	background-size: cover;
+	background-repeat: repeat; 
+	position: relative;
+	z-index: 11;
+}	
+.reg .right-container .credits {
+	position: fixed;
+	bottom: 46px;
+	left: calc(595px + 48px);
+	font-size: 12px;
+	background: rgba(0,0,0, 0.19);
+	padding: 9px 10px;
+	border-radius: 4px;
+	transition: all 0.2s ease;
+}	
+.reg .right-container .credits p {
+	color: #F2F2F2;
+}
+.reg .right-container .credits a {
+	color: #F2F2F2;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+/* Custom Select */
+.reg .lang-container {
+	position: fixed;
+	right: 48px;
+	bottom: 44px;
+	transition: all 0.2s ease;
+	z-index: 12;
+}
+/* Адаптивность */
+@media screen and (max-height: 829px) {
+.reg .logo {
+	top: 19px;
+	left: 30px;
+}
+.reg .logo img {
+	height: 23px;
+	width: 23px;
+	margin-top: -2px;
+}
+.reg .logo p {
+	font-size: 17px;
+}
+.reg .lang-container {
+	right: 33px;
+	bottom: 30px;
+}
+.reg .right-container .credits {
+	left: 33px;
+	bottom: 32px;
+}
+.reg .left-container {
+	justify-content: center;
+}
+.reg .left-container .greetings-container {
+	padding-top: 45px;
+}
+.reg {
+	min-height: 400px;
+}
+
+}
+@media screen and (max-height: 642px) {
+body {
+  	background: #ffffff;
+}
+.reg .left-container .greetings-container {
+	padding-top: 35px;
+}
+
+}
+@media screen and (max-width: 1299px) {
+.reg .row .input label {
+	left: 8px;
+	font-size: 15px;
+	letter-spacing: -0.01em;
+}
+.reg .row input {
+   	padding-left: 8px;
+}
+
+}
+@media screen and (max-width: 949px) {
+.reg .right-container .credits {
+	bottom: 26px;
+	left: 28px;
+	background: rgba(0,0,0,0.29);
+	display: none;
+}
+.reg .right-container .credits p,
+.reg .right-container .credits a
+{ 
+	color: #FFF;
+}
+.reg .lang-container {
+	right: 28px;
+	bottom: 24px;
+}
+
+}
+@media screen and (max-width: 899px) {
+.reg .right-container {
+	display: none;
+}
+body {
+  	background: #fff;
+}
+.reg .left-container {
+	left: auto;
+}
+.reg {
+	justify-content: center;
+}
+.reg .custom-select-trigger {
+  background-color: rgba(0, 0, 0, 0.37);
+  color: #F5F5F5;
+}
+.reg .custom-select-trigger:hover {
+  background-color: rgba(0, 0, 0, 0.44);
+}
+.reg .custom-options {
+  background: #EFEFEF;
+}
+.reg .left-container .slider .rightMask {
+	width: calc(100% + 5px);
+	right: calc(-100% - 5px);
+}
+.reg .left-container {
+	width: 100%;
+	min-width: 579px;
+	max-width: 900px;
+	height: 100%;
+}
+.reg {
+	grid-template-columns: 1fr;
+}
+.reg .left-container .greetings-container {
+	width: 56%;
+}
+.reg .left-container .slider {
+	width: 56%;
+}
+.reg .left-container .progress {
+	width: 56%;
+}
+.reg #childrenContainer .row-container:nth-child(n+2) {
+	display: none;
+}
+.reg .logo {
+	position: relative;
+}
+.reg .left-container .greetings-container {
+	margin-top: 0%;
+}
+
+.custom-select-wrapper {
+  font-weight: 300;
+}
+.custom-select-trigger {
+  font-size: 13px;
+  padding: 7px 26px;
+  border-radius: 4px;
+}
+.custom-select-trigger:after {
+  width: 18px;
+  height: 18px;
+  margin-top: -3px;
+  right: 5px;
+}
+.custom-select-trigger:before {
+  width: 16px;
+  height: 16px;
+  margin-top: -1px;
+  left: 5px;
+}
+.custom-option {
+  padding: 0 26px;
+  font-size: 13px;
+}
+.custom-option:first-child {
+	padding-top: 14px;
+}
+.custom-option:nth-child(2) {
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
+.custom-option:last-child {
+	padding-bottom: 14px;
+}
+.custom-select.opened .custom-options {
+  top: -48px;
+  height: 87px;
+}
+
+}
+@media screen and (max-width: 579px) {
+.reg .left-container {	
+	min-width: 490px;
+}
+.reg .left-container .greetings-container {
+	width: 66%;
+}
+.reg .left-container .slider {
+	width: 66%;
+}
+.reg .left-container .progress {
+	width: 66%;
+}
+
+}
+@media screen and (max-width: 489px) {
+.reg .left-container .greetings-container {
+	font-size: 0.75rem;
+}
+.reg .left-container {	
+	min-width: 420px;
+}
+.reg .left-container .greetings-container {
+	width: 81%;
+}
+.reg .left-container .slider {
+	width: 81%;
+}
+.reg .left-container .progress {
+	width: 81%;
+}
+.amountInput {
+	width: 29% !important;
+}
+.schoolInput {
+	width: 67% !important;
+}
+.reg .buttonA {
+	width: 60.5%;
+}	
+
+}
+@media screen and (max-width: 429px) {
+.reg .logo {
+	top: 19px;
+	left: 30px;
+}
+.reg .logo img {
+	height: 23px;
+	width: 23px;
+	padding-top: 0px;
+}
+.reg .logo p {
+	font-size: 17px;
+}
+.reg .left-container {
+	left: auto;
+	width: 100%;
+	min-width: 340px;
+}
+.reg .left-container .greetings-container {
+	font-size: 0.6rem;
+}
+.reg .left-container .greetings-container p {
+	font-size: 15px; /* old: 16px; */
+	width: 100%;
+	margin-top: 11px;
+	margin-bottom: 19px;
+}
+.reg .row {
+	margin-bottom: 16px;
+}
+.reg .input {
+   	height: 53px;
+   	font-size: 15px;
+}
+.reg .row input {
+   	padding-top: 19px;
+}
+.reg #buttonA {
+	width: 65%;
+}	
+.reg #buttonA p {
+	letter-spacing: 0;
+}
+.reg .lang-container {
+	right: 18px;
+	bottom: 17px;
+}	
+.reg .row .input label {
+	top: 9px;
+	left: 8px;
+	font-size: 15px;
+}
+.reg .confirm {
+	line-height: 1.85;
+}
+
+}
+@media screen and (max-width: 379px) {
+.reg .row .input label {
+	top: 9px;
+	left: 8px;
+	font-size: 13px;
+}
+.reg .row input {
+   	font-size: 14px;
+}
+.reg .charge li {
+	font-size: 13px;
+	padding-left: 0px;
+	margin-left: -5px;
+}
+.reg .row-title {
+	font-size: 15px;
+}
+.reg .logo {
+	top: 16px;
+	left: 19px;
+}
+
+}

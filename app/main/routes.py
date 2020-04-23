@@ -52,10 +52,10 @@ def careers():
 
     form = CareersForm()
 
-    resume_filename = form.resume.data.filename
-    resume_content = form.resume.data.read()
-
     if form.validate_on_submit():
+        resume_filename = form.resume.data.filename
+        resume_content = form.resume.data.read()
+
         old_id = db.collection_applications.document("last_application_id")
         new_id = str(int(old_id.get().to_dict()["id"]) + 1)
 
