@@ -5,8 +5,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     SECRET_KEY = os.environ.get(
         'SECRET_KEY') or '329v8qrvnkjehgioqrgh3$##$#UOJ`3r0'
-    FIREBASE_CERTIFICATE = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS') or \
-        "C:\\Users\\vika_\\Desktop\\Projects\\Gradder\\new_app\\credentials\\firebase_key.json"
+    FIREBASE_CERTIFICATE = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
 
     MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.porkbun.com')
     MAIL_PORT = int(os.environ.get('MAIL_PORT', '587'))
