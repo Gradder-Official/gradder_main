@@ -1,58 +1,76 @@
 var emailValid, btnValid;
 
 window.onload = function () {
-   window.addEventListener('submit', function (e) {
-      validateSubmit(e, btnValid);
-   });
-}   
+  window.addEventListener('submit', function (e) {
+    validateSubmit(e, btnValid);
+  });
+}
 
 /* Возможность нажать на кнопку or отправить форму */
 var emailValid;
 
 function next_btnStatus() {
-   let name = document.getElementById('full name').value;
-   let btn = document.getElementById('btn_next');
-   let select = document.getElementsByTagName('select')[0].value;
+  let first_name = document.getElementById('first_name').value;
+  let last_name = document.getElementById('last_name').value;
 
-   name = name.charAt(0).toUpperCase() + name.slice(1);
+  let btn = document.getElementById('btn_next');
+  let select = document.getElementsByTagName('select')[0].value;
 
-   //if (pwdValid == 1 && reg_name == 1 && name == firstName && surname != "" && emailValid == 1) {
-   if (name != "" && emailValid == 1 && select != "") {
-      btn.style.background = "#4DB071";
-      btn.style.color = "#fcfcfc";
-      btn.classList.add('btn-active');
-      btn.style.pointerEvents = 'auto';
+  first_name = first_name.charAt(0).toUpperCase() + first_name.slice(1);
+  last_name = last_name.charAt(0).toUpperCase() + last_name.slice(1);
 
-      btnValid = true;
-   } else {
-      btn.style.background = "#EAF4EF";
-      btn.style.color = "#9EA1A3";
-      btn.classList.remove('btn-active');
-      btn.style.pointerEvents = 'none';
+  //if (pwdValid == 1 && reg_name == 1 && name == firstName && surname != "" && emailValid == 1) {
+  if (first_name != "" && last_name != "" && emailValid == 1 && select != "") {
+    btn.style.background = "#4DB071";
+    btn.style.color = "#fcfcfc";
+    btn.classList.add('btn-active');
+    btn.style.pointerEvents = 'auto';
 
-      btnValid = 0;
-   }
+    btnValid = true;
+  } else {
+    btn.style.background = "#EAF4EF";
+    btn.style.color = "#9EA1A3";
+    btn.classList.remove('btn-active');
+    btn.style.pointerEvents = 'none';
+
+    btnValid = 0;
+  }
 }
 
 function validateEmail(input) {
-   let format = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-   let text = document.getElementById(input).value;
+  let format = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  let text = document.getElementById(input).value;
 
-   if (format.test(text)) {
-      emailValid = 1;
-   } else {
-      emailValid = 0;
-   }
+  if (format.test(text)) {
+    emailValid = 1;
+  } else {
+    emailValid = 0;
+  }
 
-   next_btnStatus();
+  next_btnStatus();
+}
+
+function fileValidate() {
+  let file = document.getElementById('resume');
+  if (file.value != "") {
+    if (file.value.lastIndexOf('\\') != -1) {
+      file = file.value.slice(file.value.lastIndexOf('\\') + 1, file.value.length);
+    }
+    if (file.lastIndexOf('/') != -1) {
+      file = file.slice(file.lastIndexOf('/') + 1, file.length);
+    }
+
+    document.getElementById("upload_text").style = "color: rgb(77, 176, 113);";
+    document.getElementById("upload_text").innerHTML = file.slice(0, 6) + '...' + file.slice(file.length - 8, file.length);
+  }
 }
 
 function validateSubmit(e, id) {
-   if (id != true) {
-      e.preventDefault();
-   } else {
-      localStorage.reg_completed = true;
-   }
+  if (id != true) {
+    e.preventDefault();
+  } else {
+    localStorage.reg_completed = true;
+  }
 }
 
 /* SOME DROPDOWN SHIT */
@@ -74,37 +92,37 @@ for (i = 0; i < x.length; i++) {
     create a new DIV that will act as an option item:*/
     c = document.createElement("DIV");
     c.innerHTML = selElmnt.options[j].innerHTML;
-    c.addEventListener("click", function(e) {
-        /*when an item is clicked, update the original select box,
-        and the selected item:*/
-        var y, i, k, s, h;
-        s = this.parentNode.parentNode.getElementsByTagName("select")[0];
-        h = this.parentNode.previousSibling;
-        for (i = 0; i < s.length; i++) {
-          if (s.options[i].innerHTML == this.innerHTML) {
-            s.selectedIndex = i;
-            h.innerHTML = this.innerHTML;
-            y = this.parentNode.getElementsByClassName("same-as-selected");
-            for (k = 0; k < y.length; k++) {
-              y[k].removeAttribute("class");
-            }
-            this.setAttribute("class", "same-as-selected");
-            break;
+    c.addEventListener("click", function (e) {
+      /*when an item is clicked, update the original select box,
+      and the selected item:*/
+      var y, i, k, s, h;
+      s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+      h = this.parentNode.previousSibling;
+      for (i = 0; i < s.length; i++) {
+        if (s.options[i].innerHTML == this.innerHTML) {
+          s.selectedIndex = i;
+          h.innerHTML = this.innerHTML;
+          y = this.parentNode.getElementsByClassName("same-as-selected");
+          for (k = 0; k < y.length; k++) {
+            y[k].removeAttribute("class");
           }
+          this.setAttribute("class", "same-as-selected");
+          break;
         }
-        h.click();
+      }
+      h.click();
     });
     b.appendChild(c);
   }
   x[i].appendChild(b);
-  a.addEventListener("click", function(e) {
-      /*when the select box is clicked, close any other select boxes,
-      and open/close the current select box:*/
-      e.stopPropagation();
-      closeAllSelect(this);
-      this.nextSibling.classList.toggle("select-hide");
-      this.classList.toggle("select-arrow-active");
-    });
+  a.addEventListener("click", function (e) {
+    /*when the select box is clicked, close any other select boxes,
+    and open/close the current select box:*/
+    e.stopPropagation();
+    closeAllSelect(this);
+    this.nextSibling.classList.toggle("select-hide");
+    this.classList.toggle("select-arrow-active");
+  });
 }
 function closeAllSelect(elmnt) {
   /*a function that will close all select boxes in the document,

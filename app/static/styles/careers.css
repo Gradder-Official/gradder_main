@@ -4,7 +4,7 @@
 	height: 100vh;
 	width: 100%;
 	min-height: 649px;
-	background: #fff
+	background: #fff;
 }
 
 /* careers: Left side */
@@ -208,4 +208,43 @@
 	width: 85%;
 }
 
+}
+
+#btn_upload {
+	float:left;
+	overflow: hidden;
+	background: none;
+	border: 2px solid #e6e6ef;
+}
+
+#btn_upload p{
+	color: #818385;
+}
+
+#btn_next {
+	pointer-events: none;
+	float:right;
+	overflow: hidden;
+}
+
+#btn_upload input[type=file] {
+	cursor: pointer !important;
+	height:46px;
+	position: absolute;
+	left:0;
+	top:0;
+	width: 100%;
+	opacity:0;
+	z-index:200;
+}
+
+#btn_next input{
+	cursor: pointer !important;
+	height:46px;
+	position: absolute;
+	left:0;
+	top:0;
+	width: 100%;
+	opacity:0;
+	z-index:200;
 }

@@ -31,14 +31,14 @@ class CareersForm(FlaskForm):
     email = StringField('Email', validators=[
                         DataRequired(), Email(), Length(1, 64)])
 
-    job = SelectField('', choices=[('', 'I am applying for...'), ('Front-end', 'Front-end developer'), ('Flask', 'Flask web developer'),
-                                   ('Designer', 'Graphic Designer'), ('SMM', 'SMM Specialist')],
+    job = SelectField('', choices=[('', 'I am applying for...'), ('Front-end developer', 'Front-end developer'), ('Flask web developer', 'Flask web developer'),
+                                   ('Graphic Designer', 'Graphic Designer'), ('SMM Specialist', 'SMM Specialist')],
                       validators=[DataRequired()])
 
-    resume = FileField('Upload your resume', validators=[
-                       FileRequired(), FileAllowed(['pdf', 'docx'], 'PDF or .docx formats only')])
+    resume = FileField('CV Upload', validators=[
+                       FileAllowed(['pdf', 'docx'], 'PDF or .docx formats only')])
 
     comments = TextAreaField('Additional comments',
-                             validators=[Length(0, 512)])
+                             validators=[Length(0, 500)])
 
-    submit = SubmitField('Submit')
+    submit = SubmitField('Apply')

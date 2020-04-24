@@ -202,6 +202,9 @@ input[type=number]::-webkit-outer-spin-button
 		background: none;
 		border: 2px solid #D7D7E5;
 	}
+	body {
+		background: #fff;
+	}
 }
 @media screen and (max-width: 479px) {
 	.navbar {
@@ -589,7 +592,6 @@ input[type=number]::-webkit-outer-spin-button
 	transition: background 0.2s, width 0.25s ease;
 	user-select: none;
 	color: #9EA1A3;
-	pointer-events: none;
 	cursor: pointer;
 	position: relative;
 	float: right;

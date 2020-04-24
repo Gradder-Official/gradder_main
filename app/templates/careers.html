@@ -19,41 +19,48 @@
 <div class="careers">
     <div class="left-container">
         <div class="hero-text">
-            <h3>An internship at Gradder?</h1>
+            <h3>Want to help us?</h1>
         </div>
         <div class="form-container">
-            <form method="POST" action="/">
+            <form method="POST" action="{{ url_for('main.careers') }}">
+                {{ form.hidden_tag() }}
                 <div class="row">
                     <div class="custom-select" style="width:100%" onclick="next_btnStatus()">
                         {{ form.job }}
                     </div>
                 </div>
                 <div class="row">
-                    <div class="input">
-                        <label for="first name">Full name</label>
-                        <input type="text" id="full name" onkeyup="next_btnStatus()" title="" required maxlength="50"
-                            name="fullname"
-                            onkeypress="return (event.charCode == 13 || 32 || 45 || 46) || (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode > 1039 && event.charCode < 1112) || (event.charCode > 1029 && event.charCode < 1132)">
-                        <!-- enter, пробел, дефис, точка || латиница большие || латиница мелкие || кириллица -->
+                    <div class="input" style="width:50%;">
+                        {{ form.first_name.label }}
+                        {{ form.first_name(id="first_name", onkeyup="next_btnStatus()", title="", maxlength="50", onkeypress="return (event.charCode == 13 || 32 || 45 || 46) || (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode > 1039 && event.charCode < 1112) || (event.charCode > 1029 && event.charCode < 1132)") }}
+                    </div>
+                    <div style="width:15px;border:none;">
+                    </div>
+                    <div class="input" style="width:50%;">
+                        {{ form.last_name.label }}
+                        {{ form.last_name(id="last_name", onkeyup="next_btnStatus()", title="", maxlength="50", onkeypress="return (event.charCode == 13 || 32 || 45 || 46) || (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode > 1039 && event.charCode < 1112) || (event.charCode > 1029 && event.charCode < 1132)") }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="input">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" onkeyup="validateEmail('email')" title="example@gmail.com"
-                            required maxlength="60" name="email"
-                            onkeypress="return (event.charCode == 13 || 46) || (event.charCode > 47 && event.charCode < 58) || (event.charCode > 63 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)">
+                        {{ form.email.label }}
+                        {{ form.email(type="email", id="email", onkeyup="validateEmail('email')", title="example@gmail.com", maxlength="64", onkeypress="return (event.charCode == 13 || 46) || (event.charCode > 47 && event.charCode < 58) || (event.charCode > 63 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)") }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="textarea" style="width: 100%">
-                        <textarea placeholder="Optional comments" id="about" maxlength="500" name="about"
-                            onkeypress="return (event.charCode == 13 || 46) || (event.charCode > 47 && event.charCode < 58) || (event.charCode > 63 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"></textarea>
+                        {{ form.comments(placeholder="Optional comments", id="about", maxlength="500", onkeypress="return (event.charCode == 13 || 46) || (event.charCode > 47 && event.charCode < 58) || (event.charCode > 63 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)") }}
                     </div>
                 </div>
-                <button class="buttonA" id="btn_next" type="submit">
+                <button class="buttonA" id="btn_upload" onchange="fileValidate()" type="file">
+                    <p id="upload_text">CV Upload</p>
+                    <div class="ripples"><span class="ripplesCircle"></span></div>
+                    {{ form.resume(accept=".pdf, .docx") }}
+                </button>
+                <button class="buttonA" id="btn_next">
                     <p>Apply</p>
                     <div class="ripples"><span class="ripplesCircle"></span></div>
+                    {{ form.submit }}
                 </button>
 
         </div>

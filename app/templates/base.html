@@ -39,9 +39,9 @@
             <p>Gradder</p>
         </div>
         <ul class="menu">
-            <li><a href="{{ url_for('main.index') }}" class="active">Home</a></li>
+            <li><a href="{{ url_for('main.index') }}">Home</a></li>
             <li><a href="{{ url_for('main.careers') }}">Careers</a></li>
-            <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
+            <!-- <li><a href="{{ url_for('main.contact') }}">Contact</a></li> -->
         </ul>
         {% endblock navbar %}
     </div>
@@ -62,6 +62,17 @@
     <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery-1.12.4.min.js') }}"></script>
     <script type='text/javascript' src="{{ url_for('static', filename='scripts/main.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='scripts/animations.js') }}"></script>
+
+    <script>
+        // Active class selection for the navbar depending on the location
+        let window_url = window.location.href.split('/');
+        if (window_url[window_url.length - 1] == '' || window_url[window_url.length - 1] == 'index') {
+            document.getElementsByClassName('menu')[0].getElementsByTagName('a')[0].classList.add('active');
+        }
+        else if (window_url[window_url.length - 1] == 'careers') {
+            document.getElementsByClassName('menu')[0].getElementsByTagName('a')[1].classList.add('active');
+        }
+    </script>
 
     {{ moment.include_moment() }}
     {% endblock scripts %}
