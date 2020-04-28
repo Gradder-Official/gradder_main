@@ -5,6 +5,8 @@ Job: {{ job }}
 
 ID: {{ ID }}
 
+Email: {{ email }}
+
 The resume is attached.
 
 Comments:
