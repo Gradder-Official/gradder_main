@@ -1,4 +1,4 @@
-from flask_wtf import FlaskForm
+from flask_wtf import FlaskForm, RecaptchaField
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms import StringField, TextAreaField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
@@ -24,12 +24,12 @@ class ContactUsForm(FlaskForm):
 
 class CareersForm(FlaskForm):
     first_name = StringField('First name', validators=[
-                             DataRequired(), Length(1, 64)])
+                             DataRequired('Please enter your first name.'), Length(1, 64, 'Should be between 1 and 64 symbols.')])
     last_name = StringField('Last name', validators=[
-                            DataRequired(), Length(1, 64)])
+                            DataRequired('Please enter your last name.'), Length(1, 64, 'Should be between 1 and 64 symbols.')])
 
     email = StringField('Email', validators=[
-                        DataRequired(), Email(), Length(1, 64)])
+                        DataRequired('Please enter your email.'), Email('This data is not a valid email.'), Length(1, 64, 'Should be between 1 and 64 symbols.')])
 
     job = SelectField('', choices=[('', 'I am applying for...'),
                                    ('Business development specialist',
@@ -47,12 +47,12 @@ class CareersForm(FlaskForm):
                                    ('Mobile developer for Android/iOS',
                                     'Mobile developer for Android/iOS'),
                                    ('Q&A/Testing specialist', 'Q&A/Testing specialist')],
-                      validators=[DataRequired()])
+                      validators=[DataRequired('Please select your application type.')])
 
-    resume = FileField('CV Upload', validators=[
-                       FileAllowed(['pdf', 'docx'], 'PDF or .docx formats only')])
+    resume = FileField('CV Upload', validators=[FileAllowed(
+        ['pdf', 'docx'], 'Only PDF or .docx formats allowed.')])
 
-    comments = TextAreaField('Additional comments',
-                             validators=[Length(0, 500)])
+    comments = TextAreaField('Optional comments (max 500 symbols)',
+                             validators=[Length(0, 500, 'The limit is 500 symbols.')])
 
     submit = SubmitField('Apply')

@@ -58,43 +58,38 @@ def careers():
 
     print("Form created")
 
-    if form.is_submitted():
-        if form.validate():
-            print("Validated")
-            if form.resume.data is not None:
-                resume_filename = form.resume.data.filename
-                resume_content = form.resume.data.read()
+    if form.validate_on_submit():
+        f = form.resume.data
+        if f is not None:
+            print('File received')
+            resume_filename = f.filename
+            resume_content = f.read()
 
-            old_id = db.collection_applications.document("last_application_id")
-            new_id = str(int(old_id.get().to_dict()["id"]) + 1)
+        old_id = db.collection_applications.document("last_application_id")
+        new_id = str(int(old_id.get().to_dict()["id"]) + 1)
 
-            try:
-                print("Try in")
-                send_email(to=form.email.data.lower(), subject=f'We received your application!',
-                           template='mail/careers_email_user', first_name=form.first_name.data, job=form.job.data, files=[(resume_filename, resume_content)] if form.resume.data is not None else [], comments=form.comments.data)
+        try:
+            print("Try in")
+            send_email(to=form.email.data.lower(), subject=f'We received your application!',
+                       template='mail/careers_email_user', first_name=form.first_name.data, job=form.job.data, files=[(resume_filename, resume_content)] if f is not None else [], comments=form.comments.data)
 
-                print("Email sent")
+            print("Email sent")
 
-                send_email(to="team@gradder.io", subject=f'Application #{new_id} | {form.job.data}',
-                           template='mail/careers_email_admin', first_name=form.first_name.data,
-                           last_name=form.last_name.data, job=form.job.data, email=form.email.data.lower(), ID=new_id, files=[(resume_filename, resume_content)] if form.resume.data is not None else [], comments=form.comments.data)
+            send_email(to="team@gradder.io", subject=f'Application #{new_id} | {form.job.data}',
+                       template='mail/careers_email_admin', first_name=form.first_name.data,
+                       last_name=form.last_name.data, job=form.job.data, email=form.email.data.lower(), ID=new_id, files=[(resume_filename, resume_content)] if f is not None else [], comments=form.comments.data)
 
-                print("Email sent")
+            print("Email sent")
 
-                old_id.set({'id': new_id})
+            old_id.set({'id': new_id})
 
-                # flash('Your application was received!')
+            # flash('Your application was received!')
 
-                return redirect(url_for('main.index'))
+            return redirect(url_for('main.index'))
 
-            except BaseException as e:
-                print(e)
-                # flash('Error while sending the application. Please try again')
-        else:
-            # flash("Not valid input")
-            pass
-    else:
-        print("Not submitted")
+        except BaseException as e:
+            print(e)
+            # flash('Error while sending the application. Please try again')
 
     return render_template('careers.html', form=form)
 
