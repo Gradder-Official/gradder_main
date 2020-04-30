@@ -3,6 +3,7 @@ from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_mail import Mail
+from flask_talisman import Talisman
 import firebase_admin
 from firebase_admin import credentials
 from config import config
@@ -27,6 +28,9 @@ def create_app(config_name):
     bootstrap.init_app(app)
     moment.init_app(app)
     mail.init_app(app)
+
+    # if config[config_name].SSL_REDIRECT:
+    #     Talisman(app)
 
     cred = credentials.Certificate(app.config["FIREBASE_CERTIFICATE"])
     firebase_admin.initialize_app(cred)
