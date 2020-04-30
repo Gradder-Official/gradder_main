@@ -1,0 +1,9 @@
+{% macro field(field, label=True) %}
+{% if label %}
+{{ field.label }}
+{% endif %}
+{{ field(**kwargs) }}
+{% for error in field.errors %}
+{{ print(error) }}
+{% endfor %}
+{% endmacro %}
