@@ -77,7 +77,7 @@ def careers():
 
                 send_email(to="team@gradder.io", subject=f'Application #{new_id} | {form.job.data}',
                            template='mail/careers_email_admin', first_name=form.first_name.data,
-                           last_name=form.last_name.data, job=form.job.data, ID=new_id, files=[(resume_filename, resume_content)] if form.resume.data is not None else [], comments=form.comments.data)
+                           last_name=form.last_name.data, job=form.job.data, email=form.email.data.lower(), ID=new_id, files=[(resume_filename, resume_content)] if form.resume.data is not None else [], comments=form.comments.data)
 
                 print("Email sent")
 
