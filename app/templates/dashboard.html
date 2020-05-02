@@ -1,7 +1,76 @@
-{% extends "base.html" %}
+{% extends "bootstrap/base.html" %}
 
 {% block title %}Gradder | Dashboard{% endblock %}
 
-{% block page_content %}
-Cool dashboard coming!
+{% block navbar %}
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Gradder</a>
+        </div>
+    </div>
+    <ul class="nav navbar-nav">
+        <li class="active"><a href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
+        <li><a href="{{ url_for('main.profile') }}"><span class="glyphicon glyphicon-user"></span>Profile</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="{{ url_for('auth.logout') }}"><span class="glyphicon glyphicon-log-out"></span>Sign out</a></li>
+        <li class=""><a href="#"><span class="glyphicon glyphicon-envelope"></span><span class="badge">5</span><a></a></li>
+    </ul>
+</nav>  
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+{% if current_user.usertype == 'student' %}     
+<div class="container student-grades">
+    Here will be your grades!
+</div>
+<div class="container student-homework">
+    Here will be your homework!
+</div>
+<div class="container student-schedule">
+    Here will be your schedule
+</div>
+<div class="container student-statistics">
+    Here wil be your statistics
+</div>
+{% endif %}
+
+{% if current_user.usertype == 'admin' %}     
+<div class="container admin-statistics">
+    Weekly school statistic
+</div>
+<div class="container admin-manage_users">
+    Manage users
+</div>
+{% endif %}
+
+{% if current_user.usertype == 'teacher' %}     
+<p class="large">Current class: 8-A</p>
+<div class="container teacher-students">
+    View your students here
+</div>
+<div class="container teacher-syllabus">
+    Your course plan will be here
+</div>
+<div class="container teacher-assignments">
+    Here you can view latest assignments and post new ones. 
+</div>
+<div class="container teacher-statistics">
+    Class statistics
+</div>
+{% endif %}
+
+{% if current_user.usertype == 'parent' %}     
+<p class="large">Current child: King Radovid III</p>
+<div class="container parent-grades">
+    Here will be your child's grades
+</div>
+<div class="container parent-announcements">
+    Here will be your announcements
+</div>
+</div>
+{% endif %}
+
 {% endblock %}

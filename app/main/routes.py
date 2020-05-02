@@ -106,7 +106,7 @@ def profile():
     return render_template('profile.html')
 
 
-@main.route('/add-classes')
+@main.route('/teacher/add-classes')
 def add_classes():
     return redirect(url_for('index'))
 
