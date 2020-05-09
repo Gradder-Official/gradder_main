@@ -21,19 +21,18 @@
 {% endblock %}
 
 {% block content %}
-<div class="jumbotron">
 {% if current_user.usertype == 'student' %}     
-<div class="container student-grades">
+<div class="jumbotron container student-grades">
     Here will be your grades!
 </div>
-<div class="container student-homework">
+<div class="jumbotron container student-homework">
     Here will be your homework!
 </div>
-<div class="container student-schedule">
+<div class="jumbotron container student-schedule">
     Here will be your schedule
 </div>
-<div class="container student-statistics">
-    Here wil be your statistics
+<div class="jumbotron container student-statistics">
+    Here will be your statistics
 </div>
 {% endif %}
 
@@ -48,26 +47,26 @@
 
 {% if current_user.usertype == 'teacher' %}     
 <p class="large">Current class: 8-A</p>
-<div class="container teacher-students">
+<div class="jumbotron container teacher-students">
     View your students here
 </div>
-<div class="container teacher-syllabus">
+<div class="jumbotron container teacher-syllabus">
     Your course plan will be here
 </div>
-<div class="container teacher-assignments">
+<div class="jumbotron container teacher-assignments">
     Here you can view latest assignments and post new ones. 
 </div>
-<div class="container teacher-statistics">
+<div class="jumbotron container teacher-statistics">
     Class statistics
 </div>
 {% endif %}
 
 {% if current_user.usertype == 'parent' %}     
 <p class="large">Current child: King Radovid III</p>
-<div class="container parent-grades">
+<div class="jumbotron container parent-grades">
     Here will be your child's grades
 </div>
-<div class="container parent-announcements">
+<div class="jumbotron container parent-announcements">
     Here will be your announcements
 </div>
 </div>
