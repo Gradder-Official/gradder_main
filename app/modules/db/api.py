@@ -1,4 +1,4 @@
-from .classes import Subscriber, User, Teacher, Parent, Student, Admin, Message, Application
+from .classes import Subscriber, User, Teacher, Parent, Student, Admin, Message, Application, Assignment
 from google.cloud import firestore
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
@@ -16,6 +16,7 @@ class DB:
         self.collection_tokens = self.db.collection('tokens')
         self.collection_messages = self.db.collection('messages')
         self.collection_applications = self.db.collection('applications')
+        self.collection_assignments = self.db.collection('assignments')
         self.ADMIN_TOKEN_HASH = 'pbkdf2:sha256:150000$p1711QE3$5fd0be7223ce989f55697f3afb3665e1b2a011214455c7e5f96d38586130969f'
 
     def __repr__(self):
@@ -171,6 +172,37 @@ class DB:
         try:
             self.collection_applications.document(
                 application.ID).set(application.to_dict())
+            return True
+        except BaseException as e:
+            print(e)
+            return False
+
+    def get_assignments_by_class(self, class_ref: str):
+        class_obj = self.collection_assignments.document(
+            class_ref).collection("assignments")
+
+        class_obj = class_obj.stream()
+        assignments = list()
+        for assgn in class_obj:
+            print(assgn)
+            assignments.append(assgn.to_dict())
+
+        return assignments
+
+    def get_new_assignment_id(self):
+        last_id_ref = self.collection_assignments.document(
+            'last_id')
+        new_id = int(last_id_ref.get().to_dict()['last_id']) + 1
+
+        last_id_ref.set({'last_id': new_id})
+
+        return new_id
+
+    def add_assignment(self, assgn: Assignment):
+        try:
+            self.collection_assignments.document(
+                str(assgn.assigned_to)).collection("assignments").document(str(assgn.ID)).set(assgn.to_dict())
+
             return True
         except BaseException as e:
             print(e)
