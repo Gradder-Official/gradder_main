@@ -59,7 +59,8 @@ def change_password():
     form = PasswordChangeForm()
 
     curr_user = db.get_user_by_id(current_user.to_dict()['ID'])  #  Pull the user from the DB, as the current user is not updated
-    print(curr_user.to_dict())
+
+    form.secret_question.label.text += f' ({curr_user.secret_question})'
 
     if form.validate_on_submit():
         if curr_user.verify_secret_question(form.secret_question.data.lower()):
@@ -73,7 +74,7 @@ def change_password():
 
         flash('Oops... Answer to the secret question is wrong.')
 
-    return render_template('auth/change-password.html', form=form, secret_question=curr_user.secret_question)
+    return render_template('auth/change-password.html', form=form)
 
 
 @auth.route('/change-secret-question', methods=['GET', 'POST'])
