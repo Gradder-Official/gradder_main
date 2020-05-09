@@ -1,13 +1,14 @@
 import os
+from datetime import datetime
 
 from flask import redirect, url_for, render_template, flash, current_app
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 
-from .forms import ContactUsForm, CareersForm
+from .forms import ContactUsForm, CareersForm, NewAssignmentForm
 from ..email import send_email
 from . import main
-from ..modules.db.classes import Message, Application
+from ..modules.db.classes import Message, Application, Assignment
 
 
 @main.route('/')
@@ -97,55 +98,39 @@ def careers():
 @main.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard.html')
+    from app import db
+    curr_user = db.get_user_by_id(current_user.to_dict()['ID'])
+
+    if curr_user.usertype == 'student':
+        return render_template('dashboard.html', assignments=curr_user.get_assignments())
+    else:
+        return render_template('dashboard.html')
+
+
+@main.route('/teacher/add_assignment', methods=['GET', 'POST'])
+@login_required
+def add_assignment():
+    from app import db
+
+    form = NewAssignmentForm()
+
+    if form.validate_on_submit():
+        new_assignment = Assignment(date_assigned=datetime.utcnow(),
+                                    assigned_by=current_user.to_dict()['ID'],
+                                    assigned_to=form.assigned_to.data,
+                                    due_by=form.due_by.data,
+                                    subject=form.subject.data,
+                                    content=form.content.data,
+                                    estimated_time=form.estimated_time.data)
+
+        db.add_assignment(new_assignment)
+
+        return(redirect(url_for('main.dashboard')))
+
+    return render_template('add_assignment.html', form=form)
 
 
 @main.route('/profile')
 @login_required
 def profile():
     return render_template('profile.html')
-
-
-@main.route('/teacher/add-classes')
-def add_classes():
-    return redirect(url_for('index'))
-
-
-@main.route('/view-classes')
-def view_classes():
-    return redirect(url_for('index'))
-
-
-@main.route('/add-subjects')
-def add_subjects():
-    return redirect(url_for('index'))
-
-
-@main.route('/new-auth-token')
-def new_auth_token():
-    return redirect(url_for('index'))
-
-
-@main.route('/manage-school')
-def manage_school():
-    return redirect(url_for('index'))
-
-
-@main.route('/view-assignments')
-def view_assignments():
-    return redirect(url_for('index'))
-
-
-@main.route('/view-grades')
-def view_grades():
-    return redirect(url_for('index'))
-
-
-@main.route('/add-children')
-def add_children():
-    return redirect(url_for('index'))
-
-
-@main.route('/children_progress')
-def children_progress():
-    return redirect(url_for('index'))

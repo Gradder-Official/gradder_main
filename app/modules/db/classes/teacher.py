@@ -32,22 +32,6 @@ class Teacher(User):
 
         return json_user
 
-    @property
-    def classes(self):
-        return self.class_list
-
-    @classes.setter
-    def set_classes(self, new_classes: list):
-        self.class_list = new_classes
-
-    @property
-    def subjects(self):
-        return self.subjects
-
-    @subjects.setter
-    def set_subjects(self, new_subjects: list):
-        self.subjects = new_subjects
-
     @staticmethod
     def from_dict(dictionary: dict):
         user = Teacher(email=dictionary['email'],
@@ -56,17 +40,16 @@ class Teacher(User):
                        ID=dictionary['ID'] if 'ID' in dictionary else None)
 
         if 'class_list' in dictionary:
-            user.set_classes(dictionary['class_list'])
+            user.classes = dictionary['class_list']
 
         if 'subjects' in dictionary:
-            user.set_subjects(dictionary['subjects'])
+            user.subjects = dictionary['subjects']
 
         if 'password' in dictionary:
             user.set_password(dictionary['password'])
 
         if 'secret_question' in dictionary and 'secret_answer' in dictionary:
-            user.set_secret_question(dictionary['secret_question'], dictionary['secret_answer'])
+            user.set_secret_question(
+                dictionary['secret_question'], dictionary['secret_answer'])
 
         return user
-
-    # Methods for accessing/posting homework and grades
