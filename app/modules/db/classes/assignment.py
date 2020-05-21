@@ -2,6 +2,7 @@ from datetime import time, datetime
 from . import Teacher, Student
 from typing import List
 
+# Defines a Class type as a list of Students enrolled in a class
 Class = List[Student]
 
 
@@ -37,6 +38,7 @@ class Assignment:
         self.estimated_time = estimated_time
 
         from app import db
+        # TODO: rewrite this piece for a better ID generation
         self.ID = ID if ID is not None else db.get_new_assignment_id()
 
     def to_dict(self):
@@ -53,4 +55,11 @@ class Assignment:
 
     @staticmethod
     def from_dict(dictionary: dict):
+        r"""Generates a Student object from a dictionary,
+
+        Parameters
+        ----------
+        dictionary : dict
+            Dictionary with proper Student parameters
+        """
         return Student(**dictionary)
