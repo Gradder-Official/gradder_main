@@ -5,24 +5,23 @@ from .access_level import ACCESS_LEVEL
 
 
 class Admin(User):
-    r"""Represents a user with Admin access
-
-    This class is used for school admins that will have acess to managing their school and teachers, 
-    but with no access to grades or homework.
-
-    Parameters
-    ----------
-    email: str
-        Admin's email
-    first_name: str
-        Admin's first name as entered by him/herself
-    last_name: str
-        Admin's last name as entered by him/herself
-    ID: str, optional
-        This user's ID, set automatically if not specified
-    """
-
     def __init__(self, email: str, first_name: str, last_name: str, ID: str = None):
+        r"""Creates a user with Admin access
+
+        This class is used for school admins that will have acess to managing their school and teachers, 
+        but with no access to grades or homework.
+
+        Parameters
+        ----------
+        email : str
+            Admin's email
+        first_name : str
+            Admin's first name as entered by him/herself
+        last_name : str
+            Admin's last name as entered by him/herself
+        ID : str, optional
+            This user's ID, set automatically if not specified
+        """
         super().__init__(email=email, first_name=first_name, last_name=last_name,
                          usertype='admin', ID=ID)
 
@@ -34,6 +33,9 @@ class Admin(User):
     def to_json(self):
         json_user = super().to_json()
         return json_user
+
+    def to_dict(self):
+        return self.to_json()
 
     @staticmethod
     def from_dict(dictionary: dict):
@@ -50,5 +52,3 @@ class Admin(User):
                 dictionary['secret_question'], dictionary['secret_answer'])
 
         return user
-
-    # Methods for accessing/posting homework and grades
