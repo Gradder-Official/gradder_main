@@ -11,21 +11,21 @@ class Assignment:
 
         Parameters
         ----------
-        date_assigned: datetime.datetime
+        date_assigned : datetime.datetime
             A utc time signature that specifies when this assignment was posted by a Teacher.
-        assigned_by: int
+        assigned_by : int
             Teacher id that specifies who assigned this assignment.
-        assigned_to: int
+        assigned_to : int
             A class ID it was assigned to. 
-        due_by: datetime.datetime
+        due_by : datetime.datetime
             A utc time signature that specifies when this assignment is due.
-        subject: str
+        subject : str
             The subject.
-        content: HTML string
+        content : HTML string
             An HTML string that is the content of this assignment (may include links to the files on the server).
-        estimated_time: int
+        estimated_time : int
             Estimated time in minutes that this assignment should take to complete (set by the teacher).
-        ID: str, optional
+        ID : str, optional
             Specifies the assignment ID, generated automatically if not specified
         """
         self.date_assigned = date_assigned
