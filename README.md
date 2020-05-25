@@ -1,7 +1,7 @@
 # Gradder
 Official repo for Gradder: an AI-driven platform for smart grade management.
 
-![Python application](https://github.com/Niklex21/gradder/workflows/Python%20application/badge.svg?branch=master)
+![Python application](https://github.com/Niklex21/gradder/workflows/Python%20application/badge.svg)
 
 **Contacts**
 
