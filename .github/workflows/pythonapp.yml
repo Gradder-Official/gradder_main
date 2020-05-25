@@ -36,7 +36,7 @@ jobs:
       env: 
         GOOGLE_APPLICATION_CREDENTIALS: key.json
       run: |
-        echo -n ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }} > $GOOGLE_APPLICATION_CREDENTIALS
+        echo -n ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }} > key.json
     - name: Test with pytest
       shell: bash
       env:
@@ -44,3 +44,7 @@ jobs:
         MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
       run: |
         pytest
+    - name: Delete the key
+      shell: bash
+      run: |
+        rm -f key.json
