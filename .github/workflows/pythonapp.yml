@@ -42,6 +42,7 @@ jobs:
       env:
         MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
         MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+        GOOGLE_APPLICATION_CREDENTIALS: key.json
       run: |
         pytest
     - name: Delete the key
