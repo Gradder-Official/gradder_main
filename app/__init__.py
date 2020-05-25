@@ -15,6 +15,7 @@ bootstrap = Bootstrap()
 moment = Moment()
 mail = Mail()
 
+
 from .modules.db.api import DB
 db = DB()
 
@@ -32,8 +33,8 @@ def create_app(config_name):
     # if config[config_name].SSL_REDIRECT:
     #     Talisman(app)
 
-    cred = credentials.Certificate(app.config["FIREBASE_CERTIFICATE"])
-    firebase_admin.initialize_app(cred)
+    # cred = credentials.Certificate(app.config["FIREBASE_CERTIFICATE"])
+    # firebase_admin.initialize_app(cred)
 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
