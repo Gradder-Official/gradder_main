@@ -36,7 +36,7 @@ jobs:
       env: 
         GOOGLE_APPLICATION_CREDENTIALS: key.json
       run: |
-        echo -n ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }} > key.json
+        echo -n '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > key.json
     - name: Test with pytest
       shell: bash
       env:
