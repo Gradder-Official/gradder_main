@@ -1,4 +1,5 @@
 {% extends "bootstrap/base.html" %}
+{% import "_macros.html" as macros %}
 
 {% block title %}Gradder | Dashboard{% endblock %}
 
@@ -14,19 +15,24 @@
         <li><a href="{{ url_for('main.profile') }}"><span class="glyphicon glyphicon-user"></span>Profile</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-        <li class=""><a href="{{ url_for('auth.logout') }}"><span class="glyphicon glyphicon-log-out"></span>Sign out</a></li>
-        <li class=""><a href="#"><span class="glyphicon glyphicon-envelope"></span><span class="badge">5</span><a></a></li>
+        <li class=""><a href="{{ url_for('auth.logout') }}"><span class="glyphicon glyphicon-log-out"></span>Sign
+                out</a></li>
+        <li class=""><a href="#"><span class="glyphicon glyphicon-envelope"></span><span class="badge">5</span><a></a>
+        </li>
     </ul>
-</nav>  
+</nav>
 {% endblock %}
 
 {% block content %}
-{% if current_user.usertype == 'student' %}     
+{% if current_user.usertype == 'student' %}
 <div class="jumbotron container student-grades">
     Here will be your grades!
 </div>
 <div class="jumbotron container student-homework">
-    Here will be your homework!
+    Here are your all assignments:
+    {% for assgn in assignments %}
+    {{ macros.assignment(assgn) }}
+    {% endfor %}
 </div>
 <div class="jumbotron container student-schedule">
     Here will be your schedule
@@ -36,7 +42,7 @@
 </div>
 {% endif %}
 
-{% if current_user.usertype == 'admin' %}     
+{% if current_user.usertype == 'admin' %}
 <div class="container admin-statistics">
     Weekly school statistic
 </div>
@@ -45,7 +51,7 @@
 </div>
 {% endif %}
 
-{% if current_user.usertype == 'teacher' %}     
+{% if current_user.usertype == 'teacher' %}
 <p class="large">Current class: 8-A</p>
 <div class="jumbotron container teacher-students">
     View your students here
@@ -54,14 +60,14 @@
     Your course plan will be here
 </div>
 <div class="jumbotron container teacher-assignments">
-    Here you can view latest assignments and post new ones. 
+    <a href="{{ url_for('main.add_assignment') }}">Post a new assignment!</a>
 </div>
 <div class="jumbotron container teacher-statistics">
     Class statistics
 </div>
 {% endif %}
 
-{% if current_user.usertype == 'parent' %}     
+{% if current_user.usertype == 'parent' %}
 <p class="large">Current child: King Radovid III</p>
 <div class="jumbotron container parent-grades">
     Here will be your child's grades

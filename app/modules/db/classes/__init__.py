@@ -7,3 +7,4 @@ from .admin import Admin
 from .access_level import ACCESS_LEVEL
 from .message import Message
 from .application import Application
+from .assignment import Assignment
