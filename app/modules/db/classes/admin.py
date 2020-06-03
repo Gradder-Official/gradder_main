@@ -1,10 +1,11 @@
 from re import match
 
 from .user import User
-from .access_level import ACCESS_LEVEL
 
 
 class Admin(User):
+    USERTYPE = 'Admin'
+
     def __init__(self, email: str, first_name: str, last_name: str, ID: str = None):
         r"""Creates a user with Admin access
 
@@ -22,10 +23,7 @@ class Admin(User):
         ID : str, optional
             This user's ID, set automatically if not specified
         """
-        super().__init__(email=email, first_name=first_name, last_name=last_name,
-                         usertype='admin', ID=ID)
-
-        self.access_level = ACCESS_LEVEL.ADMIN
+        super().__init__(email=email, first_name=first_name, last_name=last_name, ID=ID)
 
     def __repr__(self):
         return f'<Admin {self.ID}> '
@@ -52,3 +50,15 @@ class Admin(User):
                 dictionary['secret_question'], dictionary['secret_answer'])
 
         return user
+
+    @staticmethod
+    def get_by_id(id: str):
+        return Admin.from_dict(super().get_by_id(id))
+
+    @staticmethod
+    def get_by_name(first_name: str, last_name: str):
+        return Admin.from_dict(super().get_by_name(Admin, first_name, last_name))
+
+    @staticmethod
+    def get_by_email(email: str):
+        return Admin.from_dict(super().get_by_email(Admin, email))
