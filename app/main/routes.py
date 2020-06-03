@@ -8,7 +8,8 @@ from werkzeug.utils import secure_filename
 from .forms import ContactUsForm, CareersForm, NewAssignmentForm
 from ..email import send_email
 from . import main
-from ..modules.db.classes import Message, Application, Assignment
+from ..modules.db.classes import Message, Application, Assignment, User, Student, Parent, Admin, Teacher
+from app import db
 
 
 @main.route('/')
@@ -19,8 +20,6 @@ def index():
 
 @main.route('/contact', methods=['GET', 'POST'])
 def contact():
-    from app import db
-
     form = ContactUsForm()
 
     if form.is_submitted():
@@ -38,8 +37,8 @@ def contact():
 
                 msg_id.set({'id': new_id})
 
-                db.add_message(Message(email=form.email.data.lower(
-                ), subject=form.subject.data, first_name=form.first_name.data, last_name=form.last_name.data, message=form.message.data, ID=new_id))
+                message = Message(email=form.email.data.lower(), subject=form.subject.data, first_name=form.first_name.data, last_name=form.last_name.data, message=form.message.data, ID=new_id)
+                message.add()
 
             except BaseException as e:
                 print(e)
@@ -53,8 +52,6 @@ def contact():
 
 @main.route('/careers', methods=['GET', 'POST'])
 def careers():
-    from app import db
-
     form = CareersForm()
 
     print("Form created")
@@ -98,10 +95,9 @@ def careers():
 @main.route('/dashboard')
 @login_required
 def dashboard():
-    from app import db
-    curr_user = db.get_user_by_id(current_user.to_dict()['ID'])
+    curr_user = eval(current_user.USERTYPE.capitalize()).get_by_id(current_user.ID)
 
-    if curr_user.usertype == 'student':
+    if curr_user.USERTYPE == 'Student':
         return render_template('dashboard.html', assignments=curr_user.get_assignments())
     else:
         return render_template('dashboard.html')
@@ -110,22 +106,22 @@ def dashboard():
 @main.route('/teacher/add_assignment', methods=['GET', 'POST'])
 @login_required
 def add_assignment():
-    from app import db
-
     form = NewAssignmentForm()
 
     if form.validate_on_submit():
         new_assignment = Assignment(date_assigned=datetime.utcnow(),
-                                    assigned_by=current_user.to_dict()['ID'],
+                                    assigned_by=current_user.ID,
                                     assigned_to=form.assigned_to.data,
                                     due_by=form.due_by.data,
                                     subject=form.subject.data,
                                     content=form.content.data,
-                                    estimated_time=form.estimated_time.data)
+                                    estimated_time=form.estimated_time.data
+                                    )
 
-        db.add_assignment(new_assignment)
-
-        return(redirect(url_for('main.dashboard')))
+        if new_assignment.add():
+            return(redirect(url_for('main.dashboard')))
+        else:
+            flash('Unknown error!.')
 
     return render_template('add_assignment.html', form=form)
 

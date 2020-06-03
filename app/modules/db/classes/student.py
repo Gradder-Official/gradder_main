@@ -1,5 +1,6 @@
 from .user import User
 from app import db
+from .assignment import Assignment
 
 from typing import Dict, List
 
@@ -82,15 +83,15 @@ class Student(User):
 
     @staticmethod
     def get_by_id(id: str):
-        return Student.from_dict(super().get_by_id(id))
+        return Student.from_dict(super(Student, Student).get_by_id(id))
 
     @staticmethod
     def get_by_name(first_name: str, last_name: str):
-        return Student.from_dict(super().get_by_name("student", first_name, last_name))
+        return Student.from_dict(super(Student, Student).get_by_name("student", first_name, last_name))
 
     @staticmethod
     def get_by_email(email: str):
-        return Student.from_dict(super().get_by_email("student", email))
+        return Student.from_dict(super(Student, Student).get_by_email(email))
 
     def add_grades(self, new_grades: gradeDict):
         self.grades.update(new_grades)
@@ -100,6 +101,6 @@ class Student(User):
         """
         assignments = list()
         for class_ref in self.class_names:
-            assignments.extend(db.get_assignments_by_class(str(class_ref)))
+            assignments.extend(Assignment.get_by_class(str(class_ref)))
 
         return assignments

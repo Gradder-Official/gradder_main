@@ -8,7 +8,7 @@ from app import db
 class User(UserMixin):
     USERTYPE = None  # is unique per each class, acts as access levels
 
-    def __init__(self, email: str, first_name: str, last_name: str, usertype: str, ID: str = None):
+    def __init__(self, email: str, first_name: str, last_name: str, ID: str = None):
         self.email = email
         self.first_name = first_name
         self.last_name = last_name
@@ -22,7 +22,7 @@ class User(UserMixin):
         self.secret_answer = None
 
     def __repr__(self):
-        return f'<User {self.ID}'
+        return f'<User {self.ID}>'
 
     def set_password(self, password: str):
         if match(r"(pbkdf2:sha256:)([^\$.]+)(\$)([^\$.]+)(\$)([^\$.]+)", password) is not None:
@@ -49,28 +49,48 @@ class User(UserMixin):
             try:
                 user = db.collection_admins.document(id)
 
-                return user.get().to_dict()
-            except BaseException:
+                user = user.get().to_dict()
+
+                if user is not None:
+                    return user
+                else: 
+                    raise(BaseException)
+            except BaseException as e:
                 pass
 
             try:
                 user = db.collection_teachers.document(id)
 
-                return user.get().to_dict()
+                user = user.get().to_dict()
+
+                if user is not None:
+                    return user
+                else: 
+                    raise(BaseException)
             except BaseException:
                 pass
 
             try:
                 user = db.collection_students.document(id)
 
-                return user.get().to_dict()
-            except BaseException:
+                user = user.get().to_dict()
+
+                if user is not None:
+                    return user
+                else: 
+                    raise(BaseException)
+            except BaseException as e:
                 pass
 
             try:
                 user = db.collection_parents.document(id)
 
-                return user.get().to_dict()
+                user = user.get().to_dict()
+
+                if user is not None:
+                    return user
+                else: 
+                    raise(BaseException)
             except BaseException:
                 return None
 
@@ -88,15 +108,34 @@ class User(UserMixin):
                 return None
 
     @staticmethod
-    def get_by_email(usertype: str, email: str):
+    def get_by_email(email: str):
         if email:
-            received_user = eval(
-                f'db.collection_{usertype + "s"}.where(u"email", u"==", {email})'
-            )
-            if received_user:
-                received_user = list(received_user.stream())[0].to_dict()
-                return received_user
-            else:
+            try:
+                user = db.collection_admins.where(u"email", u"==", email)
+
+                return list(user.stream())[0].to_dict()
+            except BaseException as e:
+                pass
+
+            try:
+                user = db.collection_teachers.where(u"email", u"==", email)
+
+                return list(user.stream())[0].to_dict()
+            except BaseException as e:
+                pass
+
+            try:
+                user = db.collection_parents.where(u"email", u"==", email)
+
+                return list(user.stream())[0].to_dict()
+            except BaseException as e:
+                pass
+
+            try:
+                user = db.collection_students.where(u"email", u"==", email)
+
+                return list(user.stream())[0].to_dict()
+            except BaseException as e:
                 return None
 
     def add(self):
@@ -105,7 +144,7 @@ class User(UserMixin):
 
         try:
             eval(
-                f'self.collection_{self.USERTYPE + "s"}.document(self.ID).set(self.to_dict())')
+                f'db.collection_{self.USERTYPE.lower() + "s"}.document(self.ID).set(self.to_dict())')
             return True
         except BaseException as e:
             print(e)
@@ -114,7 +153,7 @@ class User(UserMixin):
     def remove(self):
         try:
             eval(
-                f'self.collection_{self.USERTYPE+"s"}.document(str(self.ID)).delete()'
+                f'db.collection_{self.USERTYPE.lower()+"s"}.document(str(self.ID)).delete()'
             )
 
             return True
@@ -146,8 +185,7 @@ class User(UserMixin):
         user = User(email=dictionary['email'],
                     first_name=dictionary['first_name'],
                     last_name=dictionary['last_name'],
-                    ID=dictionary['ID'] if 'ID' in dictionary else None,
-                    usertype=dictionary['usertype'])
+                    ID=dictionary['ID'] if 'ID' in dictionary else None)
 
         if 'password' in dictionary:
             user.set_password(dictionary['password'])

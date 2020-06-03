@@ -4,7 +4,7 @@ from app import db
 
 
 class Assignment:
-    def __init__(self, date_assigned: time, assigned_by: int, assigned_to: int, due_by: datetime, subject: str, content: str, estimated_time: int, ID: str = None):
+    def __init__(self, date_assigned: time, assigned_by: int, assigned_to: str, due_by: datetime, subject: str, content: str, estimated_time: int, ID: str = None):
         r"""Initializes the Assignment object
 
         Parameters
@@ -34,7 +34,7 @@ class Assignment:
         self.content = content
         self.estimated_time = estimated_time
 
-        self.ID = ID if ID is not None else Assignment.new_id()
+        self.ID = ID if ID is not None else Assignment.new_id(str(assigned_to))
 
     def to_dict(self):
         return {
@@ -67,26 +67,25 @@ class Assignment:
 
         last_id_ref.set({'last_id': new_id})
 
-        return new_id
+        return str(new_id)
 
     def add(self):
         try:
-            db.collection_classes.document(self.assigned_to).collection(
-                "assignments").document(self.ID).set(self.to_dict())
+            db.collection_classes.document(self.assigned_to).collection("assignments").document(self.ID).set(self.to_dict())
 
             return True
         except BaseException as e:
             print(e)
             return False
 
-    def get_by_class(self, class_id: str):
-        class_obj = db.collection_classes.document(
-            class_id).collection("assignments")
+    @staticmethod
+    def get_by_class(class_id: str):
+        class_obj = db.collection_classes.document(class_id).collection("assignments")
 
         class_obj = class_obj.stream()
         assignments = list()
         for assgn in class_obj:
-            print(assgn)
-            assignments.append(assgn.to_dict())
+            if not 'last_id' in assgn.to_dict():
+                assignments.append(assgn.to_dict())
 
         return assignments
