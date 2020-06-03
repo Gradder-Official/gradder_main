@@ -53,12 +53,12 @@ class Admin(User):
 
     @staticmethod
     def get_by_id(id: str):
-        return Admin.from_dict(super().get_by_id(id))
+        return Admin.from_dict(super(Admin, Admin).get_by_id(id))
 
     @staticmethod
     def get_by_name(first_name: str, last_name: str):
-        return Admin.from_dict(super().get_by_name(Admin, first_name, last_name))
+        return Admin.from_dict(super(Admin, Admin).get_by_name('Admin', first_name, last_name))
 
     @staticmethod
     def get_by_email(email: str):
-        return Admin.from_dict(super().get_by_email(Admin, email))
+        return Admin.from_dict(super(Admin, Admin).get_by_email(email))

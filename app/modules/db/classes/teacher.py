@@ -32,15 +32,15 @@ class Teacher(User):
 
     @staticmethod
     def get_by_id(id: str):
-        return Teacher.from_dict(super().get_by_id(id))
+        return Teacher.from_dict(super(Teacher, Teacher).get_by_id(id))
 
     @staticmethod
     def get_by_name(first_name: str, last_name: str):
-        return Teacher.from_dict(super().get_by_name("teacher", first_name, last_name))
+        return Teacher.from_dict(super(Teacher, Teacher).get_by_name("teacher", first_name, last_name))
 
     @staticmethod
     def get_by_email(email: str):
-        return Teacher.from_dict(super().get_by_email("teacher", email))
+        return Teacher.from_dict(super(Teacher, Teacher).get_by_email(email))
 
     @staticmethod
     def from_dict(dictionary: dict):

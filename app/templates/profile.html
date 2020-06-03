@@ -22,7 +22,7 @@
 
 {% block content %}
 <div class="jumbotron">
-Welcome, {{ current_user.first_name }}! You are {% if current_user.usertype != 'admin' %} a {% else %} an {% endif %} {{ current_user.usertype }}!
+Welcome, {{ current_user.first_name }}! You are {% if current_user.USERTYPE.capitalize() != 'Admin' %} a {% else %} an {% endif %} {{ current_user.USERTYPE.lower() }}!
 
 <br>
 <a href="{{ url_for('auth.change_password') }}">Change your password</a>
@@ -30,19 +30,19 @@ Welcome, {{ current_user.first_name }}! You are {% if current_user.usertype != '
 <a href="{{ url_for('auth.change_secret_question') }}">Change your secret question</a>
 <br>
 
-{% if current_user.usertype == 'admin' %} 
+{% if current_user.USERTYPE.capitalize() == 'Admin' %} 
     {% include "auth/admin.html" %}
 {% endif %}
 
-{% if current_user.usertype == 'teacher' %}     
+{% if current_user.USERTYPE.capitalize() == 'Teacher' %}     
     {% include "auth/teacher.html" %}
 {% endif %}
 
-{% if current_user.usertype == 'student' %} 
+{% if current_user.USERTYPE.capitalize() == 'Student' %} 
     {% include "auth/student.html" %}
 {% endif %}
 
-{% if current_user.usertype == 'parent' %} 
+{% if current_user.USERTYPE.capitalize() == 'Parent' %} 
     {% include "auth/parent.html" %}
 {% endif %}
 </div>

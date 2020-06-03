@@ -16,7 +16,7 @@ class DB:
         self.collection_messages = self.db.collection('messages')
 
         self.collection_applications = self.db.collection('applications')
-        self.collection_classes = self.db.collection('classes')
+        self.collection_classes = self.db.collection('assignments') # TODO: rename later in the DB to `classes`
         self.ADMIN_TOKEN_HASH = 'pbkdf2:sha256:150000$p1711QE3$5fd0be7223ce989f55697f3afb3665e1b2a011214455c7e5f96d38586130969f'
 
     def __repr__(self):

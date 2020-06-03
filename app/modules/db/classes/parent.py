@@ -64,14 +64,14 @@ class Parent(User):
 
     @staticmethod
     def get_by_id(id: str):
-        return Parent.from_dict(super().get_by_id(id))
+        return Parent.from_dict(super(Parent, Parent).get_by_id(id))
 
     @staticmethod
     def get_by_name(first_name: str, last_name: str):
-        return Parent.from_dict(super().get_by_name(Parent, first_name, last_name))
+        return Parent.from_dict(super(Parent, Parent).get_by_name('Parent', first_name, last_name))
 
     @staticmethod
     def get_by_email(email: str):
-        return Parent.from_dict(super().get_by_email(Parent, email))
+        return Parent.from_dict(super(Parent, Parent).get_by_email(email))
 
     # Methods for accessing grades
