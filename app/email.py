@@ -23,7 +23,7 @@ def send_async_email(app, msg: Message):
         mail.send(msg)
 
 
-def send_email(to: str, subject: str, template: str, files: fileList = None, **kwargs):
+def send_email(to: List[str], subject: str, template: str, files: fileList = None, **kwargs):
     r"""Sends an email in another thread.
 
     Compiles a flask_mail.Message object from the arguments, and passes it to send_asyn_mail in a new thread.
@@ -42,8 +42,9 @@ def send_email(to: str, subject: str, template: str, files: fileList = None, **k
         Keyword arguments that would be passed to the html/txt template and would be rendered in there. 
     """
     app = current_app._get_current_object()
+
     msg = Message(app.config['MAIL_SUBJECT_PREFIX'] + ' ' + subject,
-                  sender=app.config['MAIL_SENDER'], recipients=[to])
+                  sender=app.config['MAIL_SENDER'], recipients=to)
     # msg.body is used if html cannot be rendered properly
     msg.body = render_template(template + '.txt', **kwargs)
     msg.html = render_template(template + '.html', **kwargs)
@@ -55,4 +56,5 @@ def send_email(to: str, subject: str, template: str, files: fileList = None, **k
 
     thr = Thread(target=send_async_email, args=[app, msg])
     thr.start()
+
     return thr

@@ -2,23 +2,24 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from re import match
 from flask_login import UserMixin
 
-from .access_level import ACCESS_LEVEL
+from app import db
 
 
 class User(UserMixin):
+    USERTYPE = None  # is unique per each class, acts as access levels
+
     def __init__(self, email: str, first_name: str, last_name: str, usertype: str, ID: str = None):
-        from app import db
         self.email = email
         self.first_name = first_name
         self.last_name = last_name
-        self.usertype = usertype
+
         if ID is not None:
             self.ID = ID
         else:
             self.ID = db.get_new_id()
+
         self.secret_question = None
         self.secret_answer = None
-        self.access_level = ACCESS_LEVEL.EMPTY
 
     def __repr__(self):
         return f'<User {self.ID}'
@@ -32,18 +33,94 @@ class User(UserMixin):
     def verify_password(self, password: str):
         return check_password_hash(self.password_hash, password)
 
-    
-    def set_secret_question(self, question:str, answer:str):
+    def set_secret_question(self, question: str, answer: str):
         self.secret_question = question
         if match(r"(pbkdf2:sha256:)([^\$.]+)(\$)([^\$.]+)(\$)([^\$.]+)", answer) is not None:
             self.secret_answer = answer
         else:
             self.secret_answer = generate_password_hash(answer)
 
-    
-    def verify_secret_question(self, answer:str):
+    def verify_secret_question(self, answer: str):
         return check_password_hash(self.secret_answer, answer)
 
+    @staticmethod
+    def get_by_id(id: str):
+        if id:
+            try:
+                user = db.collection_admins.document(id)
+
+                return user.get().to_dict()
+            except BaseException:
+                pass
+
+            try:
+                user = db.collection_teachers.document(id)
+
+                return user.get().to_dict()
+            except BaseException:
+                pass
+
+            try:
+                user = db.collection_students.document(id)
+
+                return user.get().to_dict()
+            except BaseException:
+                pass
+
+            try:
+                user = db.collection_parents.document(id)
+
+                return user.get().to_dict()
+            except BaseException:
+                return None
+
+    @staticmethod
+    def get_by_name(usertype: str, first_name: str, last_name: str):
+        # TODO: what if there are many people with same names?
+        if first_name and last_name:
+            received_user = eval(
+                f'db.collection_{usertype+"s"}.where(u"last_name", u"==", {last_name}).where(u"first_name", u"==", {first_name})'
+            )
+            if received_user:
+                received_user = list(received_user.stream())[0].to_dict()
+                return received_user
+            else:
+                return None
+
+    @staticmethod
+    def get_by_email(usertype: str, email: str):
+        if email:
+            received_user = eval(
+                f'db.collection_{usertype + "s"}.where(u"email", u"==", {email})'
+            )
+            if received_user:
+                received_user = list(received_user.stream())[0].to_dict()
+                return received_user
+            else:
+                return None
+
+    def add(self):
+        r"""Adds the user to the DB.
+        """
+
+        try:
+            eval(
+                f'self.collection_{self.USERTYPE + "s"}.document(self.ID).set(self.to_dict())')
+            return True
+        except BaseException as e:
+            print(e)
+            return False
+
+    def remove(self):
+        try:
+            eval(
+                f'self.collection_{self.USERTYPE+"s"}.document(str(self.ID)).delete()'
+            )
+
+            return True
+        except BaseException as e:
+            print(e)
+            return False
 
     def get_id(self):
         return self.ID
@@ -55,7 +132,7 @@ class User(UserMixin):
             'last_name': self.last_name,
             'ID': self.ID,
             'password': self.password_hash,
-            'usertype': self.usertype,
+            'usertype': self.USERTYPE,
             'secret_question': self.secret_question,
             'secret_answer': self.secret_answer
         }
@@ -76,6 +153,7 @@ class User(UserMixin):
             user.set_password(dictionary['password'])
 
         if 'secret_question' in dictionary and 'secret_answer' in dictionary:
-            user.set_secret_question(dictionary['secret_question'], dictionary['secret_answer'])
+            user.set_secret_question(
+                dictionary['secret_question'], dictionary['secret_answer'])
 
         return user

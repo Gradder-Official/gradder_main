@@ -1,6 +1,7 @@
 from flask import render_template, redirect, request, url_for, flash, current_app
 from flask_login import login_user, logout_user, login_required, current_user
 
+from app import db
 from . import auth
 from .forms import LoginForm, RegistrationForm, PasswordChangeForm, SecretQuestionChangeForm
 from app.modules.db.classes import Admin, Teacher, Student, Parent
@@ -8,10 +9,9 @@ from app.modules.db.classes import Admin, Teacher, Student, Parent
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    from app import db
     form = LoginForm()
     if form.validate_on_submit():
-        user = db.get_user_by_email(form.email.data.lower())
+        user = db.get_by_email(form.email.data.lower())
         if user is not None and user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
             next = request.args.get('next')
