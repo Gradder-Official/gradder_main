@@ -13,3 +13,5 @@ venv
 .DS_Store
 
 .idea
+
+gradder_cred.json
