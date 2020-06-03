@@ -10,6 +10,7 @@ from ..email import send_email
 from . import main
 from ..modules.db.classes import Message, Application, Assignment, User, Student, Parent, Admin, Teacher
 from app import db
+from .decorators import required_access
 
 
 @main.route('/')
@@ -105,6 +106,7 @@ def dashboard():
 
 @main.route('/teacher/add_assignment', methods=['GET', 'POST'])
 @login_required
+@required_access(['ADMIN'])
 def add_assignment():
     form = NewAssignmentForm()
 
