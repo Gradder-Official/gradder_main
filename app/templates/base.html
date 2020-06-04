@@ -26,7 +26,7 @@
         type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/main.css') }}">
     {% endblock styles %}
-    <title>{% block title %}Gradder | Your Smart  School Diary{% endblock title %}</title>
+    <title>{% block title %}Gradder | Your Smart School Diary{% endblock title %}</title>
     {% endblock head %}
 </head>
 
@@ -37,12 +37,13 @@
     <div class="navbar">
         {% block navbar %}
         <div class="logo">
-            <img src="{{ url_for('static', filename='images/even more resized-09.png') }}" alt="Gradder logo">
-            <p>Gradder</p>
+            <img src="{{ url_for('static', filename='images/Left Image.png') }}" alt="Gradder logo">
         </div>
         <ul class="menu">
             <li><a href="{{ url_for('main.index') }}">Home</a></li>
             <li><a href="{{ url_for('main.careers') }}">Careers</a></li>
+            <li><a href="">About</a></li>
+            <li><a href="">FAQ</a></li>
             <!-- <li><a href="{{ url_for('main.contact') }}">Contact</a></li> -->
         </ul>
         {% endblock navbar %}

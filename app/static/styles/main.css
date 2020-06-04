@@ -129,23 +129,24 @@ input[type=number]::-webkit-outer-spin-button
 }
 /* Landing menu */
 .navbar {
-  	position: absolute;
- 	margin-top: 46px;
-  	margin-left: 50px;
-  	display: flex;
+    position: absolute;
+    width: 100vw;
+    margin-top: 30px;
+    display: flex;
   	z-index: 100;
 }
 .navbar .logo {
-	display: flex;
+    display: flex;
 	cursor: pointer;
 	transition: all 0.2s ease;
 }
 .navbar .logo img {
-	height: 32px;
-	width: 32px;
-	padding-top: 2px;
+    margin-top: -30px;
+	height: 15vw;
+	width: 17vw;
 	transition: all 0.2s ease;
 }
+/*
 .navbar .logo p {
 	font-family: 'Gilroy', sans-serif;
 	font-size: 29px;
@@ -154,23 +155,25 @@ input[type=number]::-webkit-outer-spin-button
 	padding-left: 14px;
 	transition: all 0.2s ease;
 }
+*/
 .navbar .menu {
-	display: flex;
-	margin-top: 3px;
+    display: flex;
+    justify-content: space-between;
+    width: 450px;
+    position: absolute;
+    right: 50px;
   	list-style-type: none;
-  	margin-left: 30px;
  	overflow: hidden;
 }
 .navbar .menu li {
   	float: left;
-  	margin-left: 28px;
 }
 .navbar .menu li a  {
 	font-family: 'SF UI Text', sans-serif;
 	font-size: 18px;
 	font-weight: 500;
   	display: block;
-  	color: #333333;
+  	color: white;
   	text-align: center;
   	padding: 6px 23px;
   	text-decoration: none;
@@ -178,10 +181,10 @@ input[type=number]::-webkit-outer-spin-button
   	transition: background 0.3s;
 }
 .navbar .menu li a:hover  {
-	background: #F2F8F1;
+	text-shadow: 0 2px 5px #333333;
 }	
 .navbar .menu li .active  {
-  	background: #F2F8F1;
+  	text-shadow: 0 2px 5px #333333;
 }
 
 @media screen and (max-width: 960px) {

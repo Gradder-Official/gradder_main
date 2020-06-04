@@ -4,7 +4,6 @@ from .teacher import Teacher
 from .user import User
 from .subscriber import Subscriber
 from .admin import Admin
-from .access_level import ACCESS_LEVEL
 from .message import Message
 from .application import Application
 from .assignment import Assignment

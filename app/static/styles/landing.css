@@ -4,28 +4,26 @@
 	height: 100vh;
 	min-height: 649px;
 	font-family: 'SF UI Text', sans-serif;
-	display: flex;
 	background: #fff;
 	color: #212121;
 	position: relative;
 	border-radius: 40px 40px 0 0;
 }
 .new-landing .left-container {
-	float: left;
+    float: left;
+    display: flex;
+    align-items: center;
 	height: 100%;
-	display: flex;
-	flex-direction: row;
-	width: 50%;
+    width: 50%;
 }
 .new-landing .left-container .hero-text {
 	font-family: 'SF UI Text', sans-serif;
-	margin-top: 26%;
-	margin-left: 10%;
-	width: 512px;
-	transition: width 0.25s ease;
+	margin-left: 20%;
+    transition: width 0.25s ease;
+    z-index: 100;
 }
 .new-landing .left-container .hero-text p {
-	font-size: 18px;
+	font-size: 15px;
 	font-weight: 600;
 	color: #5C77FF;
 }
@@ -33,30 +31,30 @@
 	font-family: 'Gilroy', sans-serif;
 	font-weight: bold;
 	color: #212121;
-	font-size: 87px; /* 77px */
-	margin-top: 3px;
+	font-size: 60px; /* 77px */
+	margin-top: 1.2vw;
 	transition: font-size 0.25s ease;
 }
 .new-landing .left-container .hero-text h3 {
+    width: 30vw;
 	font-weight: 600;
-	font-size: 30px; /* 26px */
-	line-height: 31px;
+	font-size: 18px; /* 26px */
+	line-height: 25px;
 	color: #333333;
-	margin-top: 20px;
+	margin-top: 2vw;
 	transition: font-size 0.25s ease;
 }
 .new-landing .hero-text .button {
-	margin-top: 13%;
+	margin-top: 10%;
 	cursor: pointer;
-	background: #6682FF;
-	box-shadow: 7px 6px 26px rgba(0, 0, 0, 0.1);
-	border-radius: 19px;
-	width: 193px;
-	height: 60px;
+	background: rgb(136, 223, 249);
+	border-radius: 40px;
+	width: 13vw;
+	height: 3.5vw;
 
 	font-family: 'SF UI Text', sans-serif;
 	font-weight: 600;
-	font-size: 22px;
+	font-size: 1.3vw;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -72,21 +70,20 @@
 	box-shadow: 7px 6px 26px rgba(0, 0, 0, 0.1);
 }	
 .new-landing .right-container {
-	float: right;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	width: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100vw;
 }
 .new-landing .right-container .hero-image {
-	height: 100%;
-	width: 100%;
-	margin-right: 16px;
-	margin-top: 16px;
-	background-image: url('../images/hero image.png');
+    height: 100%;
+    width: 100vw;
+	background-image: url('../images/Right image.png');
 	background-size: contain;
 	background-position: top right;
-	background-repeat: no-repeat;
+    background-repeat: no-repeat;
+    z-index: 0;
 }
 .new-landing .right-container .hero-image p {
 	color: white;
@@ -101,22 +98,27 @@
 		width: 455px;
 	}
 	.new-landing .left-container .hero-text h1 { 
-		font-size: 77px;
+		font-size: 60px;
 	}
 	.new-landing .left-container .hero-text h3 {
-		font-size: 26px;
-	}	
+		font-size: 20px;
+    }
 }
 @media screen and (max-width: 1240px) {
 	.new-landing .left-container .hero-text {
 		width: 390px;
 	}
 	.new-landing .left-container .hero-text h1 { 
-		font-size: 66px;
+		font-size: 55px;
 	}
 	.new-landing .left-container .hero-text h3 {
-		font-size: 22px;
-	}	
+		font-size: 18px;
+    }	
+    .new-landing .right-container .hero-image {
+        position: fixed;
+        left: 0;
+        width: 1240px;
+    }
 }
 @media screen and (max-width: 960px) {
 	.new-landing {

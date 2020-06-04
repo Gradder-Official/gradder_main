@@ -1,3 +1,6 @@
+from app import db
+
+
 class Application:
     def __init__(self, email: str, job: str, ID: str, first_name: str, last_name: str, resume_url: str, comments: str):
         self.email = email
@@ -23,3 +26,11 @@ class Application:
 
     def to_json(self):
         return self.to_dict()
+
+    def add(self):
+        try:
+            db.collection_applications.document(self.ID).set(self.to_dict())
+            return True
+        except BaseException as e:
+            print(e)
+            return False
