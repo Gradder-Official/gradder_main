@@ -1,5 +1,7 @@
 from .user import User
-from .access_level import ACCESS_LEVEL
+from app import db
+from .assignment import Assignment
+
 from typing import Dict, List
 
 # A type that defines a dictionary of grades: subjects are keys and lists of integer grades are values
@@ -8,6 +10,8 @@ gradeDict = Dict[str, List[int]]
 
 
 class Student(User):
+    USERTYPE = 'Student'
+
     def __init__(self, email: str, first_name: str, last_name: str, class_names: List[int] = None, ID: str = None, grades: gradeDict = None):
         r"""Initializes a Student object.
 
@@ -26,14 +30,11 @@ class Student(User):
         grades : gradeDict, optional
             User's grades formatted as a dictionary with subject's name as keys and lists of integer grades as values.
         """
-        super().__init__(email=email, first_name=first_name, last_name=last_name,
-                         usertype='student', ID=ID)
+        super().__init__(email=email, first_name=first_name, last_name=last_name, ID=ID)
         if class_names is not None:
             self.class_names = class_names
         else:
             self.class_names = list()
-
-        self.access_level = ACCESS_LEVEL.STUDENT
 
         if grades is not None:
             self.grades = grades
@@ -80,15 +81,26 @@ class Student(User):
 
         return user
 
+    @staticmethod
+    def get_by_id(id: str):
+        return Student.from_dict(super(Student, Student).get_by_id(id))
+
+    @staticmethod
+    def get_by_name(first_name: str, last_name: str):
+        return Student.from_dict(super(Student, Student).get_by_name("student", first_name, last_name))
+
+    @staticmethod
+    def get_by_email(email: str):
+        return Student.from_dict(super(Student, Student).get_by_email(email))
+
     def add_grades(self, new_grades: gradeDict):
         self.grades.update(new_grades)
 
     def get_assignments(self):
         """ Gets a list of assignments from the database for this student.
         """
-        from app import db
         assignments = list()
         for class_ref in self.class_names:
-            assignments.extend(db.get_assignments_by_class(str(class_ref)))
+            assignments.extend(Assignment.get_by_class(str(class_ref)))
 
         return assignments

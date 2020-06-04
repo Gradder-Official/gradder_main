@@ -1,4 +1,5 @@
 from .user import User
+from app import db
 
 
 class Subscriber(User):
@@ -22,3 +23,27 @@ class Subscriber(User):
                           first_name=dictionary['first_name'],
                           last_name=dictionary['last_name'],
                           ID=dictionary['ID'] if 'ID' in dictionary else None)
+
+    @staticmethod
+    def get_by_id(ID: str):
+        subscr = db.collection_subscribers.document(ID)
+
+        if subscr:
+            return Subscriber.from_dict(subscr.get())
+        else:
+            return None
+
+    def add(self):
+        try:
+            db.collection_subscribers.document(self.ID).set(self.to_dict())
+            return True
+        except BaseException as e:
+            print(e)
+            return False
+
+    def remove(self):
+        try:
+            db.collection_subscribers.document(self.ID).delete()
+            return True
+        except BaseException:
+            return False

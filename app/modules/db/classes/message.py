@@ -1,3 +1,8 @@
+from typing import List
+
+from app import db
+
+
 class Message:
     def __init__(self, email: str, subject: str, first_name: str, last_name: str, message: str, ID: str):
         self.email = email
@@ -13,7 +18,7 @@ class Message:
             'subject': self.subject,
             'first_name': self.first_name,
             'last_name': self.last_name,
-            'message': self.subject,
+            'message': self.message,
             'id': self.ID
         }
 
@@ -21,3 +26,11 @@ class Message:
 
     def to_json(self):
         return self.to_dict()
+
+    def add(self):
+        try:
+            db.collection_messages.document(self.ID).set(self.to_dict())
+            return True
+        except BaseException as e:
+            print(e)
+            return False

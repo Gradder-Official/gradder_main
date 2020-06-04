@@ -59,12 +59,11 @@ class CareersForm(FlaskForm):
 
 
 class NewAssignmentForm(FlaskForm):
-    assigned_to = IntegerField('Class ID', validators=[DataRequired()])
+    assigned_to = StringField('Class ID', validators=[DataRequired()])
     due_by = DateTimeField(
         'Due by', format="%m/%d/%y %H:%M", validators=[DataRequired()])
     subject = StringField('Your subject', validators=[DataRequired()])
-    estimated_time = IntegerField(
-        'Estimated time in minutes', validators=[DataRequired()])
+    estimated_time = StringField('Estimated time in minutes', validators=[DataRequired()])
     content = TextAreaField('The assignment', validators=[DataRequired()])
 
     submit = SubmitField('Submit')

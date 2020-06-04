@@ -1,13 +1,10 @@
 from datetime import time, datetime
-from . import Teacher, Student
-from typing import List
 
-# Defines a Class type as a list of Students enrolled in a class
-Class = List[Student]
+from app import db
 
 
 class Assignment:
-    def __init__(self, date_assigned: time, assigned_by: int, assigned_to: int, due_by: datetime, subject: str, content: str, estimated_time: int, ID: str = None):
+    def __init__(self, date_assigned: time, assigned_by: int, assigned_to: str, due_by: datetime, subject: str, content: str, estimated_time: int, ID: str = None):
         r"""Initializes the Assignment object
 
         Parameters
@@ -37,9 +34,7 @@ class Assignment:
         self.content = content
         self.estimated_time = estimated_time
 
-        from app import db
-        # TODO: rewrite this piece for a better ID generation
-        self.ID = ID if ID is not None else db.get_new_assignment_id()
+        self.ID = ID if ID is not None else Assignment.new_id(str(assigned_to))
 
     def to_dict(self):
         return {
@@ -55,11 +50,42 @@ class Assignment:
 
     @staticmethod
     def from_dict(dictionary: dict):
-        r"""Generates a Student object from a dictionary,
+        r"""Generates an Assignment object from a dictionary,
 
         Parameters
         ----------
         dictionary : dict
-            Dictionary with proper Student parameters
+            Dictionary with proper Assignment parameters
         """
-        return Student(**dictionary)
+        return Assignment(**dictionary)
+
+    @staticmethod
+    def new_id(class_id: str):
+        last_id_ref = db.collection_classes.document(
+            class_id).collection('assignments').document('last_id')
+        new_id = int(last_id_ref.get().to_dict()['last_id']) + 1
+
+        last_id_ref.set({'last_id': new_id})
+
+        return str(new_id)
+
+    def add(self):
+        try:
+            db.collection_classes.document(self.assigned_to).collection("assignments").document(self.ID).set(self.to_dict())
+
+            return True
+        except BaseException as e:
+            print(e)
+            return False
+
+    @staticmethod
+    def get_by_class(class_id: str):
+        class_obj = db.collection_classes.document(class_id).collection("assignments")
+
+        class_obj = class_obj.stream()
+        assignments = list()
+        for assgn in class_obj:
+            if not 'last_id' in assgn.to_dict():
+                assignments.append(assgn.to_dict())
+
+        return assignments

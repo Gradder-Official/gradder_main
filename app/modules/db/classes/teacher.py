@@ -1,18 +1,16 @@
 from .user import User
-from .access_level import ACCESS_LEVEL
 
 
 class Teacher(User):
+    USERTYPE = 'Teacher'
+
     def __init__(self, email: str, first_name: str, last_name: str, class_list: list = None,
                  subjects: list = None, ID: str = None):
-        super().__init__(email=email, first_name=first_name, last_name=last_name,
-                         usertype='teacher', ID=ID)
+        super().__init__(email=email, first_name=first_name, last_name=last_name, ID=ID)
         if class_list:
             self.class_list = class_list
         if subjects:
             self.subjects = subjects
-
-        self.access_level = ACCESS_LEVEL.TEACHER
 
     def __repr__(self):
         return f'<Teacher {self.ID}'
@@ -31,6 +29,18 @@ class Teacher(User):
             pass
 
         return json_user
+
+    @staticmethod
+    def get_by_id(id: str):
+        return Teacher.from_dict(super(Teacher, Teacher).get_by_id(id))
+
+    @staticmethod
+    def get_by_name(first_name: str, last_name: str):
+        return Teacher.from_dict(super(Teacher, Teacher).get_by_name("teacher", first_name, last_name))
+
+    @staticmethod
+    def get_by_email(email: str):
+        return Teacher.from_dict(super(Teacher, Teacher).get_by_email(email))
 
     @staticmethod
     def from_dict(dictionary: dict):

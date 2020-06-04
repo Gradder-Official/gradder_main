@@ -24,7 +24,7 @@
 {% endblock %}
 
 {% block content %}
-{% if current_user.usertype == 'student' %}
+{% if current_user.USERTYPE.capitalize() == 'Student' %}
 <div class="jumbotron container student-grades">
     Here will be your grades!
 </div>
@@ -42,7 +42,7 @@
 </div>
 {% endif %}
 
-{% if current_user.usertype == 'admin' %}
+{% if current_user.USERTYPE.capitalize() == 'Admin' %}
 <div class="container admin-statistics">
     Weekly school statistic
 </div>
@@ -51,7 +51,7 @@
 </div>
 {% endif %}
 
-{% if current_user.usertype == 'teacher' %}
+{% if current_user.USERTYPE.capitalize() == 'Teacher' %}
 <p class="large">Current class: 8-A</p>
 <div class="jumbotron container teacher-students">
     View your students here
@@ -67,7 +67,7 @@
 </div>
 {% endif %}
 
-{% if current_user.usertype == 'parent' %}
+{% if current_user.USERTYPE.capitalize() == 'Parent' %}
 <p class="large">Current child: King Radovid III</p>
 <div class="jumbotron container parent-grades">
     Here will be your child's grades
