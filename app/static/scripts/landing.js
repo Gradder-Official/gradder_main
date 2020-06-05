@@ -11,6 +11,11 @@ window.onload = function(){
    	}
 } 	
 
+/* Landing page carousel */
+$(document).ready(function () {
+    $(".carousel").carousel({ interval: 10000 });
+});
+
 /* Показать текст */
 document.getElementsByClassName('custom-options')[0].addEventListener('click', function() {
 	document.getElementById('problem').style.opacity = "1";

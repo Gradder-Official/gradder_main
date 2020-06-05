@@ -9,6 +9,24 @@
 	position: relative;
 	border-radius: 40px 40px 0 0;
 }
+/* Cloud behind navbar menu */
+.new-landing .navbar-background {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100vw;
+    z-index: 50;
+}
+.new-landing .navbar-background .navcloud {
+    height: 100%;
+    width: 100vw;
+	background-size: contain;
+	background-position: top right;
+    background-repeat: no-repeat;
+    background-image: url('../images/navcloud.png');
+}
+/* Left text panel */
 .new-landing .left-container {
     float: left;
     display: flex;
@@ -25,7 +43,8 @@
 .new-landing .left-container .hero-text p {
 	font-size: 15px;
 	font-weight: 600;
-	color: #5C77FF;
+    color: #5C77FF;
+    z-index: 100;
 }
 .new-landing .left-container .hero-text h1 {
 	font-family: 'Gilroy', sans-serif;
@@ -33,7 +52,8 @@
 	color: #212121;
 	font-size: 60px; /* 77px */
 	margin-top: 1.2vw;
-	transition: font-size 0.25s ease;
+    transition: font-size 0.25s ease;
+    z-index: 100;
 }
 .new-landing .left-container .hero-text h3 {
     width: 30vw;
@@ -42,7 +62,8 @@
 	line-height: 25px;
 	color: #333333;
 	margin-top: 2vw;
-	transition: font-size 0.25s ease;
+    transition: font-size 0.25s ease;
+    z-index: 100;
 }
 .new-landing .hero-text .button {
 	margin-top: 10%;
@@ -59,16 +80,20 @@
 	align-items: center;
 	justify-content: center;
 	color: #FFFFFF;
-	transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    z-index: 100;
 }
 .new-landing .hero-text .button:hover {
 	transform: translate(0px, -5px);
-	box-shadow: 7px 6px 26px rgba(0, 0, 0, 0.2);
+    box-shadow: 7px 6px 26px rgba(0, 0, 0, 0.2);
+    background: rgb(108,204,230);
 }
 .new-landing .hero-text .button:active {
 	transform: translate(0px, 0px);
-	box-shadow: 7px 6px 26px rgba(0, 0, 0, 0.1);
+    box-shadow: 7px 6px 26px rgba(0, 0, 0, 0.1);
+    background: rgb(108,204,230);
 }	
+/* Right image panel */
 .new-landing .right-container {
     position: absolute;
     top: 0;
@@ -79,11 +104,19 @@
 .new-landing .right-container .hero-image {
     height: 100%;
     width: 100vw;
-	background-image: url('../images/Right image.png');
 	background-size: contain;
 	background-position: top right;
     background-repeat: no-repeat;
     z-index: 0;
+}
+#slide1 {
+    background-image: url('../images/Right Image.png');
+}
+#slide2 {
+    background-image: url('../images/Right Image 2.png');
+}
+#slide3 {
+    background-image: url('../images/Right Image 3.png');
 }
 .new-landing .right-container .hero-image p {
 	color: white;
@@ -93,6 +126,37 @@
 	font-size: 23px;
 	display: none;
 }
+/* Carousel controls */
+.carousel-indicators {
+    bottom: 18vh;
+    justify-content: flex-start;
+    margin-left: 18%;
+    z-index: 100;
+}
+.carousel-indicators li {
+    width: 15px;
+    height: 15px;
+    margin-left: 15px;
+    border-radius: 50%;
+    background-color: rgb(193,241,255);
+}
+.carousel-indicators .active, .carousel-indicators li:hover {
+    cursor: pointer;
+    background-color: rgb(108,204,230);
+}
+.carousel-item {
+    height: 100vh;
+}
+/* Carousel animations */
+@keyframes activeSlide {
+    0%, 100% { opacity: 0; transform: translate(50em, 0em) }
+    20%, 80% { opacity: 1; transform: translate(0, 0) }
+}
+.active .hero-image {
+    animation: activeSlide 10s ease;
+    animation-fill-mode: forwards;
+}
+/* Responsive */
 @media screen and (max-width: 1640px) {
 	.new-landing .left-container .hero-text {
 		width: 455px;
@@ -117,6 +181,11 @@
     .new-landing .right-container .hero-image {
         position: fixed;
         left: 0;
+        width: 1240px;
+    }
+    .new-landing .navbar-background .navcloud {
+        position: absolute;
+        right: 0px;
         width: 1240px;
     }
 }
