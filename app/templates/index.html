@@ -2,12 +2,17 @@
 
 {% block styles %}
 {{ super() }}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/landing.css') }}">
 {% endblock styles %}
 
 
 {% block page_content %}
 <div class="new-landing">
+    <div class="navbar-background">
+        <div class="navcloud"></div>
+    </div>
 	<div class="left-container">
 		<div class="hero-text">
 			<p>AI-driven School Dashboard</p>
@@ -20,11 +25,24 @@
 			</a>
 		</div>
 	</div>
-	<div class="right-container">
-		<div class="hero-image">
-			<p>AI-driven School Dashboard</p>
-		</div>
-	</div>
+    <div class="carousel right-container" id="landing-carousel" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#landing-carousel" data-slide-to="0" class="active"></li>
+            <li data-target="#landing-carousel" data-slide-to="1"></li>
+            <li data-target="#landing-carousel" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="hero-image" id="slide1"></div>
+            </div>
+            <div class="carousel-item">
+                <div class="hero-image" id="slide2"></div>
+            </div>
+            <div class="carousel-item">
+                <div class="hero-image" id="slide3"></div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
 
