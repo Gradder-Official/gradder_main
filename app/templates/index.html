@@ -2,17 +2,12 @@
 
 {% block styles %}
 {{ super() }}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/landing.css') }}">
 {% endblock styles %}
 
 
 {% block page_content %}
 <div class="new-landing">
-    <div class="navbar-background">
-        <div class="navcloud"></div>
-    </div>
 	<div class="left-container">
 		<div class="hero-text">
 			<p>AI-driven School Dashboard</p>
@@ -25,14 +20,36 @@
 			</a>
 		</div>
 	</div>
-    <div class="carousel right-container" id="landing-carousel" data-ride="carousel">
+    <div class="carousel right-container" id="landing-carousel">
         <ol class="carousel-indicators">
-            <li data-target="#landing-carousel" data-slide-to="0" class="active"></li>
-            <li data-target="#landing-carousel" data-slide-to="1"></li>
-            <li data-target="#landing-carousel" data-slide-to="2"></li>
+            <li id="indicator1" class="active"></li>
+            <li id="indicator2"></li>
+            <li id="indicator3"></li>
         </ol>
+        <div class="zoom-box">
+            <div class="book"></div>
+            <svg id="zoom" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 0 1920 1080">
+                <path id="startZoom"
+                    d="M1179.32 820.14C1179.32 832.02 1169.68 841.66 1157.8 841.66C1145.93 841.66 1136.28 832.02 1136.28 820.14C1136.28 808.27 1145.93 798.62 1157.8 798.62C1169.68 798.62 1179.32 808.27 1179.32 820.14Z" fill="#81cfe0" />
+            </svg>
+        </div>
+        <div class="blob-backgrounds" id="blob-backgrounds">
+            <svg id="slides" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1920 1080">
+                <path id="slide-1-blob"
+                    d="M1923.57 0L1923.57 899.63C1912.06 908.37 1892.47 919.3 1864.79 932.41C1823.27 952.08 1755.52 943.34 1716.19 932.41C1689.96 925.13 1651.36 904 1600.37 869.04L1538.81 804.99C1447.03 714.67 1371.27 678.97 1311.54 697.91C1251.81 716.85 1213.2 752.55 1195.72 804.99C1198.66 793.2 1203.08 767.44 1208.97 727.71C1214.85 687.97 1191.31 650.44 1138.33 615.12L1065.48 579.8C999.25 556.26 961.72 530.5 952.89 502.54C944.06 474.58 966.87 428.96 1021.33 365.67C1096.38 280.32 1111.1 223.66 1065.48 195.7C1019.86 167.73 967.61 152.28 908.74 149.34C849.88 156.7 791.74 151.55 734.35 133.89C676.95 116.23 633.18 71.6 603.02 0L1923.57 0Z"
+                    fill-rule="nonzero" fill="#81cfe0" />
+                <path opacity="0" id="slide-2-blob"
+                    d="M1920 0L1920 878.38L1529.6 878.38C1525.92 886.73 1522.76 897.22 1520.13 909.85C1517.5 922.48 1510.14 930.9 1498.04 935.1C1336.73 894.24 1245.42 875.33 1224.11 878.38C1202.81 881.43 1177.03 877.01 1146.77 865.12C1103.87 849.65 1070.35 822.77 1046.23 784.47C1010.05 727.01 1005.55 655.56 1006.46 634.21C1007.37 612.86 1010.1 567.58 1021.15 500.19C1028.52 455.26 1012.68 408.49 973.64 359.87C930.19 328.2 902.2 307.58 889.67 298C870.89 283.64 771.46 241.65 720.63 155.48C686.75 98.02 674.23 46.2 683.07 0L1920 0Z"
+                    fill-rule="nonzero" fill="#6fccde" />
+                <path opacity="0" id="slide-3-blob"
+                    d="M1920 0L1920 922.28L1859.96 935.47L1796.16 947.2C1767.05 950.37 1744.77 953.3 1729.32 955.99C1713.88 958.68 1689.07 960.14 1654.89 960.39C1611.52 972.14 1571.23 981.56 1534.01 988.64C1496.79 995.72 1449.57 998.11 1392.35 995.78C1283.07 986.54 1200.41 960.58 1144.39 917.91C1088.36 875.23 1055.72 831.83 1046.47 787.68C1020.98 691.8 1017.09 605.45 1034.78 528.64C1052.47 451.83 1052.47 395.41 1034.78 359.37C1021.46 337.9 978.93 304.41 907.17 258.89C835.42 213.37 763.99 163.87 692.9 110.38C675.95 92.23 662.07 75.56 651.26 60.39C640.45 45.22 634.05 25.09 632.07 0L1920 0Z"
+                    fill-rule="nonzero" fill="#70cadc" />
+            
+            </svg>
+        </div>
         <div class="carousel-inner">
-            <div class="carousel-item active">
+            <div class="carousel-item">
                 <div class="hero-image" id="slide1"></div>
             </div>
             <div class="carousel-item">
@@ -48,5 +65,6 @@
 
 {% block scripts %}
 {{ super() }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
 <script type='text/javascript' src="{{ url_for('static', filename='scripts/landing.js') }}"></script>
 {% endblock scripts %}

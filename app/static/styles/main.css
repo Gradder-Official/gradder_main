@@ -149,9 +149,9 @@ input[type=number]::-webkit-outer-spin-button
 .nav-bar .menu {
     display: flex;
     justify-content: space-between;
-    width: 450px;
+    width: 425px;
     position: absolute;
-    right: 50px;
+    right: 75px;
   	list-style-type: none;
  	overflow: hidden;
 }
@@ -170,11 +170,9 @@ input[type=number]::-webkit-outer-spin-button
   	border-radius: 11px;
     transition: background 0.3s;
 }
-.nav-bar .menu li:hover  {
-    text-shadow: 0 2px 5px #333333;
-}	
-.nav-bar .menu li .active  {
-  	text-shadow: 0 2px 5px #333333;
+.nav-bar .menu li:hover, .nav-bar .menu li .active  {
+    border-radius: 11px;
+    background-color:rgb(8, 121, 136);
 }
 
 @media screen and (max-width: 960px) {
