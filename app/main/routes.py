@@ -5,10 +5,10 @@ from flask import redirect, url_for, render_template, flash, current_app
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 
-from .forms import ContactUsForm, CareersForm, NewAssignmentForm
-from ..email import send_email
+from .forms import ContactUsForm, CareersForm
+from app.email import send_email
 from . import main
-from ..modules.db.classes import Message, Application, Assignment, User, Student, Parent, Admin, Teacher
+from app.modules._classes import Message, Application, Assignment, User
 from app import db
 from app.decorators import required_access
 
@@ -97,39 +97,28 @@ def careers():
 @main.route('/dashboard')
 @login_required
 def dashboard():
-    curr_user = eval(current_user.USERTYPE.capitalize()).get_by_id(current_user.ID)
-
-    if curr_user.USERTYPE == 'Student':
-        return render_template('dashboard.html', assignments=curr_user.get_assignments())
+    if current_user.USERTYPE == 'Student':
+        return redirect(url_for('student.index'))
+    elif current_user.USERTYPE == 'Parent':
+        return redirect(url_for('parent.index'))
+    elif current_user.USERTYPE == 'Teacher':
+        return redirect(url_for('teacher.index'))
+    elif current_user.USERTYPE == 'Admin':
+        return redirect(url_for('admin.index'))
     else:
-        return render_template('dashboard.html')
-
-
-@main.route('/teacher/add_assignment', methods=['GET', 'POST'])
-@login_required
-@required_access(['Admin'])
-def add_assignment():
-    form = NewAssignmentForm()
-
-    if form.validate_on_submit():
-        new_assignment = Assignment(date_assigned=datetime.utcnow(),
-                                    assigned_by=current_user.ID,
-                                    assigned_to=form.assigned_to.data,
-                                    due_by=form.due_by.data,
-                                    subject=form.subject.data,
-                                    content=form.content.data,
-                                    estimated_time=form.estimated_time.data
-                                    )
-
-        if new_assignment.add():
-            return(redirect(url_for('main.dashboard')))
-        else:
-            flash('Unknown error!.')
-
-    return render_template('add_assignment.html', form=form)
+        return redirect(url_for('main.index'))
 
 
 @main.route('/profile')
 @login_required
 def profile():
-    return render_template('profile.html')
+    if current_user.USERTYPE == 'Student':
+        return redirect(url_for('student.profile'))
+    elif current_user.USERTYPE == 'Parent':
+        return redirect(url_for('parent.profile'))
+    elif current_user.USERTYPE == 'Teacher':
+        return redirect(url_for('teacher.profile'))
+    elif current_user.USERTYPE == 'Admin':
+        return redirect(url_for('admin.profile'))
+    else:
+        return redirect(url_for('main.index'))
