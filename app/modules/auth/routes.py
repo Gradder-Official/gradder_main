@@ -5,7 +5,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from app import db, login_manager
 from . import auth
 from .forms import LoginForm, RegistrationForm, PasswordChangeForm, SecretQuestionChangeForm
-from app.modules.db.classes import Admin, Teacher, Student, Parent, User
+from app.modules._classes import Admin, Teacher, Student, Parent, User
 from app.loggers import logger, log
 
 @login_manager.user_loader

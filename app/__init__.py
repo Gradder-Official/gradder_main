@@ -42,6 +42,18 @@ def create_app(config_name):
         app.register_blueprint(main_blueprint)
 
         from .modules.auth import auth as auth_blueprint
-        app.register_blueprint(auth_blueprint, url_prefix='/auth')
+        app.register_blueprint(auth_blueprint)
+
+        from .modules.student import student as student_blueprint
+        app.register_blueprint(student_blueprint)
+
+        from .modules.parent import parent as parent_blueprint
+        app.register_blueprint(parent_blueprint)
+
+        from .modules.admin import admin as admin_blueprint
+        app.register_blueprint(admin_blueprint)
+
+        from .modules.teacher import teacher as teacher_blueprint
+        app.register_blueprint(teacher_blueprint)
 
         return app
