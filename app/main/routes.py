@@ -10,7 +10,7 @@ from ..email import send_email
 from . import main
 from ..modules.db.classes import Message, Application, Assignment, User, Student, Parent, Admin, Teacher
 from app import db
-from .decorators import required_access
+from app.decorators import required_access
 
 
 @main.route('/')
@@ -42,6 +42,7 @@ def contact():
                 message.add()
 
             except BaseException as e:
+
                 print(e)
                 # flash('Error while sending the message. Please try again')
         else:
@@ -106,7 +107,7 @@ def dashboard():
 
 @main.route('/teacher/add_assignment', methods=['GET', 'POST'])
 @login_required
-@required_access(['ADMIN'])
+@required_access(['Admin'])
 def add_assignment():
     form = NewAssignmentForm()
 
