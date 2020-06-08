@@ -19,3 +19,4 @@ venv
 .idea
 
 gradder_cred.json
+app/logs/user_actions.log
