@@ -4,7 +4,7 @@ from flask_login import current_user
 
 from . import teacher
 
-from .teacher import Teacher
+from ._teacher import Teacher
 from .forms import NewAssignmentForm
 
 from app.decorators import required_access
