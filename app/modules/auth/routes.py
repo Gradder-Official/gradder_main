@@ -1,3 +1,4 @@
+import logging
 from flask import render_template, redirect, request, url_for, flash, current_app
 from flask_login import login_user, logout_user, login_required, current_user
 
@@ -5,7 +6,7 @@ from app import db, login_manager
 from . import auth
 from .forms import LoginForm, RegistrationForm, PasswordChangeForm, SecretQuestionChangeForm
 from app.modules.db.classes import Admin, Teacher, Student, Parent, User
-
+from app.loggers import logger, log
 
 @login_manager.user_loader
 def load_user(id: str):
@@ -25,6 +26,7 @@ def login():
         user = eval(user['usertype'].capitalize()).from_dict(user)
         if user is not None and user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
+            logger.info("LOGGED IN: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
             next = request.args.get('next')
             if next is None or not next.startswith('/'):
                 next = url_for('main.dashboard')
@@ -55,8 +57,10 @@ def register():
 
         if user.add():
             db.delete_auth_token(form.auth_token.data)
+            logger.info("NEW USER: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
             return redirect(url_for('auth.login'))
         else:
+            logger.error("Unknown error while registering: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
             flash('Unknown error while registering.')
 
     return render_template('auth/register.html', form=form)
