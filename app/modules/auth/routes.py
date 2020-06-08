@@ -3,9 +3,17 @@ from flask import render_template, redirect, request, url_for, flash, current_ap
 from flask_login import login_user, logout_user, login_required, current_user
 
 from app import db, login_manager
+
 from . import auth
+
 from .forms import LoginForm, RegistrationForm, PasswordChangeForm, SecretQuestionChangeForm
-from app.modules._classes import Admin, Teacher, Student, Parent, User
+
+from app.modules._classes import User
+from app.modules.teacher._teacher import Teacher
+from app.modules.student._student import Student
+from app.modules.admin._admin import Admin
+from app.modules.parent._parent import Parent
+
 from app.loggers import logger, log
 
 @login_manager.user_loader
