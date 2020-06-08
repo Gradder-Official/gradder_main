@@ -1,2 +1,2 @@
 from . import parent
-from .parent import Parent
+from ._parent import Parent

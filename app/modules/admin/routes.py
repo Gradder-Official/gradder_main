@@ -1,2 +1,2 @@
 from . import admin
-from .admin import Admin
+from ._admin import Admin
