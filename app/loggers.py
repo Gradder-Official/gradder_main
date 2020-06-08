@@ -2,7 +2,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
-file_handler = logging.FileHandler('./app/logs/user_actions.log')
+file_handler = logging.FileHandler('./app/logs/user_actions.log', mode='a+')
 logger.addHandler(file_handler)
 
 log = logging.getLogger('werkzeug')
