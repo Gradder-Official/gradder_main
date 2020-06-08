@@ -37,10 +37,11 @@ def create_app(config_name):
     # cred = credentials.Certificate(app.config["FIREBASE_CERTIFICATE"])
     # firebase_admin.initialize_app(cred)
 
-    from .main import main as main_blueprint
-    app.register_blueprint(main_blueprint)
+    with app.app_context():
+        from .main import main as main_blueprint
+        app.register_blueprint(main_blueprint)
 
-    from .modules.auth import auth as auth_blueprint
-    app.register_blueprint(auth_blueprint, url_prefix='/auth')
+        from .modules.auth import auth as auth_blueprint
+        app.register_blueprint(auth_blueprint, url_prefix='/auth')
 
-    return app
+        return app
