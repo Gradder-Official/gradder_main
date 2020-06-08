@@ -9,23 +9,6 @@
 	position: relative;
 	border-radius: 40px 40px 0 0;
 }
-/* Cloud behind navbar menu */
-.new-landing .navbar-background {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-    width: 100vw;
-    z-index: 50;
-}
-.new-landing .navbar-background .navcloud {
-    height: 100%;
-    width: 100vw;
-	background-size: contain;
-	background-position: top right;
-    background-repeat: no-repeat;
-    background-image: url('../images/navcloud.png');
-}
 /* Left text panel */
 .new-landing .left-container {
     float: left;
@@ -86,12 +69,12 @@
 .new-landing .hero-text .button:hover {
 	transform: translate(0px, -5px);
     box-shadow: 7px 6px 26px rgba(0, 0, 0, 0.2);
-    background: rgb(108,204,230);
+    background: rgb(98, 184, 208);
 }
 .new-landing .hero-text .button:active {
 	transform: translate(0px, 0px);
     box-shadow: 7px 6px 26px rgba(0, 0, 0, 0.1);
-    background: rgb(108,204,230);
+    background: rgb(98, 184, 208);
 }	
 /* Right image panel */
 .new-landing .right-container {
@@ -108,6 +91,18 @@
 	background-position: top right;
     background-repeat: no-repeat;
     z-index: 0;
+    opacity: 0;
+    transition: 2s opacity;
+}
+.new-landing .right-container .hero-image-active {
+    height: 100%;
+    width: 100vw;
+	background-size: contain;
+	background-position: top right;
+    background-repeat: no-repeat;
+    z-index: 0;
+    opacity: 1;
+    transition: 2s opacity;
 }
 #slide1 {
     background-image: url('../images/Right Image.png');
@@ -118,6 +113,53 @@
 #slide3 {
     background-image: url('../images/Right Image 3.png');
 }
+@keyframes slide-in-bottom {
+  0% {
+    -webkit-transform: translateY(1000px);
+            transform: translateY(1000px);
+    opacity: 0;
+  }
+  40% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    opacity: 1;
+  }
+  99% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.book {
+    background-image: url('../images/book.png');
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100vw;
+	background-size: contain;
+	background-position: top right;
+    background-repeat: no-repeat;
+    opacity: 1;
+    -webkit-animation: slide-in-bottom 0.8s ease-out both;
+	animation: slide-in-bottom 5s ease-out both;
+}
+.blob-backgrounds {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100vw;
+	background-size: contain;
+	background-position: top right;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    z-index: 0;
+    opacity: 0;
+}
+.blob-backgrounds svg {
+    position: absolute;
+    right: 0;
+    width: 1440px;
+    z-index: 0;
+}
 .new-landing .right-container .hero-image p {
 	color: white;
 	margin-top: 80px;
@@ -126,11 +168,47 @@
 	font-size: 23px;
 	display: none;
 }
+/* Zoom book */
+.zoomBox {
+    position: absolute;
+    height: 100%;
+    width: 100vw;
+	background-size: contain;
+	background-position: top right;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    z-index: 0;
+}
+@keyframes fadeIn {
+  0%, 90% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+#startZoom {
+    position: absolute;
+    right: 40vw;
+    top: 99vh;
+    animation: 2s fadeIn ease;
+}
 /* Carousel controls */
 .carousel-indicators {
+    position: absolute;
+    right: 0;
     bottom: 18vh;
+    left: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: flex-start;
+    padding-left: 0;
+    margin-right: 15%;
     margin-left: 18%;
+    list-style: none;
     z-index: 100;
 }
 .carousel-indicators li {
@@ -144,17 +222,12 @@
     cursor: pointer;
     background-color: rgb(108,204,230);
 }
-.carousel-item {
+.carousel-item, .zoomAnimation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
     height: 100vh;
-}
-/* Carousel animations */
-@keyframes activeSlide {
-    0%, 100% { opacity: 0; transform: translate(50em, 0em) }
-    20%, 80% { opacity: 1; transform: translate(0, 0) }
-}
-.active .hero-image {
-    animation: activeSlide 10s ease;
-    animation-fill-mode: forwards;
 }
 /* Responsive */
 @media screen and (max-width: 1640px) {
@@ -182,6 +255,17 @@
         position: fixed;
         left: 0;
         width: 1240px;
+    }
+    .new-landing .right-container .hero-image-active {
+        position: fixed;
+        left: 0;
+        width: 1240px;
+    }
+    .blob-backgrounds svg {
+        position: relative;
+        right: 200px;
+        width: 1460px;
+        height: 100vh;
     }
     .new-landing .navbar-background .navcloud {
         position: absolute;
