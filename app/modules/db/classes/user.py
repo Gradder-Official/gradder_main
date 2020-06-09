@@ -1,7 +1,7 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from re import match
 from flask_login import UserMixin
-
+from app.logs.user_logger import user_logger
 from app import db
 
 
@@ -147,7 +147,7 @@ class User(UserMixin):
                 f'db.collection_{self.USERTYPE.lower() + "s"}.document(self.ID).set(self.to_dict())')
             return True
         except BaseException as e:
-            print(e)
+            user_logger.exception("Failed adding")
             return False
 
     def remove(self):
@@ -158,7 +158,7 @@ class User(UserMixin):
 
             return True
         except BaseException as e:
-            print(e)
+            user_logger.exception("Failed removing")
             return False
 
     def get_id(self):

@@ -11,7 +11,7 @@ from . import main
 from ..modules.db.classes import Message, Application, Assignment, User, Student, Parent, Admin, Teacher
 from app import db
 from app.decorators import required_access
-
+from app.logs.form_logger import form_logger
 
 @main.route('/')
 @main.route('/index')
@@ -42,8 +42,7 @@ def contact():
                 message.add()
 
             except BaseException as e:
-
-                print(e)
+                form_logger.exception("Email did not send")
                 # flash('Error while sending the message. Please try again')
         else:
             pass
@@ -56,12 +55,12 @@ def contact():
 def careers():
     form = CareersForm()
 
-    print("Form created")
+    form_logger.info("Form created")
 
     if form.validate_on_submit():
         f = form.resume.data
         if f is not None:
-            print('File received')
+            form_logger.info("Form recieved")
             resume_filename = f.filename
             resume_content = f.read()
 
@@ -69,17 +68,17 @@ def careers():
         new_id = str(int(old_id.get().to_dict()["id"]) + 1)
 
         try:
-            print("Try in")
+            form_logger.debug("Try entered")
             send_email(to=form.email.data.lower(), subject=f'We received your application!',
                        template='mail/careers_email_user', first_name=form.first_name.data, job=form.job.data, files=[(resume_filename, resume_content)] if f is not None else [], comments=form.comments.data)
 
-            print("Email sent")
+            form_logger.info("Email sent")
 
             send_email(to="team@gradder.io", subject=f'Application #{new_id} | {form.job.data}',
                        template='mail/careers_email_admin', first_name=form.first_name.data,
                        last_name=form.last_name.data, job=form.job.data, email=form.email.data.lower(), ID=new_id, files=[(resume_filename, resume_content)] if f is not None else [], comments=form.comments.data)
 
-            print("Email sent")
+            form_logger.info("Email sent")
 
             old_id.set({'id': new_id})
 
@@ -88,7 +87,7 @@ def careers():
             return redirect(url_for('main.index'))
 
         except BaseException as e:
-            print(e)
+            form_logger.exception("Email did not send")
             # flash('Error while sending the application. Please try again')
 
     return render_template('careers.html', form=form)
