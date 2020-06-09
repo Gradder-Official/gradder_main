@@ -1,5 +1,5 @@
 from datetime import time, datetime
-
+from app.logs.user_logger import user_logger
 from app import db
 
 
@@ -75,7 +75,7 @@ class Assignment:
 
             return True
         except BaseException as e:
-            print(e)
+            user_logger.exception("Failed adding")
             return False
 
     @staticmethod
