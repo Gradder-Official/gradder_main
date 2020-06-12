@@ -7,7 +7,6 @@
 	background: #fff;
 	color: #212121;
 	position: relative;
-	border-radius: 40px 40px 0 0;
 }
 /* Left text panel */
 .new-landing .left-container {
@@ -48,6 +47,12 @@
     transition: font-size 0.25s ease;
     z-index: 100;
 }
+/* Contribute button */
+#contribute-button {
+    width: 13vw;
+    text-decoration: none;
+    cursor: default;
+}
 .new-landing .hero-text .button {
 	margin-top: 10%;
 	cursor: pointer;
@@ -76,140 +81,16 @@
     box-shadow: 7px 6px 26px rgba(0, 0, 0, 0.1);
     background: rgb(98, 184, 208);
 }	
-/* Right image panel */
-.new-landing .right-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100vw;
-}
-.new-landing .right-container .hero-image {
-    height: 100%;
-    width: 100vw;
-	background-size: contain;
-	background-position: top right;
-    background-repeat: no-repeat;
-    z-index: 0;
-    opacity: 0;
-    transition: 2s opacity;
-}
-.new-landing .right-container .hero-image-active {
-    height: 100%;
-    width: 100vw;
-	background-size: contain;
-	background-position: top right;
-    background-repeat: no-repeat;
-    z-index: 0;
-    opacity: 1;
-    transition: 2s opacity;
-}
-#slide1 {
-    background-image: url('../images/Right Image.png');
-}
-#slide2 {
-    background-image: url('../images/Right Image 2.png');
-}
-#slide3 {
-    background-image: url('../images/Right Image 3.png');
-}
-@keyframes slide-in-bottom {
-  0% {
-    -webkit-transform: translateY(1000px);
-            transform: translateY(1000px);
-    opacity: 0;
-  }
-  40% {
-    -webkit-transform: translateY(0);
-            transform: translateY(0);
-    opacity: 1;
-  }
-  99% { opacity: 1; }
-  100% { opacity: 0; }
-}
-.book {
-    background-image: url('../images/book.png');
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100vw;
-	background-size: contain;
-	background-position: top right;
-    background-repeat: no-repeat;
-    opacity: 1;
-    -webkit-animation: slide-in-bottom 0.8s ease-out both;
-	animation: slide-in-bottom 5s ease-out both;
-}
-.blob-backgrounds {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-    width: 100vw;
-	background-size: contain;
-	background-position: top right;
-    background-repeat: no-repeat;
-    overflow: hidden;
-    z-index: 0;
-    opacity: 0;
-}
-.blob-backgrounds svg {
-    position: absolute;
-    right: 0;
-    width: 1440px;
-    z-index: 0;
-}
-.new-landing .right-container .hero-image p {
-	color: white;
-	margin-top: 80px;
-	font-family: 'SF UI Text', sans-serif;
-	font-weight: 600;
-	font-size: 23px;
-	display: none;
-}
-/* Zoom book */
-.zoomBox {
-    position: absolute;
-    height: 100%;
-    width: 100vw;
-	background-size: contain;
-	background-position: top right;
-    background-repeat: no-repeat;
-    overflow: hidden;
-    z-index: 0;
-}
-@keyframes fadeIn {
-  0%, 90% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-#startZoom {
-    position: absolute;
-    right: 40vw;
-    top: 99vh;
-    animation: 2s fadeIn ease;
-}
 /* Carousel controls */
 .carousel-indicators {
-    position: absolute;
-    right: 0;
-    bottom: 18vh;
-    left: 0;
-    display: -webkit-box;
-    display: -ms-flexbox;
+    position: relative;
+    top: 7vh;
     display: flex;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
     justify-content: flex-start;
-    padding-left: 0;
-    margin-right: 15%;
     margin-left: 18%;
     list-style: none;
     z-index: 100;
+    animation: 8s fadeIn ease;
 }
 .carousel-indicators li {
     width: 15px;
@@ -220,16 +101,141 @@
 }
 .carousel-indicators .active, .carousel-indicators li:hover {
     cursor: pointer;
-    background-color: rgb(108,204,230);
+    background: rgb(108,204,230);
+    transition: background 0.5s ease-in-out;
 }
-.carousel-item, .zoomAnimation {
+/* Right image panel */
+.new-landing .right-container {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    height: 100%;
+    width: 100%;
 }
+.new-landing .right-container .hero-image p {
+	color: white;
+	margin-top: 80px;
+	font-family: 'SF UI Text', sans-serif;
+	font-weight: 600;
+	font-size: 23px;
+	display: none;
+}
+.carousel-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.new-landing .right-container .hero-image {
+    height: 98%;
+    width: 100%;
+	background-size: contain;
+	background-position: top right;
+    background-repeat: no-repeat;
+    z-index: 0;
+    opacity: 0;
+    transition: 2s opacity;
+}
+.new-landing .right-container .hero-image-active {
+    height: 98%;
+    width: 100%;
+	background-size: contain;
+	background-position: top right;
+    background-repeat: no-repeat;
+    z-index: 0;
+    transition: 3s opacity;
+}
+#slide1 {
+    background-image: url('../images/Right Image.png');
+    height: 98%;
+}
+#slide2 {
+    background-image: url('../images/Right Image 2.png');
+}
+#slide3 {
+    background-image: url('../images/Right Image 3.png');
+}
+/* Starting animation */
+@keyframes slide-in-bottom {
+  0% {
+    -webkit-transform: translateY(1000px);
+            transform: translateY(1000px);
+    opacity: 0;
+  }
+  20% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    opacity: 1;
+  }
+  95% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes fadeIn {
+  0%, 95% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.zoom-box {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+#zoom {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    z-index: -10;
+}
+.book {
+    background-image: url('../images/book.png');
+    height: 98%;
+    width: 100%;
+	background-size: contain;
+	background-position: top right;
+    background-repeat: no-repeat;
+    animation: slide-in-bottom 10s ease-out both;
+}
+#startZoom {
+    animation: 2s fadeIn ease;
+}
+/* Morphing blobs */
+.blob-backgrounds {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    z-index: 0;
+    opacity: 0;
+    transition: 2s opacity;
+}
+.blob-backgrounds svg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    z-index: 0;
+}
+
 /* Responsive */
+@media screen and (max-height: 600px) {
+    .blob-backgrounds, .zoom-box {
+        min-height: 649px;
+    }
+    #slide1, #slide2, #slide3 {
+        min-height: 636px;
+    }
+}
 @media screen and (max-width: 1640px) {
 	.new-landing .left-container .hero-text {
 		width: 455px;
@@ -250,29 +256,28 @@
 	}
 	.new-landing .left-container .hero-text h3 {
 		font-size: 18px;
-    }	
-    .new-landing .right-container .hero-image {
+    }
+    .new-landing .right-container .hero-image, .new-landing .right-container .hero-image-active {
         position: fixed;
         left: 0;
         width: 1240px;
     }
-    .new-landing .right-container .hero-image-active {
+    .blob-backgrounds {
         position: fixed;
         left: 0;
         width: 1240px;
     }
-    .blob-backgrounds svg {
-        position: relative;
-        right: 200px;
-        width: 1460px;
-        height: 100vh;
-    }
-    .new-landing .navbar-background .navcloud {
-        position: absolute;
-        right: 0px;
+    .zoom-box {
+        position: fixed;
+        left: 0;
         width: 1240px;
     }
-}
+    .book {
+        width: 1240px;
+    }
+
+/* TODO: MOBILE VIEW
+
 @media screen and (max-width: 960px) {
 	.new-landing {
 		flex-direction: column;
@@ -364,3 +369,4 @@
 		margin-top: 70px;
 	}
 }	
+*/
