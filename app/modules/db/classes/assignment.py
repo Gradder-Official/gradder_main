@@ -4,7 +4,7 @@ from app import db
 
 
 class Assignment:
-    def __init__(self, date_assigned: time, assigned_by: int, assigned_to: str, due_by: datetime, subject: str, content: str, estimated_time: int, ID: str = None):
+    def __init__(self, date_assigned: time, assigned_by: int, assigned_to: str, due_by: datetime, subject: str, content: str, file_link: str, estimated_time: int, ID: str = None):
         r"""Initializes the Assignment object
 
         Parameters
@@ -32,6 +32,7 @@ class Assignment:
         self.due_by = due_by
         self.subject = subject
         self.content = content
+        self.file_link = file_link
         self.estimated_time = estimated_time
 
         self.ID = ID if ID is not None else Assignment.new_id(str(assigned_to))
@@ -44,6 +45,7 @@ class Assignment:
             'due_by': str(self.due_by),
             'subject': str(self.subject),
             'content': str(self.content),
+            'file': str(self.file_link),
             'estimated_time': str(self.estimated_time),
             'ID': str(self.ID)
         }
