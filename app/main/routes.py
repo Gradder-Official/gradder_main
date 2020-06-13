@@ -16,7 +16,7 @@ from app.decorators import required_access
 @main.route('/')
 @main.route('/index')
 def index():
-    return render_template('index.html')
+    return render_template('main/index.html')
 
 
 @main.route('/contact', methods=['GET', 'POST'])
@@ -50,14 +50,12 @@ def contact():
             pass
             # flash('Not valid input')
 
-    return render_template('contact.html', form=form)
+    return render_template('main/contact.html', form=form)
 
 
 @main.route('/careers', methods=['GET', 'POST'])
 def careers():
     form = CareersForm()
-
-    print("Form created")
 
     if form.validate_on_submit():
         f = form.resume.data
@@ -70,29 +68,21 @@ def careers():
         new_id = str(int(old_id.get().to_dict()["id"]) + 1)
 
         try:
-            print("Try in")
             send_email(to=form.email.data.lower(), subject=f'We received your application!',
                        template='mail/careers_email_user', first_name=form.first_name.data, job=form.job.data, files=[(resume_filename, resume_content)] if f is not None else [], comments=form.comments.data)
-
-            print("Email sent")
 
             send_email(to="team@gradder.io", subject=f'Application #{new_id} | {form.job.data}',
                        template='mail/careers_email_admin', first_name=form.first_name.data,
                        last_name=form.last_name.data, job=form.job.data, email=form.email.data.lower(), ID=new_id, files=[(resume_filename, resume_content)] if f is not None else [], comments=form.comments.data)
 
-            print("Email sent")
-
             old_id.set({'id': new_id})
-
-            # flash('Your application was received!')
 
             return redirect(url_for('main.index'))
 
         except BaseException as e:
             print(e)
-            # flash('Error while sending the application. Please try again')
 
-    return render_template('careers.html', form=form)
+    return render_template('main/careers.html', form=form)
 
 
 @main.route('/dashboard')

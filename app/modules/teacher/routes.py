@@ -22,12 +22,12 @@ def teacher_verification():
 @teacher.route('/index')
 @teacher.route('/dashboard')
 def index():
-    return render_template('dashboard.html')
+    return render_template('teacher/dashboard.html')
 
 
 @teacher.route('/profile')
 def profile():
-    return render_template('profile.html')
+    return render_template('teacher/profile.html')
 
 
 
@@ -50,4 +50,4 @@ def add_assignment():
         else:
             flash('Unknown error!.')
 
-    return render_template('add_assignment.html', form=form)
+    return render_template('teacher/add_assignment.html', form=form)

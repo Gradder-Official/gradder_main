@@ -1,4 +1,5 @@
-import logging
+from datetime import datetime 
+
 from flask import render_template, redirect, request, url_for, flash, current_app
 from flask_login import login_user, logout_user, login_required, current_user
 
@@ -34,7 +35,9 @@ def login():
         user = eval(user['usertype'].capitalize()).from_dict(user)
         if user is not None and user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
-            logger.info("LOGGED IN: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
+            
+            logger.info("{} LOGGED IN: {} {} {} - ACCESS: {}".format(datetime.utcnow(), user.first_name, user.last_name, user.email, user.USERTYPE))
+
             next = request.args.get('next')
             if next is None or not next.startswith('/'):
                 next = url_for('main.dashboard')
