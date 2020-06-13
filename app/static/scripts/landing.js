@@ -11,9 +11,13 @@ window.onload = function(){
    	}
 } 	
 
-/* Blob animations */
+/* Animation selectors */
 var svg = document.getElementById("slides");
 var s = Snap(svg);
+
+var blobBackgrounds = document.getElementById("blob-backgrounds")
+var startZoom = Snap.select('#startZoom');
+var startZoomBlob = document.getElementById("startZoom")
 
 var slide1Blob = Snap.select('#slide-1-blob');
 var slide2Blob = Snap.select('#slide-2-blob');
@@ -23,110 +27,86 @@ var slide1Points = slide1Blob.node.getAttribute('d');
 var slide2Points = slide2Blob.node.getAttribute('d');
 var slide3Points = slide3Blob.node.getAttribute('d');
 
-/* Book zoom animation */
-var blobBackgrounds = document.getElementById("blob-backgrounds")
-var startZoom = Snap.select('#startZoom');
-var startZoomBlob = document.getElementById("startZoom")
-
-function changeAnimationOpacity() {
-    startZoomBlob.style.opacity = 0;
-    blobBackgrounds.style.opacity = 1; 
-}
-
-setTimeout(() => {
-    startZoom.animate({ d: slide1Points }, 1500, mina.backout);
-}, 2500);
-setTimeout(() => { changeAnimationOpacity() }, 3000);
-
-/* Indicators */
 var indicator1 = document.getElementById("indicator1")
 var indicator2 = document.getElementById("indicator2")
 var indicator3 = document.getElementById("indicator3")
 
-function activateOne() {
-    indicator1.className = "active";
-    indicator2.className = "";
-    indicator3.className = "";
-}
-
-function activateTwo() {
-    indicator1.className = "";
-    indicator2.className = "active";
-    indicator3.className = "";
-}
-
-function activateThree() {
-    indicator1.className = "";
-    indicator2.className = "";
-    indicator3.className = "active";
-}
-
-/* Landing page images */
 var slide1Image = document.getElementById("slide1")
 var slide2Image = document.getElementById("slide2")
 var slide3Image = document.getElementById("slide3")
 var timeOut
 
-var toOne = function () {
-    slide2Image.className = "hero-image";
-    slide3Image.className = "hero-image";
-    setTimeout(() => {
-        slide1Blob.animate({ d: slide1Points }, 1500, mina.backout);
-        activateOne();
-    }, 1000);
-    setTimeout(() => {
-        slide1Image.className = "hero-image-active";
-    }, 2000);
-    timeOut = setTimeout(() => { toTwo() }, 5000);
+/* Animation template functions */
+function changeIndicator(activeIndicator) {
+    slide1Image.style.opacity = slide2Image.style.opacity = slide3Image.style.opacity = 0;
+    slide1Image.className = slide2Image.className = slide3Image.className = "hero-image";
+    indicator1.className = indicator2.className = indicator3.className = "";
+    activeIndicator.className = "active";
 }
 
-var toTwo = function () {
-    slide1Image.className = "hero-image";
-    slide3Image.className = "hero-image";
+function changeBlobShape(finalBlobPoints, finalBlobImage, activateIndicator) {
+    slide1Image.className = slide2Image.className = slide3Image.className = "hero-image";
     setTimeout(() => {
-        slide1Blob.animate({ d: slide2Points }, 1500, mina.backout);
-        activateTwo();
-    }, 1000);
-    setTimeout(() => { 
-        slide2Image.className = "hero-image-active";
-    }, 2000);
-    timeOut = setTimeout(() => { toThree() }, 5000);
-}
-
-var toThree = function () {
-    slide1Image.className = "hero-image";
-    slide2Image.className = "hero-image";
-    setTimeout(() => {
-        slide1Blob.animate({ d: slide3Points }, 1500, mina.backout);
-        activateThree();
+        slide1Image.style.opacity = slide2Image.style.opacity = slide3Image.style.opacity = 0;
+        slide1Blob.animate({ d: finalBlobPoints }, 2000, mina.backout);
+        activateIndicator;
     }, 1000);
     setTimeout(() => {
-        slide3Image.className = "hero-image-active";
-    }, 2000);
-    timeOut = setTimeout(() => { toOne() }, 5000);
+        finalBlobImage.className = "hero-image-active";
+        finalBlobImage.style.opacity = 1;
+    }, 3500);
 }
 
-setTimeout(() => { toOne() }, 1500);
+/* Change blobs and images for slides */
+function toOne () {
+    changeBlobShape(slide1Points, slide1Image, changeIndicator(indicator1));
+    timeOut = setTimeout(() => { toTwo() }, 10000);
+}
 
-/* Changing slides manually */
+function toTwo() {
+    changeBlobShape(slide2Points, slide2Image, changeIndicator(indicator2));
+    timeOut = setTimeout(() => { toThree() }, 10000);
+}
 
+function toThree() {
+    changeBlobShape(slide3Points, slide3Image, changeIndicator(indicator3));
+    timeOut = setTimeout(() => { toOne() }, 10000);
+}
+
+/* Starting animation with book */
+function dotToSlideOne() {
+    slide1Image.className = slide2Image.className = slide3Image.className = "hero-image";
+    setTimeout(() => {
+        startZoom.animate({ d: slide1Points }, 2500, mina.backout);
+    }, 1000);
+    setTimeout(() => {
+        startZoomBlob.style.opacity = 0;
+        blobBackgrounds.style.opacity = 1;
+    }, 5500);
+    toOne();
+}
+
+/* Trigger animations */
+setTimeout(() => { dotToSlideOne() }, 1500);
+
+/* Clicking indicators to change slides instantly */
 indicator1.onclick = function () {
-    clearTimeout(timeOut)
-    activateOne();
+    clearTimeout(timeOut);
+    changeIndicator(indicator1);
     toOne();
 }
 indicator2.onclick = function () {
-    clearTimeout(timeOut)
-    activateTwo();
+    clearTimeout(timeOut);
+    changeIndicator(indicator2);
     toTwo();
 }
 indicator3.onclick = function () {
-    clearTimeout(timeOut)
-    activateThree();
+    clearTimeout(timeOut);
+    changeIndicator(indicator3);
     toThree();
 }
 
-/* Показать текст */
+/* Показать текст
 document.getElementsByClassName('custom-options')[0].addEventListener('click', function() {
 	document.getElementById('problem').style.opacity = "1";
 	document.getElementById('problem').style.pointerEvents = "auto";
@@ -157,7 +137,7 @@ function showText(text){
 	}
 }
 
-/* Открыть ссылки */
+/* Открыть ссылки
 function linkOpen(url, type) {
 	if (type == 'blank') {
   		window.open(url); // в новой вкладке
@@ -174,4 +154,4 @@ function outsideOnclick() {
       document.getElementsByClassName('custom-options')[0].style.opacity = "0";
       langAppear('none', 70);
    }
-}
+} */
