@@ -16,9 +16,9 @@ def admin_verification():
 @admin.route('/index')
 @admin.route('/dashboard')
 def index():
-    return render_template('dashboard.html')
+    return render_template('admin/dashboard.html')
 
 
 @admin.route('/profile')
 def profile():
-    return render_template('profile.html')
+    return render_template('admin/profile.html')

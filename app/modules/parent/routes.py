@@ -16,9 +16,9 @@ def parent_verification():
 @parent.route('/index')
 @parent.route('/dashboard')
 def index():
-    return render_template('dashboard.html')
+    return render_template('parent/dashboard.html')
 
 
 @parent.route('/profile')
 def profile():
-    return render_template('profile.html')
+    return render_template('parent/profile.html')

@@ -17,8 +17,8 @@ def student_verification():
 @student.route('/index')
 @student.route('/dashboard')
 def index():
-    return render_template('dashboard.html', assignments=current_user.get_assignments())
+    return render_template('student/dashboard.html', assignments=current_user.get_assignments())
 
 @student.route('/profile')
 def profile():
-    return render_template('profile.html')
+    return render_template('student/profile.html')
