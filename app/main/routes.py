@@ -13,6 +13,8 @@ from app import db
 from app.decorators import required_access
 from app.logs.form_logger import form_logger
 
+from google.cloud import storage
+
 @main.route('/')
 @main.route('/index')
 def index():
@@ -106,24 +108,22 @@ def dashboard():
 
 @main.route('/teacher/add_assignment', methods=['GET', 'POST'])
 @login_required
-@required_access(['Admin'])
 def add_assignment():
     form = NewAssignmentForm()
 
     if form.validate_on_submit():
+        blob = upload_blob('gradder-storage', form.file.data.filename, form.file.data)
+        flash('Assignment created!')
         new_assignment = Assignment(date_assigned=datetime.utcnow(),
                                     assigned_by=current_user.ID,
                                     assigned_to=form.assigned_to.data,
                                     due_by=form.due_by.data,
                                     subject=form.subject.data,
                                     content=form.content.data,
+                                    file_link=blob.media_link,
                                     estimated_time=form.estimated_time.data
                                     )
-
-        if new_assignment.add():
-            return(redirect(url_for('main.dashboard')))
-        else:
-            flash('Unknown error!.')
+        new_assignment.add()
 
     return render_template('add_assignment.html', form=form)
 
@@ -132,3 +132,11 @@ def add_assignment():
 @login_required
 def profile():
     return render_template('profile.html')
+
+def upload_blob(bucket_name, filename, file_obj):
+    storage_client = storage.Client()
+    bucket = storage_client.bucket('gradder-storage')
+    blob = bucket.blob(filename)
+    blob.upload_from_file(file_obj)
+    form_logger.info('File {} uploaded'.format(filename))
+    return blob
