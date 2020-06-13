@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import redirect, url_for, flash, render_template
+from flask import redirect, url_for, flash, render_template, request
 from flask_login import current_user
 
 from . import teacher
@@ -15,7 +15,20 @@ from app.modules._classes import Assignment
 @required_access('Teacher')
 def teacher_verification():
     # Required_access decorator already handled it
-    return True
+    pass
+
+
+@teacher.route('/')
+@teacher.route('/index')
+@teacher.route('/dashboard')
+def index():
+    return render_template('dashboard.html')
+
+
+@teacher.route('/profile')
+def profile():
+    return render_template('profile.html')
+
 
 
 @teacher.route('/add_assignment', methods=['GET', 'POST'])

@@ -38,7 +38,8 @@ def contact():
 
                 msg_id.set({'id': new_id})
 
-                message = Message(email=form.email.data.lower(), subject=form.subject.data, first_name=form.first_name.data, last_name=form.last_name.data, message=form.message.data, ID=new_id)
+                message = Message(email=form.email.data.lower(), subject=form.subject.data,
+                                  first_name=form.first_name.data, last_name=form.last_name.data, message=form.message.data, ID=new_id)
                 message.add()
 
             except BaseException as e:

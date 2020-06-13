@@ -1,0 +1,19 @@
+{% extends "_dashboard.html" %}
+
+{% block content %}
+<div class="jumbotron container student-grades">
+    Here will be your grades!
+</div>
+<div class="jumbotron container student-homework">
+    Here are your all assignments:
+    {% for assgn in assignments %}
+    {{ macros.assignment(assgn) }}
+    {% endfor %}
+</div>
+<div class="jumbotron container student-schedule">
+    Here will be your schedule
+</div>
+<div class="jumbotron container student-statistics">
+    Here will be your statistics
+</div>
+{% endblock %}
