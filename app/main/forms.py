@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm, RecaptchaField
 from flask_wtf.file import FileField, FileRequired, FileAllowed
-from wtforms import DateTimeField, IntegerField, StringField, TextAreaField, SubmitField, SelectField
+from wtforms import DateTimeField, IntegerField, StringField, TextAreaField, SubmitField, SelectField, MultipleFileField
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 
@@ -65,6 +65,6 @@ class NewAssignmentForm(FlaskForm):
     subject = StringField('Your subject', validators=[DataRequired()])
     estimated_time = StringField('Estimated time in minutes', validators=[DataRequired()])
     content = TextAreaField('The assignment', validators=[DataRequired()])
-    file = FileField('File upload', validators=[FileAllowed(
+    file = MultipleFileField('File upload', validators=[FileAllowed(
         ['pdf', 'docx'], 'Only PDF or .docx formats allowed.')])
     submit = SubmitField('Submit')
