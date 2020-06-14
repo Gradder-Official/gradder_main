@@ -112,18 +112,22 @@ def add_assignment():
     form = NewAssignmentForm()
 
     if form.validate_on_submit():
-        blob = upload_blob('gradder-storage', form.file.data.filename, form.file.data)
-        flash('Assignment created!')
+        file_link_list = []
+        for file in form.files.data:
+            blob = upload_blob('gradder-storage', file.filename, file)
+            file_link_list.append(blob.media_link)
+        
         new_assignment = Assignment(date_assigned=datetime.utcnow(),
                                     assigned_by=current_user.ID,
                                     assigned_to=form.assigned_to.data,
                                     due_by=form.due_by.data,
                                     subject=form.subject.data,
                                     content=form.content.data,
-                                    file_link=blob.media_link,
+                                    file_links=file_link_list,
                                     estimated_time=form.estimated_time.data
                                     )
         new_assignment.add()
+        flash('Assignment created!')
 
     return render_template('add_assignment.html', form=form)
 
