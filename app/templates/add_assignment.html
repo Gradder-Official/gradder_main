@@ -30,16 +30,5 @@
 </div>
 <div class="col-md-4">
     {{ wtf.quick_form(form) }}
-    <input id="fileInput" type="file" ng-file-select="onFileSelect($files)" multiple>
-    <button id="remove" class="btn-danger">Remove</button>
 </div>
-{% endblock %}
-
-{% block scripts %}
-    <script>
-        document.getElementById('remove').addEventListener('click', function () {
-            console.log("being called")
-            document.getElementById('fileInput').value = ''
-        });
-    </script>
 {% endblock %}

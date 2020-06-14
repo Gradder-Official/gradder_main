@@ -65,4 +65,6 @@ class NewAssignmentForm(FlaskForm):
     subject = StringField('Your subject', validators=[DataRequired()])
     estimated_time = StringField('Estimated time in minutes', validators=[DataRequired()])
     content = TextAreaField('The assignment', validators=[DataRequired()])
+    file = MultipleFileField('File upload', validators=[FileAllowed(
+        ['pdf', 'docx'], 'Only PDF or .docx formats allowed.')])
     submit = SubmitField('Submit')
