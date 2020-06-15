@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 
-from flask import redirect, url_for, render_template, flash, current_app
+from flask import redirect, url_for, render_template, flash, current_app, request
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 
@@ -110,10 +110,10 @@ def dashboard():
 @login_required
 def add_assignment():
     form = NewAssignmentForm()
-
     if form.validate_on_submit():
+        files = request.files.getlist(form.files.name)
         file_link_list = []
-        for file in form.files.data:
+        for file in files:
             blob = upload_blob('gradder-storage', file.filename, file)
             file_link_list.append(blob.media_link)
         
@@ -128,6 +128,7 @@ def add_assignment():
                                     )
         new_assignment.add()
         flash('Assignment created!')
+        return redirect(url_for('.dashboard'))
 
     return render_template('add_assignment.html', form=form)
 
@@ -138,6 +139,7 @@ def profile():
     return render_template('profile.html')
 
 def upload_blob(bucket_name, filename, file_obj):
+    print(file_obj)
     storage_client = storage.Client()
     bucket = storage_client.bucket('gradder-storage')
     blob = bucket.blob(filename)
