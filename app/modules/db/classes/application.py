@@ -1,4 +1,5 @@
 from app import db
+from app.logs.user_logger import user_logger
 
 
 class Application:
@@ -32,5 +33,5 @@ class Application:
             db.collection_applications.document(self.ID).set(self.to_dict())
             return True
         except BaseException as e:
-            print(e)
+            user_logger.exception("Failed adding")
             return False
