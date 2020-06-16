@@ -127,81 +127,114 @@ input[type=number]::-webkit-outer-spin-button
 	font-size: 14px;
 	padding: 14px;
 }
+
 /* Landing menu */
-.navbar {
+.nav-bar {
     position: absolute;
     width: 100vw;
     margin-top: 30px;
     display: flex;
   	z-index: 100;
 }
-.navbar .logo {
+.nav-bar .logo {
     display: flex;
 	cursor: pointer;
 	transition: all 0.2s ease;
 }
-.navbar .logo img {
+.nav-bar .logo img {
     margin-top: -30px;
-	height: 15vw;
-	width: 17vw;
+	height: 13vw;
+	width: 15vw;
 	transition: all 0.2s ease;
 }
-/*
-.navbar .logo p {
-	font-family: 'Gilroy', sans-serif;
-	font-size: 29px;
-	font-weight: 600;
-	color: #333333;
-	padding-left: 14px;
-	transition: all 0.2s ease;
-}
-*/
-.navbar .menu {
+.nav-bar .menu {
     display: flex;
     justify-content: space-between;
-    width: 450px;
+    width: 50vh;
     position: absolute;
-    right: 50px;
+    right: 10vh;
   	list-style-type: none;
- 	overflow: hidden;
+    overflow: hidden;
+    animation: 5s fadeIn ease;
 }
-.navbar .menu li {
+.nav-bar .menu li {
   	float: left;
 }
-.navbar .menu li a  {
+.nav-bar .menu li a  {
 	font-family: 'SF UI Text', sans-serif;
-	font-size: 18px;
 	font-weight: 500;
   	display: block;
   	color: white;
   	text-align: center;
-  	padding: 6px 23px;
+  	padding: 0.6vw 1.2vw;
   	text-decoration: none;
   	border-radius: 11px;
-  	transition: background 0.3s;
+    transition: background 0.3s;
 }
-.navbar .menu li a:hover  {
-	text-shadow: 0 2px 5px #333333;
-}	
-.navbar .menu li .active  {
-  	text-shadow: 0 2px 5px #333333;
+.nav-bar .menu li:hover, .nav-bar .menu li .active  {
+    border-radius: 11px;
+    background-color:rgb(8, 121, 136);
+}
+/* Responsive menu */
+@media screen and (max-width: 1640px) and (max-height: 610px) {
+    .nav-bar .menu {
+        top: -10px;
+        width: 55vh;
+    }
+}
+@media screen and (max-width: 1300px) and (max-height: 610px) {
+    .nav-bar .menu {
+        top: -10px;
+        width: 60vh;
+        right: 8vh;
+    }
+}
+@media screen and (max-width: 1200px) {
+    .nav-bar .menu {
+        width: 43vh;
+        right: 5vh;
+    }
+    .nav-bar .menu li a {
+        font-size: 1.2vw;
+    }
+}
+@media screen and (max-width: 1200px) and (max-height: 610px) {
+    .nav-bar .menu {
+        top: -10px;
+        width: 55vh;
+    }
+    .nav-bar .menu li a {
+        font-size: 1.2vw;
+    }
+}
+@media screen and (max-width: 1050px) {
+    .nav-bar .menu {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        margin-top: -1vh;
+        width: 35vh;
+        right: 2vh;
+    }
+    .nav-bar .menu li a  {
+        font-size: 1.2vw;
+    }
 }
 
 @media screen and (max-width: 960px) {
-	.navbar {
+	.nav-bar {
 		position: relative;
 		justify-content: space-between;
 		margin-right: 50px;
-	}
-	.navbar .menu li .active  {
+    }
+	.nav-bar .menu li .active  {
 		display: none;
 	}
-	.navbar .menu li a  {
+	.nav-bar .menu li a  {
 	  	border: 2px solid #E6E6EF;
 	  	transition: border 0.25s ease;
 	  	margin-right: 0;
 	}
-	.navbar .menu li a:hover  {
+	.nav-bar .menu li a:hover  {
 		background: none;
 		border: 2px solid #D7D7E5;
 	}
@@ -210,36 +243,36 @@ input[type=number]::-webkit-outer-spin-button
 	}
 }
 @media screen and (max-width: 479px) {
-	.navbar {
+	.nav-bar {
  		margin: 25px 25px 0 25px;
 	}
-	.navbar .menu li {
+	.nav-bar .menu li {
   		float: left;
   		margin-left: 0px;
 	}
-	.navbar .menu {
+	.nav-bar .menu {
   		margin-left: 0px;
 	}
-	.navbar .logo {
+	.nav-bar .logo {
 		margin-top: 2px;
 	}
 
 }
 @media screen and (max-width: 375px) {
-	.navbar .navbar {
+	.nav-bar .nav-bar {
  		margin: 16px 16px 0 16px;
 	}
-	.navbar .logo img {
+	.nav-bar .logo img {
 		height: 30px;
 		width: 28.5px;
 	}
-	.navbar .logo p {
+	.nav-bar .logo p {
 		font-size: 27px;
 	}
-	.navbar .menu li {
+	.nav-bar .menu li {
 	  	margin-left: 0;
 	}
-	.navbar .menu li a  {
+	.nav-bar .menu li a  {
 		font-size: 16px;
 	}
 	

@@ -1,10 +1,10 @@
 .vscode/
 
-__pycache__/*
+**/__pycache__
 
-__pycache__
+.pytest_cache
 
-*.pyc
+**.pyc
 
 flask_init.sh
 
@@ -15,3 +15,5 @@ venv
 .idea
 
 gradder_cred.json
+app/logs/user_actions.log
+app/logs/forms.log

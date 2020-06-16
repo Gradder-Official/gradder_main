@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 
-from flask import redirect, url_for, render_template, flash, current_app
+from flask import redirect, url_for, render_template, flash, current_app, request
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 
@@ -10,8 +10,10 @@ from ..email import send_email
 from . import main
 from ..modules.db.classes import Message, Application, Assignment, User, Student, Parent, Admin, Teacher
 from app import db
-from .decorators import required_access
+from app.decorators import required_access
+from app.logs.form_logger import form_logger
 
+from google.cloud import storage
 
 @main.route('/')
 @main.route('/index')
@@ -42,7 +44,7 @@ def contact():
                 message.add()
 
             except BaseException as e:
-                print(e)
+                form_logger.exception("Email did not send")
                 # flash('Error while sending the message. Please try again')
         else:
             pass
@@ -55,12 +57,12 @@ def contact():
 def careers():
     form = CareersForm()
 
-    print("Form created")
+    form_logger.info("Form created")
 
     if form.validate_on_submit():
         f = form.resume.data
         if f is not None:
-            print('File received')
+            form_logger.info("Form recieved")
             resume_filename = f.filename
             resume_content = f.read()
 
@@ -68,17 +70,17 @@ def careers():
         new_id = str(int(old_id.get().to_dict()["id"]) + 1)
 
         try:
-            print("Try in")
+            form_logger.debug("Try entered")
             send_email(to=form.email.data.lower(), subject=f'We received your application!',
                        template='mail/careers_email_user', first_name=form.first_name.data, job=form.job.data, files=[(resume_filename, resume_content)] if f is not None else [], comments=form.comments.data)
 
-            print("Email sent")
+            form_logger.info("Email sent")
 
             send_email(to="team@gradder.io", subject=f'Application #{new_id} | {form.job.data}',
                        template='mail/careers_email_admin', first_name=form.first_name.data,
                        last_name=form.last_name.data, job=form.job.data, email=form.email.data.lower(), ID=new_id, files=[(resume_filename, resume_content)] if f is not None else [], comments=form.comments.data)
 
-            print("Email sent")
+            form_logger.info("Email sent")
 
             old_id.set({'id': new_id})
 
@@ -87,7 +89,7 @@ def careers():
             return redirect(url_for('main.index'))
 
         except BaseException as e:
-            print(e)
+            form_logger.exception("Email did not send")
             # flash('Error while sending the application. Please try again')
 
     return render_template('careers.html', form=form)
@@ -106,24 +108,27 @@ def dashboard():
 
 @main.route('/teacher/add_assignment', methods=['GET', 'POST'])
 @login_required
-@required_access(['ADMIN'])
 def add_assignment():
     form = NewAssignmentForm()
-
     if form.validate_on_submit():
+        files = request.files.getlist(form.files.name)
+        file_link_list = []
+        for file in files:
+            blob = upload_blob('gradder-storage', file.filename, file)
+            file_link_list.append(blob.media_link)
+        
         new_assignment = Assignment(date_assigned=datetime.utcnow(),
                                     assigned_by=current_user.ID,
                                     assigned_to=form.assigned_to.data,
                                     due_by=form.due_by.data,
                                     subject=form.subject.data,
                                     content=form.content.data,
+                                    file_links=file_link_list,
                                     estimated_time=form.estimated_time.data
                                     )
-
-        if new_assignment.add():
-            return(redirect(url_for('main.dashboard')))
-        else:
-            flash('Unknown error!.')
+        new_assignment.add()
+        flash('Assignment created!')
+        return redirect(url_for('.dashboard'))
 
     return render_template('add_assignment.html', form=form)
 
@@ -132,3 +137,12 @@ def add_assignment():
 @login_required
 def profile():
     return render_template('profile.html')
+
+def upload_blob(bucket_name, filename, file_obj):
+    print(file_obj)
+    storage_client = storage.Client()
+    bucket = storage_client.bucket('gradder-storage')
+    blob = bucket.blob(filename)
+    blob.upload_from_file(file_obj)
+    form_logger.info('File {} uploaded'.format(filename))
+    return blob
