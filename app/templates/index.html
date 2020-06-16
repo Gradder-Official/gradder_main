@@ -57,9 +57,9 @@
         <div class="carousel-item">
             <div class="hero-image" id="slide3">
                 <div class="system-preview">
-                    <video width="100%" controls loop id="vid">
-                        <source src="../static/images/system_preview.mp4" type="video/mp4">
-                        Your browser does not support the video. Sorry!
+                    <video width="100%" autoplay="autoplay" muted="muted" controls loop id="vid">
+                        <source src="{{ url_for('static', filename='images/system_preview.mp4') }}" type="video/mp4">
+                        Your browser does not support the demo video. Sorry!
                     </video>
                 </div>
             </div>
