@@ -12,9 +12,11 @@
 .new-landing .left-container {
     float: left;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
 	height: 100%;
-    width: 50%;
+    width: 45%;
 }
 .new-landing .left-container .hero-text {
 	font-family: 'SF UI Text', sans-serif;
@@ -23,7 +25,7 @@
     z-index: 100;
 }
 .new-landing .left-container .hero-text p {
-	font-size: 15px;
+	font-size: 20px;
 	font-weight: 600;
     color: #5C77FF;
     z-index: 100;
@@ -32,7 +34,7 @@
 	font-family: 'Gilroy', sans-serif;
 	font-weight: bold;
 	color: #212121;
-	font-size: 60px; /* 77px */
+	font-size: 72px; /* 77px */
 	margin-top: 1.2vw;
     transition: font-size 0.25s ease;
     z-index: 100;
@@ -40,7 +42,7 @@
 .new-landing .left-container .hero-text h3 {
     width: 30vw;
 	font-weight: 600;
-	font-size: 18px; /* 26px */
+	font-size: 22px; /* 26px */
 	line-height: 25px;
 	color: #333333;
 	margin-top: 2vw;
@@ -90,7 +92,7 @@
     margin-left: 18%;
     list-style: none;
     z-index: 100;
-    animation: 8s fadeIn ease;
+    animation: 6s fadeIn ease;
 }
 .carousel-indicators li {
     width: 15px;
@@ -155,6 +157,20 @@
 }
 #slide3 {
     background-image: url('../images/Right Image 3.png');
+}
+/* Video */
+.system-preview {
+    float: right;
+    display: flex;
+    width: 68vh;
+    height: 90vh;
+    align-items: center;
+    margin-right: 5vw;
+}
+
+#vid {
+    padding: 10px;
+    border: 2px dashed white;
 }
 /* Starting animation */
 @keyframes slide-in-bottom {
@@ -236,26 +252,15 @@
         min-height: 636px;
     }
 }
-@media screen and (max-width: 1640px) {
+@media screen and (max-width: 1240px) {
 	.new-landing .left-container .hero-text {
-		width: 455px;
+		width: 390px;
 	}
 	.new-landing .left-container .hero-text h1 { 
 		font-size: 60px;
 	}
 	.new-landing .left-container .hero-text h3 {
 		font-size: 20px;
-    }
-}
-@media screen and (max-width: 1240px) {
-	.new-landing .left-container .hero-text {
-		width: 390px;
-	}
-	.new-landing .left-container .hero-text h1 { 
-		font-size: 55px;
-	}
-	.new-landing .left-container .hero-text h3 {
-		font-size: 18px;
     }
     .new-landing .right-container .hero-image, .new-landing .right-container .hero-image-active {
         position: fixed;
