@@ -74,7 +74,7 @@ function toTwo() {
 function toThree() {
     changeBlobShape(slide3Points, slide3Image, changeIndicator(indicator3));
     setTimeout(() => { video.play(); }, 4500);
-    timeOut = setTimeout(() => { toOne(); }, 20000);
+    timeOut = setTimeout(() => { toOne(); }, 23000);
 }
 
 /* Starting animation with book */
