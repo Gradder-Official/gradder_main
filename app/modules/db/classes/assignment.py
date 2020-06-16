@@ -45,7 +45,7 @@ class Assignment:
             'due_by': str(self.due_by),
             'subject': str(self.subject),
             'content': str(self.content),
-            'file': str(self.file_link),
+            'file_links': self.file_links,
             'estimated_time': str(self.estimated_time),
             'ID': str(self.ID)
         }
