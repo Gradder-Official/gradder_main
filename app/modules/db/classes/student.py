@@ -1,5 +1,6 @@
+from .user import User
 from app import db
-from app.modules._classes import Assignment, User
+from .assignment import Assignment
 
 from typing import Dict, List
 

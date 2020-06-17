@@ -1,6 +1,6 @@
 from re import match
 
-from app.modules._classes import User
+from .user import User
 
 
 class Admin(User):
