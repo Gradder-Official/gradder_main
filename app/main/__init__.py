@@ -1,7 +1,5 @@
 from flask import Blueprint
 
-main = Blueprint('main', __name__)
+main = Blueprint('main', __name__, template_folder='templates', static_folder='static')
 
-from . import routes
-from . import forms
-from . import errors
+from . import errors, forms, routes

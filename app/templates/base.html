@@ -7,7 +7,7 @@
 <head>
     {% block head %}
     {% block metas %}
-    <meta name="title" content="Gradder - Your Smart  School Diary">
+    <meta name="title" content="Gradder - Your Smart School Diary">
     <meta name="google" content="notranslate">
     <meta name="theme-color" content="#2B9264">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -52,12 +52,12 @@
     </div>
     {% block content %}
     <div class="contain">
-        {% for message in get_flashed_messages() %}
+        <!-- {% for message in get_flashed_messages() %}
         <div class="alert alert-warning">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             {{ message }}
         </div>
-        {% endfor %}
+        {% endfor %} -->
 
         {% block page_content %}{% endblock page_content %}
     </div>

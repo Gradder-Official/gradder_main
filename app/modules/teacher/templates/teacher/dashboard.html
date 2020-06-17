@@ -1,0 +1,17 @@
+{% extends "_dashboard.html" %}
+
+{% block content %}
+<p class="large">Current class: 8-A</p>
+<div class="jumbotron container teacher-students">
+    View your students here
+</div>
+<div class="jumbotron container teacher-syllabus">
+    Your course plan will be here
+</div>
+<div class="jumbotron container teacher-assignments">
+    <a href="{{ url_for('teacher.add_assignment') }}">Post a new assignment!</a>
+</div>
+<div class="jumbotron container teacher-statistics">
+    Class statistics
+</div>
+{% endblock %}

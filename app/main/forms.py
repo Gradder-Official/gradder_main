@@ -55,6 +55,9 @@ class CareersForm(FlaskForm):
     comments = TextAreaField('Optional comments (max 500 symbols)',
                              validators=[Length(0, 500, 'The limit is 500 symbols.')])
 
+<<<<<<< HEAD
+    submit = SubmitField('Apply')
+=======
     submit = SubmitField('Apply')
 
 
@@ -68,3 +71,4 @@ class NewAssignmentForm(FlaskForm):
     files = MultipleFileField('File upload', validators=[FileAllowed(
         ['pdf', 'docx'], 'Only PDF or .docx formats allowed.')])
     submit = SubmitField('Submit')
+>>>>>>> dev

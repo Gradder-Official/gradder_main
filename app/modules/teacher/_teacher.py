@@ -1,4 +1,4 @@
-from .user import User
+from app.modules._classes import User
 
 
 class Teacher(User):
