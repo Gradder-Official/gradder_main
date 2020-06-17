@@ -29,21 +29,7 @@ Welcome, {{ current_user.first_name }}! You are {% if current_user.USERTYPE.capi
 <br>
 <a href="{{ url_for('auth.change_secret_question') }}">Change your secret question</a>
 <br>
-
-{% if current_user.USERTYPE.capitalize() == 'Admin' %} 
-    {% include "auth/admin.html" %}
-{% endif %}
-
-{% if current_user.USERTYPE.capitalize() == 'Teacher' %}     
-    {% include "auth/teacher.html" %}
-{% endif %}
-
-{% if current_user.USERTYPE.capitalize() == 'Student' %} 
-    {% include "auth/student.html" %}
-{% endif %}
-
-{% if current_user.USERTYPE.capitalize() == 'Parent' %} 
-    {% include "auth/parent.html" %}
-{% endif %}
 </div>
+    {% block page_content %}
+    {% endblock %}
 {% endblock %}
