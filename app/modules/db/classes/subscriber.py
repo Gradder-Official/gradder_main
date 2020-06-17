@@ -1,4 +1,5 @@
-from app.modules.db.classes.user import User
+from .user import User
+from app.logs.user_logger import user_logger
 from app import db
 
 
@@ -38,7 +39,7 @@ class Subscriber(User):
             db.collection_subscribers.document(self.ID).set(self.to_dict())
             return True
         except BaseException as e:
-            print(e)
+            user_logger.exception("Failed adding")
             return False
 
     def remove(self):

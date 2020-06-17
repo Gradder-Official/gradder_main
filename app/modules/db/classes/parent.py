@@ -1,6 +1,6 @@
-from app.modules._classes import User
+from .user import User
 from app.exceptions import NoUserError
-from app.modules.student._student import Student
+from .student import Student
 
 from app import db
 
