@@ -8,6 +8,7 @@ from app import db, login_manager
 from . import auth
 
 from .forms import LoginForm, RegistrationForm, PasswordChangeForm, SecretQuestionChangeForm
+<<<<<<< HEAD
 
 from app.modules._classes import User
 from app.modules.teacher._teacher import Teacher
@@ -16,12 +17,15 @@ from app.modules.admin._admin import Admin
 from app.modules.parent._parent import Parent
 
 from app.loggers import logger, log
+=======
+from app.modules.db.classes import Admin, Teacher, Student, Parent, User
+from app.logs.user_logger import user_logger
+>>>>>>> dev
 
 @login_manager.user_loader
 def load_user(id: str):
     user = User.get_by_id(id)
     if user is not None:
-        print(eval(user['usertype'].capitalize()).from_dict(user).to_dict())
         return eval(user['usertype'].capitalize()).from_dict(user)
     else:
         return None
@@ -35,9 +39,13 @@ def login():
         user = eval(user['usertype'].capitalize()).from_dict(user)
         if user is not None and user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
+<<<<<<< HEAD
             
             logger.info("{} LOGGED IN: {} {} {} - ACCESS: {}".format(datetime.utcnow(), user.first_name, user.last_name, user.email, user.USERTYPE))
 
+=======
+            user_logger.info("LOGGED IN: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
+>>>>>>> dev
             next = request.args.get('next')
             if next is None or not next.startswith('/'):
                 next = url_for('main.dashboard')
@@ -68,10 +76,10 @@ def register():
 
         if user.add():
             db.delete_auth_token(form.auth_token.data)
-            logger.info("NEW USER: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
+            user_logger.info("NEW USER: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
             return redirect(url_for('auth.login'))
         else:
-            logger.error("Unknown error while registering: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
+            user_logger.error("Unknown error while registering: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
             flash('Unknown error while registering.')
 
     return render_template('auth/register.html', form=form)
