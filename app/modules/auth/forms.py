@@ -54,6 +54,27 @@ class RegistrationForm(FlaskForm):
         else:
             raise ValidationError("Invalid token")
 
+class RequestResetForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email(), Length(1, 64)])
+    submit = SubmitField('Send Reset Request')
+
+    def validate_email(self, field):
+        from app import db
+
+        checks = [
+            list(db.collection_admins.where(u'email', u'==', field.data.lower()).stream()),
+            list(db.collection_parents.where(u'email', u'==', field.data.lower()).stream()),
+            list(db.collection_students.where(u'email', u'==', field.data.lower()).stream()),
+            list(db.collection_teachers.where(u'email', u'==', field.data.lower()).stream())
+        ]
+        
+        if any(checks) == False:
+            raise ValidationError("There is no account with that email. You need to create an account first.")
+
+class ResetPasswordForm(FlaskForm):
+    new_password = PasswordField('New password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm new password', validators=[DataRequired(), EqualTo('new_password', message='New passwords must match.')]) 
+    submit = SubmitField('Reset Password')
 
 class PasswordChangeForm(FlaskForm):
     new_password = PasswordField('New password', validators=[DataRequired(), EqualTo('new_password2', message='New passwords must match.')])

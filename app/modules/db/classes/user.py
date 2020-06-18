@@ -3,8 +3,9 @@ from re import match
 from flask_login import UserMixin
 from app.logs.user_logger import user_logger
 from app import db
-
-
+from flask import current_app
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+ 
 class User(UserMixin):
     USERTYPE = None  # is unique per each class, acts as access levels
 
@@ -33,6 +34,10 @@ class User(UserMixin):
     def verify_password(self, password: str):
         return check_password_hash(self.password_hash, password)
 
+    def update_password(self, password):
+        hashed_pw = generate_password_hash(password)
+        eval(f"db.collection_{self.USERTYPE.lower() + 's'}.document(self.ID).update(u'password': {hashed_pw})")
+
     def set_secret_question(self, question: str, answer: str):
         self.secret_question = question
         if match(r"(pbkdf2:sha256:)([^\$.]+)(\$)([^\$.]+)(\$)([^\$.]+)", answer) is not None:
@@ -42,6 +47,19 @@ class User(UserMixin):
 
     def verify_secret_question(self, answer: str):
         return check_password_hash(self.secret_answer, answer)
+    
+    def get_reset_token(self, expires_sec=1800):
+        s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
+        return s.dumps({'user_id': self.ID}).decode('utf-8')
+    
+    @staticmethod
+    def verify_reset_token(token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token)['user_id']
+        except:
+            return None
+        return get_by_id(user_id)
 
     @staticmethod
     def get_by_id(id: str):
