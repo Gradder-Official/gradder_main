@@ -9,11 +9,7 @@ def required_access(people):
         def decorated_function(*args, **kwargs):
             if not current_user.is_authenticated or current_user.USERTYPE not in people:
                 flash("You do not have access to this page! Please check your login info.")
-                user_logger.info("{} {} {} ACCESS - {} tried to access a restricted page".format(
-                    current_user.first_name, current_user.last_name, current_user.email, current_user.USERTYPE))
                 return redirect(url_for('auth.login'))
-            else:
-                pass
             return func(*args, **kwargs)
         return decorated_function
     return iteration
