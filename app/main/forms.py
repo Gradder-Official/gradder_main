@@ -56,15 +56,3 @@ class CareersForm(FlaskForm):
                              validators=[Length(0, 500, 'The limit is 500 symbols.')])
 
     submit = SubmitField('Apply')
-
-
-class NewAssignmentForm(FlaskForm):
-    assigned_to = StringField('Class ID', validators=[DataRequired()])
-    due_by = DateTimeField(
-        'Due by', format="%m/%d/%y %H:%M", validators=[DataRequired()])
-    subject = StringField('Your subject', validators=[DataRequired()])
-    estimated_time = StringField('Estimated time in minutes', validators=[DataRequired()])
-    content = TextAreaField('The assignment', validators=[DataRequired()])
-    files = MultipleFileField('File upload', validators=[FileAllowed(
-        ['pdf', 'docx'], 'Only PDF or .docx formats allowed.')])
-    submit = SubmitField('Submit')
