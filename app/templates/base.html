@@ -31,9 +31,6 @@
 </head>
 
 <body>
-    <div class="loader-wrapper">
-        Gradder
-    </div>
     <div class="nav-bar">
         {% block navbar %}
         <div class="logo">
@@ -42,22 +39,21 @@
             </a>
         </div>
         <ul class="menu">
-            <!-- <li><a href="{{ url_for('main.index') }}">Home</a></li>
+            <li><a href="{{ url_for('main.index') }}">Home</a></li>
             <li><a href="{{ url_for('main.careers') }}">Careers</a></li>
             <li><a href="">About</a></li>
-            <li><a href="">FAQ</a></li> -->
+            <li><a href="">FAQ</a></li>
             <!-- <li><a href="{{ url_for('main.contact') }}">Contact</a></li> -->
         </ul>
         {% endblock navbar %}
     </div>
     {% block content %}
-    <div class="contain">
-        <!-- {% for message in get_flashed_messages() %}
+        {% for message in get_flashed_messages() %}
         <div class="alert alert-warning">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             {{ message }}
         </div>
-        {% endfor %} -->
+        {% endfor %}
 
         {% block page_content %}{% endblock page_content %}
     </div>
