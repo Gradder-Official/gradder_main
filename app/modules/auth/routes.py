@@ -16,7 +16,7 @@ from app.modules.student._student import Student
 from app.modules.admin._admin import Admin
 from app.modules.parent._parent import Parent
 
-from app.logs import user_logger
+from app.logs.user_logger import user_logger
 
 @login_manager.user_loader
 def load_user(id: str):
@@ -156,3 +156,4 @@ def change_secret_question():
         flash('Oops... Wrong password.')
 
     return render_template('auth/change-secret-question.html', form=form)
+
