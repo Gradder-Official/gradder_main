@@ -3,6 +3,8 @@ from re import match
 from flask_login import UserMixin
 from app.logs.user_logger import user_logger
 from app import db
+from flask import current_app
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 
 class User(UserMixin):
@@ -29,6 +31,10 @@ class User(UserMixin):
             self.password_hash = password
         else:
             self.password_hash = generate_password_hash(password)
+
+    def update_password(self, password: str):
+        self.password_hash=generate_password_hash(password)
+        self.add()
 
     def verify_password(self, password: str):
         return check_password_hash(self.password_hash, password)
@@ -195,3 +201,16 @@ class User(UserMixin):
                 dictionary['secret_question'], dictionary['secret_answer'])
 
         return user
+
+    def get_reset_token(self, expires_sec=1800):
+        s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
+        return s.dumps({'user_id': self.ID}).decode('utf-8')
+    
+    @staticmethod
+    def verify_reset_token(token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token)['user_id']
+        except:
+            return None
+        return User.get_by_id(user_id)

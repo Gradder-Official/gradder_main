@@ -7,7 +7,7 @@ class Config:
         'SECRET_KEY') or '329v8qrvnkjehgioqrgh3$##$#UOJ`3r0'
     FIREBASE_CERTIFICATE = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
 
-    MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.porkbun.com')
+    MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.gmail.com')
     MAIL_PORT = int(os.environ.get('MAIL_PORT', '587'))
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'true').lower() in \
         ['true', 'on', '1']
