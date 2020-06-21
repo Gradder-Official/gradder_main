@@ -2,6 +2,7 @@ from datetime import datetime
 
 from flask import render_template, redirect, request, url_for, flash, current_app
 from flask_login import login_user, logout_user, login_required, current_user
+from flask_mail import Message
 
 from app import db, login_manager
 
@@ -15,7 +16,7 @@ from app.modules.student._student import Student
 from app.modules.admin._admin import Admin
 from app.modules.parent._parent import Parent
 
-from app.loggers import logger, log
+from app.logs import user_logger
 
 @login_manager.user_loader
 def load_user(id: str):
@@ -35,7 +36,7 @@ def login():
         if user is not None and user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
             
-            logger.info("{} LOGGED IN: {} {} {} - ACCESS: {}".format(datetime.utcnow(), user.first_name, user.last_name, user.email, user.USERTYPE))
+            user_logger.info("{} LOGGED IN: {} {} {} - ACCESS: {}".format(datetime.utcnow(), user.first_name, user.last_name, user.email, user.USERTYPE))
 
             next = request.args.get('next')
             if next is None or not next.startswith('/'):
