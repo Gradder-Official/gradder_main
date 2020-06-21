@@ -108,7 +108,7 @@ def send_reset_email(user):
     msg.body = f'''Here is your password reset link:
 { url_for('auth.reset_password', token=token, _external=True) }
 
-If you did not make this reset password request, please reset your password immediately. If you need any further assistance contact team@gradder.io.
+If you did not make this reset password request, please change your password immediately through your accounts. If you need any further assistance, please contact team@gradder.io.
 '''
     mail.send(msg)
 
@@ -131,11 +131,14 @@ def reset_password(token):
     if user is None:
         flash('That is an expired or incorrect link.')
         return redirect(url_for('auth.reset_password_request'))
+    user = User.from_dict(user)
     form = ResetPasswordForm()
     if form.validate_on_submit():
-        user.update_password(form.password.data)
+        user.update_password(form.new_password.data)
+        flash('Password was successfully reset.')
         return redirect(url_for('main.dashboard'))
     return render_template('auth/reset-password.html', form=form)
+
 
 @auth.route('/change-secret-question', methods=['GET', 'POST'])
 @login_required
