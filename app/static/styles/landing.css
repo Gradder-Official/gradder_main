@@ -1,12 +1,20 @@
 /* .new-landing */
 .new-landing {
+    font-family: 'SF UI Text', sans-serif;
+	background: #fff;
+	color: #212121;
+}
+#top {
+    display: flex;
+    flex-direction: column;
 	width: 100%;
 	height: 100vh;
 	min-height: 649px;
-	font-family: 'SF UI Text', sans-serif;
-	background: #fff;
-	color: #212121;
 	position: relative;
+}
+@keyframes leftFade {
+    from { opacity: 0 }
+    to {opacity: 1 }
 }
 /* Left text panel */
 .new-landing .left-container {
@@ -17,6 +25,7 @@
     align-items: center;
 	height: 100%;
     width: 45%;
+    animation: leftFade 2s ease;
 }
 .new-landing .left-container .hero-text {
 	font-family: 'SF UI Text', sans-serif;

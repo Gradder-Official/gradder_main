@@ -3,66 +3,133 @@
 {% block styles %}
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/landing.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/landing-sections.css') }}">
 {% endblock styles %}
 
 
 {% block page_content %}
 <div class="new-landing">
-	<div class="left-container">
-		<div class="hero-text">
-			<p>AI-driven School Dashboard</p>
-			<h1>Your Smart<br>School Diary</h1>
-			<h3>What if you didn't have to end your education when at home?</h3>
-			<a href="{{ url_for('main.careers') }}" id="contribute-button" style="text-decoration: none;">
-				<div class="button">
-					Contribute
-				</div>
-            </a>
+    <div class="section" id="top">
+        <div class="left-container">
+            <div class="hero-text">
+                <p>AI-driven School Dashboard</p>
+                <h1>Your Smart<br>School Diary</h1>
+                <h3>What if you didn't have to end your education when at home?</h3>
+                <a href="{{ url_for('main.careers') }}" id="contribute-button" style="text-decoration: none;">
+                    <div class="button">
+                        Contribute
+                    </div>
+                </a>
+            </div>
+            <ol class="carousel-indicators">
+                <li id="indicator1" class="active"></li>
+                <li id="indicator2"></li>
+                <li id="indicator3"></li>
+            </ol>
         </div>
-        <ol class="carousel-indicators">
-            <li id="indicator1" class="active"></li>
-            <li id="indicator2"></li>
-            <li id="indicator3"></li>
-        </ol>
-	</div>
-    <div class="right-container carousel" id="landing-carousel">
-        <div class="zoom-box">
-            <div class="book"></div>
-            <svg id="zoom" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                viewBox="0 0 1920 1080">
-                <path id="startZoom"
-                    d="M1179.32 820.14C1179.32 832.02 1169.68 841.66 1157.8 841.66C1145.93 841.66 1136.28 832.02 1136.28 820.14C1136.28 808.27 1145.93 798.62 1157.8 798.62C1169.68 798.62 1179.32 808.27 1179.32 820.14Z" fill="#81cfe0" />
-            </svg>
-        </div>
-        <div class="blob-backgrounds" id="blob-backgrounds">
-            <svg id="slides" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1920 1080">
-                <path id="slide-1-blob"
-                    d="M1920 0L1920 905.05C1910.87 910.18 1892.47 919.3 1864.79 932.41C1840.29 944.02 1806.66 946.94 1775.13 944.15C1753.22 942.21 1732.31 936.89 1716.19 932.41C1676.85 921.49 1636.58 899.09 1600.37 870.24C1564.16 841.4 1568.65 843.65 1535.2 812.22C1501.74 780.8 1501.19 777.02 1466.54 744.55C1431.89 712.08 1399.86 707.15 1390.57 704.02C1368.63 696.63 1342.49 698.05 1335.54 697.91C1315.18 697.5 1294.56 702.37 1273.67 712.52C1256.39 722.22 1240.49 734.95 1226 750.69C1211.51 766.44 1200.42 784.54 1192.72 804.99L1204.18 752.42C1202.58 763.03 1203.01 755.95 1205.47 731.21C1207.93 706.46 1197.08 678.7 1172.94 647.94C1156.92 631.61 1145.38 621.34 1138.33 617.12C1111.2 600.9 1108.06 601.63 1072.48 586.8C1036.9 571.97 1026.4 572.62 996 555.81C965.61 538.99 956.19 522.82 950.89 506.04C943.87 483.81 950.95 457.62 961.31 436.9C971.66 416.18 989.2 398.67 1000.33 383.67C1010.35 370.17 1032.4 349.12 1050.09 327.43C1061.88 312.97 1069.7 301.47 1073.56 292.92C1086.87 266.24 1088.67 242.67 1078.98 222.2C1072.48 208.48 1062.85 197.22 1050.09 188.42C1039.3 181.4 1027.73 175.63 1015.4 171.09C996.94 164.3 979.55 159.96 963.23 158.06C963.23 158.06 853.89 152.11 853.89 152.11C806.77 152.44 762.93 146.37 722.35 133.89C664.95 116.23 625.18 71.6 603.02 0L1920 0Z"
-                    fill-rule="nonzero" fill="#81cfe0" />
-                <path opacity="0" id="slide-2-blob"
-                    d="M1920 1.49L1920 874.37L1530.67 874.37C1529.33 881.67 1527.37 891.6 1524.77 904.15C1523.21 911.68 1519.49 921.18 1513.61 925.7C1509.69 928.71 1504.81 929.89 1498.97 929.25L1230.49 875.66C1225.32 874.56 1221.93 874.13 1220.32 874.37C1199.26 877.4 1176.58 873.17 1152.28 861.69C1126.8 851.68 1103.58 835.79 1082.63 814.04C1070.33 801.28 1053.09 781.11 1039.09 750.95C1025.08 720.78 1028.01 724.79 1025.29 716.19C1022.56 707.59 1016.8 685.76 1016.58 645.31C1016.36 604.87 1023.39 549.8 1023.97 542.77C1025.04 529.61 1028.88 494.01 1026.77 459.01C1024.67 424.01 1009.58 396.96 993.5 374.94C980 356.46 964.22 345.48 958.92 340.72C944.59 327.88 913.76 308.92 895.19 294.64C885.82 287.44 875.61 281.32 830.87 251.87C786.14 222.43 757.42 194.9 732.56 152.51C699.07 95.42 685.87 44.58 692.96 0L1920 1.49Z"
-                    fill-rule="nonzero" fill="#6fccde" />
-                <path opacity="0" id="slide-3-blob"
-                    d="M1920 0L1920 929.28C1906.95 933.92 1890.6 938.99 1870.96 944.47C1841.51 952.7 1843.82 951.72 1806.16 958.2C1768.5 964.67 1753.49 964.35 1732.32 966.39C1718.21 967.74 1693.4 968.41 1657.89 968.39C1609.19 984.14 1570.89 993.89 1543.01 997.64C1501.18 1003.27 1473.88 1006.95 1392.35 1003.78C1345.06 1001.95 1310.66 995.04 1276.11 984.41C1251.09 976.71 1218.99 967.07 1188.86 952.99C1158.73 938.91 1112.54 896.62 1105.39 890.28C1083.92 871.26 1073.48 849.37 1058.47 827.68C1043.46 806 1032.61 764.02 1028.36 735.16C1021.24 686.9 1026.17 639.81 1028.36 615.9C1032.94 565.74 1037.09 524.32 1038.78 506.64C1043.71 455.15 1052.23 420.23 1043.19 385.98C1035.01 354.99 1006.68 326.81 998.78 320.37C990.88 313.94 1014.8 327.17 907.17 258.89C799.54 190.62 822.63 206.01 755.9 159.38C689.17 112.76 672.48 91.15 656.26 68.39C645.45 53.22 637.38 30.42 632.07 0L1920 0Z"
-                    fill-rule="nonzero" fill="#70cadc" />
-            
-            </svg>
-        </div>
-        <div class="carousel-item">
-            <div class="hero-image" id="slide1"></div>
-        </div>
-        <div class="carousel-item">
-            <div class="hero-image" id="slide2"></div>
-        </div>
-        <div class="carousel-item">
-            <div class="hero-image" id="slide3">
-                <div class="system-preview">
-                    <video width="100%" autoplay="autoplay" muted="muted" controls loop id="vid">
-                        <source src="{{ url_for('static', filename='images/system_preview.mp4') }}" type="video/mp4">
-                        Your browser does not support the demo video. Sorry!
-                    </video>
+        <div class="right-container carousel" id="landing-carousel">
+            <div class="zoom-box">
+                <div class="book"></div>
+                <svg id="zoom" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 1920 1080">
+                    <path id="startZoom"
+                        d="M1179.32 820.14C1179.32 832.02 1169.68 841.66 1157.8 841.66C1145.93 841.66 1136.28 832.02 1136.28 820.14C1136.28 808.27 1145.93 798.62 1157.8 798.62C1169.68 798.62 1179.32 808.27 1179.32 820.14Z" fill="#81cfe0" />
+                </svg>
+            </div>
+            <div class="blob-backgrounds" id="blob-backgrounds">
+                <svg id="slides" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1920 1080">
+                    <path id="slide-1-blob"
+                        d="M1920 0L1920 905.05C1910.87 910.18 1892.47 919.3 1864.79 932.41C1840.29 944.02 1806.66 946.94 1775.13 944.15C1753.22 942.21 1732.31 936.89 1716.19 932.41C1676.85 921.49 1636.58 899.09 1600.37 870.24C1564.16 841.4 1568.65 843.65 1535.2 812.22C1501.74 780.8 1501.19 777.02 1466.54 744.55C1431.89 712.08 1399.86 707.15 1390.57 704.02C1368.63 696.63 1342.49 698.05 1335.54 697.91C1315.18 697.5 1294.56 702.37 1273.67 712.52C1256.39 722.22 1240.49 734.95 1226 750.69C1211.51 766.44 1200.42 784.54 1192.72 804.99L1204.18 752.42C1202.58 763.03 1203.01 755.95 1205.47 731.21C1207.93 706.46 1197.08 678.7 1172.94 647.94C1156.92 631.61 1145.38 621.34 1138.33 617.12C1111.2 600.9 1108.06 601.63 1072.48 586.8C1036.9 571.97 1026.4 572.62 996 555.81C965.61 538.99 956.19 522.82 950.89 506.04C943.87 483.81 950.95 457.62 961.31 436.9C971.66 416.18 989.2 398.67 1000.33 383.67C1010.35 370.17 1032.4 349.12 1050.09 327.43C1061.88 312.97 1069.7 301.47 1073.56 292.92C1086.87 266.24 1088.67 242.67 1078.98 222.2C1072.48 208.48 1062.85 197.22 1050.09 188.42C1039.3 181.4 1027.73 175.63 1015.4 171.09C996.94 164.3 979.55 159.96 963.23 158.06C963.23 158.06 853.89 152.11 853.89 152.11C806.77 152.44 762.93 146.37 722.35 133.89C664.95 116.23 625.18 71.6 603.02 0L1920 0Z"
+                        fill-rule="nonzero" fill="#81cfe0" />
+                    <path opacity="0" id="slide-2-blob"
+                        d="M1920 1.49L1920 874.37L1530.67 874.37C1529.33 881.67 1527.37 891.6 1524.77 904.15C1523.21 911.68 1519.49 921.18 1513.61 925.7C1509.69 928.71 1504.81 929.89 1498.97 929.25L1230.49 875.66C1225.32 874.56 1221.93 874.13 1220.32 874.37C1199.26 877.4 1176.58 873.17 1152.28 861.69C1126.8 851.68 1103.58 835.79 1082.63 814.04C1070.33 801.28 1053.09 781.11 1039.09 750.95C1025.08 720.78 1028.01 724.79 1025.29 716.19C1022.56 707.59 1016.8 685.76 1016.58 645.31C1016.36 604.87 1023.39 549.8 1023.97 542.77C1025.04 529.61 1028.88 494.01 1026.77 459.01C1024.67 424.01 1009.58 396.96 993.5 374.94C980 356.46 964.22 345.48 958.92 340.72C944.59 327.88 913.76 308.92 895.19 294.64C885.82 287.44 875.61 281.32 830.87 251.87C786.14 222.43 757.42 194.9 732.56 152.51C699.07 95.42 685.87 44.58 692.96 0L1920 1.49Z"
+                        fill-rule="nonzero" fill="#6fccde" />
+                    <path opacity="0" id="slide-3-blob"
+                        d="M1920 0L1920 929.28C1906.95 933.92 1890.6 938.99 1870.96 944.47C1841.51 952.7 1843.82 951.72 1806.16 958.2C1768.5 964.67 1753.49 964.35 1732.32 966.39C1718.21 967.74 1693.4 968.41 1657.89 968.39C1609.19 984.14 1570.89 993.89 1543.01 997.64C1501.18 1003.27 1473.88 1006.95 1392.35 1003.78C1345.06 1001.95 1310.66 995.04 1276.11 984.41C1251.09 976.71 1218.99 967.07 1188.86 952.99C1158.73 938.91 1112.54 896.62 1105.39 890.28C1083.92 871.26 1073.48 849.37 1058.47 827.68C1043.46 806 1032.61 764.02 1028.36 735.16C1021.24 686.9 1026.17 639.81 1028.36 615.9C1032.94 565.74 1037.09 524.32 1038.78 506.64C1043.71 455.15 1052.23 420.23 1043.19 385.98C1035.01 354.99 1006.68 326.81 998.78 320.37C990.88 313.94 1014.8 327.17 907.17 258.89C799.54 190.62 822.63 206.01 755.9 159.38C689.17 112.76 672.48 91.15 656.26 68.39C645.45 53.22 637.38 30.42 632.07 0L1920 0Z"
+                        fill-rule="nonzero" fill="#70cadc" />
+                
+                </svg>
+            </div>
+            <div class="carousel-item">
+                <div class="hero-image" id="slide1"></div>
+            </div>
+            <div class="carousel-item">
+                <div class="hero-image" id="slide2"></div>
+            </div>
+            <div class="carousel-item">
+                <div class="hero-image" id="slide3">
+                    <div class="system-preview">
+                        <video width="100%" controls muted="muted" loop id="vid">
+                            <source src="../static/images/system_preview.mp4" type="video/mp4">
+                            Your browser does not support the video. Sorry!
+                        </video>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="section" id="why">
+        <div class="side-image">
+        </div>
+        <div class="section-content">
+            <h1>Why Us?</h1>
+            <table class="reasons">
+                <tr>
+                    <th></th>
+                    <th>
+                        <img src="../static/images/Parents.png">
+                        <h2>Parents</h2>
+                    </th>
+                    <th>
+                        <img src="../static/images/Students.png">
+                        <h2>Students</h2>
+                    </th>
+                    <th>
+                        <img src="../static/images/Teachers.png" id="teacher-image">
+                        <h2>Teachers</h2>
+                    </th>
+                </tr>
+                <tr>
+                    <td class="number" id="one">1</td>
+                    <td>Point 1 goes here</td>
+                    <td>Point 1 goes here</td>
+                    <td>Point 1 goes here</td>
+                </tr>
+                <tr>
+                    <td class="number" id="two">2</td>
+                    <td>Point 2 goes here</td>
+                    <td>Point 2 goes here</td>
+                    <td>Point 2 goes here</td>
+                </tr>
+                <tr>
+                    <td class="number" id="three">3</td>
+                    <td>Point 3 goes here</td>
+                    <td>Point 3 goes here</td>
+                    <td>Point 3 goes here</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="section" id="say">
+        <div class="section-content">
+            <h1>What People Say About Us</h1>
+            <div class="comment">
+                <img src="../static/images/Quotes.png">
+                <p>Gradder is a great opportunity to find out my up-to-date grades. I couldn't even dream about it!<br><br>–– Artem, a high school student</p>
+            </div>
+            <div class="comment">
+                <img src="../static/images/Quotes.png">
+                <p>I am happy that now I have a tool that helps me be aware of my children's academic performance!<br><br>–– Yulilia, Artem's mother</p>
+            </div>
+        </div>
+        <div class="side-image">
+        </div>
+    </div>
+    <div class="section" id="mission">
+        <div class="mission-statement">
+            <h2>We strive to make a system that would allow students to focus on learning, teachers to concentrate on teaching, and parents to easily interact with the schools.</h2>
+            <br><br>
+            <h3>–– Serhii, CEO at Gradder</h3>
         </div>
     </div>
 </div>
