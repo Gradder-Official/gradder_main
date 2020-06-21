@@ -35,7 +35,7 @@ font-weight: 700;
 font-style: normal;
 }*/
 body {
-  background: #DEE1E6;
+  background: #fff;
   transition: background 0.15s, height 0.4s, width 0.7s;
 }
 button, 
@@ -54,24 +54,6 @@ input[type=number]::-webkit-outer-spin-button
   margin: 0;
 }
 
-/* Loader */
-.loader-wrapper {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: #59BD7D;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 29px;
-  font-family: 'Gilroy', sans-serif;
-  font-weight: 600;
-  color: #fff;
-  z-index: 1000;
-  pointer-events: none;
-}
 /* Ripples animation */
 .ripples {
   position: absolute;
@@ -126,6 +108,11 @@ input[type=number]::-webkit-outer-spin-button
 	color: #fff;
 	font-size: 14px;
 	padding: 14px;
+}
+
+.contain {
+    width: 100vw;
+    height: 100%;
 }
 
 /* Landing menu */

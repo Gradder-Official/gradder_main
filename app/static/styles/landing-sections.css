@@ -1,0 +1,123 @@
+.section {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    background: #fff;
+}
+.section-content {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+.section-content h1 {
+    font-family: 'Gilroy', sans-serif;
+	font-weight: bold;
+    font-size: 50px;
+    text-align: center;
+    margin-top: 15vh;
+    margin-bottom: 2vh;
+}
+
+/* Why Us? */
+#why h1 {
+    width: 90%;
+}
+#why .side-image {
+    width: 35%;
+    height: 100%;
+    background-image: url('../images/Globe.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.reasons {
+    width: 90%;
+}
+.reasons th {
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.reasons th img {
+    height: 5%;
+    text-align: center;
+    vertical-align: middle;
+}
+.reasons tr {
+    height: 100%;
+}
+.reasons td {
+    padding: 5vh 2vw;
+    font-size: 20px;
+    text-align: center;
+}
+.reasons .number {
+    text-align: center;
+    vertical-align: middle;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.reasons #one {
+    background-image: url('../images/Number\ 1.png');
+}
+.reasons #two {
+    background-image: url('../images/Number\ 2.png');
+}
+.reasons #three {
+    background-image: url('../images/Number\ 3.png');
+}
+#teacher-image {
+    transform: rotate(-60deg);
+}
+
+/* What People Say */
+#say .side-image {
+    width: 35%;
+    height: 100%;
+    background-image: url('../images/Vial.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+#say .comment {
+    display: flex;
+    flex-direction: row;
+    width: 75%;
+    height: 20vh;
+    margin-left: 10vh;
+    align-items: center;
+    margin-top: 8vh;
+}
+.comment img {
+    height: 150%;
+}
+.comment p {
+    height: 10vh;
+    font-size: 22px;
+    line-height: 1.5;
+}
+
+/* Mission */
+#mission {
+    margin: 10vh 0;
+    height: 75vh;
+    background-image: url('../images/Banner.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.mission-statement {
+    width: 45%;
+    margin: auto;
+    text-align: center;
+    padding-right: 10vw;
+    padding-bottom: 5vh;
+}
+.mission-statement h2 {
+    font-size: 28px;
+    line-height: 1.5;
+    color: rgb(98, 184, 208);
+}
+.mission-statement h3 {
+    font-size: 22px;
+    font-weight: bold;
+}
