@@ -2,13 +2,14 @@ from datetime import datetime
 
 from flask import render_template, redirect, request, url_for, flash, current_app
 from flask_login import login_user, logout_user, login_required, current_user
+from flask_mail import Message
 
 from app import db, login_manager
 
 from . import auth
 
-from .forms import LoginForm, RegistrationForm, PasswordChangeForm, SecretQuestionChangeForm
-
+from .forms import LoginForm, RegistrationForm, PasswordChangeForm, SecretQuestionChangeForm, RequestResetForm, ResetPasswordForm
+from app import mail
 from app.modules._classes import User
 from app.modules.teacher._teacher import Teacher
 from app.modules.student._student import Student
@@ -99,6 +100,42 @@ def change_password():
 
     return render_template('auth/change-password.html', form=form)
 
+def send_reset_email(user):
+    token = user.get_reset_token()
+    app = current_app._get_current_object()
+    msg = Message(app.config['MAIL_SUBJECT_PREFIX'] + ' ' + 'Password Reset Link',
+                  sender=app.config['MAIL_SENDER'], recipients=[user.email])
+    msg.body = f'''Here is your password reset link:
+{ url_for('auth.reset_password', token=token, _external=True) }
+
+If you did not make this reset password request, please reset your password immediately. If you need any further assistance contact team@gradder.io.
+'''
+    mail.send(msg)
+
+@auth.route('/request-password-reset', methods=['GET', 'POST'])
+def request_password_reset(): 
+    if current_user.is_authenticated:
+        return redirect(url_for('main.dashboard'))
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        send_reset_email(User.from_dict(User.get_by_email(form.email.data)))
+        flash('An email has been sent to reset your password.')
+        return redirect(url_for('auth.login'))
+    return render_template('auth/send-reset-password.html', form=form)
+
+@auth.route('/request-password-reset/<token>', methods=['GET', 'POST'])
+def reset_password(token): 
+    if current_user.is_authenticated:
+        return redirect(url_for('main.dashboard'))
+    user = User.verify_reset_token(token)
+    if user is None:
+        flash('That is an expired or incorrect link.')
+        return redirect(url_for('auth.reset_password_request'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        user.update_password(form.password.data)
+        return redirect(url_for('main.dashboard'))
+    return render_template('auth/reset-password.html', form=form)
 
 @auth.route('/change-secret-question', methods=['GET', 'POST'])
 @login_required
