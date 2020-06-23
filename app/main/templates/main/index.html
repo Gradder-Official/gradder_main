@@ -114,11 +114,11 @@
         <div class="section-content">
             <h1>What People Say About Us</h1>
             <div class="comment">
-                <img src="../static/images/Quotes.png">
+                <img src="{{ url_for('static', filename='images/Quotes.png') }}">
                 <p>Gradder is a great opportunity to find out my up-to-date grades. I couldn't even dream about it!<br><br>–– Artem, a high school student</p>
             </div>
             <div class="comment">
-                <img src="../static/images/Quotes.png">
+                <img src="{{ url_for('static', filename='images/Quotes.png') }}">
                 <p>I am happy that now I have a tool that helps me be aware of my children's academic performance!<br><br>–– Yulilia, Artem's mother</p>
             </div>
         </div>
@@ -132,7 +132,41 @@
             <h3>–– Serhii, CEO at Gradder</h3>
         </div>
     </div>
+    <div class="section" id="roadmap">
+        <h1>Roadmap</h1>
+        <img src="{{ url_for('static', filename='images/Horizontal Roadmap.png') }}">
+    </div>
+    <div class="section" id="team">
+        <h1>Our Team</h1>
+        <table class="people">
+            <tr>
+                <th>
+                    <!-- Blob -->
+                </th>
+                <th>
+                    <!-- Blob -->
+                </th>
+                <th>
+                    <!-- Blob -->
+                </th>
+            </tr>
+            <tr>
+                <td>Serhii 1</td>
+                <td>Serhii 2</td>
+                <td>Serhii 3</td>
+            </tr>
+            <tr>
+                <td>Facts, facts, facts!</td>
+                <td>Facts, facts, facts!</td>
+                <td>Facts, facts, facts!</td>
+            </tr>
+        </table>
+    </div>
 </div>
+<footer>
+    <h1>Footer information</h1>
+    <img src="{{ url_for('static', filename='images/Footer.png') }}">
+</footer>
 {% endblock %}
 
 {% block scripts %}
