@@ -121,3 +121,53 @@
     font-size: 22px;
     font-weight: bold;
 }
+
+/* Roadmap and team */
+#roadmap, #team {
+    display: flex;
+    flex-direction: column;
+    height: 85vh;
+}
+#roadmap h1, #team h1 {
+    font-family: 'Gilroy', sans-serif;
+	font-weight: bold;
+    font-size: 50px;
+    margin-bottom: 2vh;
+    text-align: center;
+}
+#roadmap img, .people {
+    width: 80%;
+    margin: 0 auto;
+}
+.people th {
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.people tr {
+    height: 100%;
+}
+.people td {
+    padding: 5vh 2vw;
+    font-size: 20px;
+    text-align: center;
+}
+
+/* Footer */
+footer {
+    display: flex;
+    flex-direction: column;
+    background: rgb(181,230,254);
+    padding: 5vh 5vw;
+}
+footer h1 {
+    font-family: 'Gilroy', sans-serif;
+	font-weight: bold;
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 5vh;
+}
+footer img {
+    height: 15vh;
+    margin: 0 auto;
+}

@@ -271,18 +271,10 @@
 	.new-landing .left-container .hero-text h3 {
 		font-size: 20px;
     }
-    .new-landing .right-container .hero-image, .new-landing .right-container .hero-image-active {
-        position: fixed;
-        left: 0;
-        width: 1240px;
-    }
-    .blob-backgrounds {
-        position: fixed;
-        left: 0;
-        width: 1240px;
-    }
-    .zoom-box {
-        position: fixed;
+    .new-landing .right-container .hero-image, 
+    .new-landing .right-container .hero-image-active, 
+    .blob-backgrounds, .zoom-box {
+        position: absolute;
         left: 0;
         width: 1240px;
     }
