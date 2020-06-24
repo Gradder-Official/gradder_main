@@ -35,6 +35,7 @@
 }
 .reasons th {
     padding: 10px;
+    padding-bottom: 20px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -72,6 +73,10 @@
 }
 
 /* What People Say */
+#say h1 {
+    text-align: left;
+    margin-left: 12vh;
+}
 #say .side-image {
     width: 30%;
     height: 100%;
@@ -83,7 +88,7 @@
 #say .comment {
     display: flex;
     flex-direction: row;
-    width: 75%;
+    width: 80%;
     height: 20vh;
     margin-left: 10vh;
     align-items: center;
@@ -93,7 +98,6 @@
     height: 150%;
 }
 .comment p {
-    height: 10vh;
     font-size: 22px;
     line-height: 1.5;
 }
@@ -116,7 +120,7 @@
 .mission-statement h2 {
     font-size: 28px;
     line-height: 1.5;
-    color: rgb(98, 184, 208);
+    color: #62b8d0;
 }
 .mission-statement h3 {
     font-size: 22px;
