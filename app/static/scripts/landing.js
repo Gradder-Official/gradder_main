@@ -1,5 +1,6 @@
 $(window).on("load",function(){
-     $('html, body').css('overflow', 'auto'); 
+    $('html, body').css('overflow', 'auto'); 
+    AOS.init();
 });
 
 window.onload = function(){ 
