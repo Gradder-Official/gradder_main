@@ -4,6 +4,8 @@
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/landing.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/landing-sections.css') }}">
+<!-- Animation on Scroll -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 {% endblock styles %}
 
 
@@ -69,9 +71,9 @@
         </div>
     </div>
     <div class="section" id="why">
-        <div class="side-image">
+        <div class="side-image" data-aos="zoom-in-right" data-aos-duration="2000">
         </div>
-        <div class="section-content">
+        <div class="section-content" data-aos="fade-left" data-aos-duration="2000">
             <h1>Why Us?</h1>
             <table class="reasons">
                 <tr>
@@ -111,7 +113,7 @@
         </div>
     </div>
     <div class="section" id="say">
-        <div class="section-content">
+        <div class="section-content" data-aos="fade-right" data-aos-duration="2000">
             <h1>What People Say About Us</h1>
             <div class="comment">
                 <img src="{{ url_for('static', filename='images/Quotes.png') }}">
@@ -122,21 +124,21 @@
                 <p>I am happy that now I have a tool that helps me be aware of my children's academic performance!<br><br>–– Yulilia, Artem's mother</p>
             </div>
         </div>
-        <div class="side-image">
+        <div class="side-image" data-aos="zoom-in-left" data-aos-duration="2000">
         </div>
     </div>
-    <div class="section" id="mission">
+    <div class="section" id="mission" data-aos="fade-up" data-aos-duration="2000">
         <div class="mission-statement">
             <h2>We strive to make a system that would allow students to focus on learning, teachers to concentrate on teaching, and parents to easily interact with the schools.</h2>
             <br><br>
             <h3>–– Serhii, CEO at Gradder</h3>
         </div>
     </div>
-    <div class="section" id="roadmap">
+    <div class="section" id="roadmap" data-aos="fade-up" data-aos-duration="2000">
         <h1>Roadmap</h1>
         <img src="{{ url_for('static', filename='images/Horizontal Roadmap.png') }}">
     </div>
-    <div class="section" id="team">
+    <div class="section" id="team" data-aos="fade-up" data-aos-duration="2000">
         <h1>Our Team</h1>
         <table class="people">
             <tr>
@@ -173,4 +175,6 @@
 {{ super() }}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
 <script type='text/javascript' src="{{ url_for('static', filename='scripts/landing.js') }}"></script>
+<!-- Animation on Scroll -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 {% endblock scripts %}

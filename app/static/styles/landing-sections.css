@@ -1,6 +1,6 @@
 .section {
     width: 100vw;
-    height: 100vh;
+    height: 85vh;
     display: flex;
     flex-direction: row;
     background: #fff;
@@ -73,11 +73,12 @@
 
 /* What People Say */
 #say .side-image {
-    width: 35%;
+    width: 30%;
     height: 100%;
     background-image: url('../images/Vial.png');
     background-size: contain;
     background-repeat: no-repeat;
+    background-position: right;
 }
 #say .comment {
     display: flex;
@@ -170,4 +171,34 @@ footer h1 {
 footer img {
     height: 15vh;
     margin: 0 auto;
+}
+
+
+/* Responsive */
+@media screen and (max-height: 600px) {
+    .section {
+        height: 600px;
+    }
+}
+@media screen and (max-width: 1240px) {
+    .section-content h1 {
+        font-size: 40px;
+        margin-top: 12vh;
+    }
+    .comment p {
+        font-size: 20px;
+        height: 15vh;
+    }
+    .reasons td {
+        font-size: 18px;
+    }
+    .mission-statement {
+        padding-right: 5vw;
+    }
+    .mission-statement h2 {
+        font-size: 24px;
+    }
+    .mission-statement h3 {
+        font-size: 20px;
+    }
 }
