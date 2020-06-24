@@ -17,11 +17,10 @@
                 <p>AI-driven School Dashboard</p>
                 <h1>Your Smart<br>School Diary</h1>
                 <h3>What if you didn't have to end your education when at home?</h3>
-                <a href="{{ url_for('main.careers') }}" id="contribute-button" style="text-decoration: none;">
-                    <div class="button">
-                        Contribute
-                    </div>
-                </a>
+                <form>
+                    <input type="email" id="email" name="email" placeholder="Sign up with email">
+                    <input type="submit" id="email-submit" value="Submit">
+                </form>
             </div>
             <ol class="carousel-indicators">
                 <li id="indicator1" class="active"></li>
@@ -30,14 +29,7 @@
             </ol>
         </div>
         <div class="right-container carousel" id="landing-carousel">
-            <div class="zoom-box">
-                <div class="book"></div>
-                <svg id="zoom" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                    viewBox="0 0 1920 1080">
-                    <path id="startZoom"
-                        d="M1179.32 820.14C1179.32 832.02 1169.68 841.66 1157.8 841.66C1145.93 841.66 1136.28 832.02 1136.28 820.14C1136.28 808.27 1145.93 798.62 1157.8 798.62C1169.68 798.62 1179.32 808.27 1179.32 820.14Z" fill="#81cfe0" />
-                </svg>
-            </div>
+            <div class="book"></div>
             <div class="blob-backgrounds" id="blob-backgrounds">
                 <svg id="slides" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1920 1080">
                     <path id="slide-1-blob"

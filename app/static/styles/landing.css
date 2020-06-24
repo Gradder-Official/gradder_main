@@ -36,7 +36,7 @@
 .new-landing .left-container .hero-text p {
 	font-size: 20px;
 	font-weight: 600;
-    color: #5C77FF;
+    color:#00b0c7;
     z-index: 100;
 }
 .new-landing .left-container .hero-text h1 {
@@ -58,40 +58,39 @@
     transition: font-size 0.25s ease;
     z-index: 100;
 }
-/* Contribute button */
-#contribute-button {
-    width: 13vw;
-    text-decoration: none;
-    cursor: default;
+/* Submit */
+.new-landing form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 25vw;
+    margin-top: 5vh;
 }
-.new-landing .hero-text .button {
-	margin-top: 10%;
-	cursor: pointer;
-	background: rgb(136, 223, 249);
-	border-radius: 40px;
-	width: 13vw;
-	height: 3.5vw;
-
-	font-family: 'SF UI Text', sans-serif;
-	font-weight: 600;
-	font-size: 1.3vw;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: #FFFFFF;
-    transition: all 0.3s ease;
+.new-landing form input {
+    font-family: 'SF UI Text', sans-serif;
+    border-radius: 8px;
+    padding: 10px;
     z-index: 100;
+} 
+.new-landing #email {
+    width: 18vw;
+    color: #00b0c7;
+    border: 1px solid #6ccce6;
+    margin-right: 10px;
 }
-.new-landing .hero-text .button:hover {
-	transform: translate(0px, -5px);
-    box-shadow: 7px 6px 26px rgba(0, 0, 0, 0.2);
-    background: rgb(98, 184, 208);
+.new-landing #email:focus {
+    outline: none !important;
+    border: 2px solid #00b0c7;
 }
-.new-landing .hero-text .button:active {
-	transform: translate(0px, 0px);
-    box-shadow: 7px 6px 26px rgba(0, 0, 0, 0.1);
-    background: rgb(98, 184, 208);
-}	
+.new-landing #email-submit {
+	border: 0px;
+    background: #78d6f0;
+}
+.new-landing #email-submit:hover, .new-landing #email-submit:active {
+    color: white;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    background: #00b0c7;
+}
 /* Carousel controls */
 .carousel-indicators {
     position: relative;
@@ -108,11 +107,11 @@
     height: 15px;
     margin-left: 15px;
     border-radius: 50%;
-    background-color: rgb(193,241,255);
+    background-color: #c1f1ff;
 }
 .carousel-indicators .active, .carousel-indicators li:hover {
     cursor: pointer;
-    background: rgb(108,204,230);
+    background: #6ccce6;
     transition: background 0.5s ease-in-out;
 }
 /* Right image panel */
@@ -146,7 +145,7 @@
     background-repeat: no-repeat;
     z-index: 0;
     opacity: 0;
-    transition: 2s opacity;
+    transition: 1s opacity;
 }
 .new-landing .right-container .hero-image-active {
     height: 98%;
@@ -155,7 +154,7 @@
 	background-position: top right;
     background-repeat: no-repeat;
     z-index: 0;
-    transition: 3s opacity;
+    transition: 2s opacity;
 }
 #slide1 {
     background-image: url('../images/Right Image.png');
@@ -204,22 +203,6 @@
     opacity: 1;
   }
 }
-.zoom-box {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-    z-index: 0;
-}
-#zoom {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-    z-index: -10;
-}
 .book {
     background-image: url('../images/book.png');
     height: 98%;
@@ -227,12 +210,17 @@
 	background-size: contain;
 	background-position: top right;
     background-repeat: no-repeat;
+    animation-delay: 2s;
     animation: slide-in-bottom 10s ease-out both;
 }
 #startZoom {
     animation: 2s fadeIn ease;
 }
 /* Morphing blobs */
+@keyframes circleOut {
+    0%, 20% { clip-path: circle(2% at 70% 100%); }
+    100% { clip-path: circle(100%); }
+}
 .blob-backgrounds {
     position: absolute;
     top: 0;
@@ -241,8 +229,7 @@
     width: 100%;
     overflow: hidden;
     z-index: 0;
-    opacity: 0;
-    transition: 2s opacity;
+    animation: circleOut ease 8s;
 }
 .blob-backgrounds svg {
     position: absolute;
