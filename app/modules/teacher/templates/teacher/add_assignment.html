@@ -25,39 +25,42 @@
 {% endblock %}
 
 {% block app_content %}
-<div class="header">
-    <h1>Add a new assignment</h1>
-</div>
-<div class="col-md-4">
-    <form action="" method="POST" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}
-        <div class="form-group">
-            {{ form.assigned_to.label(class="form-control-label") }}
-            {{ form.assigned_to(class="form-control form-control-lg") }}
+<div class="login_container" style="width:100%; height:100%; display: flex; justify-content: center;">
+    <div class="col-md-4" style="border: 2px solid black; margin-top: 3%; background-color: white;" >
+        <div class="header">
+            <h1>Add a new assignment</h1>
         </div>
-        <div class="form-group">
-            {{ form.due_by.label(class="form-control-label") }}
-            {{ form.due_by(class="form-control form-control-lg") }}
-        </div>
-        <div class="form-group">
-            {{ form.subject.label(class="form-control-label") }}
-            {{ form.subject(class="form-control form-control-lg") }}
-        </div>
-        <div class="form-group">
-            {{ form.estimated_time.label(class="form-control-label") }}
-            {{ form.estimated_time(class="form-control form-control-lg") }}
-        </div>
-        <div class="form-group">
-            {{ form.content.label(class="form-control-label") }}
-            {{ form.content(class="form-control form-control-lg") }}
-        </div>
-        <div class="form-group">
-            {{ form.files.label(class="form-control-label") }}
-            {{ form.files(class="form-control form-control-lg") }}
-        </div>
-        <div class="form-group">
-            {{ form.submit(class="btn btn-info") }}
-        </div>
-    </form>
+        <br>
+        <form action="" method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.assigned_to.label(class="form-control-label") }}
+                {{ form.assigned_to(class="form-control form-control-lg") }}
+            </div>
+            <div class="form-group">
+                {{ form.due_by.label(class="form-control-label") }}
+                {{ form.due_by(class="form-control form-control-lg") }}
+            </div>
+            <div class="form-group">
+                {{ form.subject.label(class="form-control-label") }}
+                {{ form.subject(class="form-control form-control-lg") }}
+            </div>
+            <div class="form-group">
+                {{ form.estimated_time.label(class="form-control-label") }}
+                {{ form.estimated_time(class="form-control form-control-lg") }}
+            </div>
+            <div class="form-group">
+                {{ form.content.label(class="form-control-label") }}
+                {{ form.content(class="form-control form-control-lg") }}
+            </div>
+            <div class="form-group">
+                {{ form.files.label(class="form-control-label") }}
+                {{ form.files(class="form-control form-control-lg") }}
+            </div>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-info") }}
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}
