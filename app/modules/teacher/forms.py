@@ -4,7 +4,7 @@ from wtforms import DateTimeField, StringField, TextAreaField, SubmitField, Sele
 from wtforms.validators import DataRequired
 
 class NewAssignmentForm(FlaskForm):
-    assigned_to = StringField('Class ID', validators=[DataRequired()]) # TODO: add dropdown
+    assigned_to = StringField('Class', validators=[DataRequired()]) # TODO: add dropdown
     due_by = DateTimeField(
         'Due by', format="%m/%d/%y %H:%M", validators=[DataRequired()])
     subject = StringField('Your subject', validators=[DataRequired()])

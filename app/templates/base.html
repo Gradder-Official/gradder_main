@@ -60,24 +60,22 @@
     {% endblock content%}
 
     {% block scripts %}
-    <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery-1.12.4.min.js') }}"></script>
-    <script type='text/javascript' src="{{ url_for('static', filename='scripts/main.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='scripts/animations.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery-1.12.4.min.js') }}"></script>
+        <script type='text/javascript' src="{{ url_for('static', filename='scripts/main.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='scripts/animations.js') }}"></script>
 
-    <script>
-        // Active class selection for the navbar depending on the location
-        let window_url = window.location.href.split('/');
-        if (window_url[window_url.length - 1] == '' || window_url[window_url.length - 1] == 'index') {
-            document.getElementsByClassName('menu')[0].getElementsByTagName('a')[0].classList.add('active');
-        }
-        else if (window_url[window_url.length - 1] == 'careers') {
-            document.getElementsByClassName('menu')[0].getElementsByTagName('a')[1].classList.add('active');
-        }
-    </script>
+        <script>
+            // Active class selection for the navbar depending on the location
+            let window_url = window.location.href.split('/');
+            if (window_url[window_url.length - 1] == '' || window_url[window_url.length - 1] == 'index') {
+                document.getElementsByClassName('menu')[0].getElementsByTagName('a')[0].classList.add('active');
+            }
+            else if (window_url[window_url.length - 1] == 'careers') {
+                document.getElementsByClassName('menu')[0].getElementsByTagName('a')[1].classList.add('active');
+            }
+        </script>
 
-    {{ moment.include_moment() }}
+        {{ moment.include_moment() }}
     {% endblock scripts %}
-
 </body>
-
 </html>
