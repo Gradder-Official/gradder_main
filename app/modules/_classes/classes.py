@@ -23,7 +23,7 @@ class Classes:
         return f'<Class {self.ID}>'
     
     def to_dict(self):
-        return {
+        dict_object = {
             'department': self.department,
             'number': str(self.number),
             'name': self.name,
@@ -35,6 +35,11 @@ class Classes:
             'schedule_days': self.schedule_days,
             'syllabus': self.syllabus
         }
+
+        if self.class_name:
+            dict_object['class_name'] = self.class_name
+        
+        return dict_object
     
     def to_json(self):
         return self.to_dict()
@@ -65,7 +70,10 @@ class Classes:
         for assignment in db.collection_classes.document(self.ID).collection('assignments').stream():
             # Gets the dict object from the reference to the Firestore document stored in assignment,
             # creates an Assignment object from the dictionary and then appends it to the return object
-            assignments.append(Assignment.from_dict(assignment.to_dict()))
+            temp_assignment = Assignment.from_dict(assignment.to_dict())
+            temp_assignment.class_name = self.name
+
+            assignments.append(temp_assignment)
         
         return assignments
 
