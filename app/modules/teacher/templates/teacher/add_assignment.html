@@ -42,10 +42,10 @@
                     <h1>Add a new assignment</h1>
                 </div>
                 <br>
-                <br>
                 <div class="form-row">
                     <div class="form-group col-sm-4" style="padding-left:0px;">
-                        {{ macro.field(form.assigned_to) }}
+                        {# TODO: set default option to the currently selected class #}
+                        {{ macro.field(form.assigned_to) }} 
                     </div>
                     <div class="form-group col-sm-4">
                         {{ macro.field(form.due_by) }}
@@ -54,7 +54,6 @@
                         {{ macro.field(form.estimated_time, placeholder="60") }}
                     </div>
                 </div>
-                <br>
                 <div class="form-group">
                     {{ form.content.label(class="form-control-label") }}
                     <div id="quillContent" style="height:400px;">
