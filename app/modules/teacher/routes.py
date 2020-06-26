@@ -42,11 +42,12 @@ def add_assignment():
     form.assigned_to.choices = current_user.get_class_names()
 
     if form.validate_on_submit():
-        files = request.files.getlist(form.files.name)
         file_link_list = []
-        for file in files:
-            blob = upload_blob('gradder-storage', file.filename, file)
-            file_link_list.append(blob.media_link)
+        if request.files is not None:
+            files = request.files.getlist(form.files.name)
+            for file_ in files:
+                blob = upload_blob('gradder-storage', file_.filename, file_)
+                file_link_list.append(blob.media_link)
         
         new_assignment = Assignment(date_assigned=datetime.utcnow(),
                                     assigned_by=current_user.ID,

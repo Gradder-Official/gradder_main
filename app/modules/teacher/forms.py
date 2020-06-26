@@ -5,12 +5,11 @@ from wtforms.validators import DataRequired
 
 class NewAssignmentForm(FlaskForm):
     assigned_to = SelectField(u'Class', validators=[DataRequired()])
-    due_by = DateTimeField(
-        'Due by', format="%m/%d/%y %H:%M", validators=[DataRequired()])
+    due_by = StringField('Due by', validators=[DataRequired()]) # Not DateTime field because it is weird
     estimated_time = StringField('Estimated time in minutes', validators=[DataRequired()])
-    content = TextAreaField('The assignment', validators=[DataRequired()])
+    content = TextAreaField('The assignment description')
 
     files = MultipleFileField('File upload', validators=[FileAllowed(
-        ['pdf', 'docx'], 'Only PDF or .docx formats allowed.')])
+        ['pdf', 'docx', 'png', 'jpg', 'jpeg'], 'Allowed formats: pdf, docx, png, jpeg')])
 
     submit = SubmitField('Submit')

@@ -1,11 +1,14 @@
-{% macro field(field, label=True) %}
-{% if label %}
-{{ field.label }}
-{% endif %}
-{{ field(**kwargs) }}
-{% for error in field.errors %}
-{{ print(error) }}
-{% endfor %}
+{% macro field(field) %}
+    {% if field.errors %}
+        {{ field.label(class="form-control-label text-danger") }}
+        {{ field(class="form-control is-invalid", **kwargs) }}
+    {% else %}
+        {{ field.label(class="form-control-label") }}
+        {{ field(class="form-control", **kwargs) }}
+    {% endif %}
+    {% for error in field.errors %}=
+        <span class="error help-inline text-danger">{{ error }}</span>
+    {% endfor %}
 {% endmacro %}
 
 {% macro assignment(assignment) %}
