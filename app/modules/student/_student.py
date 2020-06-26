@@ -19,9 +19,9 @@ class Student(User):
         email : str
             Student's email address.
         first_name : str
-            Student's first name as it was entered in the signup form or by an admin.
+            Student's first name as it was entered in the sign-up form or by an admin.
         last_name : str
-            Student's last name as it was entered in the singup form or by an admin.
+            Student's last name as it was entered in the sign-up form or by an admin.
         class_names : List[int], optional
             A list of integer numbers that correspond to the IDs of the classes a student belongs in. Defaults to None, but must be set later.
         ID : str, optional
