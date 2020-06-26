@@ -68,6 +68,12 @@ class Classes:
         except BaseException as e:
             user_logger.info(f"Error while adding assignment {assignment.ID}: {e}")
 
+    def delete_assignment(self, assignment_id: str):
+        try:
+            db.collection_classes.document(self.ID).collection('assignments').document(assignment_id).delete()
+        except BaseException as e:
+            user_logger.info(f"Error while deleting assignment {assignment_id} from class {self.ID}: {e}")
+
     @staticmethod
     def get_by_id(ID: str):
         return Classes.from_dict(db.collection_classes.document(ID).get().to_dict())
