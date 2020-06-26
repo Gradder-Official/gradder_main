@@ -59,7 +59,16 @@ class Classes:
             db.collection_classes.document(ID).delete()
         except BaseException as e:
             user_logger.info(f"Error while deleting class {ID}: {e}")
-    
+
+    def get_assignments(self):
+        assignments = list()
+        for assignment in db.collection_classes.document(self.ID).collection('assignments').stream():
+            # Gets the dict object from the reference to the Firestore document stored in assignment,
+            # creates an Assignment object from the dictionary and then appends it to the return object
+            assignments.append(Assignment.from_dict(assignment.to_dict()))
+        
+        return assignments
+
     def add_assignment(self, assignment: Assignment):
         try:
             doc_ref = db.collection_classes.document(self.ID).collection('assignments').document()
