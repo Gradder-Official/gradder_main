@@ -1,34 +1,27 @@
-/* .new-landing */
+/* Top section */
 .new-landing {
     font-family: 'SF UI Text', sans-serif;
 	background: #fff;
 	color: #212121;
 }
 #top {
-    display: flex;
-    flex-direction: column;
-	width: 100%;
 	height: 100vh;
 	min-height: 649px;
-	position: relative;
-}
-@keyframes leftFade {
-    from { opacity: 0 }
-    to {opacity: 1 }
 }
 /* Left text panel */
+@keyframes leftFade {
+    from { opacity: 0 }
+    to { opacity: 1 }
+}
 .new-landing .left-container {
-    float: left;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-	height: 100%;
     width: 45%;
     animation: leftFade 2s ease;
 }
 .new-landing .left-container .hero-text {
-	font-family: 'SF UI Text', sans-serif;
 	margin-left: 20%;
     transition: width 0.25s ease;
     z-index: 100;
@@ -41,7 +34,6 @@
 }
 .new-landing .left-container .hero-text h1 {
 	font-family: 'Gilroy', sans-serif;
-	font-weight: bold;
 	color: #212121;
 	font-size: 72px; /* 77px */
 	margin-top: 1.2vw;
@@ -50,9 +42,7 @@
 }
 .new-landing .left-container .hero-text h3 {
     width: 30vw;
-	font-weight: 600;
 	font-size: 22px; /* 26px */
-	line-height: 25px;
 	color: #333333;
 	margin-top: 2vw;
     transition: font-size 0.25s ease;
@@ -62,8 +52,6 @@
 .new-landing form {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    width: 25vw;
     margin-top: 5vh;
 }
 .new-landing form input {
@@ -80,7 +68,7 @@
 }
 .new-landing #email:focus {
     outline: none !important;
-    border: 2px solid #00b0c7;
+    box-shadow: inset 0px 0px 0px 1px #00b0c7;
 }
 .new-landing #email-submit {
 	border: 0px;
@@ -96,8 +84,7 @@
     position: relative;
     top: 7vh;
     display: flex;
-    justify-content: flex-start;
-    margin-left: 18%;
+    margin-left: 15%;
     list-style: none;
     z-index: 100;
     animation: 6s fadeIn ease;
@@ -117,18 +104,8 @@
 /* Right image panel */
 .new-landing .right-container {
     position: absolute;
-    top: 0;
-    left: 0;
     height: 100%;
     width: 100%;
-}
-.new-landing .right-container .hero-image p {
-	color: white;
-	margin-top: 80px;
-	font-family: 'SF UI Text', sans-serif;
-	font-weight: 600;
-	font-size: 23px;
-	display: none;
 }
 .carousel-item {
     position: absolute;
@@ -138,12 +115,6 @@
     height: 100%;
 }
 .new-landing .right-container .hero-image {
-    height: 98%;
-    width: 100%;
-	background-size: contain;
-	background-position: top right;
-    background-repeat: no-repeat;
-    z-index: 0;
     opacity: 0;
     transition: 1s opacity;
 }
@@ -158,7 +129,6 @@
 }
 #slide1 {
     background-image: url('../images/Right Image.png');
-    height: 98%;
 }
 #slide2 {
     background-image: url('../images/Right Image 2.png');
