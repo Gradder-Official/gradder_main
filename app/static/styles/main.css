@@ -124,13 +124,11 @@ input[type=number]::-webkit-outer-spin-button
   	z-index: 100;
 }
 .nav-bar .logo {
-    display: flex;
 	cursor: pointer;
 	transition: all 0.2s ease;
 }
 .nav-bar .logo img {
     margin-top: -30px;
-	height: 13vw;
 	width: 15vw;
 	transition: all 0.2s ease;
 }
@@ -144,22 +142,16 @@ input[type=number]::-webkit-outer-spin-button
     overflow: hidden;
     animation: 5s fadeIn ease;
 }
-.nav-bar .menu li {
-  	float: left;
-}
 .nav-bar .menu li a  {
 	font-family: 'SF UI Text', sans-serif;
-	font-weight: 500;
   	display: block;
   	color: white;
-  	text-align: center;
   	padding: 0.6vw 1.2vw;
   	text-decoration: none;
   	border-radius: 11px;
     transition: background 0.3s;
 }
 .nav-bar .menu li:hover, .nav-bar .menu li .active  {
-    border-radius: 11px;
     background-color:rgb(8, 121, 136);
 }
 /* Responsive menu */
