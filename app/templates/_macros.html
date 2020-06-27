@@ -1,18 +1,26 @@
-{% macro field(field, label=True) %}
-{% if label %}
-{{ field.label }}
-{% endif %}
-{{ field(**kwargs) }}
-{% for error in field.errors %}
-{{ print(error) }}
-{% endfor %}
+{% macro field(field) %}
+    {% if field.errors %}
+        {{ field.label(class="form-control-label text-danger") }}
+        {{ field(class="form-control is-invalid", **kwargs) }}
+    {% else %}
+        {{ field.label(class="form-control-label") }}
+        {{ field(class="form-control", **kwargs) }}
+    {% endif %}
+    {% for error in field.errors %}=
+        <span class="error help-inline text-danger">{{ error }}</span>
+    {% endfor %}
 {% endmacro %}
 
-{% macro assignment(assgn) %}
+{% macro assignment(assignment) %}
 <div class="assignment-container" style="background-color: rgb(135, 221, 109);">
-    <p class="subject">Subject: <b>{{ assgn['subject'] }}</b></p>
-    <p class="submit_by">Due by: <b>{{ assgn['due_by'] }}</b></p>
-    <p class="estimated_time">Estimated time: <b>{{ assgn['estimated_time'] }}</b></p>
-    <p class="content">Content: <b>{{ assgn['content'] }}</b></p>
+    <p class="subject">Subject: <b>{{ assignment['class_name'] }}</b></p>
+    <p class="submit_by">Due by: <b>{{ assignment['due_by'] }}</b></p>
+    <p class="estimated_time">Estimated time: <b>{{ assignment['estimated_time'] }}</b></p>
+    <p class="content">Content: <b>{{ assignment['content'] }}</b></p>
+    <p class="files">Files attached: <b>
+        {% for link in assignment['file_links'] %}
+        <a href="{{ link }}">{{ link }}</a><br>
+        {% endfor %}
+    </b></p>
 </div>
 {% endmacro %}

@@ -1,7 +1,7 @@
 {% extends "_dashboard.html" %}
 
 {% block content %}
-<p class="large">Current class: 8-A</p>
+<p class="large">My classes: {{ current_user.get_class_names() }}</p>
 <div class="jumbotron container teacher-students">
     View your students here
 </div>

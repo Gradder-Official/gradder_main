@@ -6,8 +6,8 @@
 </div>
 <div class="jumbotron container student-homework">
     Here are your all assignments:
-    {% for assgn in assignments %}
-    {{ macros.assignment(assgn) }}
+    {% for assignment in assignments %}
+    {{ macros.assignment(assignment) }}
     {% endfor %}
 </div>
 <div class="jumbotron container student-schedule">
