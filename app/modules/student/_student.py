@@ -1,5 +1,5 @@
 from app import db
-from app.modules._classes import Assignment, User
+from app.modules._classes import Assignment, User, Classes
 
 from typing import Dict, List
 
@@ -100,6 +100,6 @@ class Student(User):
         """
         assignments = list()
         for class_ref in self.class_names:
-            assignments.extend(Assignment.get_by_class(str(class_ref)))
+            assignments.extend(Classes.get_by_id(class_ref).get_assignments())
 
         return assignments
