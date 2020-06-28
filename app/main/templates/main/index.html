@@ -69,7 +69,7 @@
             <h1>Why Us?</h1>
             <table class="reasons">
                 <tr>
-                    <th></th>
+                    <th style="width: 8%"></th>
                     <th>
                         <img src="../static/images/Parents.png">
                         <h2>Parents</h2>
@@ -85,21 +85,21 @@
                 </tr>
                 <tr>
                     <td class="number" id="one">1</td>
-                    <td>Point 1 goes here</td>
-                    <td>Point 1 goes here</td>
-                    <td>Point 1 goes here</td>
+                    <td>Instant access to children’s progress reports</td>
+                    <td>School-wide or targeted announcements</td>
+                    <td>Integrated school-wide event schedule</td>
                 </tr>
                 <tr>
                     <td class="number" id="two">2</td>
-                    <td>Point 2 goes here</td>
-                    <td>Point 2 goes here</td>
-                    <td>Point 2 goes here</td>
+                    <td>Easy communication with teachers</td>
+                    <td>Submit an assignment in just X clicks</td>
+                    <td>Smart grade alerts and personalized progress reports</td>
                 </tr>
                 <tr>
                     <td class="number" id="three">3</td>
-                    <td>Point 3 goes here</td>
-                    <td>Point 3 goes here</td>
-                    <td>Point 3 goes here</td>
+                    <td>Save time by X%</td>
+                    <td>Post an assignment in just X clicks</td>
+                    <td>Integrated schedule and syllabi</td>
                 </tr>
             </table>
         </div>
@@ -129,6 +129,28 @@
     <div class="section" id="roadmap" data-aos="fade-up" data-aos-duration="2000">
         <h1>Roadmap</h1>
         <img src="{{ url_for('static', filename='images/Horizontal Roadmap.png') }}">
+        <table class="timeline">
+            <tr id="top-row">
+                <td></td>
+                <td><strong>February 2020</strong><br>Prototype created</td>
+                <td></td>
+                <td><strong>April 2020</strong><br>Global Finalist at the Diamond Challenge for High School Entrepreneurs</td>
+                <td></td>
+                <td><strong>June 2020</strong><br>Alpha version created</td>
+                <td></td>
+                <td><strong>September 2020</strong><br>Launch</td>
+            </tr>
+            <tr id="bottom-row">
+                <td><strong>January 2020</strong><br>200 user interviews conducted</td>
+                <td></td>
+                <td><strong>March 2020</strong><br>Test conducted in one school in Kyiv</td>
+                <td></td>
+                <td><strong>May 2020</strong><br>MVP version created</td>
+                <td></td>
+                <td><strong>July 2020</strong><br>Beta version created</td>
+                <td></td>
+            </tr>
+        </table>
     </div>
     <div class="section" id="team" data-aos="fade-up" data-aos-duration="2000">
         <h1>Our Team</h1>
@@ -145,9 +167,9 @@
                 </th>
             </tr>
             <tr>
-                <td>Serhii 1</td>
-                <td>Serhii 2</td>
-                <td>Serhii 3</td>
+                <td>Serhii</td>
+                <td>Dasha</td>
+                <td>Alex</td>
             </tr>
             <tr>
                 <td>Facts, facts, facts!</td>
@@ -158,7 +180,30 @@
     </div>
 </div>
 <footer>
-    <h1>Footer information</h1>
+    <div class="footer-body">
+        <div class="contact-info">
+            <h1>Contact us</h1>
+            <p>team@gradder.io</p>
+        </div>
+        <form class="enquiry">
+            <h1>Enquiries</h1>
+            <div class="enquiry-person">
+                <input type="text" id="enquiry-name" name="enquiry-name" placeholder="Your name">
+                <input type="email" id="enquiry-email" name="enquiry-email" placeholder="Your email">
+            </div>
+            <select id="enquiry-subject">
+                <option value="funding">Funding/investments</option>
+                <option value="partnership">Partnership</option>
+                <option value="careers">Careers</option>
+                <option value="system">Using our system</option>
+                <option value="feedback">Feedback</option>
+                <option value="questions">Questions</option>
+                <option value="other">Other</option>
+            </select>
+            <textarea id="enquiry-body" name="enquiry-body" rows="10" cols="30" placeholder="Your enquiry"></textarea>
+            <input type="submit" id="enquiry-submit" value="Submit">
+        </form>
+    </div>
     <img src="{{ url_for('static', filename='images/Footer.png') }}">
 </footer>
 {% endblock %}
