@@ -1,0 +1,98 @@
+/* Left sidebar */
+.dash-sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 20px;
+    padding-right: 4vw;
+    height: 100vh;
+    width: 18vw;
+    min-width: 200px;
+    background-color: rgb(102,130,252);
+}
+
+/* Sidebar top */
+.sidebar-logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.sidebar-logo img {
+    width: 10%;
+    margin: 0 10px;
+}
+.sidebar-logo h4 {
+    font-family: 'Gilroy', sans-serif;
+    font-size: 1.5vw;
+    color: white;
+    margin-top: 0.5rem;
+}
+.dash-profile {
+    margin-bottom: 3vh;
+}
+#profile-pic {
+    width: 8vw;
+    height: 8vw;
+    border: 5px solid rgb(93, 118, 232);;
+    background: whitesmoke;
+    border-radius: 30px;
+}
+.dash-profile h4 {
+    margin: 15px 5px;
+    color: white;
+    font-size: 2vw;
+}
+
+/* Sidebar navigation */
+#sidebar-nav .nav-link {
+    font-family: 'SF UI Text', sans-serif;
+    font-size: 1.2vw;
+    color: white;
+    margin-top: 8px;
+    margin-left: -20px;
+    padding-left: 30px;
+}
+#sidebar-nav .active, #sidebar-nav .nav-link:hover {
+    background: rgb(93, 118, 232);
+    border-radius: 0 50px 50px 0;
+}
+
+/* Sidebar bottom */
+.navbar-bottom {
+    position: absolute;
+    bottom: 3vh;
+    width: 70%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.navbar-bottom i {
+    font-size: 30px;
+    color: white;
+}
+.navbar-bottom a {
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    width: 50px;
+    height: 50px;
+}
+.navbar-bottom a:hover, .navbar-bottom a:active {
+    background: rgb(93, 118, 232);
+}
+
+/* Dashboard content */
+.dash-content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 50px;
+    height: 100vh;
+    width: 84vw;
+    border-radius: 30px 0 0 30px;
+    background: whitesmoke;
+}

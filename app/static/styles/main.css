@@ -151,7 +151,7 @@ input[type=number]::-webkit-outer-spin-button
   	border-radius: 11px;
     transition: background 0.3s;
 }
-.nav-bar .menu li:hover, .nav-bar .menu li .active  {
+.nav-bar .menu li a:hover, .nav-bar .menu li a:active  {
     background-color:rgb(8, 121, 136);
 }
 /* Responsive menu */
