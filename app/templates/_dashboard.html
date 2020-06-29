@@ -1,24 +1,35 @@
-{% extends "bootstrap/base.html" %}
+{% extends "base.html" %}
 {% import "_macros.html" as macros %}
 
 {% block title %}Gradder | Dashboard{% endblock %}
 
 {% block navbar %}
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Gradder</a>
+<div class="dash-sidebar">
+    <div class="navbar-header">
+        <a href="#" class="sidebar-logo">
+            <img src="{{ url_for('static', filename='images/White Logo.png') }}" alt="Gradder">
+            <h4>Gradder</h4>
+        </a>
+        <div class="dash-profile">
+            <h4>Hello, {{ current_user.first_name }}</h4>
+            <!-- Placeholder profile pic -->
+            <img src="https://www.iambetter.org/wp-content/uploads/2020/04/Albert_Einstein_1024x1024.jpg" alt="Profile picture" id="profile-pic">
         </div>
     </div>
-    <ul class="nav navbar-nav">
-        <li class="active"><a href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
-        <li><a href="{{ url_for('main.profile') }}"><span class="glyphicon glyphicon-user"></span>Profile</a></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-        <li class=""><a href="{{ url_for('auth.logout') }}"><span class="glyphicon glyphicon-log-out"></span>Sign
-                out</a></li>
-        <li class=""><a href="#"><span class="glyphicon glyphicon-envelope"></span><span class="badge">5</span><a></a>
-        </li>
-    </ul>
-</nav>
+    <nav class="nav flex-column nav-pills" id="sidebar-nav">
+        <a class="nav-link active" href="{{ url_for('main.dashboard') }}">Overview</a>
+        <a class="nav-link" href="#">Timetable</a>
+        <a class="nav-link" href="#">Assignments</a>
+        <a class="nav-link" href="#">Analytics</a>
+        <a class="nav-link" href="{{ url_for('main.profile') }}">Profile</a>
+    </nav>
+    <div class="navbar-bottom">
+        <a href="#">
+            <i class="material-icons">mail</i>
+        </a>
+        <a href="#">
+            <i class="material-icons">exit_to_app</i>
+        </a>
+    </div>
+</div>
 {% endblock %}

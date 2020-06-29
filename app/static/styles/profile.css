@@ -1,0 +1,35 @@
+.jumbotron {
+    border-radius: 20px;
+    padding: 5vh 3vw;
+    background: white;
+}
+.jumbotron h1 {
+    font-family: 'Gilroy', sans-serif;
+    font-weight: bold;
+}
+#profile-jumbo h4 {
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+#profile-jumbo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.welcome-buttons, .welcome-message {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.welcome-buttons button {
+    font-family: 'SF UI Text', sans-serif;
+    border-radius: 12px;
+    background: rgb(102,130,252);
+}
+.welcome-buttons button:hover, .welcome-buttons button:active {
+    background: rgb(93, 118, 232);
+}
+.welcome-buttons a {
+    color: white;
+    text-decoration: none;
+}
