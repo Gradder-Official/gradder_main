@@ -33,10 +33,10 @@ class RegistrationForm(FlaskForm):
         from app import db
 
         checks = [
-            list(db.collection_admins.where(u'email', u'==', field.data.lower()).stream()),
-            list(db.collection_parents.where(u'email', u'==', field.data.lower()).stream()),
-            list(db.collection_students.where(u'email', u'==', field.data.lower()).stream()),
-            list(db.collection_teachers.where(u'email', u'==', field.data.lower()).stream())
+            list(db.admins.find_one({"email": field.data.lower()})),
+            list(db.parents.find_one({"email": field.data.lower()})),
+            list(db.students.find_one({"email": field.data.lower()})),
+            list(db.teachers.find_one({"email": field.data.lower()}))
         ]
         
         if any(checks):
@@ -47,7 +47,8 @@ class RegistrationForm(FlaskForm):
 
     def validate_auth_token(self, field):
         from app import db
-        token = db.collection_tokens.document(field.data).get().to_dict()
+        token = db.tokens.find_one({"_id": field.data})
+        print(token)
         if token is not None:
             return True
         else:

@@ -5,21 +5,17 @@ from app.logs.user_logger import user_logger
 from app import db
 from flask import current_app
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from bson.objectid import ObjectId
 
 
 class User(UserMixin):
     USERTYPE = None  # is unique per each class, acts as access levels
 
-    def __init__(self, email: str, first_name: str, last_name: str, ID: str = None):
+    def __init__(self, email: str, first_name: str, last_name: str, ID: str=None):
         self.email = email
         self.first_name = first_name
         self.last_name = last_name
-
-        if ID is not None:
-            self.ID = ID
-        else:
-            self.ID = db.get_new_id()
-
+        self.ID = ID
         self.secret_question = None
         self.secret_answer = None
 
@@ -41,10 +37,7 @@ class User(UserMixin):
 
     def set_secret_question(self, question: str, answer: str):
         self.secret_question = question
-        if match(r"(pbkdf2:sha256:)([^\$.]+)(\$)([^\$.]+)(\$)([^\$.]+)", answer) is not None:
-            self.secret_answer = answer
-        else:
-            self.secret_answer = generate_password_hash(answer)
+        self.secret_answer = generate_password_hash(answer)
 
     def verify_secret_question(self, answer: str):
         return check_password_hash(self.secret_answer, answer)
@@ -53,129 +46,89 @@ class User(UserMixin):
     def get_by_id(id: str):
         if id:
             try:
-                user = db.collection_admins.document(id)
-
-                user = user.get().to_dict()
-
-                if user is not None:
-                    return user
-                else: 
-                    raise(BaseException)
+                user = db.students.find_one({"_id": ObjectId(id)})
+                user["_id"]
+                return user
             except BaseException as e:
                 pass
 
             try:
-                user = db.collection_teachers.document(id)
-
-                user = user.get().to_dict()
-
-                if user is not None:
-                    return user
-                else: 
-                    raise(BaseException)
-            except BaseException:
-                pass
-
-            try:
-                user = db.collection_students.document(id)
-
-                user = user.get().to_dict()
-
-                if user is not None:
-                    return user
-                else: 
-                    raise(BaseException)
+                user = db.teachers.find_one({"_id": ObjectId(id)})
+                user["_id"]
+                return user
             except BaseException as e:
                 pass
 
             try:
-                user = db.collection_parents.document(id)
+                user = db.parents.find_one({"_id": ObjectId(id)})
+                user["_id"]
+                return user
+            except BaseException as e:
+                pass
 
-                user = user.get().to_dict()
-
-                if user is not None:
-                    return user
-                else: 
-                    raise(BaseException)
-            except BaseException:
-                return None
-
-    @staticmethod
-    def get_by_name(usertype: str, first_name: str, last_name: str):
-        # TODO: what if there are many people with same names?
-        if first_name and last_name:
-            received_user = eval(
-                f'db.collection_{usertype+"s"}.where(u"last_name", u"==", {last_name}).where(u"first_name", u"==", {first_name})'
-            )
-            if received_user:
-                received_user = list(received_user.stream())[0].to_dict()
-                return received_user
-            else:
+            try:
+                user = db.admins.find_one({"_id": ObjectId(id)})
+                user["_id"]
+                return user
+            except BaseException as e:
                 return None
 
     @staticmethod
     def get_by_email(email: str):
         if email:
             try:
-                user = db.collection_admins.where(u"email", u"==", email)
-
-                return list(user.stream())[0].to_dict()
+                user = db.students.find_one({"email": email})
+                user["_id"]
+                return user
             except BaseException as e:
                 pass
 
             try:
-                user = db.collection_teachers.where(u"email", u"==", email)
-
-                return list(user.stream())[0].to_dict()
+                user = db.teachers.find_one({"email": email})
+                user["_id"]
+                return user
             except BaseException as e:
                 pass
 
             try:
-                user = db.collection_parents.where(u"email", u"==", email)
-
-                return list(user.stream())[0].to_dict()
+                user = db.parents.find_one({"email": email})
+                user["_id"]
+                return user
             except BaseException as e:
                 pass
 
             try:
-                user = db.collection_students.where(u"email", u"==", email)
-
-                return list(user.stream())[0].to_dict()
+                user = db.admins.find_one({"email": email})
+                user["_id"]
+                return user
             except BaseException as e:
                 return None
 
     def add(self):
         r"""Adds the user to the DB.
         """
-
         try:
-            eval(
-                f'db.collection_{self.USERTYPE.lower() + "s"}.document(self.ID).set(self.to_dict())')
+            eval(f'db.{self.USERTYPE.lower() + "s"}.insert_one(self.to_dict())')
             return True
         except BaseException as e:
             user_logger.exception("Failed adding")
             return False
+        return True
+
 
     def remove(self):
         try:
-            eval(
-                f'db.collection_{self.USERTYPE.lower()+"s"}.document(str(self.ID)).delete()'
-            )
-
+            eval(f'db.{self.USERTYPE.lower() + "s"}.delete({{"email": self.email}})')
             return True
         except BaseException as e:
             user_logger.exception("Failed removing")
             return False
-
-    def get_id(self):
-        return self.ID
 
     def to_json(self):
         json_user = {
             'email': self.email,
             'first_name': self.first_name,
             'last_name': self.last_name,
-            'ID': self.ID,
             'password': self.password_hash,
             'usertype': self.USERTYPE,
             'secret_question': self.secret_question,
@@ -191,7 +144,7 @@ class User(UserMixin):
         user = User(email=dictionary['email'],
                     first_name=dictionary['first_name'],
                     last_name=dictionary['last_name'],
-                    ID=dictionary['ID'] if 'ID' in dictionary else None)
+                    ID=dictionary['_id'] if '_id' in dictionary else None)
 
         if 'password' in dictionary:
             user.set_password(dictionary['password'])
@@ -214,3 +167,6 @@ class User(UserMixin):
         except:
             return None
         return User.get_by_id(user_id)
+    
+    def get_id(self):
+        return self.ID

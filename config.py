@@ -17,7 +17,7 @@ class Config:
     MAIL_SENDER = 'Gradder Team <team@gradder.io>'
 
     SSL_REDIRECT = True
-
+    
     @staticmethod
     def init_app(app):
         pass

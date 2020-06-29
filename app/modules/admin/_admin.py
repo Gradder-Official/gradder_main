@@ -40,8 +40,7 @@ class Admin(User):
         user = Admin(email=dictionary['email'],
                      first_name=dictionary['first_name'],
                      last_name=dictionary['last_name'],
-                     ID=dictionary['ID'] if 'ID' in dictionary else None)
-
+                     ID=str(dictionary['_id']) if '_id' in dictionary else None)
         if 'password' in dictionary:
             user.set_password(dictionary['password'])
 

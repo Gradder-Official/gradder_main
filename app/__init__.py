@@ -1,13 +1,12 @@
+#from app.db import DB
 from app.db import DB
-
 from flask import Flask
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_mail import Mail
 from flask_talisman import Talisman
-import firebase_admin
-from firebase_admin import credentials
+from pymongo import MongoClient
 from config import config
 
 login_manager = LoginManager()
@@ -17,12 +16,12 @@ bootstrap = Bootstrap()
 moment = Moment()
 mail = Mail()
 
-
 db = DB()
 
 
 def create_app(config_name):
     app = Flask(__name__)
+
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 

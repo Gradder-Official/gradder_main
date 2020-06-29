@@ -17,6 +17,7 @@ from app.modules.admin._admin import Admin
 from app.modules.parent._parent import Parent
 
 from app.logs.user_logger import user_logger
+from bson import json_util
 
 @login_manager.user_loader
 def load_user(id: str):
@@ -35,13 +36,11 @@ def login():
         user = eval(user['usertype'].capitalize()).from_dict(user)
         if user is not None and user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
-            
             user_logger.info("{} LOGGED IN: {} {} {} - ACCESS: {}".format(datetime.utcnow(), user.first_name, user.last_name, user.email, user.USERTYPE))
 
             next = request.args.get('next')
             if next is None or not next.startswith('/'):
                 next = url_for('main.dashboard')
-
             return redirect(next)
         flash('Invalid email or password.')
 
