@@ -6,6 +6,7 @@ from werkzeug.utils import secure_filename
 from . import teacher
 
 from ._teacher import Teacher
+from app.modules._classes import Classes
 from .forms import NewAssignmentForm
 
 from app.decorators import required_access
@@ -38,23 +39,27 @@ def profile():
 def add_assignment():
     form = NewAssignmentForm()
 
+    form.assigned_to.choices = current_user.get_class_names()
+
     if form.validate_on_submit():
-        files = request.files.getlist(form.files.name)
         file_link_list = []
-        for file in files:
-            blob = upload_blob('gradder-storage', file.filename, file)
-            file_link_list.append(blob.media_link)
+        if request.files is not None:
+            files = request.files.getlist(form.files.name)
+            for file_ in files:
+                blob = upload_blob('gradder-storage', file_.filename, file_)
+                file_link_list.append(blob.media_link)
         
         new_assignment = Assignment(date_assigned=datetime.utcnow(),
                                     assigned_by=current_user.ID,
                                     assigned_to=form.assigned_to.data,
                                     due_by=form.due_by.data,
-                                    subject=form.subject.data,
                                     content=form.content.data,
                                     file_links=file_link_list,
                                     estimated_time=form.estimated_time.data
                                     )
-        new_assignment.add()
+        
+        Classes.get_by_id(form.assigned_to.data).add_assignment(new_assignment)
+
         flash('Assignment sent!')
         return redirect(url_for('main.dashboard'))
 
