@@ -22,3 +22,8 @@ def index():
 @student.route('/profile')
 def profile():
     return render_template('student/profile.html')
+    
+
+@student.route('/assignments')
+def assignments():
+    return render_template('student/assignments.html', assignments=current_user.get_assignments())
