@@ -63,7 +63,7 @@ class Student(User):
         user = Student(email=dictionary['email'],
                        first_name=dictionary['first_name'],
                        last_name=dictionary['last_name'],
-                       ID=dictionary['ID'] if 'ID' in dictionary else None)
+                       ID=str(dictionary['_id']) if '_id' in dictionary else None)
 
         if 'class_names' in dictionary:
             user.class_names.extend(dictionary['class_names'])

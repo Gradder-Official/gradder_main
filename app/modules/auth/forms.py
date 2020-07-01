@@ -32,14 +32,10 @@ class RegistrationForm(FlaskForm):
     def validate_email(self, field):
         from app import db
 
-        checks = [
-            list(db.admins.find_one({"email": field.data.lower()})),
-            list(db.parents.find_one({"email": field.data.lower()})),
-            list(db.students.find_one({"email": field.data.lower()})),
-            list(db.teachers.find_one({"email": field.data.lower()}))
-        ]
-        
-        if any(checks):
+        if (db.admins.find_one({"email": field.data.lower()}) or 
+            db.parents.find_one({"email": field.data.lower()}) or
+            db.students.find_one({"email": field.data.lower()}) or
+            db.teachers.find_one({"email": field.data.lower()})):
             raise ValidationError("This email is already in use")
         else:
             return True
