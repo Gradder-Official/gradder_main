@@ -33,15 +33,16 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.get_by_email(form.email.data.lower())
-        user = eval(user['usertype'].capitalize()).from_dict(user)
-        if user is not None and user.verify_password(form.password.data):
-            login_user(user, form.remember_me.data)
-            user_logger.info("{} LOGGED IN: {} {} {} - ACCESS: {}".format(datetime.utcnow(), user.first_name, user.last_name, user.email, user.USERTYPE))
+        if user is not None:
+            user = eval(user['usertype'].capitalize()).from_dict(user)
+            if user is not None and user.verify_password(form.password.data):
+                login_user(user, form.remember_me.data)
+                user_logger.info("{} LOGGED IN: {} {} {} - ACCESS: {}".format(datetime.utcnow(), user.first_name, user.last_name, user.email, user.USERTYPE))
 
-            next = request.args.get('next')
-            if next is None or not next.startswith('/'):
-                next = url_for('main.dashboard')
-            return redirect(next)
+                next = request.args.get('next')
+                if next is None or not next.startswith('/'):
+                    next = url_for('main.dashboard')
+                return redirect(next)
         flash('Invalid email or password.')
 
     return render_template('auth/login.html', form=form)
@@ -64,7 +65,6 @@ def register():
 
         user.set_password(form.password.data)
         user.set_secret_question(question=form.secret_question.data, answer=form.secret_answer.data.lower())
-
         if user.add():
             db.delete_auth_token(form.auth_token.data)
             user_logger.info("NEW USER: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))

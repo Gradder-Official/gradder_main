@@ -1,4 +1,3 @@
-#from app.db import DB
 from app.db import DB
 from flask import Flask
 from flask_login import LoginManager

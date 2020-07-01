@@ -1,7 +1,9 @@
 {% extends "_dashboard.html" %}
 
 {% block content %}
-<p class="large">My classes: {{ current_user.get_class_names() }}</p>
+{% if current_user.class_list %}
+    <p class="large">My classes: {{ current_user.get_class_names() }}</p>
+{% endif %}
 <div class="jumbotron container teacher-students">
     View your students here
 </div>

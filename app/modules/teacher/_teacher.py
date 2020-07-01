@@ -39,10 +39,10 @@ class Teacher(User):
         user = Teacher(email=dictionary['email'],
                        first_name=dictionary['first_name'],
                        last_name=dictionary['last_name'],
-                       ID=dictionary['ID'] if 'ID' in dictionary else None)
+                       ID=str(dictionary['_id']) if '_id' in dictionary else None)
 
         if 'class_list' in dictionary:
-            user.classes = dictionary['class_list']
+            user.class_list = dictionary['class_list']
 
         if 'password' in dictionary:
             user.set_password(dictionary['password'])
@@ -55,7 +55,9 @@ class Teacher(User):
 
     def get_class_names(self):
         classes = []
-        for class_ in self.classes:
-            classes.append((class_, Classes.get_by_id(class_).name))
+        if self.class_list:
+            for class_ in self.class_list:
+                print(class_)
+                classes.append((class_, Classes.get_by_id(class_)["name"]))
         
         return classes
