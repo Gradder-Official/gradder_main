@@ -58,7 +58,7 @@ def add_assignment():
                                     estimated_time=form.estimated_time.data
                                     )
         
-        Classes.get_by_id(form.assigned_to.data).add_assignment(new_assignment)
+        Classes.from_dict(Classes.get_by_id(form.assigned_to.data)).add_assignment(new_assignment)
 
         flash('Assignment sent!')
         return redirect(url_for('main.dashboard'))

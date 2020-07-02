@@ -43,7 +43,12 @@ class Classes:
 
     @staticmethod
     def from_dict(dictionary: dict):
-        return Classes(**dictionary)
+        return Classes(dictionary["department"], dictionary["number"], 
+                        dictionary["name"], dictionary["teacher"], 
+                        dictionary["students"], dictionary["description"], 
+                        dictionary["schedule_time"], dictionary["schedule_days"], 
+                        dictionary["syllabus"], dictionary["assignments"] if "assigments" in dictionary else None,
+                        ID=dictionary["_id"])
 
     def add(self):
         db.classes.insert_one(self.to_dict())
@@ -75,7 +80,9 @@ class Classes:
 
     def add_assignment(self, assignment: Assignment):
         try:
-            db.classes.find_one_and_update({"_id": self.ID}, {"$push": {"assignments": Assignment.to_dict()}})
+            dictionary = assignment.to_dict()
+            dictionary["_id"] = ObjectId()
+            db.classes.find_one_and_update({"_id": self.ID}, {"$push": {"assignments": dictionary}})
         except BaseException as e:
             user_logger.info(f"Error while adding assignment {assignment.ID}: {e}")
 
