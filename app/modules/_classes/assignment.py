@@ -45,7 +45,6 @@ class Assignment:
             'content': str(self.content),
             'file_links': self.file_links,
             'estimated_time': str(self.estimated_time),
-            'ID': str(self.ID)
         }
 
     @staticmethod
@@ -57,4 +56,7 @@ class Assignment:
         dictionary : dict
             Dictionary with proper Assignment parameters
         """
-        return Assignment(**dictionary)
+        return Assignment(dictionary["date_assigned"], dictionary["assigned_by"], 
+                            dictionary["assigned_to"], dictionary["due_by"], 
+                            dictionary["content"], dictionary["file_links"], 
+                            dictionary["estimated_time"], ID=dictionary["_id"])

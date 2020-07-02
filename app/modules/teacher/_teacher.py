@@ -57,7 +57,6 @@ class Teacher(User):
         classes = []
         if self.class_list:
             for class_ in self.class_list:
-                print(class_)
                 classes.append((class_, Classes.get_by_id(class_)["name"]))
         
         return classes
