@@ -1,6 +1,6 @@
 from app import db
-from app.modules._classes import Assignment, User, Classes
-
+from app.modules._classes import Assignment, User, Classes, Submission
+from bson import ObjectId
 from typing import Dict, List
 
 # A type that defines a dictionary of grades: subjects are keys and lists of integer grades are values
@@ -11,7 +11,7 @@ gradeDict = Dict[str, List[int]]
 class Student(User):
     USERTYPE = 'Student'
 
-    def __init__(self, email: str, first_name: str, last_name: str, class_names: List[int] = None, ID: str = None, grades: gradeDict = None):
+    def __init__(self, email: str, first_name: str, last_name: str, class_names: List[str] = None, ID: str = None, grades: gradeDict = None):
         r"""Initializes a Student object.
 
         Parameters
@@ -98,8 +98,14 @@ class Student(User):
     def get_assignments(self):
         """ Gets a list of assignments from the database for this student.
         """
-        assignments = list()
+        assignments = []
         for class_ref in self.class_names:
-            assignments.extend(Classes.get_by_id(class_ref).get_assignments())
+            assignments.extend(Classes.get_by_id(class_ref).to_dict().get_assignments())
 
         return assignments
+
+    def add_submission(self, class_id, assignment_id, submission):
+        dictionary = submission.to_dict()
+        dictionary["student_id"] = self.ID
+        dictionary["_id"] = ObjectId()
+        db.classes.find_one_and_update({"_id": ObjectId(class_id), "assignments._id": ObjectId(assignment_id)}, {"$push": {"assignments.$.submissions": dictionary}})
