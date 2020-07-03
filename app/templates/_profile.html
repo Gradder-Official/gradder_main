@@ -13,21 +13,21 @@
             <h4>Hello, {{ current_user.first_name }}</h4>
             <!-- Placeholder profile pic -->
             <img src="https://www.iambetter.org/wp-content/uploads/2020/04/Albert_Einstein_1024x1024.jpg"
-                alt="Profile picture" id="profile-pic">
+                alt="Profile picture" class="profile-pic">
         </div>
     </div>
     <nav class="nav flex-column nav-pills" id="sidebar-nav">
-        <a class="nav-link active" href="{{ url_for('main.dashboard') }}">Overview</a>
+        <a class="nav-link" href="{{ url_for('main.dashboard') }}">Overview</a>
         <a class="nav-link" href="#">Timetable</a>
-        <a class="nav-link" href="#">Assignments</a>
+        <a class="nav-link" href="{{ url_for('student.assignments') }}">Assignments</a>
         <a class="nav-link" href="#">Analytics</a>
-        <a class="nav-link" href="{{ url_for('main.profile') }}">Profile</a>
+        <a class="nav-link active" href="{{ url_for('main.profile') }}">Profile</a>
     </nav>
     <div class="navbar-bottom">
         <a href="#">
             <i class="material-icons">mail</i>
         </a>
-        <a href="#">
+        <a href="{{ url_for('auth.login') }}">
             <i class="material-icons">exit_to_app</i>
         </a>
     </div>
@@ -37,18 +37,23 @@
 {% block content %}
 <div class="dash-content">
     <div class="jumbotron" id="profile-jumbo">
-        <div class="welcome-message">
+        <div style="min-width: 500px">
             <h1>Welcome, {{ current_user.first_name }}!</h1>
+            <br>
             <h4>You are {% if current_user.USERTYPE.capitalize() != 'Admin' %} a {% else %}
                 an {% endif %} {{ current_user.USERTYPE.lower() }}.</h4>
         </div>
-        <div class="welcome-buttons">
-            <button type="button" class="btn btn-light">
-                <a href="{{ url_for('auth.change_password') }}">Change password</a>
-            </button>
-            <button type="button" class="btn btn-light">
-                <a href="{{ url_for('auth.change_secret_question') }}">Change secret question</a>
-            </button>
+        <div class="welcome-top-right">
+            <!-- Placeholder profile pic -->
+            <img src="https://www.iambetter.org/wp-content/uploads/2020/04/Albert_Einstein_1024x1024.jpg" alt="Profile picture" class="profile-pic" id="welcome-profile-pic">
+            <div class="welcome-buttons">
+                <button type="button" class="btn btn-light">
+                    <a href="{{ url_for('auth.change_password') }}">Change password</a>
+                </button>
+                <button type="button" class="btn btn-light">
+                    <a href="{{ url_for('auth.change_secret_question') }}">Change secret question</a>
+                </button>
+            </div>
         </div>
     </div>
     {% block page_content %}
