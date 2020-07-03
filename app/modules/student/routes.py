@@ -26,4 +26,4 @@ def profile():
 
 @student.route('/assignments')
 def assignments():
-    return render_template('student/assignments.html')
+    return render_template('student/assignments.html', assignments=current_user.get_assignments())
