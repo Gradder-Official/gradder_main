@@ -1,4 +1,6 @@
 from typing import List
+import re
+
 from . import Assignment
 
 from app import db
@@ -35,14 +37,37 @@ class Classes:
             'schedule_days': self.schedule_days,
             'syllabus': self.syllabus
         }
-
-        if self.class_name:
-            dict_object['class_name'] = self.class_name
         
         return dict_object
     
     def to_json(self):
-        return self.to_dict()
+        from app.modules.student._student import Student
+        # JSON object to be passed on to HTML templates
+        # 'admin_info' should only be read-only for everyone except admins, 
+        # teacher_info should only be read-only for everyone except teachers
+        json_object = {
+            'admin_info': {
+                'department': self.department,
+                'number': str(self.number),
+                'name': self.name,
+                'teacher': self.teacher,
+                'schedule_time': self.schedule_time,
+                'schedule_days': self.schedule_days,
+            },
+            'teacher_info': {
+                'description': self.description,
+                'syllabus': self.syllabus,
+            },
+            'immutable_info': {
+                'alias': self.department + "_" + str(self.number) + "_" + re.sub(r'[^a-zA-Z]+', '', self.name.lower()),
+                'full_name': self.get_full_name(),
+                'ID': self.ID,
+            },
+            'students': 
+                [Student.get_by_id(student_id).to_dict() for student_id in self.students],
+        }
+
+        return json_object
 
     @staticmethod
     def from_dict(dictionary: dict):
@@ -94,3 +119,8 @@ class Classes:
     @staticmethod
     def get_by_id(ID: str):
         return Classes.from_dict(db.collection_classes.document(ID).get().to_dict())
+
+    def get_full_name(self) -> str:
+        r'''Returns name in the format "SOС310 U.S. History"
+        '''
+        return self.department + str(self.number) + " " + self.name

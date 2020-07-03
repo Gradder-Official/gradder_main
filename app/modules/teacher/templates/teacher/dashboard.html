@@ -1,5 +1,36 @@
 {% extends "_dashboard.html" %}
 
+{% block navbar %}
+<div class="dash-sidebar">
+    <div class="navbar-header">
+        <a href="#" class="sidebar-logo">
+            <img src="{{ url_for('static', filename='images/White Logo.png') }}" alt="Gradder">
+            <h4>Gradder</h4>
+        </a>
+        <div class="dash-profile">
+            <h4>Hello, {{ current_user.first_name }}</h4>
+            <!-- Placeholder profile pic -->
+            <img src="https://www.iambetter.org/wp-content/uploads/2020/04/Albert_Einstein_1024x1024.jpg" alt="Profile picture" id="profile-pic">
+        </div>
+    </div>
+    <nav class="nav flex-column nav-pills" id="sidebar-nav">
+        <a class="nav-link active" href="{{ url_for('main.dashboard') }}">Overview</a>
+        <a class="nav-link" href="{{ url_for('teacher.manage_classes') }}">Classes</a>
+        <a class="nav-link" href="#">Assignments</a>
+        <a class="nav-link" href="#">Analytics</a>
+        <a class="nav-link" href="{{ url_for('main.profile') }}">Profile</a>
+    </nav>
+    <div class="navbar-bottom">
+        <a href="#">
+            <i class="material-icons">mail</i>
+        </a>
+        <a href="{{ url_for('auth.logout') }}">
+            <i class="material-icons">exit_to_app</i>
+        </a>
+    </div>
+</div>
+{% endblock %}
+
 {% block content %}
 <p class="large">My classes: {{ current_user.get_class_names() }}</p>
 <div class="jumbotron container teacher-students">

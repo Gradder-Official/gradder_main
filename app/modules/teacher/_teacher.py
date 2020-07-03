@@ -1,4 +1,5 @@
 from app.modules._classes import User, Classes
+from app.modules.student._student import Student
 
 
 class Teacher(User):
@@ -50,8 +51,10 @@ class Teacher(User):
         return user
 
     def get_class_names(self):
-        classes = []
+        classes = list()
         for class_ in self.classes:
             classes.append((class_, Classes.get_by_id(class_).name))
         
         return classes
+
+    
