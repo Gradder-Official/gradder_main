@@ -8,8 +8,7 @@
     padding: 30px 20px;
     padding-right: 4vw;
     height: 100vh;
-    width: 18vw;
-    min-width: 200px;
+    width: 260px;
     background-color: rgb(102,130,252);
 }
 
@@ -18,23 +17,27 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    transition: all .3s ease-in-out;
 }
 .sidebar-logo img {
-    width: 10%;
+    width: 28px;
     margin: 0 10px;
 }
 .sidebar-logo h4 {
     font-family: 'Gilroy', sans-serif;
-    font-size: 1.5vw;
     color: white;
-    margin-top: 0.5rem;
+    margin-top: 8px;
+}
+.sidebar-logo:hover {
+    text-decoration: none;
+    transform: translate(0, -5px);
 }
 .dash-profile {
-    margin-bottom: 3vh;
+    margin-bottom: 30px;
 }
-#profile-pic {
-    width: 8vw;
-    height: 8vw;
+.profile-pic {
+    width: 120px;
+    height: 120px;
     border: 5px solid rgb(93, 118, 232);;
     background: whitesmoke;
     border-radius: 30px;
@@ -42,17 +45,18 @@
 .dash-profile h4 {
     margin: 15px 5px;
     color: white;
-    font-size: 2vw;
+    font-size: 30px;
 }
 
 /* Sidebar navigation */
 #sidebar-nav .nav-link {
     font-family: 'SF UI Text', sans-serif;
-    font-size: 1.2vw;
+    font-size: 18px;
     color: white;
     margin-top: 8px;
     margin-left: -20px;
     padding-left: 30px;
+    width: 200px;
 }
 #sidebar-nav .active, #sidebar-nav .nav-link:hover {
     background: rgb(93, 118, 232);
@@ -63,7 +67,7 @@
 .navbar-bottom {
     position: absolute;
     bottom: 3vh;
-    width: 70%;
+    width: 180px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -87,7 +91,8 @@
 .dash-content {
     position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
+    margin-left: 230px;
     display: flex;
     flex-direction: column;
     padding: 30px 50px;
@@ -95,4 +100,30 @@
     width: 84vw;
     border-radius: 30px 0 0 30px;
     background: whitesmoke;
+}
+.jumbotron {
+    border-radius: 20px;
+    padding: 40px;
+    background: white;
+}
+.jumbotron h1 {
+    font-family: 'Gilroy', sans-serif;
+    font-weight: bold;
+}
+
+/* Students */
+#student-overview {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+#student-overview .jumbotron {
+    flex: 1 0 40%;
+    margin: 25px;
+    padding: 30px;
+    min-width: 400px;
+}
+#student-overview .jumbotron h4 {
+    font-size: 28px;
+    font-weight: 600;
 }
