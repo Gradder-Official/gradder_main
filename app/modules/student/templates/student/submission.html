@@ -42,12 +42,27 @@
                     <h1>Submit your assignment</h1>
                 </div>
                 <br>
+                <div class="form-row">
+                    <div class="form-group col-sm-4" style="padding-left:0px;">
+                        {# TODO: set default option to the currently selected class #}
+                        Assigned to: {{ fullname }} 
+                    </div>
+                    <div class="form-group col-sm-4">
+                        Due by: {{ due_by }}
+                    </div>
+                    <div class="form-group col-sm-4" style="padding-right:0px;">
+                        Estimated time: {{ estimated_time }}
+                    </div>
+                </div>
+                <div class="form-group col-sm-4" style="padding-right:0px;">
+                    Estimated time: {{ content }}
+                </div>
                 <div class="form-group">
-                    {{ form.comment.label(class="form-control-label") }}
+                    {{ form.content.label(class="form-control-label") }}
                     <div id="quillContent" style="height:400px;">
                         <div id="toolbar"></div>
                     </div>
-                    {{ form.comment(class="form-control-lg", style="display:none;") }}
+                    {{ form.content(class="form-control-lg", style="display:none;") }}
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-10" style="padding-left:0;">
@@ -102,7 +117,7 @@
             modules: {
                 toolbar: toolbarOptions
             },
-            placeholder: 'Text description of an assignment...',
+            placeholder: 'Write your submission here...',
             theme: 'snow'
         });
 
