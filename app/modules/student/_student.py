@@ -1,10 +1,8 @@
 from __future__ import annotations
+from typing import List, Dict
 
 from app import db
 from app.modules._classes import Assignment, User, Classes
-
-
-from typing import List, Dict
 
 class Student(User):
     USERTYPE = 'Student'
