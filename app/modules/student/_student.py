@@ -80,7 +80,7 @@ class Student(User):
         """ Gets a list of assignments from the database for this student.
         """
         assignments = list()
-        for class_ref in self.class_names:
+        for class_ref in self.classes:
             assignments.extend(Classes.get_by_id(class_ref).get_assignments())
 
         return assignments
