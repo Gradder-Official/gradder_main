@@ -4,7 +4,7 @@ from app import db
 
 
 class Submission:
-    def __init__(self, date_submitted: time, comment: str, file_links: list, ID: str = None):
+    def __init__(self, date_submitted: time, content: str, file_links: list, ID: str = None):
         r"""Initializes the Assignment object
 
         Parameters
@@ -27,14 +27,14 @@ class Submission:
             Specifies the assignment ID, generated automatically if not specified
         """
         self.date_submitted = date_submitted
-        self.comment = comment
+        self.content = content
         self.file_links = file_links
         self.ID = ID
 
     def to_dict(self):
         return {
             'date_submitted': str(self.date_submitted),
-            'comment': str(self.comment),
+            'comment': str(self.content),
             'file_links': self.file_links,
         }
 
@@ -48,4 +48,4 @@ class Submission:
             Dictionary with proper Assignment parameters
         """
         return Submission(dictionary["date_submitted"], 
-                            dictionary["comment"], dictionary["file_links"], ID=dictionary["_id"])
+                            dictionary["content"], dictionary["file_links"], ID=dictionary["_id"])
