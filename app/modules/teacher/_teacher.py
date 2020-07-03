@@ -1,16 +1,13 @@
-from app.modules._classes import User
+from app.modules._classes import User, Classes
 
 
 class Teacher(User):
     USERTYPE = 'Teacher'
 
-    def __init__(self, email: str, first_name: str, last_name: str, class_list: list = None,
-                 subjects: list = None, ID: str = None):
+    def __init__(self, email: str, first_name: str, last_name: str, class_list: list = None, ID: str = None):
         super().__init__(email=email, first_name=first_name, last_name=last_name, ID=ID)
         if class_list:
             self.class_list = class_list
-        if subjects:
-            self.subjects = subjects
 
     def __repr__(self):
         return f'<Teacher {self.ID}'
@@ -20,11 +17,6 @@ class Teacher(User):
 
         try:
             json_user['class_list'] = self.class_list
-        except BaseException:
-            pass
-
-        try:
-            json_user['subjects'] = self.subjects
         except BaseException:
             pass
 
@@ -52,9 +44,6 @@ class Teacher(User):
         if 'class_list' in dictionary:
             user.classes = dictionary['class_list']
 
-        if 'subjects' in dictionary:
-            user.subjects = dictionary['subjects']
-
         if 'password' in dictionary:
             user.set_password(dictionary['password'])
 
@@ -63,3 +52,10 @@ class Teacher(User):
                 dictionary['secret_question'], dictionary['secret_answer'])
 
         return user
+
+    def get_class_names(self):
+        classes = []
+        for class_ in self.classes:
+            classes.append((class_, Classes.get_by_id(class_).name))
+        
+        return classes
