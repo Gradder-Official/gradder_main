@@ -22,7 +22,7 @@
                     <input type="submit" id="email-submit" value="Subscribe" style="cursor: pointer;">
                 </form>
             </div>
-            <ol class="carousel-indicators">
+            <ol class="change-slide">
                 <li id="indicator1" class="active"></li>
                 <li id="indicator2"></li>
                 <li id="indicator3"></li>
@@ -31,7 +31,8 @@
         <div class="right-container" id="landing-carousel">
             <div class="book"></div>
             <div class="blob-backgrounds" id="blob-backgrounds">
-                <svg id="slides" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1920 1080">
+                <svg id="slides" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1920 1080">
                     <path id="slide-1-blob"
                         d="M1920 0L1920 905.05C1910.87 910.18 1892.47 919.3 1864.79 932.41C1840.29 944.02 1806.66 946.94 1775.13 944.15C1753.22 942.21 1732.31 936.89 1716.19 932.41C1676.85 921.49 1636.58 899.09 1600.37 870.24C1564.16 841.4 1568.65 843.65 1535.2 812.22C1501.74 780.8 1501.19 777.02 1466.54 744.55C1431.89 712.08 1399.86 707.15 1390.57 704.02C1368.63 696.63 1342.49 698.05 1335.54 697.91C1315.18 697.5 1294.56 702.37 1273.67 712.52C1256.39 722.22 1240.49 734.95 1226 750.69C1211.51 766.44 1200.42 784.54 1192.72 804.99L1204.18 752.42C1202.58 763.03 1203.01 755.95 1205.47 731.21C1207.93 706.46 1197.08 678.7 1172.94 647.94C1156.92 631.61 1145.38 621.34 1138.33 617.12C1111.2 600.9 1108.06 601.63 1072.48 586.8C1036.9 571.97 1026.4 572.62 996 555.81C965.61 538.99 956.19 522.82 950.89 506.04C943.87 483.81 950.95 457.62 961.31 436.9C971.66 416.18 989.2 398.67 1000.33 383.67C1010.35 370.17 1032.4 349.12 1050.09 327.43C1061.88 312.97 1069.7 301.47 1073.56 292.92C1086.87 266.24 1088.67 242.67 1078.98 222.2C1072.48 208.48 1062.85 197.22 1050.09 188.42C1039.3 181.4 1027.73 175.63 1015.4 171.09C996.94 164.3 979.55 159.96 963.23 158.06C963.23 158.06 853.89 152.11 853.89 152.11C806.77 152.44 762.93 146.37 722.35 133.89C664.95 116.23 625.18 71.6 603.02 0L1920 0Z"
                         fill-rule="nonzero" fill="#81cfe0" />
@@ -41,20 +42,21 @@
                     <path opacity="0" id="slide-3-blob"
                         d="M1920 0L1920 929.28C1906.95 933.92 1890.6 938.99 1870.96 944.47C1841.51 952.7 1843.82 951.72 1806.16 958.2C1768.5 964.67 1753.49 964.35 1732.32 966.39C1718.21 967.74 1693.4 968.41 1657.89 968.39C1609.19 984.14 1570.89 993.89 1543.01 997.64C1501.18 1003.27 1473.88 1006.95 1392.35 1003.78C1345.06 1001.95 1310.66 995.04 1276.11 984.41C1251.09 976.71 1218.99 967.07 1188.86 952.99C1158.73 938.91 1112.54 896.62 1105.39 890.28C1083.92 871.26 1073.48 849.37 1058.47 827.68C1043.46 806 1032.61 764.02 1028.36 735.16C1021.24 686.9 1026.17 639.81 1028.36 615.9C1032.94 565.74 1037.09 524.32 1038.78 506.64C1043.71 455.15 1052.23 420.23 1043.19 385.98C1035.01 354.99 1006.68 326.81 998.78 320.37C990.88 313.94 1014.8 327.17 907.17 258.89C799.54 190.62 822.63 206.01 755.9 159.38C689.17 112.76 672.48 91.15 656.26 68.39C645.45 53.22 637.38 30.42 632.07 0L1920 0Z"
                         fill-rule="nonzero" fill="#70cadc" />
-                
+
                 </svg>
             </div>
-            <div class="carousel-item">
+            <div class="carousel-slide">
                 <div class="hero-image" id="slide1"></div>
             </div>
-            <div class="carousel-item">
+            <div class="carousel-slide">
                 <div class="hero-image" id="slide2"></div>
             </div>
-            <div class="carousel-item">
+            <div class="carousel-slide">
                 <div class="hero-image" id="slide3">
                     <div class="system-preview">
                         <video width="100%" autoplay="autoplay" muted="muted" controls loop id="vid">
-                            <source src="{{ url_for('static', filename='images/system_preview.mp4') }}" type="video/mp4">
+                            <source src="{{ url_for('static', filename='images/system_preview.mp4') }}"
+                                type="video/mp4">
                             Your browser does not support the demo video. Sorry!
                         </video>
                     </div>
@@ -69,36 +71,41 @@
             <h1>Why Us?</h1>
             <table class="reasons">
                 <tr>
-                    <th style="width: 8%"></th>
+                    <th class="list-icon"></th>
                     <th>
-                        <img src="../static/images/Parents.png">
                         <h2>Parents</h2>
                     </th>
+                    <th class="list-icon"></th>
                     <th>
-                        <img src="../static/images/Students.png">
                         <h2>Students</h2>
                     </th>
+                    <th class="list-icon"></th>
                     <th>
-                        <img src="../static/images/Teachers.png" id="teacher-image">
                         <h2>Teachers</h2>
                     </th>
                 </tr>
                 <tr>
-                    <td class="number" id="one">1</td>
+                    <td><img src="../static/images/Parents.png"></td>
                     <td>Instant access to children’s progress reports</td>
+                    <td><img src="../static/images/Students.png"></td>
                     <td>School-wide or targeted announcements</td>
+                    <td><img src="../static/images/Teachers.png" id="teacher-image"></td>
                     <td>Integrated school-wide event schedule</td>
                 </tr>
                 <tr>
-                    <td class="number" id="two">2</td>
+                    <td><img src="../static/images/Parents.png"></td>
                     <td>Easy communication with teachers</td>
+                    <td><img src="../static/images/Students.png"></td>
                     <td>Submit an assignment in just X clicks</td>
+                    <td><img src="../static/images/Teachers.png" id="teacher-image"></td>
                     <td>Smart grade alerts and personalized progress reports</td>
                 </tr>
                 <tr>
-                    <td class="number" id="three">3</td>
+                    <td><img src="../static/images/Parents.png"></td>
                     <td>Save time by X%</td>
+                    <td><img src="../static/images/Students.png"></td>
                     <td>Post an assignment in just X clicks</td>
+                    <td><img src="../static/images/Teachers.png" id="teacher-image"></td>
                     <td>Integrated schedule and syllabi</td>
                 </tr>
             </table>
@@ -107,105 +114,171 @@
     <div class="section" id="say">
         <div class="section-content" data-aos="fade-right" data-aos-duration="2000">
             <h1>What People Say About Us</h1>
-            <div class="comment">
-                <img src="{{ url_for('static', filename='images/Quotes.png') }}">
-                <p>Gradder is a great opportunity to find out my up-to-date grades. I couldn't even dream about it!<br><br>–– Artem, a high school student</p>
-            </div>
-            <div class="comment">
-                <img src="{{ url_for('static', filename='images/Quotes.png') }}">
-                <p>I am happy that now I have a tool that helps me be aware of my children's academic performance!<br><br>–– Yuliia, Artem's mother</p>
+
+            <div id="comment-carousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+
+                    <div class="carousel-item active">
+                        <div class="comment">
+                            <div class="quote">
+                                <img class="quote-bar" src="{{ url_for('static', filename='images/Quotes.png') }}">
+                                <p>Gradder is a great opportunity to find out my up-to-date grades. I couldn't even dream
+                                    about it!</p>
+                            </div>
+                            <div class="commenter">
+                                <img src="https://pyxis.nymag.com/v1/imgs/171/429/c95b07becc2bef532d9669b4824ea4386f-08-harry-potter.rsquare.w1200.jpg">
+                                <p>Artem, a high school student</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="comment">
+                            <div class="quote">
+                                <img class="quote-bar" src="{{ url_for('static', filename='images/Quotes.png') }}">
+                                <p>I am happy that now I have a tool that helps me be aware of my children's academic
+                                    performance!</p>
+                            </div>
+                            <div class="commenter">
+                                <img src="https://vignette.wikia.nocookie.net/harrypotter/images/c/ce/Lily_Potter1.jpg/revision/latest/top-crop/width/360/height/360?cb=20140712171247">
+                                <p>Yuliia, Artem's mother</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <a class="carousel-control-next" href="#comment-carousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="material-icons">navigate_next</span>
+                </a>
+
             </div>
         </div>
         <div class="side-image" data-aos="zoom-in-left" data-aos-duration="2000">
         </div>
     </div>
-    <div class="section" id="mission" data-aos="fade-up" data-aos-duration="2000">
-        <div class="mission-statement">
-            <h2>We strive to make a system that would allow students to focus on learning, teachers to concentrate on teaching, and parents to easily interact with the schools.</h2>
-            <br><br>
-            <h3>–– Serhii, CEO at Gradder</h3>
-        </div>
+
+<div class="section" id="mission" data-aos="fade-up" data-aos-duration="2000">
+    <div class="mission-statement section-content">
+        <h1>Mission</h1>
+        <br>
+        <h2>We strive to make a system that would allow students to focus on learning, teachers to concentrate on
+            teaching, and parents to easily interact with the schools.</h2>
+        <br>
+        <h3>–– Serhii, CEO at Gradder</h3>
     </div>
-    <div class="section" id="roadmap" data-aos="fade-up" data-aos-duration="2000">
-        <h1>Roadmap</h1>
-        <img src="{{ url_for('static', filename='images/Horizontal Roadmap.png') }}">
-        <table class="timeline">
-            <tr id="top-row">
-                <td></td>
-                <td><strong>February 2020</strong><br>Prototype created</td>
-                <td></td>
-                <td><strong>April 2020</strong><br>Global Finalist at the Diamond Challenge for High School Entrepreneurs</td>
-                <td></td>
-                <td><strong>June 2020</strong><br>Alpha version created</td>
-                <td></td>
-                <td><strong>September 2020</strong><br>Launch</td>
-            </tr>
-            <tr id="bottom-row">
-                <td><strong>January 2020</strong><br>200 user interviews conducted</td>
-                <td></td>
-                <td><strong>March 2020</strong><br>Test conducted in one school in Kyiv</td>
-                <td></td>
-                <td><strong>May 2020</strong><br>MVP version created</td>
-                <td></td>
-                <td><strong>July 2020</strong><br>Beta version created</td>
-                <td></td>
-            </tr>
-        </table>
-    </div>
-    <div class="section" id="team" data-aos="fade-up" data-aos-duration="2000">
-        <h1>Our Team</h1>
-        <table class="people">
-            <tr>
-                <th>
-                    <!-- Blob -->
-                </th>
-                <th>
-                    <!-- Blob -->
-                </th>
-                <th>
-                    <!-- Blob -->
-                </th>
-            </tr>
-            <tr>
-                <td>Serhii</td>
-                <td>Dasha</td>
-                <td>Alex</td>
-            </tr>
-            <tr>
-                <td>Facts, facts, facts!</td>
-                <td>Facts, facts, facts!</td>
-                <td>Facts, facts, facts!</td>
-            </tr>
-        </table>
-    </div>
+</div>
+<div class="section" id="roadmap" data-aos="fade-up" data-aos-duration="2000">
+    <h1>Roadmap</h1>
+    <img src="{{ url_for('static', filename='images/Horizontal Roadmap.png') }}">
+    <table class="timeline">
+        <tr id="top-row">
+            <td></td>
+            <td><strong>February 2020</strong><br>Prototype created</td>
+            <td></td>
+            <td><strong>April 2020</strong><br>Global Finalist at the Diamond Challenge for High School Entrepreneurs
+            </td>
+            <td></td>
+            <td><strong>June 2020</strong><br>Alpha version created</td>
+            <td></td>
+            <td><strong>September 2020</strong><br>Launch</td>
+        </tr>
+        <tr id="bottom-row">
+            <td><strong>January 2020</strong><br>200 user interviews conducted</td>
+            <td></td>
+            <td><strong>March 2020</strong><br>Test conducted in one school in Kyiv</td>
+            <td></td>
+            <td><strong>May 2020</strong><br>MVP version created</td>
+            <td></td>
+            <td><strong>July 2020</strong><br>Beta version created</td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+<div class="section" id="team" data-aos="fade-up" data-aos-duration="2000">
+    <h1 style="margin-top: 10vh;"">Our Team</h1>
+    <table class="people">
+        <tr>
+            <th>
+                <!-- Blob -->
+            </th>
+            <th>
+                <!-- Blob -->
+            </th>
+            <th>
+                <!-- Blob -->
+            </th>
+        </tr>
+        <tr>
+            <td>Serhii</td>
+            <td>Dasha</td>
+            <td>Alex</td>
+        </tr>
+        <tr>
+            <td>Facts, facts, facts!</td>
+            <td>Facts, facts, facts!</td>
+            <td>Facts, facts, facts!</td>
+        </tr>
+    </table>
+</div>
 </div>
 <footer>
     <div class="footer-body">
         <div class="contact-info">
-            <h1>Contact us</h1>
+            <h1>Contact information</h1>
             <p>team@gradder.io</p>
+            <a href="https://ua.linkedin.com/company/gradder">LinkedIn</a>
+            <button type="button" class="btn btn-primary" id="inquiry-btn" data-toggle="modal" data-target="#inquiryForm">
+                I have an inquiry!
+            </button>
         </div>
-        <form class="enquiry">
-            <h1>Enquiries</h1>
-            <div class="enquiry-person">
-                <input type="text" id="enquiry-name" name="enquiry-name" placeholder="Your name">
-                <input type="email" id="enquiry-email" name="enquiry-email" placeholder="Your email">
-            </div>
-            <select id="enquiry-subject">
-                <option value="funding">Funding/investments</option>
-                <option value="partnership">Partnership</option>
-                <option value="careers">Careers</option>
-                <option value="system">Using our system</option>
-                <option value="feedback">Feedback</option>
-                <option value="questions">Questions</option>
-                <option value="other">Other</option>
-            </select>
-            <textarea id="enquiry-body" name="enquiry-body" rows="10" cols="30" placeholder="Your enquiry"></textarea>
-            <input type="submit" id="enquiry-submit" value="Submit">
-        </form>
+        <div class="footer-nav">
+            <h1>Navigation</h1>
+            <a href="#">Why Us?</a>
+            <a href="#">User Reviews</a>
+            <a href="#">Roadmap</a>
+        </div>
     </div>
-    <img src="{{ url_for('static', filename='images/Footer.png') }}">
 </footer>
+
+<div class="modal fade" id="inquiryForm" tabindex="-1" role="dialog" aria-labelledby="inquiryForm" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h1>Enquiries</h1>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+            <form class="enquiry-form">
+                <div class="form-group enquiry-person">
+                    <input type="text" class="form-control" id="enquiry-name" name="enquiry-name" placeholder="Your name">
+                    <input type="email" class="form-control" id="enquiry-email" name="enquiry-email" placeholder="Your email">
+                </div>
+                <div class="form-group">
+                    <select class="form-control" id="enquiry-subject">
+                        <option value="funding">Funding/investments</option>
+                        <option value="partnership">Partnership</option>
+                        <option value="careers">Careers</option>
+                        <option value="system">Using our system</option>
+                        <option value="feedback">Feedback</option>
+                        <option value="questions">Questions</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <textarea id="enquiry-body" name="enquiry-body" rows="10" cols="30" placeholder="Your enquiry"></textarea>
+                </div>
+                <input type="submit" id="enquiry-submit" value="Submit">
+            </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
 
 {% block scripts %}
