@@ -2,6 +2,7 @@ from app import db
 from app.modules._classes import Assignment, User, Classes, Submission
 from bson import ObjectId
 from typing import Dict, List
+from flask_login import current_user
 
 # A type that defines a dictionary of grades: subjects are keys and lists of integer grades are values
 # TODO: add handling for non-integer grading systems later
@@ -104,8 +105,10 @@ class Student(User):
 
         return assignments
 
-    def add_submission(self, class_id, assignment_id, submission):
+    def add_submission(self, current_user_id,  class_id, assignment_id, submission):
         dictionary = submission.to_dict()
         dictionary["student_id"] = self.ID
         dictionary["_id"] = ObjectId()
         db.classes.find_one_and_update({"_id": ObjectId(class_id), "assignments._id": ObjectId(assignment_id)}, {"$push": {"assignments.$.submissions": dictionary}})
+        unique_submission_string = class_id + "_" + assignment_id + "_" + str(dictionary["_id"])
+        db.students.find_one_and_update({"_id": ObjectId(current_user_id)}, {"$push": {"class_names": unique_submission_string}})

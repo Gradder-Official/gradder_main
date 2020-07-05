@@ -108,7 +108,12 @@ class User(UserMixin):
         r"""Adds the user to the DB.
         """
         try:
-            eval(f'db.{self.USERTYPE.lower() + "s"}.insert_one(self.to_dict())')
+            dictionary = self.to_dict()
+            if self.USERTYPE == "Teacher":
+                print(dictionary)
+                dictionary["class_list"] = []
+            
+            eval(f'db.{self.USERTYPE.lower() + "s"}.insert_one(dictionary)')
             return True
         except BaseException as e:
             user_logger.exception("Failed adding")

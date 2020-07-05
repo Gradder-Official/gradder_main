@@ -1,20 +1,20 @@
 from app.modules._classes import User, Classes
-
+from app.logs import user_logger
+from app import db
 
 class Teacher(User):
     USERTYPE = 'Teacher'
 
-    def __init__(self, email: str, first_name: str, last_name: str, class_list: list = None, ID: str = None):
+    def __init__(self, email: str, first_name: str, last_name: str, class_list: list = [], ID: str = None):
         super().__init__(email=email, first_name=first_name, last_name=last_name, ID=ID)
         if class_list:
             self.class_list = class_list
 
     def __repr__(self):
-        return f'<Teacher {self.ID}'
+        return f'<Teacher {self.ID}>'
 
     def to_json(self):
         json_user = super().to_json()
-
         try:
             json_user['class_list'] = self.class_list
         except BaseException:
