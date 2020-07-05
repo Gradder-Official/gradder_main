@@ -38,7 +38,7 @@ def profile():
 @teacher.route('/add_assignment', methods=['GET', 'POST'])
 def add_assignment():
     form = NewAssignmentForm()
-
+    current_user.add_student("5efbe85b4aeb5d21e56fa81f", "dp@gmail.com")
     form.assigned_to.choices = current_user.get_class_names()
 
     if form.validate_on_submit():

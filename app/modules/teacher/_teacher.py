@@ -1,6 +1,8 @@
 from app.modules._classes import User, Classes
 from app.logs import user_logger
 from app import db
+from app.modules.student._student import Student 
+from bson import ObjectId
 
 class Teacher(User):
     USERTYPE = 'Teacher'
@@ -33,6 +35,11 @@ class Teacher(User):
     @staticmethod
     def get_by_email(email: str):
         return Teacher.from_dict(super(Teacher, Teacher).get_by_email(email))
+    
+    @staticmethod
+    def add_student(class_id: str, email: str):
+        student = Student.get_by_email(email)
+        db.classes.update_one({"_id": ObjectId(class_id)}, {"$push": {"students": ObjectId(student.ID)}})
 
     @staticmethod
     def from_dict(dictionary: dict):
