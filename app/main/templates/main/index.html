@@ -64,10 +64,19 @@
             </div>
         </div>
     </div>
+    <nav id="scrollspy-nav" class="navbar navbar-light">
+        <nav class="nav nav-pills flex-column">
+            <a class="nav-link" href="#why">Why Us?</a>
+            <a class="nav-link" href="#say">What People Say</a>
+            <a class="nav-link" href="#mission">Mission</a>
+            <a class="nav-link" href="#roadmap">Roadmap</a>
+            <a class="nav-link" href="#team">Our Team</a>
+        </nav>
+    </nav>
     <div class="section" id="why">
-        <div class="side-image" data-aos="zoom-in-right" data-aos-duration="2000">
+        <div class="side-image" data-aos="zoom-in-right" data-aos-duration="2000" >
         </div>
-        <div class="section-content" data-aos="fade-left" data-aos-duration="2000">
+        <div class="section-content" data-aos="fade-left" data-aos-duration="2000" >
             <h1>Why Us?</h1>
             <table class="reasons">
                 <tr>
@@ -112,7 +121,7 @@
         </div>
     </div>
     <div class="section" id="say">
-        <div class="section-content" data-aos="fade-right" data-aos-duration="2000">
+        <div class="section-content" data-aos="fade-right" data-aos-duration="2000" >
             <h1>What People Say About Us</h1>
 
             <div id="comment-carousel" class="carousel slide" data-ride="carousel">
@@ -122,11 +131,13 @@
                         <div class="comment">
                             <div class="quote">
                                 <img class="quote-bar" src="{{ url_for('static', filename='images/Quotes.png') }}">
-                                <p>Gradder is a great opportunity to find out my up-to-date grades. I couldn't even dream
+                                <p>Gradder is a great opportunity to find out my up-to-date grades. I couldn't even
+                                    dream
                                     about it!</p>
                             </div>
                             <div class="commenter">
-                                <img src="https://pyxis.nymag.com/v1/imgs/171/429/c95b07becc2bef532d9669b4824ea4386f-08-harry-potter.rsquare.w1200.jpg">
+                                <img
+                                    src="https://pyxis.nymag.com/v1/imgs/171/429/c95b07becc2bef532d9669b4824ea4386f-08-harry-potter.rsquare.w1200.jpg">
                                 <p>Artem, a high school student</p>
                             </div>
                         </div>
@@ -136,11 +147,13 @@
                         <div class="comment">
                             <div class="quote">
                                 <img class="quote-bar" src="{{ url_for('static', filename='images/Quotes.png') }}">
-                                <p>I am happy that now I have a tool that helps me be aware of my children's academic
+                                <p>I am happy that now I have a tool that helps me be aware of my children's
+                                    academic
                                     performance!</p>
                             </div>
                             <div class="commenter">
-                                <img src="https://vignette.wikia.nocookie.net/harrypotter/images/c/ce/Lily_Potter1.jpg/revision/latest/top-crop/width/360/height/360?cb=20140712171247">
+                                <img
+                                    src="https://vignette.wikia.nocookie.net/harrypotter/images/c/ce/Lily_Potter1.jpg/revision/latest/top-crop/width/360/height/360?cb=20140712171247">
                                 <p>Yuliia, Artem's mother</p>
                             </div>
                         </div>
@@ -155,73 +168,94 @@
 
             </div>
         </div>
-        <div class="side-image" data-aos="zoom-in-left" data-aos-duration="2000">
+        <div class="side-image" data-aos="zoom-in-left" data-aos-duration="2000" >
         </div>
     </div>
-
-<div class="section" id="mission" data-aos="fade-up" data-aos-duration="2000">
-    <div class="mission-statement section-content">
-        <h1>Mission</h1>
-        <br>
-        <h2>We strive to make a system that would allow students to focus on learning, teachers to concentrate on
-            teaching, and parents to easily interact with the schools.</h2>
-        <br>
-        <h3>–– Serhii, CEO at Gradder</h3>
+    <div class="section" id="mission" data-aos="fade-up" data-aos-duration="2000" >
+        <div class="mission-statement section-content">
+            <h1>Mission</h1>
+            <br>
+            <h2>We strive to make a system that would allow students to focus on learning, teachers to concentrate
+                on
+                teaching, and parents to easily interact with the schools.</h2>
+            <br>
+            <h3>–– Serhii, CEO at Gradder</h3>
+        </div>
     </div>
-</div>
-<div class="section" id="roadmap" data-aos="fade-up" data-aos-duration="2000">
-    <h1>Roadmap</h1>
-    <img src="{{ url_for('static', filename='images/Horizontal Roadmap.png') }}">
-    <table class="timeline">
-        <tr id="top-row">
-            <td></td>
-            <td><strong>February 2020</strong><br>Prototype created</td>
-            <td></td>
-            <td><strong>April 2020</strong><br>Global Finalist at the Diamond Challenge for High School Entrepreneurs
-            </td>
-            <td></td>
-            <td><strong>June 2020</strong><br>Alpha version created</td>
-            <td></td>
-            <td><strong>September 2020</strong><br>Launch</td>
-        </tr>
-        <tr id="bottom-row">
-            <td><strong>January 2020</strong><br>200 user interviews conducted</td>
-            <td></td>
-            <td><strong>March 2020</strong><br>Test conducted in one school in Kyiv</td>
-            <td></td>
-            <td><strong>May 2020</strong><br>MVP version created</td>
-            <td></td>
-            <td><strong>July 2020</strong><br>Beta version created</td>
-            <td></td>
-        </tr>
-    </table>
-</div>
-<div class="section" id="team" data-aos="fade-up" data-aos-duration="2000">
-    <h1 style="margin-top: 10vh;"">Our Team</h1>
-    <table class="people">
-        <tr>
-            <th>
-                <!-- Blob -->
-            </th>
-            <th>
-                <!-- Blob -->
-            </th>
-            <th>
-                <!-- Blob -->
-            </th>
-        </tr>
-        <tr>
-            <td>Serhii</td>
-            <td>Dasha</td>
-            <td>Alex</td>
-        </tr>
-        <tr>
-            <td>Facts, facts, facts!</td>
-            <td>Facts, facts, facts!</td>
-            <td>Facts, facts, facts!</td>
-        </tr>
-    </table>
-</div>
+    <div class="section" id="roadmap" data-aos="fade-up" data-aos-duration="2000" >
+        <h1>Roadmap</h1>
+        <img src="{{ url_for('static', filename='images/Horizontal Roadmap.png') }}">
+        <table class="timeline">
+            <tr id="top-row">
+                <td></td>
+                <td><strong>February 2020</strong><br>Prototype created</td>
+                <td></td>
+                <td><strong>April 2020</strong><br>Global Finalist at the Diamond Challenge for High School
+                    Entrepreneurs
+                </td>
+                <td></td>
+                <td><strong>June 2020</strong><br>Alpha version created</td>
+                <td></td>
+                <td><strong>September 2020</strong><br>Launch</td>
+            </tr>
+            <tr id="bottom-row">
+                <td><strong>January 2020</strong><br>200 user interviews conducted</td>
+                <td></td>
+                <td><strong>March 2020</strong><br>Test conducted in one school in Kyiv</td>
+                <td></td>
+                <td><strong>May 2020</strong><br>MVP version created</td>
+                <td></td>
+                <td><strong>July 2020</strong><br>Beta version created</td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+    <div class="section" id="team" data-aos="fade-up" data-aos-duration="2000" >
+        <h1 style="margin-top: 10vh;">Our Team</h1>
+        <table class=" people">
+            <tr>
+                <th>
+                    <img src="{{ url_for('static', filename='images/Serhii.jpg') }}">
+                </th>
+                <th>
+                    <img src="{{ url_for('static', filename='images/Daria.jpg') }}">
+                </th>
+                <th>
+                    <img src="{{ url_for('static', filename='images/Alex.jpg') }}">
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <h3>Serhii Durytskyi</h3>
+                    <h4>Co-Founder &<br>Chief Executive Officer</h4>
+                </td>
+                <td>
+                    <h3>Daria Valska</h3>
+                    <h4>Chief Business Development Officer</h4>
+                </td>
+                <td>
+                    <h3>Alex Nikanov</h3>
+                    <h4>Chief Technology Officer</h4>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>Co-founded a tech startup (funded), Winner of National and International Startup
+                        Competitions, Founder & Executive President of the educational non-profit organization
+                        Elevate the Future Ukraine</p>
+                </td>
+                <td>
+                    <p>Co-founded a tech startup (funded), National winner at the Diamond Challenge for High School
+                        Entrepreneurs, Founder & Vice President of the educational non-profit organization Elevate
+                        the Future Ukraine</p>
+                </td>
+                <td>
+                    <p>Stanford Rebuild Innovator, Northeastern '24. Web developer with 3+ years of expertise.
+                        Passionate about AI, entrepreneurship, and change.</p>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
 <footer>
     <div class="footer-body">
@@ -229,56 +263,60 @@
             <h1>Contact information</h1>
             <p>team@gradder.io</p>
             <a href="https://ua.linkedin.com/company/gradder">LinkedIn</a>
-            <button type="button" class="btn btn-primary" id="inquiry-btn" data-toggle="modal" data-target="#inquiryForm">
+            <button type="button" class="btn btn-primary" id="inquiry-btn" data-toggle="modal"
+                data-target="#inquiryForm">
                 I have an inquiry!
             </button>
         </div>
         <div class="footer-nav">
             <h1>Navigation</h1>
-            <a href="#">Why Us?</a>
-            <a href="#">User Reviews</a>
-            <a href="#">Roadmap</a>
+            <a href="#why">Why Us?</a>
+            <a href="#say">User Reviews</a>
+            <a href="#roadmap">Roadmap</a>
         </div>
     </div>
 </footer>
 
 <div class="modal fade" id="inquiryForm" tabindex="-1" role="dialog" aria-labelledby="inquiryForm" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-            <h1>Enquiries</h1>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1>Enquiries</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
 
-            <form class="enquiry-form">
-                <div class="form-group enquiry-person">
-                    <input type="text" class="form-control" id="enquiry-name" name="enquiry-name" placeholder="Your name">
-                    <input type="email" class="form-control" id="enquiry-email" name="enquiry-email" placeholder="Your email">
-                </div>
-                <div class="form-group">
-                    <select class="form-control" id="enquiry-subject">
-                        <option value="funding">Funding/investments</option>
-                        <option value="partnership">Partnership</option>
-                        <option value="careers">Careers</option>
-                        <option value="system">Using our system</option>
-                        <option value="feedback">Feedback</option>
-                        <option value="questions">Questions</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <textarea id="enquiry-body" name="enquiry-body" rows="10" cols="30" placeholder="Your enquiry"></textarea>
-                </div>
-                <input type="submit" id="enquiry-submit" value="Submit">
-            </form>
+                <form class="enquiry-form">
+                    <div class="form-group enquiry-person">
+                        <input type="text" class="form-control" id="enquiry-name" name="enquiry-name"
+                            placeholder="Your name">
+                        <input type="email" class="form-control" id="enquiry-email" name="enquiry-email"
+                            placeholder="Your email">
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" id="enquiry-subject">
+                            <option value="funding">Funding/investments</option>
+                            <option value="partnership">Partnership</option>
+                            <option value="careers">Careers</option>
+                            <option value="system">Using our system</option>
+                            <option value="feedback">Feedback</option>
+                            <option value="questions">Questions</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="enquiry-body" name="enquiry-body" rows="10" cols="30"
+                            placeholder="Your enquiry"></textarea>
+                    </div>
+                    <input type="submit" id="enquiry-submit" value="Submit">
+                </form>
 
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
 {% endblock %}
 
 {% block scripts %}

@@ -16,6 +16,36 @@
     font-weight: bold;
 }
 
+/* Scrollspy */
+.landing-sections {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+#scrollspy-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    z-index: 1000;
+    width: 10%;
+    opacity: 0;
+    transition: opacity 0.3s ease-in;
+    background-color: #6ccce6;
+}
+#scrollspy-nav .nav-link {
+    margin-bottom: 10px;
+    color: white;
+}
+#scrollspy-nav .nav-pills .nav-link.active, #scrollspy-nav .nav-pills .nav-link:hover {
+    background-color:rgb(8, 121, 136);
+}
+#why, #say, #mission, #roadmap, #team {
+    width: 90%;
+}
 /* Why Us? */
 #why .section-content {
     width: 80vw;
@@ -153,7 +183,8 @@
 #roadmap, #team {
     display: flex;
     flex-direction: column;
-    height: 85vh;
+    height: fit-content;
+    margin-bottom: 100px;
 }
 #roadmap h1, #team h1 {
     font-family: 'Gilroy', sans-serif;
@@ -164,6 +195,7 @@
 #roadmap img, .people {
     width: 80%;
     margin: 0 auto;
+    table-layout: fixed;
 }
 .timeline {
     position: absolute;
@@ -193,17 +225,30 @@
     vertical-align: top;
 }
 .people th {
-    padding: 10px;
+    padding: 30px 10px;
     margin-left: auto;
     margin-right: auto;
+    text-align: center;
 }
 .people tr {
     height: 100%;
+    vertical-align: top;
 }
 .people td {
-    padding: 5vh 2vw;
+    padding: 10px;
     font-size: 20px;
     text-align: center;
+}
+.people img {
+    height: 30vh;
+}
+.people p {
+    font-size: 18px;
+    margin-top: 0;
+    padding: 0 40px;
+}
+.people h4 {
+    font-family: 'SF UI Text', sans-serif;
 }
 
 /* Footer */
