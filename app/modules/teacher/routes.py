@@ -11,7 +11,7 @@ from .forms import NewAssignmentForm
 
 from app.decorators import required_access
 from app.google_storage import upload_blob
-from app.modules._classes import Assignment
+from app.modules._classes import Assignment, Classes
 from app.logs.form_logger import form_logger
 
 
@@ -63,3 +63,11 @@ def add_assignment():
         return redirect(url_for('main.dashboard'))
 
     return render_template('teacher/add_assignment.html', form=form)
+
+@teacher.route('/class', methods=['GET'])
+def manage_classes():
+    return redirect(url_for('teacher.manage_classes_by_id', class_id=current_user.get_class_names()[0][0]))
+
+@teacher.route('/class/<string:class_id>', methods=['GET'])
+def manage_classes_by_id(class_id: str):
+    return render_template('/teacher/manage_classes.html', classes=current_user.get_class_names(), class_json=Classes.get_by_id(class_id).to_json())

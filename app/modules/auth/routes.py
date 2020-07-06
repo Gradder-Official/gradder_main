@@ -54,7 +54,7 @@ def login():
 def logout():
     logout_user()
     flash('You have been logged out.')
-    return redirect(url_for('main.index'))
+    return redirect(url_for('auth.login'))
 
 
 @auth.route('/register', methods=['GET', 'POST'])
@@ -107,7 +107,6 @@ def send_reset_email(user):
                   sender=app.config['MAIL_SENDER'], recipients=[user.email])
     msg.body = f'''Here is your password reset link:
 { url_for('auth.reset_password', token=token, _external=True) }
-
 If you did not make this reset password request, please change your password immediately through your accounts. If you need any further assistance, please contact team@gradder.io.
 '''
     mail.send(msg)
@@ -159,4 +158,3 @@ def change_secret_question():
         flash('Oops... Wrong password.')
 
     return render_template('auth/change-secret-question.html', form=form)
-
