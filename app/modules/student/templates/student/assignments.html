@@ -1,0 +1,47 @@
+{% extends "_assignments.html" %}
+
+{% block content %}
+<div class="dash-content" id="student-assignments">
+    <div class="jumbotron">
+        <h1>Your assignments</h1>
+    </div>
+
+    {% for assgn in assignments %}
+        {{ macros.assignment(assgn) }}
+    {% endfor %}
+
+    <!-- Identical styling to _macros.html, just for testing, will delete later! -->
+    <div class="card assignment-card">
+        <h4 class="card-title task_name">Assignment Title</h4>
+        <div class="card-badges">
+            <p class="subject-badge">Subject</p>
+            <button type="button" class="info-badge" data-toggle="modal" data-target="#assignment1">
+                <i class="material-icons">
+                    info
+                </i>
+            </button>
+        </div>
+    </div>
+
+    <div class="modal fade" id="assignment1" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Assignment Title</h5>
+                    <button type="button" class="btn btn-light modal-btn" data-dismiss="modal">Close</button>
+                </div>
+                <div class="modal-body">
+                    <p class="subject">Subject: <b>English</b></p>
+                    <p class="submit_by">Due by: <b>14 June 2021</b></p>
+                    <p class="estimated_time">Estimated time: <b>3 days</b></p>
+                    <p class="content">Content: this is just a sample modal, not a real assignment.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- End testing section -->
+
+</div>
+
+{% endblock %}

@@ -1,5 +1,6 @@
 $(window).on("load",function(){
-     $('html, body').css('overflow', 'auto'); 
+    $('html, body').css('overflow', 'auto'); 
+    AOS.init();
 });
 
 window.onload = function(){ 
@@ -13,9 +14,6 @@ var svg = document.getElementById("slides");
 var s = Snap(svg);
 
 var blobBackgrounds = document.getElementById("blob-backgrounds")
-var startZoom = Snap.select('#startZoom');
-var startZoomBlob = document.getElementById("startZoom")
-
 var slide1Blob = Snap.select('#slide-1-blob');
 var slide2Blob = Snap.select('#slide-2-blob');
 var slide3Blob = Snap.select('#slide-3-blob');
@@ -77,13 +75,7 @@ function toThree() {
 /* Starting animation with book */
 function dotToSlideOne() {
     slide1Image.className = slide2Image.className = slide3Image.className = "hero-image";
-    setTimeout(() => {
-        startZoom.animate({ d: slide1Points }, 2500, mina.backout);
-    }, 1000);
-    setTimeout(() => {
-        startZoomBlob.style.opacity = 0;
-        blobBackgrounds.style.opacity = 1;
-    }, 5500);
+    blobBackgrounds.style.opacity = 1;
     toOne();
 }
 

@@ -7,20 +7,17 @@ from bson import ObjectId
 class Teacher(User):
     USERTYPE = 'Teacher'
 
-    def __init__(self, email: str, first_name: str, last_name: str, class_list: list = [], ID: str = None):
+    def __init__(self, email: str, first_name: str, last_name: str, classes: list = None, ID: str = None):
         super().__init__(email=email, first_name=first_name, last_name=last_name, ID=ID)
-        if class_list:
-            self.class_list = class_list
+        self.classes = classes
 
     def __repr__(self):
         return f'<Teacher {self.ID}>'
 
     def to_json(self):
         json_user = super().to_json()
-        try:
-            json_user['class_list'] = self.class_list
-        except BaseException:
-            pass
+
+        json_user['classes'] = self.classes
 
         return json_user
 
@@ -48,8 +45,8 @@ class Teacher(User):
                        last_name=dictionary['last_name'],
                        ID=str(dictionary['_id']) if '_id' in dictionary else None)
 
-        if 'class_list' in dictionary:
-            user.class_list = dictionary['class_list']
+        if 'classes' in dictionary:
+            user.classes = dictionary['classes']
 
         if 'password' in dictionary:
             user.set_password(dictionary['password'])
@@ -61,9 +58,10 @@ class Teacher(User):
         return user
 
     def get_class_names(self):
-        classes = []
-        if self.class_list:
-            for class_ in self.class_list:
-                classes.append((class_, Classes.get_by_id(class_)["name"]))
+        classes = list()
+        for class_ in self.classes:
+            classes.append((class_, Classes.get_by_id(class_).name))
         
         return classes
+
+    

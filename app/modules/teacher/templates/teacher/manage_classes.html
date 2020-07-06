@@ -1,0 +1,67 @@
+{% extends "_dashboard.html" %}
+
+{% block head %}
+{{ super() }}
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block page_content %}
+    <div class="container" style="margin-left:18vw; width:100%;">
+        <nav id="classes_navbar" class="navbar navbar-light bg-light">
+            <ul class="navbar-nav mr-auto">
+                {% for class_ in classes %}
+                    <li class="nav-item {% if class_[0]==class_json['immutable_info']['ID'] %}active{% endif %}">
+                        <a class="nav-link" href="{{ url_for('teacher.manage_classes_by_id', class_id=class_[0]) }}">
+                            {{ class_[1] }}{% if class_[0]==class_json['immutable_info']['ID'] %}<span> (current)</span>{% endif %}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </nav>
+        <div class="container row">
+            <div class="container col-md-8" id="students-container" style="padding: 0;">
+                <table id="students-table" class="hover" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in class_json["students"] %}
+                            <tr>
+                                <td>{{ student["first_name"] }} {{ student["last_name"] }}</td>
+                                <td><a href="mailto:{{ student['email'] }}">{{ student["email"] }}</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="container col-md-3" id="class-info-container" style="margin-left: 10px; padding: 0;">
+                {{ class_json['immutable_info']['full_name'] }}
+                <br>
+                Editing class features are coming!
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        $(document).ready(function() {
+            $('#students-table').DataTable( {
+                scrollY:        '50vh',
+                scrollCollapse: true,
+                paging:         false
+            } );
+        } );
+    </script>
+{% endblock %}
