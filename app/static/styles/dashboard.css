@@ -127,3 +127,20 @@
     font-size: 28px;
     font-weight: 600;
 }
+
+/* Teachers */
+#teacher-overview {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+#teacher-overview .jumbotron {
+    flex: 1 0 40%;
+    margin: 25px;
+    padding: 30px;
+    min-width: 400px;
+}
+#teacher-overview .jumbotron h4 {
+    font-size: 28px;
+    font-weight: 600;
+}
