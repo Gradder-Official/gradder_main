@@ -13,3 +13,11 @@ class NewAssignmentForm(FlaskForm):
         ['pdf', 'docx', 'png', 'jpg', 'jpeg'], 'Allowed formats: pdf, docx, png, jpeg')])
 
     submit = SubmitField('Submit')
+
+class NewSubmissionForm(FlaskForm):
+    content = TextAreaField()
+
+    files = MultipleFileField('File upload', validators=[FileAllowed(
+        ['pdf', 'docx', 'png', 'jpg', 'jpeg'], 'Allowed formats: pdf, docx, png, jpeg')])
+
+    submit = SubmitField('Submit')

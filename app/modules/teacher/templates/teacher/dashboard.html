@@ -32,7 +32,13 @@
 {% endblock %}
 
 {% block content %}
-<p class="large">My classes: {{ current_user.get_class_names() }}</p>
+{% if current_user.class_list %}
+    <p class="large">My classes: 
+    {% for class_name in current_user.get_class_names() %}
+        <span>{{ class_name[1] }}</span>
+    {% endfor %}
+    </p>
+{% endif %}
 <div class="jumbotron container teacher-students">
     View your students here
 </div>

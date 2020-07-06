@@ -1,6 +1,8 @@
 from app.modules._classes import User, Classes
-from app.modules.student._student import Student
-
+from app.logs import user_logger
+from app import db
+from app.modules.student._student import Student 
+from bson import ObjectId
 
 class Teacher(User):
     USERTYPE = 'Teacher'
@@ -10,7 +12,7 @@ class Teacher(User):
         self.classes = classes
 
     def __repr__(self):
-        return f'<Teacher {self.ID}'
+        return f'<Teacher {self.ID}>'
 
     def to_json(self):
         json_user = super().to_json()
@@ -30,13 +32,18 @@ class Teacher(User):
     @staticmethod
     def get_by_email(email: str):
         return Teacher.from_dict(super(Teacher, Teacher).get_by_email(email))
+    
+    @staticmethod
+    def add_student(class_id: str, email: str):
+        student = Student.get_by_email(email)
+        db.classes.update_one({"_id": ObjectId(class_id)}, {"$push": {"students": ObjectId(student.ID)}})
 
     @staticmethod
     def from_dict(dictionary: dict):
         user = Teacher(email=dictionary['email'],
                        first_name=dictionary['first_name'],
                        last_name=dictionary['last_name'],
-                       ID=dictionary['ID'] if 'ID' in dictionary else None)
+                       ID=str(dictionary['_id']) if '_id' in dictionary else None)
 
         if 'classes' in dictionary:
             user.classes = dictionary['classes']

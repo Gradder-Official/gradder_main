@@ -1,13 +1,10 @@
 from datetime import time, datetime
-from typing import List
 from app.logs.user_logger import user_logger
 from app import db
-from .submission import Submission
 
 
-class Assignment:
-    def __init__(self, date_assigned: time, assigned_by: int, assigned_to: str, due_by: datetime, content: str, file_links: list, 
-                       estimated_time: int, submissions: List[Submission] = None, ID: str = None):
+class Submission:
+    def __init__(self, date_submitted: time, content: str, file_links: list, ID: str = None):
         r"""Initializes the Assignment object
 
         Parameters
@@ -29,26 +26,16 @@ class Assignment:
         ID : str, optional
             Specifies the assignment ID, generated automatically if not specified
         """
-        self.date_assigned = date_assigned
-        self.assigned_by = assigned_by
-        self.assigned_to = assigned_to
-        self.due_by = due_by
+        self.date_submitted = date_submitted
         self.content = content
         self.file_links = file_links
-        self.estimated_time = estimated_time
-        self.submissions = submissions
         self.ID = ID
 
     def to_dict(self):
         return {
-            'date_assigned': str(self.date_assigned),
-            'assigned_by': str(self.assigned_by),
-            'assigned_to': str(self.assigned_to),
-            'due_by': str(self.due_by),
-            'content': str(self.content),
+            'date_submitted': str(self.date_submitted),
+            'comment': str(self.content),
             'file_links': self.file_links,
-            'estimated_time': str(self.estimated_time),
-            'submissions': self.submissions
         }
 
     @staticmethod
@@ -60,8 +47,5 @@ class Assignment:
         dictionary : dict
             Dictionary with proper Assignment parameters
         """
-        return Assignment(dictionary["date_assigned"], dictionary["assigned_by"], 
-                            dictionary["assigned_to"], dictionary["due_by"], 
-                            dictionary["content"], dictionary["file_links"], 
-                            dictionary["estimated_time"], dictionary["submissions"] if 'submissions' in dictionary else None, 
-                            ID=dictionary["_id"])
+        return Submission(dictionary["date_submitted"], 
+                            dictionary["content"], dictionary["file_links"], ID=dictionary["_id"])
