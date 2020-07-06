@@ -37,7 +37,7 @@ def submit(class_id, assignment_id):
             files = request.files.getlist(form.files.name)
             file_link_list = []
             for file_ in files:
-                blob = upload_blob('gradder-storage', file_.filename, file_)
+                blob = upload_blob(file_.filename, file_)
                 file_link_list.append(blob.media_link)
         submission = Submission(date_submitted=datetime.utcnow(), content=form.content.data, file_links=file_link_list)
         student.add_submission(current_user.ID, class_id, assignment_id, submission=submission) # need to replace IDs with current class and assignment ID

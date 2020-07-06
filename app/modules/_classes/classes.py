@@ -73,7 +73,7 @@ class Classes:
             print(assignment)
             # Gets the dict object from the reference to the Firestore document stored in assignment,
             # creates an Assignment object from the dictionary and then appends it to the return object
-            temp_assignment = Assignment.from_dict(assignment.to_dict())
+            temp_assignment = Assignment.from_dict(assignment)
             temp_assignment.class_name = self.name
 
             assignments.append(temp_assignment)
