@@ -53,6 +53,7 @@ def add_assignment():
                                     assigned_by=current_user.ID,
                                     assigned_to=form.assigned_to.data,
                                     due_by=form.due_by.data,
+                                    title=form.title.data,
                                     content=form.content.data,
                                     file_links=file_link_list,
                                     estimated_time=form.estimated_time.data
