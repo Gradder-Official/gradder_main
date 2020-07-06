@@ -38,7 +38,6 @@ def profile():
 @teacher.route('/add_assignment', methods=['GET', 'POST'])
 def add_assignment():
     form = NewAssignmentForm()
-    current_user.add_student("5efbe85b4aeb5d21e56fa81f", "dp@gmail.com")
     form.assigned_to.choices = current_user.get_class_names()
 
     if form.validate_on_submit():
@@ -46,7 +45,7 @@ def add_assignment():
         if request.files is not None:
             files = request.files.getlist(form.files.name)
             for file_ in files:
-                blob = upload_blob('gradder-storage', file_.filename, file_)
+                blob = upload_blob(file_.filename, file_)
                 file_link_list.append(blob.media_link)
         
         new_assignment = Assignment(date_assigned=datetime.utcnow(),

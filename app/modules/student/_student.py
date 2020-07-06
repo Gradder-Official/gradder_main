@@ -101,7 +101,7 @@ class Student(User):
         """
         assignments = []
         for class_ref in self.class_names:
-            assignments.extend(Classes.get_by_id(class_ref).to_dict().get_assignments())
+            assignments.extend(Classes.from_dict(Classes.get_by_id(class_ref)).get_assignments())
 
         return assignments
 
