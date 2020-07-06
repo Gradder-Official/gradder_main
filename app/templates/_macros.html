@@ -13,7 +13,7 @@
 
 {% macro assignment(assignment) %}
 <div class="card assignment-card">
-    <h4 class="card-title task_name">Assignment Title</h4> <!-- probs should add assignment title as field?-->
+    <h4 class="card-title task_name">{{ assignment['title'] }}</h4> <!-- probs should add assignment title as field?-->
     <div class="card-badges">
         <p class="subject-badge">{{ assignment['class_name'] }}</p>
         <button type="button" class="info-badge" data-toggle="modal" data-target="#assignment{{ assignment['ID'] }}">
@@ -29,7 +29,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Assignment Title</h5>
+                <h5 class="modal-title">{{ assignment['title'] }}</h5>
                 <button type="button" class="btn btn-light modal-btn" data-dismiss="modal">Close</button>
             </div>
             <div class="modal-body">
@@ -37,6 +37,12 @@
                 <p class="submit_by">Due by: <b>{{ assignment['due_by'] }}</b></p>
                 <p class="estimated_time">Estimated time: <b>{{ assignment['estimated_time'] }}</b></p>
                 <p class="content">Content: {{ assignment['content'] }}</p>
+                <p class="attachments">Attached files: 
+                    {% for link in assignment['file_links'] %}
+                        <a target="_blank" href="{{ link }}">{{ link }}</a> {# TODO: add filenames stored #}
+                        <br>
+                    {% endfor %}
+                </p>
             </div>
         </div>
     </div>
