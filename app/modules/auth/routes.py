@@ -24,9 +24,16 @@ from app.google_storage import download_blob
 def load_user(id: str):
     user = User.get_by_id(id)
     if user is not None:
-        return eval(user['usertype'].capitalize()).from_dict(user)
-    else:
-        return None
+        if user['usertype'] == 'Teacher':
+            return Teacher.from_dict(user)
+        elif user['usertype'] == 'Student':
+            return Student.from_dict(user)
+        elif user['usertype'] == 'Parent':
+            return Parent.from_dict(user)
+        elif user['usertype'] == 'Admin':
+            return Admin.from_dict(user)
+    
+    return None
 
 
 @auth.route('/login', methods=['GET', 'POST'])

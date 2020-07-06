@@ -11,12 +11,12 @@
     {% endfor %}
 {% endmacro %}
 
-{% macro assignment(assgn) %}
+{% macro assignment(assignment) %}
 <div class="card assignment-card">
     <h4 class="card-title task_name">Assignment Title</h4> <!-- probs should add assignment title as field?-->
     <div class="card-badges">
-        <p class="subject-badge">{{ assgn['subject'] }}</p>
-        <button type="button" class="info-badge" data-toggle="modal" data-target="#assignment1">
+        <p class="subject-badge">{{ assignment['class_name'] }}</p>
+        <button type="button" class="info-badge" data-toggle="modal" data-target="#assignment{{ assignment['ID'] }}">
             <i class="material-icons">
                 info
             </i>
@@ -25,7 +25,7 @@
 </div>
 
 <!-- MODAL -->
-<div class="modal fade" id="assignment1" tabindex="-1" role="dialog">
+<div class="modal fade" id="assignment{{ assignment['ID']}}" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -33,10 +33,10 @@
                 <button type="button" class="btn btn-light modal-btn" data-dismiss="modal">Close</button>
             </div>
             <div class="modal-body">
-                <p class="subject">Subject: <b>{{ assgn['subject'] }}</b></p>
-                <p class="submit_by">Due by: <b>{{ assgn['due_by'] }}</b></p>
-                <p class="estimated_time">Estimated time: <b>{{ assgn['estimated_time'] }}</b></p>
-                <p class="content">Content:{{ assgn['content'] }}</p>
+                <p class="subject">Subject: <b>{{ assignment['class_name'] }}</b></p>
+                <p class="submit_by">Due by: <b>{{ assignment['due_by'] }}</b></p>
+                <p class="estimated_time">Estimated time: <b>{{ assignment['estimated_time'] }}</b></p>
+                <p class="content">Content: {{ assignment['content'] }}</p>
             </div>
         </div>
     </div>
