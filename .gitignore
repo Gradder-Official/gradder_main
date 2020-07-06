@@ -6,7 +6,7 @@
 
 **.pyc
 
-flask_init.sh
+.sh
 
 venv
 
@@ -17,3 +17,5 @@ venv
 gradder_cred.json
 app/logs/user_actions.log
 app/logs/forms.log
+
+.env
