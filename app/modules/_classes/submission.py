@@ -38,6 +38,13 @@ class Submission:
             'file_links': self.file_links,
         }
 
+    def to_json(self):
+        return {
+            'date_submitted': str(self.date_submitted),
+            'comment': str(self.content),
+            'file_links': self.file_links,
+        }
+
     @staticmethod
     def from_dict(dictionary: dict):
         r"""Generates an Assignment object from a dictionary,
@@ -48,4 +55,4 @@ class Submission:
             Dictionary with proper Assignment parameters
         """
         return Submission(dictionary["date_submitted"], 
-                            dictionary["content"], dictionary["file_links"], ID=dictionary["_id"])
+                          dictionary["comment"], dictionary["file_links"], ID=dictionary["_id"])

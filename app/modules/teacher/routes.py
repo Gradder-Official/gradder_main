@@ -46,7 +46,8 @@ def add_assignment():
             files = request.files.getlist(form.files.name)
             for file_ in files:
                 blob = upload_blob(file_.filename, file_)
-                file_link_list.append(blob.media_link)
+                if blob is not None:
+                    file_link_list.append(blob.media_link)
         
         new_assignment = Assignment(date_assigned=datetime.utcnow(),
                                     assigned_by=current_user.ID,
@@ -57,7 +58,7 @@ def add_assignment():
                                     estimated_time=form.estimated_time.data
                                     )
         
-        Classes.from_dict(Classes.get_by_id(form.assigned_to.data)).add_assignment(new_assignment)
+        Classes.get_by_id(form.assigned_to.data).add_assignment(new_assignment)
 
         flash('Assignment sent!')
         return redirect(url_for('main.dashboard'))

@@ -51,4 +51,5 @@ def profile():
 
 @student.route('/assignments')
 def assignments():
-    return render_template('student/assignments.html', assignments=current_user.get_assignments())
+    print(list(map(lambda x: x.to_json(), current_user.get_assignments())))
+    return render_template('student/assignments.html', assignments=list(map(lambda x: x.to_json(), current_user.get_assignments())))

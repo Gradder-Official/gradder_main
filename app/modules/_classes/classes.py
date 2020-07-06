@@ -76,7 +76,8 @@ class Classes:
                         dictionary["name"], dictionary["teacher"], 
                         dictionary["students"], dictionary["description"], 
                         dictionary["schedule_time"], dictionary["schedule_days"], 
-                        dictionary["syllabus"], dictionary["assignments"] if "assigments" in dictionary else None,
+                        dictionary["syllabus"], 
+                        list(map(lambda x: Assignment.from_dict(x), list(dictionary["assignments"]))) if "assignments" in dictionary else None,
                         ID=dictionary["_id"])
 
     def add(self):
@@ -97,13 +98,12 @@ class Classes:
 
     def get_assignments(self):
         assignments = list()
-        for assignment in db.classes.find_one({"_id": self.ID})["assignments"]:
+        for assignment in self.assignments:
             # Gets the dict object from the reference to the Firestore document stored in assignment,
             # creates an Assignment object from the dictionary and then appends it to the return object
-            temp_assignment = Assignment.from_dict(assignment)
-            temp_assignment.class_name = self.name
+            assignment.class_name = self.name
 
-            assignments.append(temp_assignment)
+            assignments.append(assignment)
         
         return assignments
 

@@ -3,8 +3,10 @@ from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms import DateTimeField, StringField, TextAreaField, SubmitField, SelectField, MultipleFileField
 from wtforms.validators import DataRequired
 
+from bson import ObjectId
+
 class NewAssignmentForm(FlaskForm):
-    assigned_to = SelectField(u'Class', validators=[DataRequired()])
+    assigned_to = SelectField(u'Class', validators=[DataRequired()], coerce=ObjectId)
     due_by = StringField('Due by', validators=[DataRequired()]) # Not DateTime field because it is weird
     estimated_time = StringField('Estimated time in minutes', validators=[DataRequired()])
     content = TextAreaField('The assignment description')

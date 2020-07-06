@@ -38,17 +38,22 @@
 {% endblock %}
 
 {% block page_content %}
-    <div class="container" style="margin-left:18vw; width:100%;">
-        <nav id="classes_navbar" class="navbar navbar-light bg-light">
-            <ul class="navbar-nav mr-auto">
-                {% for class_ in classes %}
-                    <li class="nav-item {% if class_[0]==class_json['immutable_info']['ID'] %}active{% endif %}">
-                        <a class="nav-link" href="{{ url_for('teacher.manage_classes_by_id', class_id=class_[0]) }}">
-                            {{ class_[1] }}{% if class_[0]==class_json['immutable_info']['ID'] %}<span> (current)</span>{% endif %}
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
+    <div class="container row" style="margin-left:18vw; width:100%;">
+        <nav id="classes_navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    {% for class_ in classes %}
+                        <li class="nav-item {% if class_[0]==class_json['immutable_info']['ID'] %}active{% endif %}">
+                            <a class="nav-link" href="{{ url_for('teacher.manage_classes_by_id', class_id=class_[0]) }}">
+                                {{ class_[1] }}{% if class_[0]==class_json['immutable_info']['ID'] %}<span> (current)</span>{% endif %}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </nav>
         <div class="container row">
             <div class="container col-md-8" id="students-container" style="padding: 0;">

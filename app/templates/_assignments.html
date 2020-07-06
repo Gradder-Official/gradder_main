@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% import "_macros.html" as macros %}
 
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/assignments.css') }}" />
+{% endblock %}
+
 {% block title %}Gradder | Assignments{% endblock %}
 
 {% block navbar %}

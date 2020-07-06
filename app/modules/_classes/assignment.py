@@ -36,8 +36,11 @@ class Assignment:
         self.content = content
         self.file_links = file_links
         self.estimated_time = estimated_time
-        self.submissions = submissions
+        self.submissions = submissions if submissions is not None else list()
         self.ID = ID
+
+    def __repr__(self):
+        return f'<Assignment { self.ID }>'
 
     def to_dict(self):
         return {
@@ -49,6 +52,20 @@ class Assignment:
             'file_links': self.file_links,
             'estimated_time': str(self.estimated_time),
             'submissions': self.submissions
+        }
+
+    def to_json(self):
+        return {
+            'ID': str(self.ID),
+            'date_assigned': str(self.date_assigned),
+            'assigned_by': str(self.assigned_by),
+            'assigned_to': str(self.assigned_to),
+            'due_by': str(self.due_by),
+            'content': str(self.content),
+            'file_links': self.file_links,
+            'estimated_time': str(self.estimated_time),
+            'submissions': list(map(lambda x: x.to_json(), self.submissions)),
+            'class_name': self.class_name if self.class_name else ''
         }
 
     @staticmethod
@@ -63,5 +80,6 @@ class Assignment:
         return Assignment(dictionary["date_assigned"], dictionary["assigned_by"], 
                             dictionary["assigned_to"], dictionary["due_by"], 
                             dictionary["content"], dictionary["file_links"], 
-                            dictionary["estimated_time"], dictionary["submissions"] if 'submissions' in dictionary else None, 
+                            dictionary["estimated_time"], 
+                            list(map(lambda x: Submission.from_dict(x), dictionary["submissions"])) if dictionary['submissions'] is not None else None, 
                             ID=dictionary["_id"])
