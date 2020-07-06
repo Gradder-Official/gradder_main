@@ -98,7 +98,6 @@ class Classes:
     def get_assignments(self):
         assignments = list()
         for assignment in db.classes.find_one({"_id": self.ID})["assignments"]:
-            print(assignment)
             # Gets the dict object from the reference to the Firestore document stored in assignment,
             # creates an Assignment object from the dictionary and then appends it to the return object
             temp_assignment = Assignment.from_dict(assignment)

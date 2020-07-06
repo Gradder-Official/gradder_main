@@ -9,7 +9,7 @@ class Teacher(User):
 
     def __init__(self, email: str, first_name: str, last_name: str, classes: list = None, ID: str = None):
         super().__init__(email=email, first_name=first_name, last_name=last_name, ID=ID)
-        self.classes = classes
+        self.classes = classes if classes is not None else list()
 
     def __repr__(self):
         return f'<Teacher {self.ID}>'
@@ -43,10 +43,8 @@ class Teacher(User):
         user = Teacher(email=dictionary['email'],
                        first_name=dictionary['first_name'],
                        last_name=dictionary['last_name'],
-                       ID=str(dictionary['_id']) if '_id' in dictionary else None)
-
-        if 'classes' in dictionary:
-            user.classes = dictionary['classes']
+                       ID=str(dictionary['_id']) if '_id' in dictionary else None,
+                       classes=dictionary['classes'] if 'classes' in dictionary else None)
 
         if 'password' in dictionary:
             user.set_password(dictionary['password'])
@@ -59,6 +57,7 @@ class Teacher(User):
 
     def get_class_names(self):
         classes = list()
+        print(self.classes)
         for class_ in self.classes:
             classes.append((class_, Classes.get_by_id(class_).name))
         
