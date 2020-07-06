@@ -1,8 +1,11 @@
-from __future__ import annotations
+from __future__ import annotations # To use Student as a type in Student
 from typing import List, Dict
 
 from app import db
-from app.modules._classes import Assignment, User, Classes
+from app.modules._classes import Assignment, User, Classes, Submission
+from bson import ObjectId
+from typing import Dict, List
+from flask_login import current_user
 
 class Student(User):
     USERTYPE = 'Student'
@@ -48,7 +51,7 @@ class Student(User):
         user = Student(email=dictionary['email'],
                        first_name=dictionary['first_name'],
                        last_name=dictionary['last_name'],
-                       ID=dictionary['ID'] if 'ID' in dictionary else None)
+                       ID=str(dictionary['_id']) if '_id' in dictionary else None)
 
         if 'classes' in dictionary:
             user.classes.extend(dictionary['classes'])
@@ -82,3 +85,11 @@ class Student(User):
             assignments.extend(Classes.get_by_id(class_ref).get_assignments())
 
         return assignments
+
+    def add_submission(self, current_user_id,  class_id, assignment_id, submission):
+        dictionary = submission.to_dict()
+        dictionary["student_id"] = self.ID
+        dictionary["_id"] = ObjectId()
+        db.classes.find_one_and_update({"_id": ObjectId(class_id), "assignments._id": ObjectId(assignment_id)}, {"$push": {"assignments.$.submissions": dictionary}})
+        unique_submission_string = class_id + "_" + assignment_id + "_" + str(dictionary["_id"])
+        db.students.find_one_and_update({"_id": ObjectId(current_user_id)}, {"$push": {"class_names": unique_submission_string}})
