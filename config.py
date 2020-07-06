@@ -1,3 +1,4 @@
+from dotenv import load_dotenv
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -20,7 +21,7 @@ class Config:
     
     @staticmethod
     def init_app(app):
-        pass
+        load_dotenv(dotenv_path=".env", verbose=True)
 
 
 class DevelopmentConfig(Config):
