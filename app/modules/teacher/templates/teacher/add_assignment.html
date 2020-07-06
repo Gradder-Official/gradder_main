@@ -1,4 +1,4 @@
-{% extends "auth/base_auth.html" %}
+{% extends "_dashboard.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %} Dashboard | Add Assignments {% endblock title %}
@@ -13,66 +13,73 @@
 {% endblock %}
 
 {% block navbar %}
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Gradder</a>
+<div class="dash-sidebar">
+    <div class="navbar-header">
+        <a href="#" class="sidebar-logo">
+            <img src="{{ url_for('static', filename='images/White Logo.png') }}" alt="Gradder">
+            <h4>Gradder</h4>
+        </a>
+        <div class="dash-profile">
+            <h4>Hello, {{ current_user.first_name }}</h4>
+            <!-- Placeholder profile pic -->
+            <img src="https://www.iambetter.org/wp-content/uploads/2020/04/Albert_Einstein_1024x1024.jpg" alt="Profile picture" class="profile-pic">
         </div>
     </div>
-    <ul class="nav navbar-nav">
-        <li class="active"><a href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
-        <li><a href="{{ url_for('main.profile') }}"><span class="glyphicon glyphicon-user"></span>Profile</a></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-        <li class=""><a href="{{ url_for('auth.logout') }}"><span class="glyphicon glyphicon-log-out"></span>Sign
-                out</a></li>
-        <li class=""><a href="#"><span class="glyphicon glyphicon-envelope"></span><span class="badge">5</span><a></a>
-        </li>
-    </ul>
-</nav>
+    <nav class="nav flex-column nav-pills" id="sidebar-nav">
+        <a class="nav-link active" href="{{ url_for('main.dashboard') }}">Overview</a>
+        <a class="nav-link" href="{{ url_for('teacher.manage_classes') }}">Classes</a>
+        <a class="nav-link" href="#">Assignments</a>
+        <a class="nav-link" href="#">Analytics</a>
+        <a class="nav-link" href="{{ url_for('main.profile') }}">Profile</a>
+    </nav>
+    <div class="navbar-bottom">
+        <a href="#">
+            <i class="material-icons">mail</i>
+        </a>
+        <a href="{{ url_for('auth.logout') }}">
+            <i class="material-icons">exit_to_app</i>
+        </a>
+    </div>
+</div>
 {% endblock %}
 
-{% block app_content %}
-<!-- <div class="form-container" style="width:100%; height:100%; display: flex; justify-content: center;">
-    <div class="container" style="border: 2px solid black; margin-top: 3%; background-color: white;" > -->
-        <form action="" method="POST" enctype="multipart/form-data">
-            <div class="container">
-                {{ form.hidden_tag() }}
-                <div class="header">
-                    <h1>Add a new assignment</h1>
+{% block content %}
+   <form action="" method="POST" enctype="multipart/form-data">
+        <div class="container">
+            {{ form.hidden_tag() }}
+            <div class="header">
+                <h1>Add a new assignment</h1>
+            </div>
+            <br>
+            <div class="form-row">
+                <div class="form-group col-sm-4" style="padding-left:0px;">
+                    {# TODO: set default option to the currently selected class #}
+                    {{ macros.field(form.assigned_to) }} 
                 </div>
-                <br>
-                <div class="form-row">
-                    <div class="form-group col-sm-4" style="padding-left:0px;">
-                        {# TODO: set default option to the currently selected class #}
-                        {{ macro.field(form.assigned_to) }} 
-                    </div>
-                    <div class="form-group col-sm-4">
-                        {{ macro.field(form.due_by) }}
-                    </div>
-                    <div class="form-group col-sm-4" style="padding-right:0px;">
-                        {{ macro.field(form.estimated_time, placeholder="60") }}
-                    </div>
+                <div class="form-group col-sm-4">
+                    {{ macros.field(form.due_by) }}
                 </div>
-                <div class="form-group">
-                    {{ form.content.label(class="form-control-label") }}
-                    <div id="quillContent" style="height:400px;">
-                        <div id="toolbar"></div>
-                    </div>
-                    {{ form.content(class="form-control-lg", style="display:none;") }}
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-10" style="padding-left:0;">
-                        {{ macro.field(form.files, class="form-control-file") }}
-                    </div>
-                    <div class="form-group col-sm-2" style="padding-right:0;">
-                        {{ form.submit(class="btn btn-info", style="float:right;") }}
-                    </div>
+                <div class="form-group col-sm-4" style="padding-right:0px;">
+                    {{ macros.field(form.estimated_time, placeholder="60", autocomplete="off") }}
                 </div>
             </div>
-        </form>
-    <!-- </div>
-</div> -->
+            <div class="form-group">
+                {{ form.content.label(class="form-control-label") }}
+                <div id="quillContent" style="height:400px;">
+                    <div id="toolbar"></div>
+                </div>
+                {{ form.content(class="form-control-lg", style="display:none;") }}
+            </div>
+            <div class="form-row">
+                <div class="form-group col-sm-10" style="padding-left:0;">
+                    {{ macros.field(form.files, class="form-control-file") }}
+                </div>
+                <div class="form-group col-sm-2" style="padding-right:0;">
+                    {{ form.submit(class="btn btn-info", style="float:right;") }}
+                </div>
+            </div>
+        </div>
+    </form>
 {% endblock %}
 
 {% block scripts %}
