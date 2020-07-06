@@ -10,7 +10,7 @@
         <div class="dash-profile">
             <h4>Hello, {{ current_user.first_name }}</h4>
             <!-- Placeholder profile pic -->
-            <img src="https://www.iambetter.org/wp-content/uploads/2020/04/Albert_Einstein_1024x1024.jpg" alt="Profile picture" id="profile-pic">
+            <img src="https://www.iambetter.org/wp-content/uploads/2020/04/Albert_Einstein_1024x1024.jpg" alt="Profile picture" class="profile-pic">
         </div>
     </div>
     <nav class="nav flex-column nav-pills" id="sidebar-nav">
@@ -32,23 +32,19 @@
 {% endblock %}
 
 {% block content %}
-{% if current_user.class_list %}
-    <p class="large">My classes: 
-    {% for class_name in current_user.get_class_names() %}
-        <span>{{ class_name[1] }}</span>
-    {% endfor %}
-    </p>
-{% endif %}
-<div class="jumbotron container teacher-students">
-    View your students here
-</div>
-<div class="jumbotron container teacher-syllabus">
-    Your course plan will be here
-</div>
-<div class="jumbotron container teacher-assignments">
-    <a href="{{ url_for('teacher.add_assignment') }}">Post a new assignment!</a>
-</div>
-<div class="jumbotron container teacher-statistics">
-    Class statistics
+<div class="dash-content" id="teacher-overview">
+    <div class="jumbotron container teacher-students">
+        <h4>View your students here</h4>
+    </div>
+    <div class="jumbotron container teacher-syllabus">
+        <h4>Your course plan will be here</h4>
+    </div>
+    <div class="jumbotron container teacher-assignments">
+       <h4>Assignments</h4>
+        <a href="{{ url_for('teacher.add_assignment') }}">Post a new assignment!</a>
+    </div>
+    <div class="jumbotron container teacher-statistics">
+        <h4>Class statistics</h4>
+    </div>
 </div>
 {% endblock %}
