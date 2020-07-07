@@ -1,4 +1,6 @@
 from typing import List
+import re
+
 from . import Assignment
 
 from app import db
@@ -40,7 +42,33 @@ class Classes:
         return dict_object
     
     def to_json(self):
-        return self.to_dict()
+        from app.modules.student._student import Student
+        # JSON object to be passed on to HTML templates
+        # 'admin_info' should only be read-only for everyone except admins, 
+        # teacher_info should only be read-only for everyone except teachers
+        json_object = {
+            'admin_info': {
+                'department': self.department,
+                'number': str(self.number),
+                'name': self.name,
+                'teacher': self.teacher,
+                'schedule_time': self.schedule_time,
+                'schedule_days': self.schedule_days,
+            },
+            'teacher_info': {
+                'description': self.description,
+                'syllabus': self.syllabus,
+            },
+            'immutable_info': {
+                'alias': self.department + "_" + str(self.number) + "_" + re.sub(r'[^a-zA-Z]+', '', self.name.lower()),
+                'full_name': self.get_full_name(),
+                'ID': self.ID,
+            },
+            'students': 
+                [Student.get_by_id(student_id).to_dict() for student_id in self.students],
+        }
+
+        return json_object
 
     @staticmethod
     def from_dict(dictionary: dict):
@@ -48,7 +76,8 @@ class Classes:
                         dictionary["name"], dictionary["teacher"], 
                         dictionary["students"], dictionary["description"], 
                         dictionary["schedule_time"], dictionary["schedule_days"], 
-                        dictionary["syllabus"], dictionary["assignments"] if "assigments" in dictionary else None,
+                        dictionary["syllabus"], 
+                        list(map(lambda x: Assignment.from_dict(x), list(dictionary["assignments"]))) if "assignments" in dictionary else None,
                         ID=dictionary["_id"])
 
     def add(self):
@@ -69,14 +98,12 @@ class Classes:
 
     def get_assignments(self):
         assignments = list()
-        for assignment in db.classes.find_one({"_id": self.ID})["assignments"]:
-            print(assignment)
+        for assignment in self.assignments:
             # Gets the dict object from the reference to the Firestore document stored in assignment,
             # creates an Assignment object from the dictionary and then appends it to the return object
-            temp_assignment = Assignment.from_dict(assignment)
-            temp_assignment.class_name = self.name
+            assignment.class_name = self.name
 
-            assignments.append(temp_assignment)
+            assignments.append(assignment)
         
         return assignments
 
@@ -96,4 +123,9 @@ class Classes:
 
     @staticmethod
     def get_by_id(ID: str):
-        return db.classes.find_one({"_id": ObjectId(ID)})
+        return Classes.from_dict(db.classes.find_one({"_id": ObjectId(ID)}))
+
+    def get_full_name(self) -> str:
+        r'''Returns name in the format "SOС310 U.S. History"
+        '''
+        return self.department + str(self.number) + " " + self.name

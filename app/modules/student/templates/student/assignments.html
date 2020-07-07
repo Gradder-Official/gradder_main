@@ -1,0 +1,15 @@
+{% extends "_assignments.html" %}
+
+{% block content %}
+<div class="dash-content" id="student-assignments">
+    <div class="jumbotron">
+        <h1>Your assignments</h1>
+    </div>
+
+    {% for assignment in assignments %}
+        {{ macros.assignment(assignment) }}
+    {% endfor %}
+
+</div>
+
+{% endblock %}

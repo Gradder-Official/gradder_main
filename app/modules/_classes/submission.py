@@ -38,6 +38,13 @@ class Submission:
             'file_links': self.filenames,
         }
 
+    def to_json(self):
+        return {
+            'date_submitted': str(self.date_submitted),
+            'comment': str(self.content),
+            'file_links': self.file_links,
+        }
+
     @staticmethod
     def from_dict(dictionary: dict):
         r"""Generates an Assignment object from a dictionary,
