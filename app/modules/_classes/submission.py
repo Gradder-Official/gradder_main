@@ -4,7 +4,7 @@ from app import db
 
 
 class Submission:
-    def __init__(self, date_submitted: time, content: str, file_links: list, ID: str = None):
+    def __init__(self, date_submitted: time, content: str, filenames: list, ID: str = None):
         r"""Initializes the Assignment object
 
         Parameters
@@ -28,14 +28,14 @@ class Submission:
         """
         self.date_submitted = date_submitted
         self.content = content
-        self.file_links = file_links
+        self.filenames = filenames
         self.ID = ID
 
     def to_dict(self):
         return {
             'date_submitted': str(self.date_submitted),
             'comment': str(self.content),
-            'file_links': self.file_links,
+            'file_links': self.filenames,
         }
 
     @staticmethod
@@ -48,4 +48,4 @@ class Submission:
             Dictionary with proper Assignment parameters
         """
         return Submission(dictionary["date_submitted"], 
-                            dictionary["content"], dictionary["file_links"], ID=dictionary["_id"])
+                            dictionary["content"], dictionary["filenames"], ID=dictionary["_id"])

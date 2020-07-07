@@ -13,6 +13,7 @@ from app.decorators import required_access
 from app.google_storage import upload_blob
 from app.modules._classes import Assignment
 from app.logs.form_logger import form_logger
+import uuid
 
 
 @teacher.before_request
@@ -41,19 +42,20 @@ def add_assignment():
     form.assigned_to.choices = current_user.get_class_names()
 
     if form.validate_on_submit():
-        file_link_list = []
+        file_list = []
         if request.files is not None:
             files = request.files.getlist(form.files.name)
             for file_ in files:
-                blob = upload_blob(file_.filename, file_)
-                file_link_list.append(blob.media_link)
+                filename = file_.filename
+                blob = upload_blob(uuid.uuid4().hex, file_)
+                file_list.append((blob.name, filename))
         
         new_assignment = Assignment(date_assigned=datetime.utcnow(),
                                     assigned_by=current_user.ID,
                                     assigned_to=form.assigned_to.data,
                                     due_by=form.due_by.data,
                                     content=form.content.data,
-                                    file_links=file_link_list,
+                                    filenames=file_list,
                                     estimated_time=form.estimated_time.data
                                     )
         
