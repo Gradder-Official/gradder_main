@@ -6,12 +6,14 @@ from .submission import Submission
 
 
 class Assignment:
-    def __init__(self, date_assigned: time, assigned_by: int, assigned_to: str, due_by: datetime, content: str, file_links: list, 
+    def __init__(self, title:str, date_assigned: time, assigned_by: int, assigned_to: str, due_by: datetime, content: str, file_links: list, 
                        estimated_time: int, submissions: List[Submission] = None, ID: str = None):
         r"""Initializes the Assignment object
 
         Parameters
         ----------
+        title: str
+            Title of the assignment
         date_assigned : datetime.datetime
             A utc time signature that specifies when this assignment was posted by a Teacher.
         assigned_by : int
@@ -29,6 +31,7 @@ class Assignment:
         ID : str, optional
             Specifies the assignment ID, generated automatically if not specified
         """
+        self.title = title
         self.date_assigned = date_assigned
         self.assigned_by = assigned_by
         self.assigned_to = assigned_to
@@ -36,11 +39,15 @@ class Assignment:
         self.content = content
         self.file_links = file_links
         self.estimated_time = estimated_time
-        self.submissions = submissions
+        self.submissions = submissions if submissions is not None else list()
         self.ID = ID
+
+    def __repr__(self):
+        return f'<Assignment { self.ID }>'
 
     def to_dict(self):
         return {
+            'title': self.title,
             'date_assigned': str(self.date_assigned),
             'assigned_by': str(self.assigned_by),
             'assigned_to': str(self.assigned_to),
@@ -49,6 +56,21 @@ class Assignment:
             'file_links': self.file_links,
             'estimated_time': str(self.estimated_time),
             'submissions': self.submissions
+        }
+
+    def to_json(self):
+        return {
+            'ID': str(self.ID),
+            'title': self.title,
+            'date_assigned': str(self.date_assigned),
+            'assigned_by': str(self.assigned_by),
+            'assigned_to': str(self.assigned_to),
+            'due_by': str(self.due_by),
+            'content': str(self.content),
+            'file_links': self.file_links,
+            'estimated_time': str(self.estimated_time),
+            'submissions': list(map(lambda x: x.to_json(), self.submissions)),
+            'class_name': self.class_name if self.class_name else ''
         }
 
     @staticmethod
@@ -60,8 +82,9 @@ class Assignment:
         dictionary : dict
             Dictionary with proper Assignment parameters
         """
-        return Assignment(dictionary["date_assigned"], dictionary["assigned_by"], 
+        return Assignment(dictionary["title"], dictionary["date_assigned"], dictionary["assigned_by"], 
                             dictionary["assigned_to"], dictionary["due_by"], 
                             dictionary["content"], dictionary["file_links"], 
-                            dictionary["estimated_time"], dictionary["submissions"] if 'submissions' in dictionary else None, 
+                            dictionary["estimated_time"], 
+                            list(map(lambda x: Submission.from_dict(x), dictionary["submissions"])) if dictionary['submissions'] is not None else None, 
                             ID=dictionary["_id"])

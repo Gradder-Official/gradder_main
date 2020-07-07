@@ -1,18 +1,16 @@
+from __future__ import annotations # To use Student as a type in Student
+from typing import List, Dict
+
 from app import db
 from app.modules._classes import Assignment, User, Classes, Submission
 from bson import ObjectId
 from typing import Dict, List
 from flask_login import current_user
 
-# A type that defines a dictionary of grades: subjects are keys and lists of integer grades are values
-# TODO: add handling for non-integer grading systems later
-gradeDict = Dict[str, List[int]]
-
-
 class Student(User):
     USERTYPE = 'Student'
 
-    def __init__(self, email: str, first_name: str, last_name: str, class_names: List[str] = None, ID: str = None, grades: gradeDict = None):
+    def __init__(self, email: str, first_name: str, last_name: str, classes: List[str] = None, ID: str = None):
         r"""Initializes a Student object.
 
         Parameters
@@ -20,54 +18,43 @@ class Student(User):
         email : str
             Student's email address.
         first_name : str
-            Student's first name as it was entered in the signup form or by an admin.
+            Student's first name as it was entered in the sign-up form or by an admin.
         last_name : str
-            Student's last name as it was entered in the singup form or by an admin.
-        class_names : List[int], optional
-            A list of integer numbers that correspond to the IDs of the classes a student belongs in. Defaults to None, but must be set later.
+            Student's last name as it was entered in the sign-up form or by an admin.
+        classes : List[str], optional
+            A list of string values that correspond to the IDs of the classes a student belongs in. Defaults to None, but must be set later.
         ID : str, optional
             User's string ID. If not specified, defaults to None and then iss auto-generated.
-        grades : gradeDict, optional
-            User's grades formatted as a dictionary with subject's name as keys and lists of integer grades as values.
         """
         super().__init__(email=email, first_name=first_name, last_name=last_name, ID=ID)
-        if class_names is not None:
-            self.class_names = class_names
-        else:
-            self.class_names = list()
-
-        if grades is not None:
-            self.grades = grades
-        else:
-            self.grades = dict()
+        
+        self.classes = classes if classes is not None else list()
 
     def __repr__(self):
         return f'<Student {self.ID}'
 
-    def to_json(self):
+    def to_json(self) -> Dict[str, str]:
         """ Returns the user represented as a dict (equivalent to to_dict).
         """
         json_user = super().to_json()
-
-        json_user['class_names'] = self.class_names
-        json_user['grades'] = self.grades
+        json_user['classes'] = self.classes
 
         return json_user
 
-    def to_dict(self):
+    def to_dict(self) -> Dict[str, str]:
         """ Returns the user represented as a dict (equivalent to to_json).
         """
         return self.to_json()
 
     @staticmethod
-    def from_dict(dictionary: dict):
+    def from_dict(dictionary: dict) -> Student:
         user = Student(email=dictionary['email'],
                        first_name=dictionary['first_name'],
                        last_name=dictionary['last_name'],
                        ID=str(dictionary['_id']) if '_id' in dictionary else None)
 
-        if 'class_names' in dictionary:
-            user.class_names.extend(dictionary['class_names'])
+        if 'classes' in dictionary:
+            user.classes.extend(dictionary['classes'])
 
         if 'password' in dictionary:
             user.set_password(dictionary['password'])
@@ -76,32 +63,26 @@ class Student(User):
             user.set_secret_question(
                 dictionary['secret_question'], dictionary['secret_answer'])
 
-        if 'grades' in dictionary:
-            user.add_grades(dictionary['grades'])
-
         return user
 
     @staticmethod
-    def get_by_id(id: str):
+    def get_by_id(id: str) -> Student:
         return Student.from_dict(super(Student, Student).get_by_id(id))
 
     @staticmethod
-    def get_by_name(first_name: str, last_name: str):
+    def get_by_name(first_name: str, last_name: str) -> Student:
         return Student.from_dict(super(Student, Student).get_by_name("student", first_name, last_name))
 
     @staticmethod
-    def get_by_email(email: str):
+    def get_by_email(email: str) -> Student:
         return Student.from_dict(super(Student, Student).get_by_email(email))
 
-    def add_grades(self, new_grades: gradeDict):
-        self.grades.update(new_grades)
-
-    def get_assignments(self):
+    def get_assignments(self) -> List[Assignment]:
         """ Gets a list of assignments from the database for this student.
         """
-        assignments = []
-        for class_ref in self.class_names:
-            assignments.extend(Classes.from_dict(Classes.get_by_id(class_ref)).get_assignments())
+        assignments = list()
+        for class_ref in self.classes:
+            assignments.extend(Classes.get_by_id(class_ref).get_assignments())
 
         return assignments
 

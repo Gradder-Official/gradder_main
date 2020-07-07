@@ -1,0 +1,38 @@
+#profile-jumbo h4 {
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+#profile-jumbo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.welcome-top-right {
+    display: flex;
+    flex-direction: row;
+}
+#welcome-profile-pic {
+    width: 150px;
+    height: 150px;
+    border: 3px solid rgb(93, 118, 232);
+    margin-right: 20px;
+}
+.welcome-buttons {
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+    justify-content: space-between;
+}
+.welcome-buttons button {
+    font-family: 'SF UI Text', sans-serif;
+    font-size: 14px;
+    border-radius: 12px;
+    background: rgb(102,130,252);
+}
+.welcome-buttons button:hover, .welcome-buttons button:active {
+    background: rgb(93, 118, 232);
+}
+.welcome-buttons a {
+    color: white;
+    text-decoration: none;
+}

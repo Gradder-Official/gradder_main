@@ -50,3 +50,9 @@ def submit(class_id, assignment_id):
 @student.route('/profile')
 def profile():
     return render_template('student/profile.html')
+    
+
+@student.route('/assignments')
+def assignments():
+    print(list(map(lambda x: x.to_json(), current_user.get_assignments())))
+    return render_template('student/assignments.html', assignments=list(map(lambda x: x.to_json(), current_user.get_assignments())))

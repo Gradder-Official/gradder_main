@@ -5,7 +5,6 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_mail import Mail
 from flask_talisman import Talisman
-from pymongo import MongoClient
 from config import config
 
 login_manager = LoginManager()
@@ -28,6 +27,7 @@ def create_app(config_name):
     bootstrap.init_app(app)
     moment.init_app(app)
     mail.init_app(app)
+
 
     # if config[config_name].SSL_REDIRECT:
     #     Talisman(app)

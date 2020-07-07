@@ -24,9 +24,16 @@ from app.google_storage import download_blob
 def load_user(id: str):
     user = User.get_by_id(id)
     if user is not None:
-        return eval(user['usertype'].capitalize()).from_dict(user)
-    else:
-        return None
+        if user['usertype'] == 'Teacher':
+            return Teacher.from_dict(user)
+        elif user['usertype'] == 'Student':
+            return Student.from_dict(user)
+        elif user['usertype'] == 'Parent':
+            return Parent.from_dict(user)
+        elif user['usertype'] == 'Admin':
+            return Admin.from_dict(user)
+    
+    return None
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -54,7 +61,7 @@ def login():
 def logout():
     logout_user()
     flash('You have been logged out.')
-    return redirect(url_for('main.index'))
+    return redirect(url_for('auth.login'))
 
 
 @auth.route('/register', methods=['GET', 'POST'])
@@ -107,7 +114,6 @@ def send_reset_email(user):
                   sender=app.config['MAIL_SENDER'], recipients=[user.email])
     msg.body = f'''Here is your password reset link:
 { url_for('auth.reset_password', token=token, _external=True) }
-
 If you did not make this reset password request, please change your password immediately through your accounts. If you need any further assistance, please contact team@gradder.io.
 '''
     mail.send(msg)
@@ -159,4 +165,3 @@ def change_secret_question():
         flash('Oops... Wrong password.')
 
     return render_template('auth/change-secret-question.html', form=form)
-

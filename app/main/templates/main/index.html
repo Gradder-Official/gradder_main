@@ -4,6 +4,8 @@
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/landing.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/landing-sections.css') }}">
+<!-- Animation on Scroll -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 {% endblock styles %}
 
 
@@ -15,11 +17,10 @@
                 <p>AI-driven School Dashboard</p>
                 <h1>Your Smart<br>School Diary</h1>
                 <h3>What if you didn't have to end your education when at home?</h3>
-                <a href="{{ url_for('main.careers') }}" id="contribute-button" style="text-decoration: none;">
-                    <div class="button">
-                        Contribute
-                    </div>
-                </a>
+                <form>
+                    <input type="email" id="email" name="email" placeholder="Subscribe to updates">
+                    <input type="submit" id="email-submit" value="Subscribe" style="cursor: pointer;">
+                </form>
             </div>
             <ol class="carousel-indicators">
                 <li id="indicator1" class="active"></li>
@@ -27,15 +28,8 @@
                 <li id="indicator3"></li>
             </ol>
         </div>
-        <div class="right-container carousel" id="landing-carousel">
-            <div class="zoom-box">
-                <div class="book"></div>
-                <svg id="zoom" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                    viewBox="0 0 1920 1080">
-                    <path id="startZoom"
-                        d="M1179.32 820.14C1179.32 832.02 1169.68 841.66 1157.8 841.66C1145.93 841.66 1136.28 832.02 1136.28 820.14C1136.28 808.27 1145.93 798.62 1157.8 798.62C1169.68 798.62 1179.32 808.27 1179.32 820.14Z" fill="#81cfe0" />
-                </svg>
-            </div>
+        <div class="right-container" id="landing-carousel">
+            <div class="book"></div>
             <div class="blob-backgrounds" id="blob-backgrounds">
                 <svg id="slides" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1920 1080">
                     <path id="slide-1-blob"
@@ -69,13 +63,13 @@
         </div>
     </div>
     <div class="section" id="why">
-        <div class="side-image">
+        <div class="side-image" data-aos="zoom-in-right" data-aos-duration="2000">
         </div>
-        <div class="section-content">
+        <div class="section-content" data-aos="fade-left" data-aos-duration="2000">
             <h1>Why Us?</h1>
             <table class="reasons">
                 <tr>
-                    <th></th>
+                    <th style="width: 8%"></th>
                     <th>
                         <img src="../static/images/Parents.png">
                         <h2>Parents</h2>
@@ -91,52 +85,133 @@
                 </tr>
                 <tr>
                     <td class="number" id="one">1</td>
-                    <td>Point 1 goes here</td>
-                    <td>Point 1 goes here</td>
-                    <td>Point 1 goes here</td>
+                    <td>Instant access to children’s progress reports</td>
+                    <td>School-wide or targeted announcements</td>
+                    <td>Integrated school-wide event schedule</td>
                 </tr>
                 <tr>
                     <td class="number" id="two">2</td>
-                    <td>Point 2 goes here</td>
-                    <td>Point 2 goes here</td>
-                    <td>Point 2 goes here</td>
+                    <td>Easy communication with teachers</td>
+                    <td>Submit an assignment in just X clicks</td>
+                    <td>Smart grade alerts and personalized progress reports</td>
                 </tr>
                 <tr>
                     <td class="number" id="three">3</td>
-                    <td>Point 3 goes here</td>
-                    <td>Point 3 goes here</td>
-                    <td>Point 3 goes here</td>
+                    <td>Save time by X%</td>
+                    <td>Post an assignment in just X clicks</td>
+                    <td>Integrated schedule and syllabi</td>
                 </tr>
             </table>
         </div>
     </div>
     <div class="section" id="say">
-        <div class="section-content">
+        <div class="section-content" data-aos="fade-right" data-aos-duration="2000">
             <h1>What People Say About Us</h1>
             <div class="comment">
-                <img src="../static/images/Quotes.png">
+                <img src="{{ url_for('static', filename='images/Quotes.png') }}">
                 <p>Gradder is a great opportunity to find out my up-to-date grades. I couldn't even dream about it!<br><br>–– Artem, a high school student</p>
             </div>
             <div class="comment">
-                <img src="../static/images/Quotes.png">
-                <p>I am happy that now I have a tool that helps me be aware of my children's academic performance!<br><br>–– Yulilia, Artem's mother</p>
+                <img src="{{ url_for('static', filename='images/Quotes.png') }}">
+                <p>I am happy that now I have a tool that helps me be aware of my children's academic performance!<br><br>–– Yuliia, Artem's mother</p>
             </div>
         </div>
-        <div class="side-image">
+        <div class="side-image" data-aos="zoom-in-left" data-aos-duration="2000">
         </div>
     </div>
-    <div class="section" id="mission">
+    <div class="section" id="mission" data-aos="fade-up" data-aos-duration="2000">
         <div class="mission-statement">
             <h2>We strive to make a system that would allow students to focus on learning, teachers to concentrate on teaching, and parents to easily interact with the schools.</h2>
             <br><br>
             <h3>–– Serhii, CEO at Gradder</h3>
         </div>
     </div>
+    <div class="section" id="roadmap" data-aos="fade-up" data-aos-duration="2000">
+        <h1>Roadmap</h1>
+        <img src="{{ url_for('static', filename='images/Horizontal Roadmap.png') }}">
+        <table class="timeline">
+            <tr id="top-row">
+                <td></td>
+                <td><strong>February 2020</strong><br>Prototype created</td>
+                <td></td>
+                <td><strong>April 2020</strong><br>Global Finalist at the Diamond Challenge for High School Entrepreneurs</td>
+                <td></td>
+                <td><strong>June 2020</strong><br>Alpha version created</td>
+                <td></td>
+                <td><strong>September 2020</strong><br>Launch</td>
+            </tr>
+            <tr id="bottom-row">
+                <td><strong>January 2020</strong><br>200 user interviews conducted</td>
+                <td></td>
+                <td><strong>March 2020</strong><br>Test conducted in one school in Kyiv</td>
+                <td></td>
+                <td><strong>May 2020</strong><br>MVP version created</td>
+                <td></td>
+                <td><strong>July 2020</strong><br>Beta version created</td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+    <div class="section" id="team" data-aos="fade-up" data-aos-duration="2000">
+        <h1>Our Team</h1>
+        <table class="people">
+            <tr>
+                <th>
+                    <!-- Blob -->
+                </th>
+                <th>
+                    <!-- Blob -->
+                </th>
+                <th>
+                    <!-- Blob -->
+                </th>
+            </tr>
+            <tr>
+                <td>Serhii</td>
+                <td>Dasha</td>
+                <td>Alex</td>
+            </tr>
+            <tr>
+                <td>Facts, facts, facts!</td>
+                <td>Facts, facts, facts!</td>
+                <td>Facts, facts, facts!</td>
+            </tr>
+        </table>
+    </div>
 </div>
+<footer>
+    <div class="footer-body">
+        <div class="contact-info">
+            <h1>Contact us</h1>
+            <p>team@gradder.io</p>
+        </div>
+        <form class="enquiry">
+            <h1>Enquiries</h1>
+            <div class="enquiry-person">
+                <input type="text" id="enquiry-name" name="enquiry-name" placeholder="Your name">
+                <input type="email" id="enquiry-email" name="enquiry-email" placeholder="Your email">
+            </div>
+            <select id="enquiry-subject">
+                <option value="funding">Funding/investments</option>
+                <option value="partnership">Partnership</option>
+                <option value="careers">Careers</option>
+                <option value="system">Using our system</option>
+                <option value="feedback">Feedback</option>
+                <option value="questions">Questions</option>
+                <option value="other">Other</option>
+            </select>
+            <textarea id="enquiry-body" name="enquiry-body" rows="10" cols="30" placeholder="Your enquiry"></textarea>
+            <input type="submit" id="enquiry-submit" value="Submit">
+        </form>
+    </div>
+    <img src="{{ url_for('static', filename='images/Footer.png') }}">
+</footer>
 {% endblock %}
 
 {% block scripts %}
 {{ super() }}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
 <script type='text/javascript' src="{{ url_for('static', filename='scripts/landing.js') }}"></script>
+<!-- Animation on Scroll -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 {% endblock scripts %}
