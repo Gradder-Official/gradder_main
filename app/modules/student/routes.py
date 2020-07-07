@@ -36,11 +36,11 @@ def submit(class_id, assignment_id):
     if form.validate_on_submit():
         student = Student.get_by_id(current_user.ID)
         file_list = []
-        if request.files is not None:
-            files = request.files.getlist(form.files.name)
+        files = request.files.getlist(form.files.name)
+        if files[0].filename:
             for file_ in files:
                 filename = file_.filename
-                blob = upload_blob(uuid.uuid4().hex, file_)
+                blob = upload_blob(uuid.uuid4().hex + "." + file_.content_type.split("/")[-1], file_)
                 file_list.append((blob.name, filename))
         submission = Submission(date_submitted=datetime.utcnow(), content=form.content.data, filenames=file_list)
         student.add_submission(current_user.ID, class_id, assignment_id, submission=submission) # need to replace IDs with current class and assignment ID
