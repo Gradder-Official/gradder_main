@@ -35,14 +35,14 @@ class Submission:
         return {
             'date_submitted': str(self.date_submitted),
             'comment': str(self.content),
-            'file_links': self.filenames,
+            'filenames': self.filenames,
         }
 
     def to_json(self):
         return {
             'date_submitted': str(self.date_submitted),
             'comment': str(self.content),
-            'file_links': self.file_links,
+            'filenames': self.filenames,
         }
 
     @staticmethod

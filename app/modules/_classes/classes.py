@@ -82,12 +82,6 @@ class Classes:
 
     def add(self):
         db.classes.insert_one(self.to_dict())
-            # for assignment in self.assignments:
-            #     self.add_assignment(assignment)
-        # else:
-        #     doc_ref = db.collection_classes.document()
-        #     self.ID = doc_ref.id
-        #     doc_ref.set(self.to_dict())
 
     @staticmethod
     def delete(ID: str):
