@@ -111,7 +111,7 @@ class User(UserMixin):
             dictionary = self.to_dict()
             if self.USERTYPE == "Teacher":
                 print(dictionary)
-                dictionary["class_list"] = []
+                dictionary["classes"] = []
             
             eval(f'db.{self.USERTYPE.lower() + "s"}.insert_one(dictionary)')
             return True

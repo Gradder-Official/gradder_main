@@ -1,3 +1,4 @@
+import uuid
 from flask import render_template, redirect, request, url_for, make_response
 from flask_login import current_user
 from app.modules.teacher.forms import NewSubmissionForm
@@ -9,6 +10,7 @@ from datetime import datetime
 from app.google_storage import upload_blob
 from app import db
 from bson import ObjectId
+
 
 @student.before_request
 @required_access('Student')
@@ -33,13 +35,14 @@ def submit(class_id, assignment_id):
     due_by = assignment["due_by"]
     if form.validate_on_submit():
         student = Student.get_by_id(current_user.ID)
+        file_list = []
         if request.files is not None:
             files = request.files.getlist(form.files.name)
-            file_link_list = []
             for file_ in files:
-                blob = upload_blob(file_.filename, file_)
-                file_link_list.append(blob.media_link)
-        submission = Submission(date_submitted=datetime.utcnow(), content=form.content.data, file_links=file_link_list)
+                filename = file_.filename
+                blob = upload_blob(uuid.uuid4().hex, file_)
+                file_list.append((blob.name, filename))
+        submission = Submission(date_submitted=datetime.utcnow(), content=form.content.data, filenames=file_list)
         student.add_submission(current_user.ID, class_id, assignment_id, submission=submission) # need to replace IDs with current class and assignment ID
     return render_template('student/submission.html', form=form, class_id=class_id, assignment_id=assignment_id, full_name=full_name, 
                         content=content, estimated_time=estimated_time, due_by=due_by)
