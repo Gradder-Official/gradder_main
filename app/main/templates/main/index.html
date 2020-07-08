@@ -4,14 +4,19 @@
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/landing.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/landing-sections.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/landing-responsive.css') }}">
 <!-- Animation on Scroll -->
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 {% endblock styles %}
 
-
 {% block page_content %}
 <div class="new-landing">
     <div class="section" id="top">
+        <div class="right-container-mobile">
+            <div class="carousel-slide-mobile">
+                <div id="slide1-mobile"></div>
+            </div>
+        </div>
         <div class="left-container">
             <div class="hero-text">
                 <p>AI-driven School Dashboard</p>
@@ -61,6 +66,15 @@
                         </video>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="video-mobile">
+            <div class="system-preview">
+                <video width="100%" autoplay="autoplay" muted="muted" controls loop id="vid">
+                    <source src="{{ url_for('static', filename='images/system_preview.mp4') }}"
+                        type="video/mp4">
+                    Your browser does not support the demo video. Sorry!
+                </video>
             </div>
         </div>
     </div>
@@ -120,6 +134,38 @@
             </table>
         </div>
     </div>
+    <div class="section" id="why-mobile">
+        <div class="why-mobile-header">
+            <h1>Why Us?</h1>
+        </div>
+        <div class="reason-mobile" id="parent-mobile">
+            <h3>Parents</h3>
+            <img src="../static/images/Parents.png">
+            <div class="reason-list-mobile">
+                <p>Instant access to children’s progress reports</p>
+                <p>Easy communication with teachers</p>
+                <p>Save time by X%</p>
+            </div>
+        </div>
+        <div class="reason-mobile" id="student-mobile">
+            <h3>Students</h3>
+            <img src="../static/images/Students.png">
+            <div class="reason-list-mobile">
+                <p>School-wide or targeted announcements</p>
+                <p>Submit an assignment in just X clicks</p>
+                <p>Post an assignment in just X clicks</p>
+            </div>
+        </div>
+        <div class="reason-mobile" id="teacher-mobile">
+            <h3>Teachers</h3>
+            <img src="../static/images/Teachers.png" id="teacher-image">
+            <div class="reason-list-mobile">
+                <p>Integrated school-wide event schedule</p>
+                <p>Smart grade alerts and personalized progress reports</p>
+                <p>Integrated schedule and syllabi</p>
+            </div>
+        </div>
+    </div>
     <div class="section" id="say">
         <div class="section-content" data-aos="fade-right" data-aos-duration="2000" >
             <h1>What People Say About Us</h1>
@@ -171,6 +217,34 @@
         <div class="side-image" data-aos="zoom-in-left" data-aos-duration="2000" >
         </div>
     </div>
+    <div class="section" id="say-mobile">
+        <div class="say-mobile-header">
+            <img src="../static/images/Globe.png">
+            <h1>User Reviews</h1>
+        </div>
+        <div id="comments-mobile-carousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="https://pyxis.nymag.com/v1/imgs/171/429/c95b07becc2bef532d9669b4824ea4386f-08-harry-potter.rsquare.w1200.jpg">
+                <div class="comment-mobile">
+                    <p>Gradder is a great opportunity to find out my up-to-date grades. I couldn't even dream about it!</p>
+                    <p class="commenter">Artem, a high school student</p>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <img src="https://vignette.wikia.nocookie.net/harrypotter/images/c/ce/Lily_Potter1.jpg/revision/latest/top-crop/width/360/height/360?cb=20140712171247">
+                <div class="comment-mobile">
+                    <p>I am happy that now I have a tool that helps me be aware of my children's academic performance!</p>
+                    <p class="commenter">Yuliia, Artem's mother</p>
+                </div>
+              </div>
+              <ol class="carousel-indicators">
+                <li data-target="#comments-mobile-carousel" data-slide-to="0" class="active"></li>
+                <li data-target="#comments-mobile-carousel" data-slide-to="1"></li>
+              </ol>
+            </div>
+          </div>
+    </div>
     <div class="section" id="mission" data-aos="fade-up" data-aos-duration="2000" >
         <div class="mission-statement section-content">
             <h1>Mission</h1>
@@ -211,17 +285,17 @@
         </table>
     </div>
     <div class="section" id="team" data-aos="fade-up" data-aos-duration="2000" >
-        <h1 style="margin-top: 10vh;">Our Team</h1>
+        <h1>Our Team</h1>
         <table class=" people">
             <tr>
                 <th>
-                    <img src="{{ url_for('static', filename='images/Serhii.jpg') }}">
+                    <img src="{{ url_for('static', filename='images/Serhii.png') }}">
                 </th>
                 <th>
-                    <img src="{{ url_for('static', filename='images/Daria.jpg') }}">
+                    <img src="{{ url_for('static', filename='images/Daria.png') }}">
                 </th>
                 <th>
-                    <img src="{{ url_for('static', filename='images/Alex.jpg') }}">
+                    <img src="{{ url_for('static', filename='images/Alex.png') }}">
                 </th>
             </tr>
             <tr>

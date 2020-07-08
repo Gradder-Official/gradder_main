@@ -1,5 +1,5 @@
 .section {
-    height: 85vh;
+    height: fit-content;
     display: flex;
     flex-direction: row;
     background: #fff;
@@ -35,6 +35,7 @@
     opacity: 0;
     transition: opacity 0.3s ease-in;
     background-color: #6ccce6;
+    font-size: 1.2vw;
 }
 #scrollspy-nav .nav-link {
     margin-bottom: 10px;
@@ -45,6 +46,7 @@
 }
 #why, #say, #mission, #roadmap, #team {
     width: 90%;
+    margin-bottom: 5vw;
 }
 /* Why Us? */
 #why .section-content {
@@ -72,7 +74,7 @@
 }
 .reasons td {
     padding: 10px;
-    font-size: 20px;
+    font-size: 1.3vw;
     text-align: center;
     margin-left: 0;
 }
@@ -82,8 +84,8 @@
     margin: 0;
 }
 .reasons td img {
-    width: 70px;
-    margin-left: 30px;
+    width: 5vw;
+    margin-left: 1.2vw;
 }
 #teacher-image {
     transform: rotate(-60deg);
@@ -92,7 +94,6 @@
 #say h1 {
     text-align: left;
     margin-left: 12vh;
-    margin-top: 20vh;
 }
 #say .side-image {
     width: 30%;
@@ -103,12 +104,12 @@
 }
 #say .comment {
     display: flex;
-    width: 90%;
+    width: 80%;
     margin-left: 5vh;
     align-items: center;
 }
 .comment .quote-bar {
-    height: 50vh;
+    width: 15vw;
 }
 .comment .quote {
     width: 70%;
@@ -118,19 +119,17 @@
     align-items: center;
 }
 .comment p {
-    font-size: 28px;
-    line-height: 1.5;
+    font-size: 1.7vw;
     margin-left: -20px
 }
 #comment-carousel {
-    height: 50vh;
     padding-left: 50px;
     width: 65vw;
 }
 .commenter {
     display: flex;
     flex-direction: column;
-    margin-right: 40px;
+    margin-right: 4%;
 }
 .comment .commenter img {
     border-radius: 50%;
@@ -140,8 +139,9 @@
 }
 .commenter p {
     margin-top: 30px;
-    font-size: 15px;
+    font-size: 1.4vw;
     text-align: center;
+    margin-left: 0;
 }
 #comment-carousel span {
     color: black;
@@ -149,15 +149,14 @@
 }
 #comment-carousel .carousel-control-next {
     width: 3vw;
-    margin-right: -50px;
+    margin-right: 5%;
 }
 #comment-carousel .carousel-inner {
-    width: 65vw;
+    width: 63vw;
 }
 /* Mission */
 #mission {
-    margin: 10vh 0;
-    height: 100vh;
+    margin-bottom: 8vw;
     background-image: url('../images/Banner.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -184,7 +183,6 @@
     display: flex;
     flex-direction: column;
     height: fit-content;
-    margin-bottom: 100px;
 }
 #roadmap h1, #team h1 {
     font-family: 'Gilroy', sans-serif;
@@ -240,12 +238,12 @@
     text-align: center;
 }
 .people img {
-    height: 30vh;
+    height: 20vw;
 }
 .people p {
     font-size: 18px;
     margin-top: 0;
-    padding: 0 40px;
+    padding: 0 1vw;
 }
 .people h4 {
     font-family: 'SF UI Text', sans-serif;
@@ -347,43 +345,4 @@ footer h1 {
     color: white;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
     background: #00b0c7;
-}
-
-/* Responsive */
-@media screen and (max-height: 600px) {
-    .section {
-        height: 600px;
-    }
-    #mission {
-        width: 100vw;
-        height: 100vh;
-    }
-    .mission-statement h2 {
-        font-size: 22px;
-    }
-    .mission-statement h3 {
-        font-size: 18px;
-    }
-}
-@media screen and (max-width: 1240px) {
-    .section-content h1 {
-        font-size: 40px;
-        margin-top: 12vh;
-    }
-    .comment p {
-        font-size: 20px;
-        height: 15vh;
-    }
-    .reasons td {
-        font-size: 18px;
-    }
-    .mission-statement {
-        padding-right: 5vw;
-    }
-    .mission-statement h2 {
-        font-size: 24px;
-    }
-    .mission-statement h3 {
-        font-size: 20px;
-    }
 }

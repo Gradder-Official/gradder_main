@@ -107,6 +107,7 @@
     position: absolute;
     height: 100%;
     width: 100%;
+    overflow-x: hidden;
 }
 .carousel-slide {
     position: absolute;
@@ -239,98 +240,4 @@
     .book {
         width: 1240px;
     }
-
-/* TODO: MOBILE VIEW
-
-@media screen and (max-width: 960px) {
-    .new-landing {
-        flex-direction: column;
-        border-radius: 0px;
-    }   
-    .new-landing .left-container {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-    }
-    .new-landing .right-container {
-        width: 100%;
-        margin-top: 6%;
-        text-align: center;
-        height: 590px;
-    }
-    .new-landing .right-container .hero-image {
-        background-color: #72C791;
-        background-image: url('../images/overview.png'), url('../images/Waves.png');
-        background-size: auto 80%, auto 150%;
-        background-position: 50% 160%, top right;
-    }
-    .new-landing .right-container .hero-image p {
-        display: block;
-    }
-    .new-landing .right-container .hero-image img {
-        width: 80%;
-        border-radius: 14px;
-        margin-top: 82px;
-        transform: rotate(6.25deg);
-    }
-    .new-landing .left-container .hero-text {
-        margin-top: 7%;
-        text-align: center;
-        margin-left: 0%;
-    }
-    .new-landing .left-container .hero-text p {
-        display: none;
-    }
-    .new-landing .hero-text .button {
-        width: 94%;
-        margin-left: 3%;
-    }
 }
-@media screen and (max-width: 530px) {
-    .new-landing .left-container .hero-text {
-        width: 290px;
-    }
-    .new-landing .left-container .hero-text h1 { 
-        font-size: 48px;
-    }
-    .new-landing .left-container .hero-text h3 {
-        font-size: 18px;
-    }
-    .new-landing .right-container .hero-image p {
-        font-size: 21px;
-    }
-    .new-landing .right-container .hero-image {
-        background-size: auto 75%, auto 150%;
-    }
-    .new-landing .right-container {
-        height: 400px;
-        margin-top: 75px;
-    }
-    .new-landing .left-container .button {
-        height: 50px;
-        border-radius: 12px;
-    }
-}   
-@media screen and (max-width: 470px) {
-    .new-landing .left-container .hero-text {
-        width: 290px;
-    }
-    .new-landing .left-container .hero-text h1 { 
-        font-size: 48px;
-    }
-    .new-landing .left-container .hero-text h3 {
-        font-size: 18px;
-    }
-    .new-landing .right-container .hero-image p {
-        font-size: 21px;
-    }
-    .new-landing .right-container .hero-image {
-        background-size: auto 75%, auto 150%;
-    }
-    .new-landing .right-container {
-        height: 400px;
-        margin-top: 70px;
-    }
-}   
-*/
