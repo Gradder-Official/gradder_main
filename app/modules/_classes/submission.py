@@ -34,14 +34,14 @@ class Submission:
     def to_dict(self):
         return {
             'date_submitted': str(self.date_submitted),
-            'comment': str(self.content),
+            'content': str(self.content),
             'filenames': self.filenames,
         }
 
     def to_json(self):
         return {
             'date_submitted': str(self.date_submitted),
-            'comment': str(self.content),
+            'content': str(self.content),
             'filenames': self.filenames,
         }
 
@@ -54,5 +54,7 @@ class Submission:
         dictionary : dict
             Dictionary with proper Assignment parameters
         """
-        return Submission(dictionary["date_submitted"], 
+        print(dictionary)
+        if dictionary:
+            return Submission(dictionary["date_submitted"], 
                             dictionary["content"], dictionary["filenames"], ID=dictionary["_id"])
