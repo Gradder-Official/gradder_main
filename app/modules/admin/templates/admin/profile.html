@@ -1,7 +1,17 @@
 {% extends "_profile.html" %}
 
+
+<!-- <nav class="nav flex-column nav-pills" id="sidebar-nav">
+    <a class="nav-link" href="{{ url_for('main.dashboard') }}">Overview</a>
+    <a class="nav-link" href="#">Timetable</a>
+    <a class="nav-link" href="{{ url_for('student.assignments') }}">Assignments</a>
+    <a class="nav-link" href="#">Analytics</a>
+    <a class="nav-link active" href="{{ url_for('main.profile') }}">Profile</a>
+</nav> -->
 {% block page_content %}
 <a href="#">Generate new authorization token</a>
 <br>
 <a href="#">Manage school</a> 
+<br>
+<a href="#">See School Statistics</a>
 {% endblock %}
