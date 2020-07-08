@@ -1,6 +1,11 @@
+from app import db
+from app.logs import user_logger
+from app.modules._classes import User, Classes
+from app.modules.student._student import Student
+from app.modules.teacher._teacher import Teacher
+from bson import ObjectId
 from re import match
 
-from app.modules._classes import User
 
 
 class Admin(User):
@@ -61,3 +66,14 @@ class Admin(User):
     @staticmethod
     def get_by_email(email: str):
         return Admin.from_dict(super(Admin, Admin).get_by_email(email))
+
+    @staticmethod
+    def add_student(class_id: str, email: str):
+        student = Student.get_by_email(email)
+        db.classes.update_one({"_id": ObjectId(class_id)}, {"$push": {"students": ObjectId(student.ID)}})
+    
+
+    @staticmethod
+    def add_teacher(class_id: str, email: str):
+        teacher = Teacher.get_by_email(email)
+        db.classes.update_one({"_id": ObjectId(class_id)}, {"$push": {"teachers": ObjectId(teacher.ID)}})
