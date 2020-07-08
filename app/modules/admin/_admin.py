@@ -11,7 +11,7 @@ from re import match
 class Admin(User):
     USERTYPE = 'Admin'
 
-    def __init__(self, email: str, first_name: str, last_name: str, ID: str = None):
+    def __init__(self, email: str, first_name: str, last_name: str, classes: list = None, ID: str = None):
         r"""Creates a user with Admin access
 
         This class is used for school admins that will have acess to managing their school and teachers, 
@@ -29,6 +29,7 @@ class Admin(User):
             This user's ID, set automatically if not specified
         """
         super().__init__(email=email, first_name=first_name, last_name=last_name, ID=ID)
+        self.classes = classes if classes is not None else list()
 
     def __repr__(self):
         return f'<Admin {self.ID}> '
@@ -68,7 +69,7 @@ class Admin(User):
         return Admin.from_dict(super(Admin, Admin).get_by_email(email))
 
     @staticmethod
-    def add_student(class_id: str, email: str):
+    def add_student(self, class_id: str, email: str):
         student = Student.get_by_email(email)
         db.classes.update_one({"_id": ObjectId(class_id)}, {"$push": {"students": ObjectId(student.ID)}})
     
@@ -77,3 +78,18 @@ class Admin(User):
     def add_teacher(class_id: str, email: str):
         teacher = Teacher.get_by_email(email)
         db.classes.update_one({"_id": ObjectId(class_id)}, {"$push": {"teachers": ObjectId(teacher.ID)}})
+
+    @staticmethod
+    def add_class(class_id: str):
+        class_ = Classes.get_by_id(class_id)
+        db.classes.update_one({"_id": ObjectId(class_id)}, {"$push": {"classes": ObjectId(class_.ID)}})
+
+
+
+    def get_class_names(self):
+        classes = list()
+        print(self.classes)
+        for class_ in self.classes:
+            classes.append((class_, Classes.get_by_id(class_).name))
+        
+        return classes
