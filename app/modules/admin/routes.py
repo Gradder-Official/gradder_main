@@ -8,11 +8,16 @@ from . import admin
 from ._admin import Admin
 from app.modules._classes import Classes
 
+from app.logs.user_logger import user_logger
+from app import db
+from .forms import NewStudentsTeachers, NewClasses   
 from app.decorators import required_access
 from app.google_storage import upload_blob
 from app.modules._classes import Assignment, Classes
 from app.logs.form_logger import form_logger
 import uuid
+from app.modules.teacher._teacher import Teacher
+from app.modules.student._student import Student
 # from app.modules.admin._admin import add_student
 
 from app.decorators import required_access
@@ -36,6 +41,46 @@ def profile():
     # add_student("912f58eccfe825c85801", "coolgm@gmail.com")
     return render_template('admin/profile.html')
 
+
+
+@admin.route('/registerTS', methods=['GET', 'POST'])
+def registerTS():
+    form = NewStudentsTeachers()
+    if form.validate_on_submit():
+        user = eval(
+            f'{form.user_type.data}(email=form.email.data.lower(), first_name=form.first_name.data, last_name=form.last_name.data)')
+
+        user.set_password(form.password.data)
+        user.set_secret_question(question=form.secret_question.data, answer=form.secret_answer.data.lower())
+        if user.add():
+            db.delete_auth_token(form.auth_token.data)
+            user_logger.info("NEW USER: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
+            return redirect(url_for('auth.login'))
+        else:
+            user_logger.error("Unknown error while registering: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
+            flash('Unknown error while registering.')
+
+    return render_template('admin/register.html', form=form)
+
+
+@admin.route('/registerClasses', methods=['GET', 'POST'])
+def registerClasses():
+    form = NewClasses()
+    if form.validate_on_submit():
+        user = eval(
+            f'{form.user_type.data}(email=form.email.data.lower(), first_name=form.first_name.data, last_name=form.last_name.data)')
+
+        user.set_password(form.password.data)
+        user.set_secret_question(question=form.secret_question.data, answer=form.secret_answer.data.lower())
+        if user.add():
+            db.delete_auth_token(form.auth_token.data)
+            user_logger.info("NEW USER: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
+            return redirect(url_for('auth.login'))
+        else:
+            user_logger.error("Unknown error while registering: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
+            flash('Unknown error while registering.')
+
+    return render_template('admin/register.html', form=form)
 
 # @admin.route('/class', methods=['GET'])
 # def manage_classes():
