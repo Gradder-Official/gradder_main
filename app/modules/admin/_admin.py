@@ -69,10 +69,10 @@ class Admin(User):
         return Admin.from_dict(super(Admin, Admin).get_by_email(email))
 
     @staticmethod
-    def add_student(self, class_id: str, email: str):
+    def add_student(class_id: str, email: str):
         student = Student.get_by_email(email)
         db.classes.update_one({"_id": ObjectId(class_id)}, {"$push": {"students": ObjectId(student.ID)}})
-    
+        
 
     @staticmethod
     def add_teacher(class_id: str, email: str):
@@ -83,8 +83,6 @@ class Admin(User):
     def add_class(class_id: str):
         class_ = Classes.get_by_id(class_id)
         db.classes.update_one({"_id": ObjectId(class_id)}, {"$push": {"classes": ObjectId(class_.ID)}})
-
-
 
     def get_class_names(self):
         classes = list()

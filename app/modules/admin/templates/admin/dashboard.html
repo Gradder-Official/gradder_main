@@ -15,9 +15,9 @@
     </div>
     <nav class="nav flex-column nav-pills" id="sidebar-nav">
         <a class="nav-link active" href="{{ url_for('main.dashboard') }}">Overview</a>
-        <a class="nav-link" href="#">Timetable</a>
-        <a class="nav-link" href="#">Classes</a>
         <a class="nav-link" href="#">Students</a>
+        <a class="nav-link" href="#">Teachers</a>
+        <a class="nav-link" href="#">Classes</a>
         <a class="nav-link" href="#">Analytics</a>
         <a class="nav-link" href="{{ url_for('main.profile') }}">Profile</a
     </nav>
@@ -36,14 +36,12 @@
 {% block content %}
 <div class="dash-content" id="teacher-overview">
     <div class="jumbotron container teacher-students">
-        <h4>View Teachers</h4>
+        <h4>Add Students/Teachers</h4>
+        <a href="{{ url_for('admin.registerTS') }}">Students/Teachers!</a>
     </div>
     <div class="jumbotron container teacher-syllabus">
-        <h4>View Students</h4>
-    </div>
-    <div class="jumbotron container teacher-assignments">
-       <h4>View Classes</h4>
-        <!-- <a href="{{ url_for('teacher.add_assignment') }}">Post a new assignment!</a> -->
+        <h4>Add New Classes</h4>
+        <a href="{{ url_for('admin.registerClasses') }}">Classes!</a>
     </div>
     <div class="jumbotron container teacher-statistics">
         <h4>View Analytics</h4>
