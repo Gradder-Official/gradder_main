@@ -10,7 +10,7 @@ from flask_login import current_user
 class Student(User):
     USERTYPE = 'Student'
 
-    def __init__(self, email: str, first_name: str, last_name: str, classes: List[str] = None, ID: str = None):
+    def __init__(self, email: str, first_name: str, last_name: str, classes: List[str] = None, assignments: List[str] = None, ID: str = None):
         r"""Initializes a Student object.
 
         Parameters
@@ -29,6 +29,7 @@ class Student(User):
         super().__init__(email=email, first_name=first_name, last_name=last_name, ID=ID)
         
         self.classes = classes if classes is not None else list()
+        self.assignments = assignments if assignments is not None else list()
 
     def __repr__(self):
         return f'<Student {self.ID}'
@@ -38,7 +39,7 @@ class Student(User):
         """
         json_user = super().to_json()
         json_user['classes'] = self.classes
-
+        json_user['assignments'] = self.assignments
         return json_user
 
     def to_dict(self) -> Dict[str, str]:
@@ -55,6 +56,9 @@ class Student(User):
 
         if 'classes' in dictionary:
             user.classes.extend(dictionary['classes'])
+        
+        if 'assignments' in dictionary:
+            user.assignments.extend(dictionary['classes'])
 
         if 'password' in dictionary:
             user.set_password(dictionary['password'])
@@ -92,4 +96,4 @@ class Student(User):
         dictionary["_id"] = ObjectId()
         db.classes.find_one_and_update({"_id": ObjectId(class_id), "assignments._id": ObjectId(assignment_id)}, {"$push": {"assignments.$.submissions": dictionary}})
         unique_submission_string = class_id + "_" + assignment_id + "_" + str(dictionary["_id"])
-        db.students.find_one_and_update({"_id": ObjectId(current_user_id)}, {"$push": {"class_names": unique_submission_string}})
+        db.students.find_one_and_update({"_id": ObjectId(current_user_id)}, {"$push": {"assignments": unique_submission_string}})
