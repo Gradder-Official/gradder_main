@@ -1,5 +1,5 @@
 /* Responsive */
-.right-container-mobile, #why-mobile, .video-mobile, #say-mobile {
+.right-container-mobile, #why-mobile, .video-mobile, #say-mobile, #mission-mobile, #roadmap-mobile, #team-mobile {
     display: none;
 }
 
@@ -24,7 +24,7 @@
 /* MOBILE VIEWS */
 @media screen and (max-width: 530px) {
     /* General components */
-    .nav-bar, #scrollspy-nav, .right-container, #why, #say, #mission, #roadmap, #team, footer {
+    .nav-bar, #scrollspy-nav, .right-container, #why, #say, #mission, #roadmap, #team {
         display: none;
     }
     .section-content h1 {
@@ -131,7 +131,7 @@
         padding-top: 8vh;
     }
     .why-mobile-header h1 {
-        font-family: 'SF UI Text', sans-serif;
+        font-family: 'Gilroy', sans-serif;
         font-weight: bold;
         margin-left: 10vw;
         width: 25vw;
@@ -168,7 +168,7 @@
     #say-mobile {
         display: flex;
         flex-direction: column;
-        height: 80vh;
+        height: 120vw;
     }
     .say-mobile-header {
         display: flex;
@@ -176,7 +176,7 @@
         align-items: center;
         text-align: right;
         margin-right: 10vw;
-        font-family: 'SF UI Text', sans-serif;
+        font-family: 'Gilroy', sans-serif;
         font-weight: bold;
     }
     .say-mobile-header img {
@@ -220,7 +220,7 @@
         margin-top: 10px;
     }
     #comments-mobile-carousel .carousel-indicators {
-        top: 30vh;
+        top: 50vw;
         height: fit-content;
     }
     #comments-mobile-carousel .carousel-indicators li {
@@ -235,5 +235,177 @@
     #comments-mobile-carousel .carousel-indicators .active, #comments-mobile-carousel .carousel-indicators li:hover {
         cursor: pointer;
         background: #6ccce6;
+    }
+    /* Mission */
+    #mission-mobile {
+        display: flex;
+        flex-direction: column;
+        height: fit-content;
+        background-image: url("../images/Mission\ Statement\ Background.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+    #mission-mobile #left-banner {
+        top: 600vw;
+        width: 30%;
+        left: 0;
+    }
+    #mission-mobile #right-banner {
+        position: relative;
+        width: 30%;
+        margin-left: 70vw;
+        margin-top: -10vw;
+    }
+    #mission-mobile #mission-face {
+        width: 40vw;
+        height: 40vw;
+        padding: 0;
+        border: none;
+        border-radius: 50%;
+        margin: 0 auto;
+        margin-top: -85vw;
+    }
+    .mission-mobile-statement {
+        font-size: 4vw;
+        width: 65%;
+        font-weight: 200;
+        font-family: 'SF UI Text', sans-serif;
+        margin-top: 10vw;
+        margin-left: 5vw;
+    }
+    .mission-mobile-serhii {
+        font-size: 4vw;
+        font-weight: bolder;
+        font-family: 'Gilroy',sans-serif;
+        margin-left: 10vw;
+        margin-top: 10px;
+    }
+    /* Roadmap */
+    #roadmap-mobile {
+        display: flex;
+        flex-direction: column;
+        height: 240vw;
+    }
+    .roadmap-mobile-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-family: 'Gilroy', sans-serif;
+        font-weight: bold;
+    }
+    .roadmap-mobile-header img {
+        width: 30vw;
+        transform:scaleX(-1);
+        margin-right: 10vw;
+    }
+    .roadmap-mobile-header h1 {
+        font-family: 'Gilroy', sans-serif;
+        font-weight: bold;
+    }
+    #roadmap-mobile #vertical-roadmap {
+        width: 150vw;
+        margin-top: -15vw;
+        margin-left: -25vw;
+    }
+    .timeline-mobile {
+        width: 95%;
+        height: 85vh;
+        margin: 0 auto;
+        margin-top: -225vw;
+        font-size: 3.4vw;
+    }
+    .timeline-mobile table {
+        width: 90%;
+        table-layout: fixed;
+        margin: 0 auto;
+    }
+    .timeline-mobile td strong {
+        font-family: 'Gilroy', sans-serif;
+        font-weight: 800;
+    }
+    #jan, #mar, #may, #jul {
+        text-align: right;
+        padding-right: 10vw;
+        font-size: 3.4vw;
+        padding-top: 5vw;
+    }
+    #feb, #apr, #jun, #sep {
+        text-align: left;
+        padding-left: 10vw;
+        padding-top: 8vw;
+    }
+    #apr {
+        padding-top: 2vw;
+        font-size: 2.8vw;
+    }
+    #may {
+        padding-top: 2vw;
+    }
+    #jun {
+        padding-top: 3vw;
+    }
+    /* Mobile */
+    #team-mobile {
+        display: block;
+        background-image: url("../images/Our\ Team\ Background.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        height: fit-content;
+    }
+    #team-mobile h1 {
+        font-family: 'Gilroy', sans-serif;
+        font-weight: bold;
+        text-align: right;
+        margin: 10vw 5vw;
+    }
+    .people-mobile {
+        width: 90%;
+        margin: 0 auto;
+        text-align: center;
+    }
+    .people-mobile img {
+        width: 25vw;
+        height: 25vw;
+        margin-right: 5vw;
+    }
+    .people-mobile h3 {
+        font-size: 3vw;
+        color: rgb(82, 189, 129);
+    }
+    .people-mobile p {
+        font-size: 2.5vw;
+    }
+    /* Footer */
+    footer {
+        background-size: cover;
+        background-position: right;
+    }
+    .footer-body {
+        margin-right: none;
+        margin-top: 10vw;
+    }
+    .contact-info, .footer-nav {
+        margin: 0 8vw;
+    }
+    footer h1 {
+        font-size: 20px;
+    }
+    .footer-body p, .footer-body a {
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+    .enquiry-form {
+        width: 50vw;
+    }
+    .contact-info {
+        margin-right: 30px;
+        width: 20vw;
+    }
+    #enquiry-name, #enquiry-email, #enquiry-subject, #enquiry-body {
+        font-size: 10px;
+    }
+    #enquiry-submit {
+        padding: 5px 10px;
+        font-size: 10px;
     }
 }

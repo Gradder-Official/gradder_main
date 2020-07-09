@@ -87,7 +87,7 @@
             <a class="nav-link" href="#team">Our Team</a>
         </nav>
     </nav>
-    <div class="section" id="why">
+    <div class="section" id="why" data-aos="fade-up" data-aos-duration="2000">
         <div class="side-image" data-aos="zoom-in-right" data-aos-duration="2000" >
         </div>
         <div class="section-content" data-aos="fade-left" data-aos-duration="2000" >
@@ -134,7 +134,7 @@
             </table>
         </div>
     </div>
-    <div class="section" id="why-mobile">
+    <div class="section" id="why-mobile" data-aos="fade-up" data-aos-duration="2000">
         <div class="why-mobile-header">
             <h1>Why Us?</h1>
         </div>
@@ -166,7 +166,7 @@
             </div>
         </div>
     </div>
-    <div class="section" id="say">
+    <div class="section" id="say" data-aos="fade-up" data-aos-duration="2000">
         <div class="section-content" data-aos="fade-right" data-aos-duration="2000" >
             <h1>What People Say About Us</h1>
 
@@ -217,7 +217,7 @@
         <div class="side-image" data-aos="zoom-in-left" data-aos-duration="2000" >
         </div>
     </div>
-    <div class="section" id="say-mobile">
+    <div class="section" id="say-mobile" data-aos="fade-up" data-aos-duration="2000">
         <div class="say-mobile-header">
             <img src="../static/images/Globe.png">
             <h1>User Reviews</h1>
@@ -256,6 +256,14 @@
             <h3>–– Serhii, CEO at Gradder</h3>
         </div>
     </div>
+    <div class="section" id="mission-mobile">
+        <img src="../static/images/LeftBanner.png" id="left-banner">
+        <img src="../static/images/RightBanner.png" id="right-banner">
+        <img src="https://pyxis.nymag.com/v1/imgs/171/429/c95b07becc2bef532d9669b4824ea4386f-08-harry-potter.rsquare.w1200.jpg" id="mission-face">
+        <h5 class="mission-mobile-statement">We strive to make a system that would allow students to focus on learning, teachers to concentrate on
+            teaching, and parents to easily interact with the schools.</h5>
+        <h4 class="mission-mobile-serhii">–– Serhii, CEO at Gradder</h4>
+    </div>
     <div class="section" id="roadmap" data-aos="fade-up" data-aos-duration="2000" >
         <h1>Roadmap</h1>
         <img src="{{ url_for('static', filename='images/Horizontal Roadmap.png') }}">
@@ -283,6 +291,50 @@
                 <td></td>
             </tr>
         </table>
+    </div>
+    <div class="section" id="roadmap-mobile" data-aos="fade-up" data-aos-duration="2000">
+        <div class="roadmap-mobile-header">
+            <img src="../static/images/Vial.png">
+            <h1>Our<br>Roadmap</h1>
+        </div>
+        <img src="{{ url_for('static', filename='images/Vertical Roadmap.png') }}" id="vertical-roadmap">
+        <div class="timeline-mobile">
+            <table>
+                <tr>
+                    <td id="jan"><p><strong>January 2020</strong><br>200 user interviews conducted</p></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td id="feb"><p><strong>February 2020</strong><br>Prototype created</p></td>
+                </tr>
+                <tr>
+                    <td id="mar"><p><strong>March 2020</strong><br>Test conducted in one school in Kyiv</p></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td id="apr"><p><strong>April 2020</strong><br>Global Finalist at the Diamond Challenge for High School
+                        Entrepreneurs</p></td>
+                </tr>
+                <tr>
+                    <td id="may"><p><strong>May 2020</strong><br>MVP version created</p></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td id="jun"><p><strong>June 2020</strong><br>Alpha version created</p></td>
+                </tr>
+                <tr>
+                    <td id="jul"><p><strong>July 2020</strong><br>Beta version created</p></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td id="sep"><p><strong>September 2020</strong><br>Launch</p></td>
+                </tr>
+            </table>
+        </div>
     </div>
     <div class="section" id="team" data-aos="fade-up" data-aos-duration="2000" >
         <h1>Our Team</h1>
@@ -330,6 +382,43 @@
             </tr>
         </table>
     </div>
+    <div class="section" id="team-mobile" data-aos="fade-up" data-aos-duration="2000">
+        <h1>Our<br>Team</h1>
+        <table class="people-mobile">
+            <tr>
+                <td>
+                    <img src="{{ url_for('static', filename='images/Serhii.png') }}">
+                </td>
+                <td>
+                    <h3>Serhii Durytskyi, Co-Founder & Chief Executive Officer</h3>
+                    <p>Co-founded a tech startup (funded), Winner of National and International Startup
+                        Competitions, Founder & Executive President of the educational non-profit organization
+                        Elevate the Future Ukraine</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <img src="{{ url_for('static', filename='images/Daria.png') }}">
+                </td>
+                <td>
+                    <h3>Daria Valska, Chief Business Development Officer</h3>
+                    <p>Co-founded a tech startup (funded), National winner at the Diamond Challenge for High School
+                        Entrepreneurs, Founder & Vice President of the educational non-profit organization Elevate
+                        the Future Ukraine</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <img src="{{ url_for('static', filename='images/Alex.png') }}">
+                </td>
+                <td>
+                    <h3>Alex Nikanov, Chief Technology Officer</h3>
+                    <p>Stanford Rebuild Innovator, Northeastern '24. Web developer with 3+ years of expertise.
+                        Passionate about AI, entrepreneurship, and change.</p>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
 <footer>
     <div class="footer-body">
@@ -337,60 +426,41 @@
             <h1>Contact information</h1>
             <p>team@gradder.io</p>
             <a href="https://ua.linkedin.com/company/gradder">LinkedIn</a>
-            <button type="button" class="btn btn-primary" id="inquiry-btn" data-toggle="modal"
-                data-target="#inquiryForm">
-                I have an inquiry!
-            </button>
+            <br><br>
+            <h1>Navigation</h1>
+            <a href="#why">Why us?</a>
+            <a href="#roadmap">Roadmap</a>
+            <a href="#team">Our Team</a>
         </div>
         <div class="footer-nav">
-            <h1>Navigation</h1>
-            <a href="#why">Why Us?</a>
-            <a href="#say">User Reviews</a>
-            <a href="#roadmap">Roadmap</a>
+            <h1>Enquiries</h1>
+            <form class="enquiry-form">
+                <div class="form-group enquiry-person">
+                    <input type="text" class="form-control" id="enquiry-name" name="enquiry-name"
+                        placeholder="Your name">
+                    <input type="email" class="form-control" id="enquiry-email" name="enquiry-email"
+                        placeholder="Your email">
+                </div>
+                <div class="form-group">
+                    <select class="form-control" id="enquiry-subject">
+                        <option value="funding">Funding/investments</option>
+                        <option value="partnership">Partnership</option>
+                        <option value="careers">Careers</option>
+                        <option value="system">Using our system</option>
+                        <option value="feedback">Feedback</option>
+                        <option value="questions">Questions</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <textarea id="enquiry-body" name="enquiry-body" rows="10" cols="30"
+                        placeholder="Your enquiry"></textarea>
+                </div>
+                <input type="submit" id="enquiry-submit" value="Submit">
+            </form>
         </div>
     </div>
 </footer>
-
-<div class="modal fade" id="inquiryForm" tabindex="-1" role="dialog" aria-labelledby="inquiryForm" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1>Enquiries</h1>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-                <form class="enquiry-form">
-                    <div class="form-group enquiry-person">
-                        <input type="text" class="form-control" id="enquiry-name" name="enquiry-name"
-                            placeholder="Your name">
-                        <input type="email" class="form-control" id="enquiry-email" name="enquiry-email"
-                            placeholder="Your email">
-                    </div>
-                    <div class="form-group">
-                        <select class="form-control" id="enquiry-subject">
-                            <option value="funding">Funding/investments</option>
-                            <option value="partnership">Partnership</option>
-                            <option value="careers">Careers</option>
-                            <option value="system">Using our system</option>
-                            <option value="feedback">Feedback</option>
-                            <option value="questions">Questions</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <textarea id="enquiry-body" name="enquiry-body" rows="10" cols="30"
-                            placeholder="Your enquiry"></textarea>
-                    </div>
-                    <input type="submit" id="enquiry-submit" value="Submit">
-                </form>
-
-            </div>
-        </div>
-    </div>
-</div>
 {% endblock %}
 
 {% block scripts %}
