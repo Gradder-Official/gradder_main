@@ -10,7 +10,7 @@ from app.modules._classes import Classes
 
 from app.logs.user_logger import user_logger
 from app import db
-from .forms import NewStudentsTeachers, NewClasses   
+from .forms import NewStudentsTeachers, NewClasses, AddStudentClass, AddTeacherClass 
 from app.decorators import required_access
 from app.google_storage import upload_blob
 from app.modules._classes import Assignment, Classes
@@ -18,7 +18,7 @@ from app.logs.form_logger import form_logger
 import uuid
 from app.modules.teacher._teacher import Teacher
 from app.modules.student._student import Student
-# from app.modules.admin._admin import add_student
+from bson import ObjectId
 
 from app.decorators import required_access
 
@@ -81,6 +81,23 @@ def registerClasses():
             flash('Unknown error while registering.')
 
     return render_template('admin/register.html', form=form)
+
+
+
+@admin.route('/studentClass', methods=['GET', 'POST'])
+def addStudentClass():
+    form = AddStudentClass()
+    if form.validate_on_submit():
+        Admin.add_student(form.class_id.data, form.email.data)
+    return render_template('admin/register.html', form=form)
+
+# @admin.route('/teacherClass', methods=['GET', 'POST'])
+# def addTeacherClass():
+#     form = AddTeacherClass()
+#     if form.validate_on_submit():
+#         Admin.add_teacher(form.class_id.data, form.email.data)
+#     return render_template('admin/register.html', form=form)
+
 
 # @admin.route('/class', methods=['GET'])
 # def manage_classes():
