@@ -255,7 +255,7 @@ footer {
     flex-direction: column;
     padding: 5vh 5vw;
     width: 100vw;
-    height: 60vh;
+    height: fit-content;
 
     background-image: url(../images/Footer.png);
     background-size: 100% 100%;
@@ -267,6 +267,7 @@ footer {
     margin: 30px auto;
     width: 80%;
     justify-content: space-evenly;
+    margin-right: 10vw;
 }
 footer h1 {
     font-family: 'Gilroy', sans-serif;
@@ -299,8 +300,6 @@ footer h1 {
 .enquiry-form {
     display: flex;
     flex-direction: column;
-    width: 90%;
-    margin: 0 auto;
 }
 .form-control {
     margin-bottom: 15px;
@@ -324,6 +323,9 @@ footer h1 {
     font-family: 'SF UI Text', sans-serif;
     width: 100%;
 }
+#enquiry-body {
+    height: 20vh;
+}
 #enquiry-subject {
     height: fit-content;
     width: 100%;
@@ -338,7 +340,7 @@ footer h1 {
     width: fit-content;
     margin: 10px 0;
     border: 0px;
-    background: #78d6f0;
+    background: #00b0c7;
     font-weight: bold;
 }
 #enquiry-submit:hover, #enquiry-submit:active {
