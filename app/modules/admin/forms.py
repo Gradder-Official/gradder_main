@@ -60,15 +60,6 @@ class AddStudentClass(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Length(1, 128)])
     submit = SubmitField('Confirm')
 
-    def validate_email(self, field):
-        from app import db
-
-        if(
-            db.students.find_one({"email": field.data.lower()})):
-            raise ValidationError("This email is already in use")
-        else:
-            return True
-
 
 
 class AddTeacherClass(FlaskForm):
@@ -76,12 +67,3 @@ class AddTeacherClass(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Length(1, 128)])
     submit = SubmitField('Confirm')
 
-    def validate_email(self, field):
-        from app import db
-
-        if(
-            db.students.find_one({"email": field.data.lower()}) or
-            db.teachers.find_one({"email": field.data.lower()})):
-            raise ValidationError("This email is already in use")
-        else:
-            return True

@@ -94,12 +94,12 @@ def addStudentClass():
         Admin.add_student(form.class_id.data, form.email.data)
     return render_template('admin/register.html', form=form)
 
-# @admin.route('/teacherClass', methods=['GET', 'POST'])
-# def addTeacherClass():
-#     form = AddTeacherClass()
-#     if form.validate_on_submit():
-#         Admin.add_teacher(form.class_id.data, form.email.data)
-#     return render_template('admin/register.html', form=form)
+@admin.route('/teacherClass', methods=['GET', 'POST'])
+def addTeacherClass():
+    form = AddTeacherClass()
+    if form.validate_on_submit():
+        Admin.add_teacher(form.class_id.data, form.email.data)
+    return render_template('admin/register.html', form=form)
 
 
 # @admin.route('/class', methods=['GET'])
