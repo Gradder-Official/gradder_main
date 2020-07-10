@@ -1,9 +1,10 @@
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
+    load_dotenv(find_dotenv())
     SECRET_KEY = os.environ.get(
         'SECRET_KEY') or '329v8qrvnkjehgioqrgh3$##$#UOJ`3r0'
     MONGO_CONNECTION_STRING = os.environ.get('MONGO_CONNECTION_STRING')
@@ -21,8 +22,7 @@ class Config:
     
     @staticmethod
     def init_app(app):
-        load_dotenv(dotenv_path=".env", verbose=True)
-
+        pass
 
 class DevelopmentConfig(Config):
     DEBUG = True
