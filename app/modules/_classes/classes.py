@@ -110,6 +110,7 @@ class Classes:
         except BaseException as e:
             user_logger.info(f"Error while adding assignment {assignment.ID}: {e}")
 
+    
     def delete_assignment(self, assignment_id: str):
         try:
             db.classes.update({"_id": self.ID}, {"$pull": {'assignments': { "_id": assignment_id } } })

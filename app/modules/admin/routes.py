@@ -66,19 +66,22 @@ def registerTS():
 @admin.route('/registerClasses', methods=['GET', 'POST'])
 def registerClasses():
     form = NewClasses()
-    if form.validate_on_submit():
-        user = eval(
-            f'{form.user_type.data}(email=form.email.data.lower(), first_name=form.first_name.data, last_name=form.last_name.data)')
 
-        user.set_password(form.password.data)
-        user.set_secret_question(question=form.secret_question.data, answer=form.secret_answer.data.lower())
-        if user.add():
-            db.delete_auth_token(form.auth_token.data)
-            user_logger.info("NEW USER: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
-            return redirect(url_for('auth.login'))
-        else:
-            user_logger.error("Unknown error while registering: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
-            flash('Unknown error while registering.')
+    if form.validate_on_submit():
+        new_class = Classes(department=form.department.data,
+                                    number=form.number.data,
+                                    name=form.name.data,
+                                    teacher=ObjectId(form.teacher.data),
+                                    description=form.description.data,
+                                    schedule_time=form.schedule_time.data,
+                                    schedule_days=form.schedule_days.data,
+                                    syllabus=form.syllabus.data,
+                                    )
+        
+        Admin.add_class(new_class)
+
+        flash('Added Class!')
+        return redirect(url_for('main.dashboard'))
 
     return render_template('admin/register.html', form=form)
 
