@@ -4,14 +4,19 @@
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/landing.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/landing-sections.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/landing-responsive.css') }}">
 <!-- Animation on Scroll -->
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 {% endblock styles %}
 
-
 {% block page_content %}
 <div class="new-landing">
     <div class="section" id="top">
+        <div class="right-container-mobile">
+            <div class="carousel-slide-mobile">
+                <div id="slide1-mobile"></div>
+            </div>
+        </div>
         <div class="left-container">
             <div class="hero-text">
                 <p>AI-driven School Dashboard</p>
@@ -22,7 +27,7 @@
                     <input type="submit" id="email-submit" value="Subscribe" style="cursor: pointer;">
                 </form>
             </div>
-            <ol class="carousel-indicators">
+            <ol class="change-slide">
                 <li id="indicator1" class="active"></li>
                 <li id="indicator2"></li>
                 <li id="indicator3"></li>
@@ -31,7 +36,8 @@
         <div class="right-container" id="landing-carousel">
             <div class="book"></div>
             <div class="blob-backgrounds" id="blob-backgrounds">
-                <svg id="slides" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1920 1080">
+                <svg id="slides" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1920 1080">
                     <path id="slide-1-blob"
                         d="M1920 0L1920 905.05C1910.87 910.18 1892.47 919.3 1864.79 932.41C1840.29 944.02 1806.66 946.94 1775.13 944.15C1753.22 942.21 1732.31 936.89 1716.19 932.41C1676.85 921.49 1636.58 899.09 1600.37 870.24C1564.16 841.4 1568.65 843.65 1535.2 812.22C1501.74 780.8 1501.19 777.02 1466.54 744.55C1431.89 712.08 1399.86 707.15 1390.57 704.02C1368.63 696.63 1342.49 698.05 1335.54 697.91C1315.18 697.5 1294.56 702.37 1273.67 712.52C1256.39 722.22 1240.49 734.95 1226 750.69C1211.51 766.44 1200.42 784.54 1192.72 804.99L1204.18 752.42C1202.58 763.03 1203.01 755.95 1205.47 731.21C1207.93 706.46 1197.08 678.7 1172.94 647.94C1156.92 631.61 1145.38 621.34 1138.33 617.12C1111.2 600.9 1108.06 601.63 1072.48 586.8C1036.9 571.97 1026.4 572.62 996 555.81C965.61 538.99 956.19 522.82 950.89 506.04C943.87 483.81 950.95 457.62 961.31 436.9C971.66 416.18 989.2 398.67 1000.33 383.67C1010.35 370.17 1032.4 349.12 1050.09 327.43C1061.88 312.97 1069.7 301.47 1073.56 292.92C1086.87 266.24 1088.67 242.67 1078.98 222.2C1072.48 208.48 1062.85 197.22 1050.09 188.42C1039.3 181.4 1027.73 175.63 1015.4 171.09C996.94 164.3 979.55 159.96 963.23 158.06C963.23 158.06 853.89 152.11 853.89 152.11C806.77 152.44 762.93 146.37 722.35 133.89C664.95 116.23 625.18 71.6 603.02 0L1920 0Z"
                         fill-rule="nonzero" fill="#81cfe0" />
@@ -41,92 +47,224 @@
                     <path opacity="0" id="slide-3-blob"
                         d="M1920 0L1920 929.28C1906.95 933.92 1890.6 938.99 1870.96 944.47C1841.51 952.7 1843.82 951.72 1806.16 958.2C1768.5 964.67 1753.49 964.35 1732.32 966.39C1718.21 967.74 1693.4 968.41 1657.89 968.39C1609.19 984.14 1570.89 993.89 1543.01 997.64C1501.18 1003.27 1473.88 1006.95 1392.35 1003.78C1345.06 1001.95 1310.66 995.04 1276.11 984.41C1251.09 976.71 1218.99 967.07 1188.86 952.99C1158.73 938.91 1112.54 896.62 1105.39 890.28C1083.92 871.26 1073.48 849.37 1058.47 827.68C1043.46 806 1032.61 764.02 1028.36 735.16C1021.24 686.9 1026.17 639.81 1028.36 615.9C1032.94 565.74 1037.09 524.32 1038.78 506.64C1043.71 455.15 1052.23 420.23 1043.19 385.98C1035.01 354.99 1006.68 326.81 998.78 320.37C990.88 313.94 1014.8 327.17 907.17 258.89C799.54 190.62 822.63 206.01 755.9 159.38C689.17 112.76 672.48 91.15 656.26 68.39C645.45 53.22 637.38 30.42 632.07 0L1920 0Z"
                         fill-rule="nonzero" fill="#70cadc" />
-                
+
                 </svg>
             </div>
-            <div class="carousel-item">
+            <div class="carousel-slide">
                 <div class="hero-image" id="slide1"></div>
             </div>
-            <div class="carousel-item">
+            <div class="carousel-slide">
                 <div class="hero-image" id="slide2"></div>
             </div>
-            <div class="carousel-item">
+            <div class="carousel-slide">
                 <div class="hero-image" id="slide3">
                     <div class="system-preview">
                         <video width="100%" autoplay="autoplay" muted="muted" controls loop id="vid">
-                            <source src="{{ url_for('static', filename='images/system_preview.mp4') }}" type="video/mp4">
+                            <source src="{{ url_for('static', filename='images/system_preview.mp4') }}"
+                                type="video/mp4">
                             Your browser does not support the demo video. Sorry!
                         </video>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="section" id="why">
-        <div class="side-image" data-aos="zoom-in-right" data-aos-duration="2000">
+        <div class="video-mobile">
+            <div class="system-preview">
+                <video width="100%" autoplay="autoplay" muted="muted" controls loop id="vid">
+                    <source src="{{ url_for('static', filename='images/system_preview.mp4') }}"
+                        type="video/mp4">
+                    Your browser does not support the demo video. Sorry!
+                </video>
+            </div>
         </div>
-        <div class="section-content" data-aos="fade-left" data-aos-duration="2000">
+    </div>
+    <nav id="scrollspy-nav" class="navbar navbar-light">
+        <nav class="nav nav-pills flex-column">
+            <a class="nav-link" href="#why">Why Us?</a>
+            <a class="nav-link" href="#say">What People Say</a>
+            <a class="nav-link" href="#mission">Mission</a>
+            <a class="nav-link" href="#roadmap">Roadmap</a>
+            <a class="nav-link" href="#team">Our Team</a>
+        </nav>
+    </nav>
+    <div class="section" id="why" data-aos="fade-up" data-aos-duration="2000">
+        <div class="side-image" data-aos="zoom-in-right" data-aos-duration="2000" >
+        </div>
+        <div class="section-content" data-aos="fade-left" data-aos-duration="2000" >
             <h1>Why Us?</h1>
             <table class="reasons">
                 <tr>
-                    <th style="width: 8%"></th>
+                    <th class="list-icon"></th>
                     <th>
-                        <img src="../static/images/Parents.png">
                         <h2>Parents</h2>
                     </th>
+                    <th class="list-icon"></th>
                     <th>
-                        <img src="../static/images/Students.png">
                         <h2>Students</h2>
                     </th>
+                    <th class="list-icon"></th>
                     <th>
-                        <img src="../static/images/Teachers.png" id="teacher-image">
                         <h2>Teachers</h2>
                     </th>
                 </tr>
                 <tr>
-                    <td class="number" id="one">1</td>
+                    <td><img src="../static/images/Parents.png"></td>
                     <td>Instant access to children’s progress reports</td>
+                    <td><img src="../static/images/Students.png"></td>
                     <td>School-wide or targeted announcements</td>
+                    <td><img src="../static/images/Teachers.png" id="teacher-image"></td>
                     <td>Integrated school-wide event schedule</td>
                 </tr>
                 <tr>
-                    <td class="number" id="two">2</td>
+                    <td><img src="../static/images/Parents.png"></td>
                     <td>Easy communication with teachers</td>
+                    <td><img src="../static/images/Students.png"></td>
                     <td>Submit an assignment in just X clicks</td>
+                    <td><img src="../static/images/Teachers.png" id="teacher-image"></td>
                     <td>Smart grade alerts and personalized progress reports</td>
                 </tr>
                 <tr>
-                    <td class="number" id="three">3</td>
+                    <td><img src="../static/images/Parents.png"></td>
                     <td>Save time by X%</td>
+                    <td><img src="../static/images/Students.png"></td>
                     <td>Post an assignment in just X clicks</td>
+                    <td><img src="../static/images/Teachers.png" id="teacher-image"></td>
                     <td>Integrated schedule and syllabi</td>
                 </tr>
             </table>
         </div>
     </div>
-    <div class="section" id="say">
-        <div class="section-content" data-aos="fade-right" data-aos-duration="2000">
-            <h1>What People Say About Us</h1>
-            <div class="comment">
-                <img src="{{ url_for('static', filename='images/Quotes.png') }}">
-                <p>Gradder is a great opportunity to find out my up-to-date grades. I couldn't even dream about it!<br><br>–– Artem, a high school student</p>
-            </div>
-            <div class="comment">
-                <img src="{{ url_for('static', filename='images/Quotes.png') }}">
-                <p>I am happy that now I have a tool that helps me be aware of my children's academic performance!<br><br>–– Yuliia, Artem's mother</p>
+    <div class="section" id="why-mobile" data-aos="fade-up" data-aos-duration="2000">
+        <div class="why-mobile-header">
+            <h1>Why Us?</h1>
+        </div>
+        <div class="reason-mobile" id="parent-mobile">
+            <h3>Parents</h3>
+            <img src="../static/images/Parents.png">
+            <div class="reason-list-mobile">
+                <p>Instant access to children’s progress reports</p>
+                <p>Easy communication with teachers</p>
+                <p>Save time by X%</p>
             </div>
         </div>
-        <div class="side-image" data-aos="zoom-in-left" data-aos-duration="2000">
+        <div class="reason-mobile" id="student-mobile">
+            <h3>Students</h3>
+            <img src="../static/images/Students.png">
+            <div class="reason-list-mobile">
+                <p>School-wide or targeted announcements</p>
+                <p>Submit an assignment in just X clicks</p>
+                <p>Post an assignment in just X clicks</p>
+            </div>
+        </div>
+        <div class="reason-mobile" id="teacher-mobile">
+            <h3>Teachers</h3>
+            <img src="../static/images/Teachers.png" id="teacher-image">
+            <div class="reason-list-mobile">
+                <p>Integrated school-wide event schedule</p>
+                <p>Smart grade alerts and personalized progress reports</p>
+                <p>Integrated schedule and syllabi</p>
+            </div>
         </div>
     </div>
-    <div class="section" id="mission" data-aos="fade-up" data-aos-duration="2000">
-        <div class="mission-statement">
-            <h2>We strive to make a system that would allow students to focus on learning, teachers to concentrate on teaching, and parents to easily interact with the schools.</h2>
-            <br><br>
+    <div class="section" id="say" data-aos="fade-up" data-aos-duration="2000">
+        <div class="section-content" data-aos="fade-right" data-aos-duration="2000" >
+            <h1>What People Say About Us</h1>
+
+            <div id="comment-carousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+
+                    <div class="carousel-item active">
+                        <div class="comment">
+                            <div class="quote">
+                                <img class="quote-bar" src="{{ url_for('static', filename='images/Quotes.png') }}">
+                                <p>Gradder is a great opportunity to find out my up-to-date grades. I couldn't even
+                                    dream
+                                    about it!</p>
+                            </div>
+                            <div class="commenter">
+                                <img
+                                    src="https://pyxis.nymag.com/v1/imgs/171/429/c95b07becc2bef532d9669b4824ea4386f-08-harry-potter.rsquare.w1200.jpg">
+                                <p>Artem, a high school student</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="comment">
+                            <div class="quote">
+                                <img class="quote-bar" src="{{ url_for('static', filename='images/Quotes.png') }}">
+                                <p>I am happy that now I have a tool that helps me be aware of my children's
+                                    academic
+                                    performance!</p>
+                            </div>
+                            <div class="commenter">
+                                <img
+                                    src="https://vignette.wikia.nocookie.net/harrypotter/images/c/ce/Lily_Potter1.jpg/revision/latest/top-crop/width/360/height/360?cb=20140712171247">
+                                <p>Yuliia, Artem's mother</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <a class="carousel-control-next" href="#comment-carousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="material-icons">navigate_next</span>
+                </a>
+
+            </div>
+        </div>
+        <div class="side-image" data-aos="zoom-in-left" data-aos-duration="2000" >
+        </div>
+    </div>
+    <div class="section" id="say-mobile" data-aos="fade-up" data-aos-duration="2000">
+        <div class="say-mobile-header">
+            <img src="../static/images/Globe.png">
+            <h1>User Reviews</h1>
+        </div>
+        <div id="comments-mobile-carousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="https://pyxis.nymag.com/v1/imgs/171/429/c95b07becc2bef532d9669b4824ea4386f-08-harry-potter.rsquare.w1200.jpg">
+                <div class="comment-mobile">
+                    <p>Gradder is a great opportunity to find out my up-to-date grades. I couldn't even dream about it!</p>
+                    <p class="commenter">Artem, a high school student</p>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <img src="https://vignette.wikia.nocookie.net/harrypotter/images/c/ce/Lily_Potter1.jpg/revision/latest/top-crop/width/360/height/360?cb=20140712171247">
+                <div class="comment-mobile">
+                    <p>I am happy that now I have a tool that helps me be aware of my children's academic performance!</p>
+                    <p class="commenter">Yuliia, Artem's mother</p>
+                </div>
+              </div>
+              <ol class="carousel-indicators">
+                <li data-target="#comments-mobile-carousel" data-slide-to="0" class="active"></li>
+                <li data-target="#comments-mobile-carousel" data-slide-to="1"></li>
+              </ol>
+            </div>
+          </div>
+    </div>
+    <div class="section" id="mission" data-aos="fade-up" data-aos-duration="2000" >
+        <div class="mission-statement section-content">
+            <h1>Mission</h1>
+            <br>
+            <h2>We strive to make a system that would allow students to focus on learning, teachers to concentrate
+                on
+                teaching, and parents to easily interact with the schools.</h2>
+            <br>
             <h3>–– Serhii, CEO at Gradder</h3>
         </div>
     </div>
-    <div class="section" id="roadmap" data-aos="fade-up" data-aos-duration="2000">
+    <div class="section" id="mission-mobile">
+        <img src="../static/images/LeftBanner.png" id="left-banner">
+        <img src="../static/images/RightBanner.png" id="right-banner">
+        <img src="https://pyxis.nymag.com/v1/imgs/171/429/c95b07becc2bef532d9669b4824ea4386f-08-harry-potter.rsquare.w1200.jpg" id="mission-face">
+        <h5 class="mission-mobile-statement">We strive to make a system that would allow students to focus on learning, teachers to concentrate on
+            teaching, and parents to easily interact with the schools.</h5>
+        <h4 class="mission-mobile-serhii">–– Serhii, CEO at Gradder</h4>
+    </div>
+    <div class="section" id="roadmap" data-aos="fade-up" data-aos-duration="2000" >
         <h1>Roadmap</h1>
         <img src="{{ url_for('static', filename='images/Horizontal Roadmap.png') }}">
         <table class="timeline">
@@ -134,7 +272,9 @@
                 <td></td>
                 <td><strong>February 2020</strong><br>Prototype created</td>
                 <td></td>
-                <td><strong>April 2020</strong><br>Global Finalist at the Diamond Challenge for High School Entrepreneurs</td>
+                <td><strong>April 2020</strong><br>Global Finalist at the Diamond Challenge for High School
+                    Entrepreneurs
+                </td>
                 <td></td>
                 <td><strong>June 2020</strong><br>Alpha version created</td>
                 <td></td>
@@ -152,29 +292,130 @@
             </tr>
         </table>
     </div>
-    <div class="section" id="team" data-aos="fade-up" data-aos-duration="2000">
+    <div class="section" id="roadmap-mobile" data-aos="fade-up" data-aos-duration="2000">
+        <div class="roadmap-mobile-header">
+            <img src="../static/images/Vial.png">
+            <h1>Our<br>Roadmap</h1>
+        </div>
+        <img src="{{ url_for('static', filename='images/Vertical Roadmap.png') }}" id="vertical-roadmap">
+        <div class="timeline-mobile">
+            <table>
+                <tr>
+                    <td id="jan"><p><strong>January 2020</strong><br>200 user interviews conducted</p></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td id="feb"><p><strong>February 2020</strong><br>Prototype created</p></td>
+                </tr>
+                <tr>
+                    <td id="mar"><p><strong>March 2020</strong><br>Test conducted in one school in Kyiv</p></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td id="apr"><p><strong>April 2020</strong><br>Global Finalist at the Diamond Challenge for High School
+                        Entrepreneurs</p></td>
+                </tr>
+                <tr>
+                    <td id="may"><p><strong>May 2020</strong><br>MVP version created</p></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td id="jun"><p><strong>June 2020</strong><br>Alpha version created</p></td>
+                </tr>
+                <tr>
+                    <td id="jul"><p><strong>July 2020</strong><br>Beta version created</p></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td id="sep"><p><strong>September 2020</strong><br>Launch</p></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="section" id="team" data-aos="fade-up" data-aos-duration="2000" >
         <h1>Our Team</h1>
-        <table class="people">
+        <table class=" people">
             <tr>
                 <th>
-                    <!-- Blob -->
+                    <img src="{{ url_for('static', filename='images/Serhii.png') }}">
                 </th>
                 <th>
-                    <!-- Blob -->
+                    <img src="{{ url_for('static', filename='images/Daria.png') }}">
                 </th>
                 <th>
-                    <!-- Blob -->
+                    <img src="{{ url_for('static', filename='images/Alex.png') }}">
                 </th>
             </tr>
             <tr>
-                <td>Serhii</td>
-                <td>Dasha</td>
-                <td>Alex</td>
+                <td>
+                    <h3>Serhii Durytskyi</h3>
+                    <h4>Co-Founder &<br>Chief Executive Officer</h4>
+                </td>
+                <td>
+                    <h3>Daria Valska</h3>
+                    <h4>Chief Business Development Officer</h4>
+                </td>
+                <td>
+                    <h3>Alex Nikanov</h3>
+                    <h4>Chief Technology Officer</h4>
+                </td>
             </tr>
             <tr>
-                <td>Facts, facts, facts!</td>
-                <td>Facts, facts, facts!</td>
-                <td>Facts, facts, facts!</td>
+                <td>
+                    <p>Co-founded a tech startup (funded), Winner of National and International Startup
+                        Competitions, Founder & Executive President of the educational non-profit organization
+                        Elevate the Future Ukraine</p>
+                </td>
+                <td>
+                    <p>Co-founded a tech startup (funded), National winner at the Diamond Challenge for High School
+                        Entrepreneurs, Founder & Vice President of the educational non-profit organization Elevate
+                        the Future Ukraine</p>
+                </td>
+                <td>
+                    <p>Stanford Rebuild Innovator, Northeastern '24. Web developer with 3+ years of expertise.
+                        Passionate about AI, entrepreneurship, and change.</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="section" id="team-mobile" data-aos="fade-up" data-aos-duration="2000">
+        <h1>Our<br>Team</h1>
+        <table class="people-mobile">
+            <tr>
+                <td>
+                    <img src="{{ url_for('static', filename='images/Serhii.png') }}">
+                </td>
+                <td>
+                    <h3>Serhii Durytskyi, Co-Founder & Chief Executive Officer</h3>
+                    <p>Co-founded a tech startup (funded), Winner of National and International Startup
+                        Competitions, Founder & Executive President of the educational non-profit organization
+                        Elevate the Future Ukraine</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <img src="{{ url_for('static', filename='images/Daria.png') }}">
+                </td>
+                <td>
+                    <h3>Daria Valska, Chief Business Development Officer</h3>
+                    <p>Co-founded a tech startup (funded), National winner at the Diamond Challenge for High School
+                        Entrepreneurs, Founder & Vice President of the educational non-profit organization Elevate
+                        the Future Ukraine</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <img src="{{ url_for('static', filename='images/Alex.png') }}">
+                </td>
+                <td>
+                    <h3>Alex Nikanov, Chief Technology Officer</h3>
+                    <p>Stanford Rebuild Innovator, Northeastern '24. Web developer with 3+ years of expertise.
+                        Passionate about AI, entrepreneurship, and change.</p>
+                </td>
             </tr>
         </table>
     </div>
@@ -182,29 +423,44 @@
 <footer>
     <div class="footer-body">
         <div class="contact-info">
-            <h1>Contact us</h1>
-            <p>team@gradder.io</p>
+            <h1>Contact information</h1>
+            <a href="mailto:team@gradder.io">team@gradder.io</<a>
+            <a href="https://ua.linkedin.com/company/gradder">LinkedIn</a>
+            <a href="https://www.facebook.com/gradder.io">Facebook</a>
+            <br><br>
+            <h1>Navigation</h1>
+            <a href="#why">Why us?</a>
+            <a href="#roadmap">Roadmap</a>
+            <a href="#team">Our Team</a>
         </div>
-        <form class="enquiry">
+        <div class="footer-nav">
             <h1>Enquiries</h1>
-            <div class="enquiry-person">
-                <input type="text" id="enquiry-name" name="enquiry-name" placeholder="Your name">
-                <input type="email" id="enquiry-email" name="enquiry-email" placeholder="Your email">
-            </div>
-            <select id="enquiry-subject">
-                <option value="funding">Funding/investments</option>
-                <option value="partnership">Partnership</option>
-                <option value="careers">Careers</option>
-                <option value="system">Using our system</option>
-                <option value="feedback">Feedback</option>
-                <option value="questions">Questions</option>
-                <option value="other">Other</option>
-            </select>
-            <textarea id="enquiry-body" name="enquiry-body" rows="10" cols="30" placeholder="Your enquiry"></textarea>
-            <input type="submit" id="enquiry-submit" value="Submit">
-        </form>
+            <form class="enquiry-form">
+                <div class="form-group enquiry-person">
+                    <input type="text" class="form-control" id="enquiry-name" name="enquiry-name"
+                        placeholder="Your name">
+                    <input type="email" class="form-control" id="enquiry-email" name="enquiry-email"
+                        placeholder="Your email">
+                </div>
+                <div class="form-group">
+                    <select class="form-control" id="enquiry-subject">
+                        <option value="funding">Funding/investments</option>
+                        <option value="partnership">Partnership</option>
+                        <option value="careers">Careers</option>
+                        <option value="system">Using our system</option>
+                        <option value="feedback">Feedback</option>
+                        <option value="questions">Questions</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <textarea id="enquiry-body" name="enquiry-body" rows="10" cols="30"
+                        placeholder="Your enquiry"></textarea>
+                </div>
+                <input type="submit" id="enquiry-submit" value="Submit">
+            </form>
+        </div>
     </div>
-    <img src="{{ url_for('static', filename='images/Footer.png') }}">
 </footer>
 {% endblock %}
 
