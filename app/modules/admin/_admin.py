@@ -73,20 +73,20 @@ class Admin(User):
     @staticmethod
     def add_student(class_id: str, email: str):
         student = Student.get_by_email(email)
+        
         db.classes.update_one({"_id": ObjectId(class_id)}, {"$push": {"students": ObjectId(student.ID)}})
         
 
     @staticmethod
     def add_teacher(class_id: str, email: str):
         teacher = Teacher.get_by_email(email)
-        db.classes.update_one({"_id": ObjectId(class_id)}, {"$push": {"teachers": ObjectId(teacher.ID)}})
+        db.classes.update_one({"_id": ObjectId(class_id)}, {"$set": {"teacher": ObjectId(teacher.ID)}})
 
     @staticmethod
     def add_class(classes: Classes):
         try:
             dictionary = classes.to_dict()
             dictionary["_id"] = ObjectId()
-            # dictionary["teacher"] = ObjectId()
             db.classes.insert_one(dictionary)
         except BaseException as e:
             print(f"Error while adding class {classes.ID}: {e}")

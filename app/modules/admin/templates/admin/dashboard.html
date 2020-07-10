@@ -39,11 +39,11 @@
         <h4>Add Students/Teachers</h4>
         <a href="{{ url_for('admin.registerTS') }}">Students/Teachers!</a>
         <p><a href="{{ url_for('admin.addStudentClass')}}">Add Students to a class</a></p>
-        <p>Adding ability to add Teachers to a class soon!</p>
+        <p><a href="{{ url_for('admin.addTeacherClass')}}">Add Teachers to a class</a></p>
     </div>
     <div class="jumbotron container teacher-syllabus">
         <h4>Add New Classes</h4>
-        <a href="{{ url_for('admin.registerClasses') }}">Classes!</a>
+        <a href="{{ url_for('admin.registerClasses') }}">Add New Classes!</a>
     </div>
     <div class="jumbotron container teacher-statistics">
         <h4>View Analytics</h4>
