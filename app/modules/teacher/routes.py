@@ -7,7 +7,7 @@ from . import teacher
 
 from ._teacher import Teacher
 from app.modules._classes import Classes
-from .forms import NewAssignmentForm
+from .forms import NewAssignmentForm, EditClassForm
 
 from app.decorators import required_access
 from app.google_storage import upload_blob
@@ -71,6 +71,22 @@ def add_assignment():
 def manage_classes():
     return redirect(url_for('teacher.manage_classes_by_id', class_id=current_user.get_class_names()[0][0]))
 
-@teacher.route('/class/<string:class_id>', methods=['GET'])
+@teacher.route('/class/<string:class_id>', methods=['GET', 'POST'])
 def manage_classes_by_id(class_id: str):
-    return render_template('/teacher/manage_classes.html', classes=current_user.get_class_names(), class_json=Classes.get_by_id(class_id).to_json())
+    class_edit_form = EditClassForm()
+
+    if class_edit_form.validate_on_submit():
+        syllabus = tuple()
+        if class_edit_form.syllabus.name is not None:
+            syllabus_file = request.files[class_edit_form.syllabus.name]
+            filename = syllabus_file.filename
+            blob = upload_blob(uuid.uuid4().hex + "." + syllabus_file.content_type.split("/")[-1], syllabus_file)
+            syllabus = (blob.name, filename)
+
+        class_ = Classes.get_by_id(class_id)
+        class_.update_description(class_edit_form.description.data)
+        class_.update_syllabus(syllabus)
+
+        flash('Class information updated!')
+
+    return render_template('/teacher/manage_classes.html', classes=current_user.get_class_names(), class_json=Classes.get_by_id(class_id).to_json(), class_edit_form=class_edit_form)

@@ -9,7 +9,7 @@ from bson.objectid import ObjectId
 
 class Classes:
     def __init__(self, department:str, number: int, name: str, teacher: str = None, students: List[str] = None, description: str = None, 
-                       schedule_time: str = None, schedule_days: str = None, syllabus: str = None, assignments: List[Assignment] = None, ID: str = None,):
+                       schedule_time: str = None, schedule_days: str = None, syllabus: tuple = None, assignments: List[Assignment] = None, ID: str = None,):
         self.department = department
         self.number = number
         self.name = name
@@ -57,7 +57,8 @@ class Classes:
             },
             'teacher_info': {
                 'description': self.description,
-                'syllabus': self.syllabus,
+                'syllabus_filename': self.syllabus[1],
+                'syllabus_id': self.syllabus[0]
             },
             'immutable_info': {
                 'alias': self.department + "_" + str(self.number) + "_" + re.sub(r'[^a-zA-Z]+', '', self.name.lower()),
@@ -123,3 +124,21 @@ class Classes:
         r'''Returns name in the format "SOС310 U.S. History"
         '''
         return self.department + str(self.number) + " " + self.name
+
+    def update_description(self, description: str):
+        try:
+            if len(description) > 0:
+                self.description = description
+            
+                db.classes.find_one_and_update({"_id": self.ID}, {"$set": {"description": self.description}})
+        except BaseException as e:
+            user_logger.info(f"Error while updating description {description}: {e}")
+    
+    def update_syllabus(self, syllabus: tuple):
+        try:
+            if syllabus[1] != '':
+                self.syllabus = syllabus
+
+                db.classes.find_one_and_update({"_id": self.ID}, {"$set": {"syllabus": self.syllabus}})
+        except BaseException as e:
+            user_logger.info(f"Error while updating syllabus {self.syllabus[1]}: {e}")
