@@ -3,6 +3,7 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, Selec
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 from app import db
+from bson.objectid import ObjectId
 
 
 class NewStudentsTeachers(FlaskForm):
@@ -44,11 +45,12 @@ class NewStudentsTeachers(FlaskForm):
 class NewClasses(FlaskForm):
     department = StringField('Department', validators=[DataRequired(), Length(1, 64)])
     number = StringField('Class Number', validators=[DataRequired(), Length(1, 64)])
-    name = StringField('Class Name', validators=[DataRequired(), Email(), Length(1, 64)])
+    name = StringField('Class Name', validators=[DataRequired(), Length(1, 64)])
+    teacher = StringField('Teacher ID', validators=[DataRequired()])
     description = StringField('Description', validators=[DataRequired()])
     schedule_time = StringField('Time', validators=[DataRequired()])
     schedule_days = StringField('Days', validators=[DataRequired()])
-    syllabus = StringField('Syllabus', validators=[DataRequired])
+    syllabus = StringField('Syllabus', validators=[DataRequired()])
 
     submit = SubmitField('Register')
 

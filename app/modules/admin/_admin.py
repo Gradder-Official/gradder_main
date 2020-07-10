@@ -5,6 +5,8 @@ from app.modules.student._student import Student
 from app.modules.teacher._teacher import Teacher
 from bson import ObjectId
 from re import match
+from app.logs import user_logger
+
 
 
 
@@ -80,9 +82,14 @@ class Admin(User):
         db.classes.update_one({"_id": ObjectId(class_id)}, {"$push": {"teachers": ObjectId(teacher.ID)}})
 
     @staticmethod
-    def add_class(class_id: str):
-        class_ = Classes.get_by_id(class_id)
-        db.classes.update_one({"_id": ObjectId(class_id)}, {"$push": {"classes": ObjectId(class_.ID)}})
+    def add_class(classes: Classes):
+        try:
+            dictionary = classes.to_dict()
+            dictionary["_id"] = ObjectId()
+            # dictionary["teacher"] = ObjectId()
+            db.classes.insert_one(dictionary)
+        except BaseException as e:
+            print(f"Error while adding class {classes.ID}: {e}")
 
     def get_class_names(self):
         classes = list()
