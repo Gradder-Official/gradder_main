@@ -55,8 +55,8 @@
                 </ul>
             </div>
         </nav>
-        <div class="container row">
-            <div class="container col-md-8" id="students-container" style="padding: 0;">
+        <div class="container row" style="width:100%;">
+            <div class="jumbotron container col-md-8" id="students-container" style="padding: 0;">
                 <table id="students-table" class="hover" style="width:100%">
                     <thead>
                         <tr>
@@ -80,10 +80,27 @@
                     </tfoot>
                 </table>
             </div>
-            <div class="container col-md-3" id="class-info-container" style="margin-left: 10px; padding: 0;">
-                {{ class_json['immutable_info']['full_name'] }}
+            <div class="jumbotron container col-md-3" id="class-info-container" style="margin-left: 10px; padding: 0;">
+                <b>Name:</b> {{ class_json['admin_info']['name'] }}
                 <br>
-                Editing class features are coming!
+                <br>
+                <b>ID:</b> {{ class_json['immutable_info']['ID'] }}
+                <br>
+                <br>
+                <b>Schedule days:</b> {{ class_json['admin_info']['schedule_days'] }}
+                <br>
+                <br>
+                <b>Schedule time:</b> {{ class_json['admin_info']['schedule_time'] }}
+                <br>
+                <br>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {{ class_edit_form.hidden_tag() }}
+                    {{ macros.field(class_edit_form.description, label=False, placeholder="Description") }}
+                    <br>
+                    {{ macros.field(class_edit_form.syllabus) }}
+                    <br>
+                    {{ class_edit_form.submit(class="btn btn-info") }}
+                </form>
             </div>
         </div>
     </div>
