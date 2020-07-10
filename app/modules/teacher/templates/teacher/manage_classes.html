@@ -95,9 +95,9 @@
                 <br>
                 <form action="" method="POST" enctype="multipart/form-data">
                     {{ class_edit_form.hidden_tag() }}
-                    {{ macros.field(class_edit_form.description, label=False, placeholder="Description") }}
+                    {{ macros.field(class_edit_form.description, placeholder=current_description) }}
                     <br>
-                    {{ macros.field(class_edit_form.syllabus) }}
+                    {{ macros.field(class_edit_form.syllabus, class="form-control-file") }}
                     <br>
                     {{ class_edit_form.submit(class="btn btn-info") }}
                 </form>
@@ -116,5 +116,10 @@
                 paging:         false
             } );
         } );
+    </script>
+    <script>
+        if (!$('#description').val()){
+            $('#description').val($('#description').attr('placeholder'));
+        }
     </script>
 {% endblock %}

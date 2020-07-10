@@ -74,6 +74,13 @@ def manage_classes():
 @teacher.route('/class/<string:class_id>', methods=['GET', 'POST'])
 def manage_classes_by_id(class_id: str):
     class_edit_form = EditClassForm()
+    class_ = Classes.get_by_id(class_id)
+
+    syllabus_name = class_.get_syllabus_name() 
+    if syllabus_name!= "":
+        if len(syllabus_name) > 20:
+            syllabus_name = syllabus_name[:20] + '...'
+        class_edit_form.syllabus.label.text = f"Update syllabus (current: { syllabus_name })"
 
     if class_edit_form.validate_on_submit():
         syllabus = tuple()
@@ -83,10 +90,13 @@ def manage_classes_by_id(class_id: str):
             blob = upload_blob(uuid.uuid4().hex + "." + syllabus_file.content_type.split("/")[-1], syllabus_file)
             syllabus = (blob.name, filename)
 
-        class_ = Classes.get_by_id(class_id)
         class_.update_description(class_edit_form.description.data)
         class_.update_syllabus(syllabus)
 
-        flash('Class information updated!')
+        flash('Class information successfully updated!')
 
-    return render_template('/teacher/manage_classes.html', classes=current_user.get_class_names(), class_json=Classes.get_by_id(class_id).to_json(), class_edit_form=class_edit_form)
+    return render_template('/teacher/manage_classes.html', 
+                            classes=current_user.get_class_names(), 
+                            class_json=class_.to_json(), 
+                            class_edit_form=class_edit_form,
+                            current_description=class_.description)

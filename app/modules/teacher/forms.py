@@ -27,6 +27,6 @@ class NewSubmissionForm(FlaskForm):
 
 class EditClassForm(FlaskForm):
     description = TextAreaField('Description')
-    syllabus = FileField('Syllabus')
+    syllabus = FileField('Update syllabus (current: empty)')
 
     submit = SubmitField('Submit')
