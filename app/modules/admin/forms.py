@@ -76,5 +76,4 @@ class EditClassForm(FlaskForm):
 
 class FindClassName(FlaskForm):
     name = StringField('Identifier', validators=[DataRequired()])
-
     submit = SubmitField('Submit')

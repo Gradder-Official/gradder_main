@@ -80,6 +80,28 @@
                     </tfoot>
                 </table>
             </div>
+            <div class="jumbotron container col-md-3" id="class-info-container" style="margin-left: 10px; padding: 0;">
+                <b>Name:</b> {{ class_json['admin_info']['name'] }}
+                <br>
+                <br>
+                <b>ID:</b> {{ class_json['immutable_info']['ID'] }}
+                <br>
+                <br>
+                <b>Schedule days:</b> {{ class_json['admin_info']['schedule_days'] }}
+                <br>
+                <br>
+                <b>Schedule time:</b> {{ class_json['admin_info']['schedule_time'] }}
+                <br>
+                <br>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {{ class_edit_form.hidden_tag() }}
+                    {{ macros.field(class_edit_form.description, placeholder=current_description) }}
+                    <br>
+                    {{ macros.field(class_edit_form.syllabus, class="form-control-file") }}
+                    <br>
+                    {{ class_edit_form.submit(class="btn btn-info") }}
+                </form>
+            </div>
         </div>
     </div>
 {% endblock %}

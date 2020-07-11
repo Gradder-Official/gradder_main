@@ -100,42 +100,37 @@ def addTeacherClass():
         Admin.add_teacher(form.class_id.data, form.email.data)
     return render_template('admin/register.html', form=form)
 
+@admin.route('/class', methods=['GET'])
+def manage_classes():
+    # print(current_user.get_class_names()[0]['_id'])
+    return redirect(url_for('admin.manage_classes_by_id', class_id=current_user.get_class_names()[0]['_id']))
 
-# @admin.route('/class', methods=['GET'])
-# def manage_classes():
-#     return redirect(url_for('admin.manage_classes_by_id', class_id=current_user.get_class_names()[0][0]))
+@admin.route('/class/<string:class_id>', methods=['GET', 'POST'])
+def manage_classes_by_id(class_id: str):
+    class_edit_form = EditClassForm()
+    class_ = Classes.get_by_id(class_id)
 
-# @admin.route('/class/<string:class_id>', methods=['GET'])
-# def manage_classes_by_id(class_id: str):
-#     return render_template('/admin/manage_classes.html', classes=current_user.get_class_names(), class_json=Classes.get_by_id(class_id).to_json())
-    
+    syllabus_name = class_.get_syllabus_name() 
+    if syllabus_name!= "":
+        if len(syllabus_name) > 20:
+            syllabus_name = syllabus_name[:20] + '...'
+        class_edit_form.syllabus.label.text = f"Update syllabus (current: { syllabus_name })"
 
-# @admin.route('/class/<string:class_id>', methods=['GET', 'POST'])
-# def manage_classes_by_id(class_id: str):
-#     class_edit_form = EditClassForm()
-#     class_ = Classes.get_by_id(class_id)
+    if class_edit_form.validate_on_submit():
+        syllabus = tuple()
+        if class_edit_form.syllabus.name is not None:
+            syllabus_file = request.files[class_edit_form.syllabus.name]
+            filename = syllabus_file.filename
+            blob = upload_blob(uuid.uuid4().hex + "." + syllabus_file.content_type.split("/")[-1], syllabus_file)
+            syllabus = (blob.name, filename)
 
-#     syllabus_name = class_.get_syllabus_name() 
-#     if syllabus_name!= "":
-#         if len(syllabus_name) > 20:
-#             syllabus_name = syllabus_name[:20] + '...'
-#         class_edit_form.syllabus.label.text = f"Update syllabus (current: { syllabus_name })"
+        class_.update_description(class_edit_form.description.data)
+        class_.update_syllabus(syllabus)
 
-#     if class_edit_form.validate_on_submit():
-#         syllabus = tuple()
-#         if class_edit_form.syllabus.name is not None:
-#             syllabus_file = request.files[class_edit_form.syllabus.name]
-#             filename = syllabus_file.filename
-#             blob = upload_blob(uuid.uuid4().hex + "." + syllabus_file.content_type.split("/")[-1], syllabus_file)
-#             syllabus = (blob.name, filename)
+        flash('Class information successfully updated!')
 
-#         class_.update_description(class_edit_form.description.data)
-#         class_.update_syllabus(syllabus)
-
-#         flash('Class information successfully updated!')
-
-#     return render_template('/admin/manage_classes.html', 
-#                             classes=current_user.get_class_names(), 
-#                             class_json=class_.to_json(), 
-#                             class_edit_form=class_edit_form,
-#                             current_description=class_.description)
+    return render_template('/admin/manage_classes.html', 
+                            classes=current_user.get_class_names(), 
+                            class_json=class_.to_json(), 
+                            class_edit_form=class_edit_form,
+                            current_description=class_.description)
