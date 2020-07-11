@@ -6,7 +6,7 @@ from app.modules.teacher._teacher import Teacher
 from bson import ObjectId
 from re import match
 from app.logs import user_logger
-
+import regex 
 
 
 
@@ -93,19 +93,11 @@ class Admin(User):
             db.classes.insert_one(dictionary)
         except BaseException as e:
             print(f"Error while adding class {classes.ID}: {e}")
-
+    
     def get_class_names(self):
         classes = list()
-        print(self.classes)
-        for class_ in self.classes:
-            classes.append((class_, Classes.get_by_id(class_).name))
+        for document_ in db.classes.find():
+            classes.append(document_)
         
         return classes
-
-
-    @staticmethod
-    def all_classes():
-        db.classes.find()
-
-
 
