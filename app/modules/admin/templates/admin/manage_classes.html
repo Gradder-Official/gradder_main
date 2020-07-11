@@ -21,7 +21,7 @@
     </div>
     <nav class="nav flex-column nav-pills" id="sidebar-nav">
         <a class="nav-link" href="{{ url_for('main.dashboard') }}">Overview</a>
-        <a class="nav-link active" href="{{ url_for('teacher.manage_classes') }}">Classes</a>
+        <a class="nav-link active" href="{{ url_for('admin.manage_classes') }}">Classes</a>
         <a class="nav-link" href="#">Assignments</a>
         <a class="nav-link" href="#">Analytics</a>
         <a class="nav-link" href="{{ url_for('main.profile') }}">Profile</a>
@@ -47,7 +47,7 @@
                 <ul class="navbar-nav">
                     {% for class_ in classes %}
                         <li class="nav-item {% if class_[0]==class_json['immutable_info']['ID'] %}active{% endif %}">
-                            <a class="nav-link" href="{{ url_for('teacher.manage_classes_by_id', class_id=class_[0]) }}">
+                            <a class="nav-link" href="{{ url_for('admin.manage_classes_by_id', class_id=class_[0]) }}">
                                 {{ class_[1] }}{% if class_[0]==class_json['immutable_info']['ID'] %}<span> (current)</span>{% endif %}
                             </a>
                         </li>
@@ -79,28 +79,6 @@
                         </tr>
                     </tfoot>
                 </table>
-            </div>
-            <div class="jumbotron container col-md-3" id="class-info-container" style="margin-left: 10px; padding: 0;">
-                <b>Name:</b> {{ class_json['admin_info']['name'] }}
-                <br>
-                <br>
-                <b>ID:</b> {{ class_json['immutable_info']['ID'] }}
-                <br>
-                <br>
-                <b>Schedule days:</b> {{ class_json['admin_info']['schedule_days'] }}
-                <br>
-                <br>
-                <b>Schedule time:</b> {{ class_json['admin_info']['schedule_time'] }}
-                <br>
-                <br>
-                <form action="" method="POST" enctype="multipart/form-data">
-                    {{ class_edit_form.hidden_tag() }}
-                    {{ macros.field(class_edit_form.description, placeholder=current_description) }}
-                    <br>
-                    {{ macros.field(class_edit_form.syllabus, class="form-control-file") }}
-                    <br>
-                    {{ class_edit_form.submit(class="btn btn-info") }}
-                </form>
             </div>
         </div>
     </div>
