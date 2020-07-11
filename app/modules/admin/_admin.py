@@ -87,6 +87,9 @@ class Admin(User):
         try:
             dictionary = classes.to_dict()
             dictionary["_id"] = ObjectId()
+            dictionary["students"] = list()
+            dictionary["syllabus"] = list()
+            dictionary["assignments"] = list()
             db.classes.insert_one(dictionary)
         except BaseException as e:
             print(f"Error while adding class {classes.ID}: {e}")

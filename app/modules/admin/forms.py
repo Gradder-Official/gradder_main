@@ -50,7 +50,6 @@ class NewClasses(FlaskForm):
     description = StringField('Description', validators=[DataRequired()])
     schedule_time = StringField('Time', validators=[DataRequired()])
     schedule_days = StringField('Days', validators=[DataRequired()])
-    syllabus = StringField('Syllabus', validators=[DataRequired()])
 
     submit = SubmitField('Register')
 
