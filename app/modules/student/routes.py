@@ -1,4 +1,7 @@
 import uuid
+import tempfile
+import webbrowser
+import os
 from flask import render_template, redirect, request, url_for, make_response
 from flask_login import current_user
 from app.modules.teacher.forms import NewSubmissionForm
@@ -7,7 +10,7 @@ from ._student import Student
 from app.modules._classes import Submission
 from app.decorators import required_access
 from datetime import datetime
-from app.google_storage import upload_blob
+from app.google_storage import upload_blob, download_blob_binary, download_blob
 from app import db
 from bson import ObjectId
 
@@ -56,3 +59,17 @@ def profile():
 def assignments():
     print(list(map(lambda x: x.to_json(), current_user.get_assignments())))
     return render_template('student/assignments.html', assignments=list(map(lambda x: x.to_json(), current_user.get_assignments())))
+
+@student.route('/view_assignment/<filename>/<real_filename>', methods=['GET', 'POST'])
+def view_assignment(filename, real_filename):
+    blob = download_blob_binary(filename, real_filename)
+    with tempfile.TemporaryDirectory() as temp_dir:
+        print(temp_dir)
+        temp_file_path = os.path.join(temp_dir, filename)
+
+        # write a normal file within the temp directory
+        with open(temp_file_path, 'wb+') as fh:
+            fh.write(blob)
+
+        webbrowser.open('file://' + temp_file_path)
+    return 'OK'
