@@ -24,3 +24,9 @@ class NewSubmissionForm(FlaskForm):
         ['pdf', 'docx', 'png', 'jpg', 'jpeg'], 'Allowed formats: pdf, docx, png, jpeg')])
 
     submit = SubmitField('Submit')
+
+class EditClassForm(FlaskForm):
+    description = TextAreaField('Description')
+    syllabus = FileField('Update syllabus (current: empty)')
+
+    submit = SubmitField('Submit')
