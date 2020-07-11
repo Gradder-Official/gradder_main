@@ -2,6 +2,7 @@ import uuid
 import tempfile
 import webbrowser
 import os
+import time
 from flask import render_template, redirect, request, url_for, make_response
 from flask_login import current_user
 from app.modules.teacher.forms import NewSubmissionForm
@@ -70,6 +71,6 @@ def view_assignment(filename, real_filename):
         # write a normal file within the temp directory
         with open(temp_file_path, 'wb+') as fh:
             fh.write(blob)
-
+        time.sleep(1)
         webbrowser.open('file://' + temp_file_path)
-    return 'OK'
+    return ''
