@@ -75,7 +75,6 @@ def registerClasses():
                                     description=form.description.data,
                                     schedule_time=form.schedule_time.data,
                                     schedule_days=form.schedule_days.data,
-                                    syllabus=form.syllabus.data,
                                     )
         
         Admin.add_class(new_class)
@@ -102,10 +101,10 @@ def addTeacherClass():
     return render_template('admin/register.html', form=form)
 
 
-# @admin.route('/class', methods=['GET'])
-# def manage_classes():
-#     return redirect(url_for('admin.manage_classes_by_id', class_id=current_user.get_class_names()[0][0]))
+@admin.route('/class', methods=['GET'])
+def manage_classes():
+    return redirect(url_for('admin.manage_classes_by_id', class_id=current_user.get_class_names()[0][0]))
 
-# @admin.route('/class/<string:class_id>', methods=['GET'])
-# def manage_classes_by_id(class_id: str):
-#     return render_template('/admin/manage_classes.html', classes=current_user.get_class_names(), class_json=Classes.get_by_id(class_id).to_json())
+@admin.route('/class/<string:class_id>', methods=['GET'])
+def manage_classes_by_id(class_id: str):
+    return render_template('/admin/manage_classes.html', classes=current_user.get_class_names(), class_json=Classes.get_by_id(class_id).to_json())
