@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
+from wtforms import DateTimeField, StringField, TextAreaField, SubmitField, SelectField, MultipleFileField, FileField
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 from app import db
@@ -66,3 +67,14 @@ class AddTeacherClass(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Length(1, 128)])
     submit = SubmitField('Confirm')
 
+class EditClassForm(FlaskForm):
+    description = TextAreaField('Description')
+    syllabus = FileField('Update syllabus (current: empty)')
+
+    submit = SubmitField('Submit')
+
+
+class FindClassName(FlaskForm):
+    name = StringField('Identifier', validators=[DataRequired()])
+
+    submit = SubmitField('Submit')

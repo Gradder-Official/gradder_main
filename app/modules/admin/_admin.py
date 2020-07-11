@@ -101,3 +101,11 @@ class Admin(User):
             classes.append((class_, Classes.get_by_id(class_).name))
         
         return classes
+
+
+    @staticmethod
+    def all_classes():
+        db.classes.find()
+
+
+
