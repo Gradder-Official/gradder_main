@@ -68,6 +68,7 @@ class InquiryForm(FlaskForm):
                                               ('Investments', 'Investing in us'),
                                               ('Partnership', 'Partnership'),
                                               ('Questions', 'Questions'),
-                                              ('Beta-sign-up', 'Sign up for early access')])
+                                              ('Beta-sign-up', 'Sign up for early access'),
+                                              ('Other', 'Other')])
     inquiry = TextAreaField('Inquiry/additional comments', validators=[DataRequired('Please enter your message'), Length(1, 1000, 'Should be no longer than 1000 symbols')])
     submit2 = SubmitField('Submit')

@@ -33,10 +33,14 @@ def index():
                           inquiry=inquiry_form.inquiry.data)
         try:
             status = inquiry.add()
-            send_email(to="team@gradder.io", subject=f"Inquiry | {inquiry.subject}", template="mail/inquiry.html", name=inquiry.name, email=inquiry.email, inquiry=inquiry.inquiry)
-            return redirect(url_for('main.status', success=True, next='main.index', _anchor='contact'))
+
+            send_email(to=[current_app._get_current_object().config['GRADDER_EMAIL']], subject=f"Inquiry #{inquiry.ID}", template="mail/inquiry_admin", name=inquiry.name, email=inquiry.email, inquiry_subject=inquiry.subject, inquiry=inquiry.inquiry, date=datetime.today().strftime('%Y-%m-%d-%H:%M:%S'))
+            send_email(to=[inquiry.email], subject=f"Inquiry #{inquiry.ID}", template="mail/inquiry_user", name=inquiry.name, inquiry_subject=inquiry.subject, inquiry=inquiry.inquiry, ID=inquiry.ID)
+            
+            return redirect(url_for('main.status', success=True, next='main.index', _anchor='footer'))
         except BaseException as e:
-            return redirect(url_for('main.status', success=False, next='main.index', _anchor='contact'))
+            print(e)
+            return redirect(url_for('main.status', success=False, next='main.index', _anchor='footer'))
 
     return render_template('main/index.html', subscription_form=subscription_form, inquiry_form=inquiry_form)
 
