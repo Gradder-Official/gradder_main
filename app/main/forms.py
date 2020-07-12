@@ -56,3 +56,18 @@ class CareersForm(FlaskForm):
                              validators=[Length(0, 500, 'The limit is 500 symbols.')])
 
     submit = SubmitField('Apply')
+
+class SubscriberForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Subscribe')
+
+class InquiryForm(FlaskForm):
+    name = StringField('Full name', validators=[DataRequired(), Length(1, 64)])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    subject = SelectField('Subject', choices=[('Bugs/suggestions', 'Bugs/suggestions'),
+                                              ('Investments', 'Investing in us'),
+                                              ('Partnership', 'Partnership'),
+                                              ('Questions', 'Questions'),
+                                              ('Beta-sign-up', 'Sign up for early access')])
+    inquiry = TextAreaField('Inquiry/additional comments', validators=[DataRequired(), Length(1, 1000)])
+    submit = SubmitField('Submit')

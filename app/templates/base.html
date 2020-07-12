@@ -23,17 +23,13 @@
     <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-        <link rel="shortcut icon" href="{{ url_for('static', filename='images/even more resized-09.png') }}"
-            type="image/x-icon">
-        <link rel="icon" sizes="192x192" href="{{ url_for('static', filename='images/even more resized-09.png') }}" type="image/x-icon">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/main.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/dashboard.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/profile.css') }}">
-        {% endblock styles %}
-        {% block head_scripts %}
-            <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-        {% endblock %}
-        <title>{% block title %}Gradder | Your Smart School Diary{% endblock title %}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/even more resized-09.png') }}"
+        type="image/x-icon">
+    <link rel="icon" sizes="192x192" href="{{ url_for('static', filename='images/even more resized-09.png') }}"
+        type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/main.css') }}">
+    {% endblock styles %}
+    <title>{% block title %}Gradder | Your Smart School Diary{% endblock title %}</title>
     {% endblock head %}
 </head>
 
@@ -48,10 +44,8 @@
         <ul class="menu">
             <li><a class="nav-link" href="#top">Home</a></li>
             <li><a class="nav-link" href="#why">Why Us?</a></li>
-            <li><a class="nav-link" href="#say">What People Say</a></li>
-            <li><a class="nav-link" href="#mission">Mission</a></li>
-            <li><a class="nav-link" href="#roadmap">Roadmap</a></li>
             <li><a class="nav-link" href="#team">Our Team</a></li>
+            <li><a class="nav-link" href="#contact">Contact</a></li>
         </ul>
         <span class="material-icons" id="forward-nav">forward</span>
         {% endblock navbar %}
@@ -69,15 +63,9 @@
     {% endblock content%}
 
     {% block scripts %}
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery-1.12.4.min.js') }}"></script>
     <script type='text/javascript' src="{{ url_for('static', filename='scripts/main.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='scripts/animations.js') }}"></script>
-    <!-- Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-        crossorigin="anonymous"></script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -94,7 +82,9 @@
         }
     </script>
 
-        {{ moment.include_moment() }}
+    {{ moment.include_moment() }}
     {% endblock scripts %}
+
 </body>
+
 </html>
