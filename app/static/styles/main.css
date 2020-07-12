@@ -117,96 +117,76 @@ input[type=number]::-webkit-outer-spin-button
 
 /* Landing menu */
 .nav-bar {
-    position: absolute;
+	position: absolute;
+	height: fit-content;
     width: 100vw;
     margin-top: 30px;
     display: flex;
   	z-index: 100;
 }
 .nav-bar .logo {
-    display: flex;
 	cursor: pointer;
 	transition: all 0.2s ease;
 }
 .nav-bar .logo img {
     margin-top: -30px;
-	height: 13vw;
 	width: 15vw;
 	transition: all 0.2s ease;
 }
 .nav-bar .menu {
     display: flex;
     justify-content: space-between;
-    width: 50vh;
+    width: 380px;
     position: absolute;
-    right: 10vh;
+    right: 5vw;
   	list-style-type: none;
-    overflow: hidden;
     animation: 5s fadeIn ease;
-}
-.nav-bar .menu li {
-  	float: left;
 }
 .nav-bar .menu li a  {
 	font-family: 'SF UI Text', sans-serif;
-	font-weight: 500;
   	display: block;
   	color: white;
-  	text-align: center;
   	padding: 0.6vw 1.2vw;
   	text-decoration: none;
   	border-radius: 11px;
-    transition: background 0.3s;
+}
+.nav-bar .menu li a span {
+	position: relative;
+    right: 8px;
 }
 .nav-bar .menu li:hover, .nav-bar .menu li .active  {
-    border-radius: 11px;
-    background-color:rgb(8, 121, 136);
+	background-color:rgb(8, 121, 136);
+	border-radius: 11px;
 }
 /* Responsive menu */
 @media screen and (max-width: 1640px) and (max-height: 610px) {
     .nav-bar .menu {
         top: -10px;
-        width: 55vh;
-    }
-}
-@media screen and (max-width: 1300px) and (max-height: 610px) {
-    .nav-bar .menu {
-        top: -10px;
-        width: 60vh;
-        right: 8vh;
+        width: 380px;
     }
 }
 @media screen and (max-width: 1200px) {
     .nav-bar .menu {
-        width: 43vh;
-        right: 5vh;
-    }
-    .nav-bar .menu li a {
-        font-size: 1.2vw;
+        width: 320px;
     }
 }
-@media screen and (max-width: 1200px) and (max-height: 610px) {
+@media screen and (max-width: 1100px) {
     .nav-bar .menu {
-        top: -10px;
-        width: 55vh;
-    }
-    .nav-bar .menu li a {
-        font-size: 1.2vw;
+        width: 25vw;
+		right: 3vw;
+		font-size: 14px;
     }
 }
-@media screen and (max-width: 1050px) {
+@media screen and (max-width: 930px) {
     .nav-bar .menu {
-        flex-wrap: wrap;
-        justify-content: flex-end;
-        margin-top: -1vh;
-        width: 35vh;
-        right: 2vh;
-    }
-    .nav-bar .menu li a  {
-        font-size: 1.2vw;
+        width: 20vw;
+		right: 2vw;
+		font-size: 12px;
+		flex-wrap: wrap;
+		justify-content: flex-end;
     }
 }
-
+/*
 @media screen and (max-width: 960px) {
 	.nav-bar {
 		position: relative;
