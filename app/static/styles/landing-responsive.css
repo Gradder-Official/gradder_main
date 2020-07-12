@@ -7,10 +7,6 @@
     .section {
         height: 600px;
     }
-    #mission {
-        width: 100vw;
-        height: 100vh;
-    }
     .mission-statement h2 {
         font-size: 22px;
     }
@@ -18,8 +14,20 @@
         font-size: 18px;
     }
 }
+@media screen and (max-width: 1240px) {
+    .timeline {
+        top: 5.8vw;
+    }
+}
+@media screen and (max-width: 1080px) {
+    .timeline {
+        top: 7vw;
+    }
+}
 @media screen and (max-width: 930px) {
-    
+    .timeline {
+        top: 8.8vw;
+    }
 }
 /* MOBILE VIEWS */
 @media screen and (max-width: 530px) {
@@ -39,6 +47,9 @@
     }
     .mission-statement h3 {
         font-size: 20px;
+    }
+    body {
+        overflow-x: hidden;
     }
     .new-landing {
         display: flex;
@@ -261,16 +272,19 @@
         height: 40vw;
         padding: 0;
         border: none;
-        border-radius: 50%;
         margin: 0 auto;
         margin-top: -85vw;
+    }
+    #mission-mobile h1 {
+        font-family: 'SF UI Text', sans-serif;
+        font-weight: bold;
+        margin: 10vw 0 3vh 5vw;
     }
     .mission-mobile-statement {
         font-size: 4vw;
         width: 65%;
         font-weight: 200;
         font-family: 'SF UI Text', sans-serif;
-        margin-top: 10vw;
         margin-left: 5vw;
     }
     .mission-mobile-serhii {
@@ -279,6 +293,7 @@
         font-family: 'Gilroy',sans-serif;
         margin-left: 10vw;
         margin-top: 10px;
+        margin-bottom: 7vh;
     }
     /* Roadmap */
     #roadmap-mobile {
@@ -351,6 +366,7 @@
         background-size: contain;
         background-repeat: no-repeat;
         height: fit-content;
+        padding-top: 2vh;
     }
     #team-mobile h1 {
         font-family: 'Gilroy', sans-serif;
@@ -379,13 +395,19 @@
     footer {
         background-size: cover;
         background-position: right;
+        margin-top: -20vh;
     }
     .footer-body {
-        margin-right: none;
-        margin-top: 10vw;
+        margin-left: 0;
+        margin-top: 30vh;
+        flex-direction: column;
     }
     .contact-info, .footer-nav {
         margin: 0 8vw;
+    }
+    .footer-nav {
+        margin-top: 5vh;
+        width: 100%;
     }
     footer h1 {
         font-size: 20px;
@@ -394,12 +416,8 @@
         font-size: 12px;
         margin-bottom: 10px;
     }
-    .enquiry-form {
-        width: 50vw;
-    }
-    .contact-info {
-        margin-right: 30px;
-        width: 20vw;
+    .contact-info, .enquiry-form {
+        width: 100%;
     }
     #enquiry-name, #enquiry-email, #enquiry-subject, #enquiry-body {
         font-size: 10px;

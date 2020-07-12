@@ -31,26 +31,37 @@
     right: 0;
     height: 100vh;
     z-index: 1000;
-    width: 10%;
+    min-width: 5vw;
     opacity: 0;
     transition: opacity 0.3s ease-in;
     background-color: #6ccce6;
     font-size: 1.2vw;
+    padding-left: 0;
 }
 #scrollspy-nav .nav-link {
-    margin-bottom: 10px;
+    margin-bottom: 8vh;
     color: white;
+    text-align: center;
+    height: 40px;
+    border-radius: 0 10px 10px 0;
+    padding-left: 2vw;
+}
+#scrollspy-nav .material-icons {
+    text-align: center;
+    vertical-align: middle;
 }
 #scrollspy-nav .nav-pills .nav-link.active, #scrollspy-nav .nav-pills .nav-link:hover {
-    background-color:rgb(8, 121, 136);
+    color: rgb(8, 121, 136);
+    background: white;
 }
 #why, #say, #mission, #roadmap, #team {
-    width: 90%;
+    width: 95%;
     margin-bottom: 5vw;
 }
 /* Why Us? */
-#why .section-content {
+#why .section-content, #say .section-content {
     width: 80vw;
+    margin-top: -5vw;
 }
 #why h1 {
     width: 90%;
@@ -71,19 +82,25 @@
     padding-bottom: 20px;
     width: 10px;
     text-align: center;
+    color: #62b8d0;
 }
 .reasons td {
-    padding: 10px;
+    padding: 20px 10px;
     font-size: 1.3vw;
     text-align: center;
     margin-left: 0;
+}
+.reasons td span {
+    position: relative;
+    font-size: 50px;
+    left: 15px;
 }
 .reasons ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
-.reasons td img {
+.reasons th img {
     width: 5vw;
     margin-left: 1.2vw;
 }
@@ -197,7 +214,7 @@
 }
 .timeline {
     position: absolute;
-    top: 13%;
+    top: 4.5vw;
     left: 10%;
     width: 80%;
     height: 75%;
@@ -266,8 +283,6 @@ footer {
     flex-direction: row;
     margin: 30px auto;
     width: 80%;
-    justify-content: space-evenly;
-    margin-right: 10vw;
 }
 footer h1 {
     font-family: 'Gilroy', sans-serif;
@@ -281,7 +296,7 @@ footer h1 {
     flex-direction: column;
     font-family: 'SF UI Text', sans-serif;
     width: fit-content;
-    margin: 0 50px;
+    margin: 0 5vw;
 }
 .footer-body p, .footer-body a {
     font-size: 20px;
@@ -300,6 +315,7 @@ footer h1 {
 .enquiry-form {
     display: flex;
     flex-direction: column;
+    width: 35vw;
 }
 .form-control {
     margin-bottom: 15px;
