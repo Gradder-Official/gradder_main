@@ -22,9 +22,9 @@
                 <p>AI-driven School Dashboard</p>
                 <h1>Your Smart<br>School Diary</h1>
                 <h3>The first transparent all-in-one school management system.</h3>
-                <form>
-                    <input type="email" id="email" name="email" placeholder="Subscribe to updates">
-                    <input type="submit" id="email-submit" value="Subscribe" style="cursor: pointer;">
+                <form action="" method="POST">
+                    {{ macros.field(subscription_form.email, type="email", label=False, placeholder="Email", class="") }}
+                    {{ macros.field(subscription_form.submit, id="email-submit", style="cursor:pointer;", value="Subscribe", class="", label=False) }}
                 </form>
             </div>
             <ol class="change-slide">

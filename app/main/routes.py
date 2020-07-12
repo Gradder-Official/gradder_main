@@ -34,11 +34,16 @@ def index():
         try:
             status = inquiry.add()
             send_email(to="team@gradder.io", subject=f"Inquiry | {inquiry.subject}", template="mail/inquiry.html", name=inquiry.name, email=inquiry.email, inquiry=inquiry.inquiry)
-            return redirect(url_for('main.status', success=True, next=url_for('main.index')))
+            return redirect(url_for('main.status', success=True, next=url_for('main.index', _anchor='contact')))
         except BaseException as e:
-            return redirect(url_for('main.status', success=False, next=url_for('main.index')))
+            return redirect(url_for('main.status', success=False, next=url_for('main.index', _anchor='contact')))
 
     return render_template('main/index.html', subscription_form=subscription_form, inquiry_form=inquiry_form)
+
+
+@main.route('/status/<string:success>/<path:next>', methods=['GET'])
+def status(success: str, next: str):
+    return render_template('status.html', success=success, next=next)
 
 
 @main.route('/dashboard')
