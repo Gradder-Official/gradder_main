@@ -136,9 +136,9 @@ input[type=number]::-webkit-outer-spin-button
 .nav-bar .menu {
     display: flex;
     justify-content: space-between;
-    width: 25vw;
+    width: 380px;
     position: absolute;
-    right: 7vw;
+    right: 5vw;
   	list-style-type: none;
     overflow: scroll;
     animation: 5s fadeIn ease;
@@ -150,33 +150,33 @@ input[type=number]::-webkit-outer-spin-button
   	padding: 0.6vw 1.2vw;
   	text-decoration: none;
   	border-radius: 11px;
-	width: max-content;
+	height: 40px;
+	width: 40px;
+}
+.nav-bar .menu li a span {
+	position: relative;
+    right: 8px;
 }
 .nav-bar .menu li:hover, .nav-bar .menu li .active  {
 	background-color:rgb(8, 121, 136);
 	border-radius: 11px;
 }
-#forward-nav {
-	position: absolute;
-    right: 4vw;
-	top: 1vh;
-    color: white;
-}
 /* Responsive menu */
 @media screen and (max-width: 1640px) and (max-height: 610px) {
     .nav-bar .menu {
         top: -10px;
-        width: 55vh;
+        width: 380px;
     }
 }
 @media screen and (max-width: 1200px) {
     .nav-bar .menu {
-        width: 35vh;
+        width: 320px;
     }
 }
 @media screen and (max-width: 1050px) {
     .nav-bar .menu {
-        width: 30vh;
+        width: 250px;
+    	right: 3vw;
     }
 }
 /*
