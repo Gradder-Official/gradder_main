@@ -5,7 +5,7 @@ from flask import redirect, url_for, render_template, flash, current_app, reques
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 
-from .forms import ContactUsForm, CareersForm, SubscriberForm, InquiryForm
+from .forms import ContactUsForm, CareersForm, SubscriberForm, InquiryForm, UnsubscribeForm
 from app.email import send_email
 from . import main
 from app.modules._classes import Message, Application, Assignment, User, Inquiry, Subscriber
@@ -24,6 +24,9 @@ def index():
     if subscription_form.submit1.data and subscription_form.validate():
         subscriber = Subscriber(email=subscription_form.email.data)
         status = subscriber.add()
+
+        send_email(to=[subscriber.email], subject="Subscribed to updates", template="mail/subscription", ID=subscriber.ID)
+
         return redirect(url_for('main.status', success=status, next='main.index'))
 
     if inquiry_form.submit2.data and inquiry_form.validate():
@@ -48,6 +51,17 @@ def index():
 @main.route('/status/<string:success>/<path:next>', methods=['GET'])
 def status(success: str, next: str):
     return render_template('status.html', success=success, next=next)
+
+
+@main.route('/unsubscribe/<string:ID>', methods=['GET', 'POST'])
+def unsubscribe(ID: str):
+    unsubscribe_form = UnsubscribeForm()
+
+    if unsubscribe_form.validate_on_submit():
+        if Subscriber.remove_by_id(ID):
+            return render_template('main/unsubscribe.html', form=unsubscribe_form, unsubscribed=True)
+
+    return render_template('main/unsubscribe.html', form=unsubscribe_form, unsubscribed=False)
 
 
 @main.route('/dashboard')

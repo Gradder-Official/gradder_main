@@ -1,11 +1,11 @@
 from flask_wtf import FlaskForm, RecaptchaField
 from flask_wtf.file import FileField, FileRequired, FileAllowed
-from wtforms import DateTimeField, IntegerField, StringField, TextAreaField, SubmitField, SelectField, MultipleFileField
+from wtforms import DateTimeField, IntegerField, StringField, TextAreaField, SubmitField, SelectField, MultipleFileField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 
 
-class ContactUsForm(FlaskForm):
+class ContactUsForm(FlaskForm): 
     first_name = StringField('First name', validators=[
                              DataRequired(), Length(1, 64)])
     last_name = StringField('Last name', validators=[
@@ -72,3 +72,8 @@ class InquiryForm(FlaskForm):
                                               ('Other', 'Other')])
     inquiry = TextAreaField('Inquiry/additional comments', validators=[DataRequired('Please enter your message'), Length(1, 1000, 'Should be no longer than 1000 symbols')])
     submit2 = SubmitField('Submit')
+
+
+class UnsubscribeForm(FlaskForm):
+    checkbox = BooleanField('I want to unsubscribe from Gradder updates.', validators=[DataRequired('Please check the box')])
+    submit = SubmitField('Unsubscribe')
