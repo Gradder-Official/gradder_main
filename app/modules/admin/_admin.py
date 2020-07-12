@@ -9,7 +9,7 @@ class Admin(User):
     def __init__(self, email: str, first_name: str, last_name: str, ID: str = None):
         r"""Creates a user with Admin access
 
-        This class is used for school admins that will have acess to managing their school and teachers, 
+        This class is used for school admins that will have access to managing their school and teachers, 
         but with no access to grades or homework.
 
         Parameters
@@ -40,8 +40,7 @@ class Admin(User):
         user = Admin(email=dictionary['email'],
                      first_name=dictionary['first_name'],
                      last_name=dictionary['last_name'],
-                     ID=dictionary['ID'] if 'ID' in dictionary else None)
-
+                     ID=str(dictionary['_id']) if '_id' in dictionary else None)
         if 'password' in dictionary:
             user.set_password(dictionary['password'])
 

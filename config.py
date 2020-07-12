@@ -1,11 +1,13 @@
+from dotenv import load_dotenv, find_dotenv
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
+    load_dotenv(find_dotenv())
     SECRET_KEY = os.environ.get(
         'SECRET_KEY') or '329v8qrvnkjehgioqrgh3$##$#UOJ`3r0'
-    FIREBASE_CERTIFICATE = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
+    MONGO_CONNECTION_STRING = os.environ.get('MONGO_CONNECTION_STRING')
 
     MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.gmail.com')
     MAIL_PORT = int(os.environ.get('MAIL_PORT', '587'))
@@ -17,11 +19,10 @@ class Config:
     MAIL_SENDER = 'Gradder Team <team@gradder.io>'
 
     SSL_REDIRECT = True
-
+    
     @staticmethod
     def init_app(app):
         pass
-
 
 class DevelopmentConfig(Config):
     DEBUG = True

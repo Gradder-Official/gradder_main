@@ -1,0 +1,125 @@
+{% extends "_dashboard.html" %}
+
+{% block head %}
+{{ super() }}
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block navbar %}
+<div class="dash-sidebar">
+    <div class="navbar-header">
+        <a href="#" class="sidebar-logo">
+            <img src="{{ url_for('static', filename='images/White Logo.png') }}" alt="Gradder">
+            <h4>Gradder</h4>
+        </a>
+        <div class="dash-profile">
+            <h4>Hello, {{ current_user.first_name }}</h4>
+            <!-- Placeholder profile pic -->
+            <img src="https://www.iambetter.org/wp-content/uploads/2020/04/Albert_Einstein_1024x1024.jpg" alt="Profile picture" class="profile-pic">
+        </div>
+    </div>
+    <nav class="nav flex-column nav-pills" id="sidebar-nav">
+        <a class="nav-link" href="{{ url_for('main.dashboard') }}">Overview</a>
+        <a class="nav-link active" href="{{ url_for('teacher.manage_classes') }}">Classes</a>
+        <a class="nav-link" href="#">Assignments</a>
+        <a class="nav-link" href="#">Analytics</a>
+        <a class="nav-link" href="{{ url_for('main.profile') }}">Profile</a>
+    </nav>
+    <div class="navbar-bottom">
+        <a href="#">
+            <i class="material-icons">mail</i>
+        </a>
+        <a href="{{ url_for('auth.logout') }}">
+            <i class="material-icons">exit_to_app</i>
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block page_content %}
+    <div class="container row" style="margin-left:18vw; width:100%;">
+        <nav id="classes_navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    {% for class_ in classes %}
+                        <li class="nav-item {% if class_[0]==class_json['immutable_info']['ID'] %}active{% endif %}">
+                            <a class="nav-link" href="{{ url_for('teacher.manage_classes_by_id', class_id=class_[0]) }}">
+                                {{ class_[1] }}{% if class_[0]==class_json['immutable_info']['ID'] %}<span> (current)</span>{% endif %}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </nav>
+        <div class="container row" style="width:100%;">
+            <div class="jumbotron container col-md-8" id="students-container" style="padding: 0;">
+                <table id="students-table" class="hover" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in class_json["students"] %}
+                            <tr>
+                                <td>{{ student["first_name"] }} {{ student["last_name"] }}</td>
+                                <td><a href="mailto:{{ student['email'] }}">{{ student["email"] }}</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="jumbotron container col-md-3" id="class-info-container" style="margin-left: 10px; padding: 0;">
+                <b>Name:</b> {{ class_json['admin_info']['name'] }}
+                <br>
+                <br>
+                <b>ID:</b> {{ class_json['immutable_info']['ID'] }}
+                <br>
+                <br>
+                <b>Schedule days:</b> {{ class_json['admin_info']['schedule_days'] }}
+                <br>
+                <br>
+                <b>Schedule time:</b> {{ class_json['admin_info']['schedule_time'] }}
+                <br>
+                <br>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {{ class_edit_form.hidden_tag() }}
+                    {{ macros.field(class_edit_form.description, placeholder=current_description) }}
+                    <br>
+                    {{ macros.field(class_edit_form.syllabus, class="form-control-file") }}
+                    <br>
+                    {{ class_edit_form.submit(class="btn btn-info") }}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        $(document).ready(function() {
+            $('#students-table').DataTable( {
+                scrollY:        '50vh',
+                scrollCollapse: true,
+                paging:         false
+            } );
+        } );
+    </script>
+    <script>
+        if (!$('#description').val()){
+            $('#description').val($('#description').attr('placeholder'));
+        }
+    </script>
+{% endblock %}
