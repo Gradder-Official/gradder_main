@@ -150,8 +150,6 @@ input[type=number]::-webkit-outer-spin-button
   	padding: 0.6vw 1.2vw;
   	text-decoration: none;
   	border-radius: 11px;
-	height: 40px;
-	width: 40px;
 }
 .nav-bar .menu li a span {
 	position: relative;
@@ -173,10 +171,20 @@ input[type=number]::-webkit-outer-spin-button
         width: 320px;
     }
 }
-@media screen and (max-width: 1050px) {
+@media screen and (max-width: 1100px) {
     .nav-bar .menu {
-        width: 250px;
-    	right: 3vw;
+        width: 25vw;
+		right: 3vw;
+		font-size: 12px;
+    }
+}
+@media screen and (max-width: 930px) {
+    .nav-bar .menu {
+        width: 20vw;
+		right: 2vw;
+		font-size: 12px;
+		flex-wrap: wrap;
+		justify-content: flex-end;
     }
 }
 /*
