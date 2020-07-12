@@ -2,9 +2,9 @@ from app import db
 
 
 class Subscriber:
-    def __init__(self, email: str, ID: str = None):
+    def __init__(self, email: str, ID: str = ''):
         self.email = email
-        self.ID = ID if ID is not None else ''
+        self.ID = ID
     
     def __repr__(self):
         return f'<Subscriber { self.ID }>'
