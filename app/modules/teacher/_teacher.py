@@ -1,32 +1,23 @@
-from app.modules._classes import User
-
+from app.modules._classes import User, Classes
+from app.logs import user_logger
+from app import db
+from app.modules.student._student import Student 
+from bson import ObjectId
 
 class Teacher(User):
     USERTYPE = 'Teacher'
 
-    def __init__(self, email: str, first_name: str, last_name: str, class_list: list = None,
-                 subjects: list = None, ID: str = None):
+    def __init__(self, email: str, first_name: str, last_name: str, classes: list = None, ID: str = None):
         super().__init__(email=email, first_name=first_name, last_name=last_name, ID=ID)
-        if class_list:
-            self.class_list = class_list
-        if subjects:
-            self.subjects = subjects
+        self.classes = classes if classes is not None else list()
 
     def __repr__(self):
-        return f'<Teacher {self.ID}'
+        return f'<Teacher {self.ID}>'
 
     def to_json(self):
         json_user = super().to_json()
 
-        try:
-            json_user['class_list'] = self.class_list
-        except BaseException:
-            pass
-
-        try:
-            json_user['subjects'] = self.subjects
-        except BaseException:
-            pass
+        json_user['classes'] = self.classes
 
         return json_user
 
@@ -41,19 +32,19 @@ class Teacher(User):
     @staticmethod
     def get_by_email(email: str):
         return Teacher.from_dict(super(Teacher, Teacher).get_by_email(email))
+    
+    @staticmethod
+    def add_student(class_id: str, email: str):
+        student = Student.get_by_email(email)
+        db.classes.update_one({"_id": ObjectId(class_id)}, {"$push": {"students": ObjectId(student.ID)}})
 
     @staticmethod
     def from_dict(dictionary: dict):
         user = Teacher(email=dictionary['email'],
                        first_name=dictionary['first_name'],
                        last_name=dictionary['last_name'],
-                       ID=dictionary['ID'] if 'ID' in dictionary else None)
-
-        if 'class_list' in dictionary:
-            user.classes = dictionary['class_list']
-
-        if 'subjects' in dictionary:
-            user.subjects = dictionary['subjects']
+                       ID=str(dictionary['_id']) if '_id' in dictionary else None,
+                       classes=dictionary['classes'] if 'classes' in dictionary else None)
 
         if 'password' in dictionary:
             user.set_password(dictionary['password'])
@@ -63,3 +54,13 @@ class Teacher(User):
                 dictionary['secret_question'], dictionary['secret_answer'])
 
         return user
+
+    def get_class_names(self):
+        classes = list()
+        print(self.classes)
+        for class_ in self.classes:
+            classes.append((class_, Classes.get_by_id(class_).name))
+        
+        return classes
+
+    
