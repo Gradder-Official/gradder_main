@@ -6,7 +6,7 @@ from .submission import Submission
 
 
 class Assignment:
-    def __init__(self, title:str, date_assigned: time, assigned_by: int, assigned_to: str, due_by: datetime, content: str, filenames: list, 
+    def __init__(self, title: str, date_assigned: time, assigned_by: int, assigned_to: str, due_by: datetime, content: str, filenames: list, 
                        estimated_time: int, submissions: List[Submission] = None, ID: str = None):
         r"""Initializes the Assignment object
 
