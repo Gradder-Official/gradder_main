@@ -1,50 +1,50 @@
-from .user import User
-from app.logs.user_logger import user_logger
 from app import db
 
 
-class Subscriber(User):
-    def __init__(self, email: str, first_name: str, last_name: str, ID: str = None):
-        super().__init__(email=email, first_name=first_name, last_name=last_name,
-                         usertype='subscriber', ID=ID)
-
+class Subscriber:
+    def __init__(self, email: str, ID: str = None):
+        self.email = email
+        self.ID = ID if ID is not None else ''
+    
     def __repr__(self):
-        return f'<Subscriber {self.ID}>'
-
-    def to_json(self):
+        return f'<Subscriber { self.ID }>'
+    
+    def to_dict(self):
         return {
-            'email': self.email,
-            'first_name': self.first_name,
-            'last_name': self.last_name
+            '_id': self.ID,
+            'email': self.email
         }
+    
+    def to_json(self):
+        return self.to_dict()
 
     @staticmethod
     def from_dict(dictionary: dict):
-        return Subscriber(email=dictionary['email'],
-                          first_name=dictionary['first_name'],
-                          last_name=dictionary['last_name'],
-                          ID=dictionary['ID'] if 'ID' in dictionary else None)
-
-    @staticmethod
-    def get_by_id(ID: str):
-        subscr = db.collection_subscribers.document(ID)
-
-        if subscr:
-            return Subscriber.from_dict(subscr.get())
-        else:
-            return None
+        return Subscriber(**dictionary)
 
     def add(self):
         try:
-            db.collection_subscribers.document(self.ID).set(self.to_dict())
+            self.ID = db.subscribers.insert_one(self.to_dict()).inserted_id
+            # TODO: logger
             return True
         except BaseException as e:
-            user_logger.exception("Failed adding")
+            # TODO: logger
             return False
 
+    def update(self, email: str):
+        try:
+            db.subscribers.find_one_and_update({"_id": self.ID}, {"$set": {"email": self.email}})
+            # TODO: logger
+            return True
+        except BaseException as e:
+            # TODO: logger
+            return False
+    
     def remove(self):
         try:
-            db.collection_subscribers.document(self.ID).delete()
+            db.subscribers.delete_one({"_id": self.ID})
+            # TODO: logger
             return True
-        except BaseException:
+        except BaseException as e:
+            # TODO: logger
             return False
