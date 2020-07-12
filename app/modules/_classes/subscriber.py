@@ -2,7 +2,7 @@ from app import db
 
 
 class Subscriber:
-    def __init__(self, email: str, ID: str = ''):
+    def __init__(self, email: str, ID: str = None):
         self.email = email
         self.ID = ID
     
@@ -10,8 +10,12 @@ class Subscriber:
         return f'<Subscriber { self.ID }>'
     
     def to_dict(self):
+        if self.ID is not None:
+            return {
+                '_id': self.ID,
+                'email': self.email
+            }
         return {
-            '_id': self.ID,
             'email': self.email
         }
     
@@ -24,9 +28,12 @@ class Subscriber:
 
     def add(self):
         try:
-            self.ID = db.subscribers.insert_one(self.to_dict()).inserted_id
+            if db.subscribers.find_one({"email": self.email}) is None:
+                self.ID = db.subscribers.insert_one(self.to_dict()).inserted_id
+                # TODO: logger
+                return True
             # TODO: logger
-            return True
+            return False
         except BaseException as e:
             # TODO: logger
             return False

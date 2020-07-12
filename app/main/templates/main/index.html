@@ -23,8 +23,9 @@
                 <h1>Your Smart<br>School Diary</h1>
                 <h3>The first transparent all-in-one school management system.</h3>
                 <form action="" method="POST">
+                    {{ subscription_form.hidden_tag() }}
                     {{ macros.field(subscription_form.email, type="email", label=False, placeholder="Email", class="") }}
-                    {{ macros.field(subscription_form.submit, id="email-submit", style="cursor:pointer;", value="Subscribe", class="", label=False) }}
+                    {{ macros.field(subscription_form.submit1, id="email-submit", style="cursor:pointer;", value="Subscribe", class="", label=False) }}
                 </form>
             </div>
             <ol class="change-slide">

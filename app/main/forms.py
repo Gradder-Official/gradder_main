@@ -58,16 +58,16 @@ class CareersForm(FlaskForm):
     submit = SubmitField('Apply')
 
 class SubscriberForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    submit = SubmitField('Subscribe')
+    email = StringField('Email', validators=[DataRequired('Please enter your email'), Email('Invalid email')])
+    submit1 = SubmitField('Subscribe')
 
 class InquiryForm(FlaskForm):
-    name = StringField('Full name', validators=[DataRequired(), Length(1, 64)])
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    name = StringField('Full name', validators=[DataRequired('Please enter your name'), Length(1, 64, 'Should be no longer than 64 characters')])
+    email = StringField('Email', validators=[DataRequired('Please enter your email'), Email('Invalid email')])
     subject = SelectField('Subject', choices=[('Bugs/suggestions', 'Bugs/suggestions'),
                                               ('Investments', 'Investing in us'),
                                               ('Partnership', 'Partnership'),
                                               ('Questions', 'Questions'),
                                               ('Beta-sign-up', 'Sign up for early access')])
-    inquiry = TextAreaField('Inquiry/additional comments', validators=[DataRequired(), Length(1, 1000)])
-    submit = SubmitField('Submit')
+    inquiry = TextAreaField('Inquiry/additional comments', validators=[DataRequired('Please enter your message'), Length(1, 1000, 'Should be no longer than 1000 symbols')])
+    submit2 = SubmitField('Submit')
