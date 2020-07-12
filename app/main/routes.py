@@ -15,18 +15,18 @@ from app.logs.form_logger import form_logger
 
 from google.cloud import storage
 
-@main.route('/')
+@main.route('/', methods=['GET', 'POST'])
 @main.route('/index', methods=['GET', 'POST'])
 def index():
     subscription_form = SubscriberForm()
     inquiry_form = InquiryForm()
 
-    if subscription_form.validate_on_submit():
+    if subscription_form.submit1.data and subscription_form.validate():
         subscriber = Subscriber(email=subscription_form.email.data)
         status = subscriber.add()
-        return redirect(url_for('main.status', success=status, next=url_for('main.index')))
+        return redirect(url_for('main.status', success=status, next='main.index'))
 
-    if inquiry_form.validate_on_submit():
+    if inquiry_form.submit2.data and inquiry_form.validate():
         inquiry = Inquiry(name=inquiry_form.name.data,
                           email=inquiry_form.email.data,
                           subject=inquiry_form.subject.data,
@@ -34,9 +34,9 @@ def index():
         try:
             status = inquiry.add()
             send_email(to="team@gradder.io", subject=f"Inquiry | {inquiry.subject}", template="mail/inquiry.html", name=inquiry.name, email=inquiry.email, inquiry=inquiry.inquiry)
-            return redirect(url_for('main.status', success=True, next=url_for('main.index', _anchor='contact')))
+            return redirect(url_for('main.status', success=True, next='main.index', _anchor='contact'))
         except BaseException as e:
-            return redirect(url_for('main.status', success=False, next=url_for('main.index', _anchor='contact')))
+            return redirect(url_for('main.status', success=False, next='main.index', _anchor='contact'))
 
     return render_template('main/index.html', subscription_form=subscription_form, inquiry_form=inquiry_form)
 
