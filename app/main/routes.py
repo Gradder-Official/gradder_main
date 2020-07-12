@@ -23,11 +23,8 @@ def index():
 
     if subscription_form.validate_on_submit():
         subscriber = Subscriber(email=subscription_form.email.data)
-        try:
-            subscriber.add()
-            return redirect(url_for('main.status', success=True, next=url_for('main.index')))
-        except BaseException as e:
-            return redirect(url_for('main.status', success=False, next=url_for('main.index')))
+        status = subscriber.add()
+        return redirect(url_for('main.status', success=status, next=url_for('main.index')))
 
     if inquiry_form.validate_on_submit():
         inquiry = Inquiry(name=inquiry_form.name.data,
@@ -35,7 +32,7 @@ def index():
                           subject=inquiry_form.subject.data,
                           inquiry=inquiry_form.inquiry.data)
         try:
-            inquiry.add()
+            status = inquiry.add()
             send_email(to="team@gradder.io", subject=f"Inquiry | {inquiry.subject}", template="mail/inquiry.html", name=inquiry.name, email=inquiry.email, inquiry=inquiry.inquiry)
             return redirect(url_for('main.status', success=True, next=url_for('main.index')))
         except BaseException as e:
