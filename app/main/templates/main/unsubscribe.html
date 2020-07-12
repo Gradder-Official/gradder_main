@@ -1,0 +1,12 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Gradder | Unsubscribe {% endblock %}
+
+{% block content %}
+    {% if not unsubscribed %}
+        {{ wtf.quick_form(form) }}
+    {% else %}
+        <h1>Successfully unsubscribed. You can now close the window.</h1>
+    {% endif %}
+{% endblock %}
