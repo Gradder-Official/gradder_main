@@ -95,9 +95,20 @@ class Admin(User):
             print(f"Error while adding class {classes.ID}: {e}")
     
     def get_class_names(self):
-        classes = list()
+        temp = list()
+        print("1")
+
         for document_ in db.classes.find():
-            classes.append(document_)
+            tempstr = document_.get("_id")
+            tempobjectid = ObjectId(tempstr)
+            temp.append((tempobjectid))
+            print("2")
         
+
+        classes = list()
+        for class_ in temp:
+            classes.append((class_))
+
+
         return classes
 

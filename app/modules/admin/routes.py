@@ -102,8 +102,8 @@ def addTeacherClass():
 
 @admin.route('/class', methods=['GET'])
 def manage_classes():
-    # print(current_user.get_class_names()[0]['_id'])
-    return redirect(url_for('admin.manage_classes_by_id', class_id=current_user.get_class_names()[0]['_id']))
+    print(current_user.get_class_names()[0])
+    return redirect(url_for('admin.manage_classes_by_id', class_id=current_user.get_class_names()[0]))
 
 @admin.route('/class/<string:class_id>', methods=['GET', 'POST'])
 def manage_classes_by_id(class_id: str):
@@ -129,7 +129,7 @@ def manage_classes_by_id(class_id: str):
 
         flash('Class information successfully updated!')
 
-    return render_template('/admin/manage_classes.html', 
+    return render_template('admin/manage_classes.html', 
                             classes=current_user.get_class_names(), 
                             class_json=class_.to_json(), 
                             class_edit_form=class_edit_form,
