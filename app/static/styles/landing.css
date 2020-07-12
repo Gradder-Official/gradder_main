@@ -117,17 +117,23 @@
     height: 100%;
 }
 .new-landing .right-container .hero-image {
+    height: 98%;
+    width: 100%;
+	background-size: contain;
+	background-position: top right;
+    background-repeat: no-repeat;
+    z-index: 0;
     opacity: 0;
-    transition: 1s opacity;
+    transition: 2s opacity;
 }
 .new-landing .right-container .hero-image-active {
     height: 98%;
     width: 100%;
-    background-size: contain;
-    background-position: top right;
+	background-size: contain;
+	background-position: top right;
     background-repeat: no-repeat;
     z-index: 0;
-    transition: 2s opacity;
+    transition: 3s opacity;
 }
 #slide1 {
     background-image: url('../images/Right Image.png');

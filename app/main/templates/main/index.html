@@ -80,11 +80,24 @@
     </div>
     <nav id="scrollspy-nav" class="navbar navbar-light">
         <nav class="nav nav-pills flex-column">
-            <a class="nav-link" href="#why">Why Us?</a>
-            <a class="nav-link" href="#say">What People Say</a>
-            <a class="nav-link" href="#mission">Mission</a>
-            <a class="nav-link" href="#roadmap">Roadmap</a>
-            <a class="nav-link" href="#team">Our Team</a>
+            <a class="nav-link" href="#top">
+                <span class="material-icons">home</span>
+            </a>
+            <a class="nav-link" href="#why">
+                <span class="material-icons">help_outline</span>
+            </a>
+            <a class="nav-link" href="#say">
+                <span class="material-icons">question_answer</span>
+            </a>
+            <a class="nav-link" href="#mission">
+                <span class="material-icons">grading</span>
+            </a>
+            <a class="nav-link" href="#roadmap">
+                <span class="material-icons">timeline</span>
+            </a>
+            <a class="nav-link" href="#team">
+                <span class="material-icons">group</span>
+            </a>
         </nav>
     </nav>
     <div class="section" id="why" data-aos="fade-up" data-aos-duration="2000">
@@ -94,41 +107,47 @@
             <h1>Why Us?</h1>
             <table class="reasons">
                 <tr>
-                    <th class="list-icon"></th>
+                    <th class="list-icon">
+                        <!--<img src="../static/images/Parents.png">-->
+                    </th>
                     <th>
                         <h2>Parents</h2>
                     </th>
-                    <th class="list-icon"></th>
+                    <th class="list-icon">
+                        <!--<img src="../static/images/Students.png">-->
+                    </th>
                     <th>
                         <h2>Students</h2>
                     </th>
-                    <th class="list-icon"></th>
+                    <th class="list-icon">
+                        <!--<img src="../static/images/Teachers.png" id="teacher-image">-->
+                    </th>
                     <th>
                         <h2>Teachers</h2>
                     </th>
                 </tr>
                 <tr>
-                    <td><img src="../static/images/Parents.png"></td>
+                    <td><span class="material-icons">assignment_ind</span></td>
                     <td>Instant access to children’s progress reports</td>
-                    <td><img src="../static/images/Students.png"></td>
+                    <td><span class="material-icons">campaign</span></td>
                     <td>School-wide or targeted announcements</td>
-                    <td><img src="../static/images/Teachers.png" id="teacher-image"></td>
+                    <td><span class="material-icons">event_available</span></td>
                     <td>Integrated school-wide event schedule</td>
                 </tr>
                 <tr>
-                    <td><img src="../static/images/Parents.png"></td>
+                    <td><span class="material-icons">forum</span></td>
                     <td>Easy communication with teachers</td>
-                    <td><img src="../static/images/Students.png"></td>
+                    <td><span class="material-icons">assignment_turned_in</span></td>
                     <td>Submit an assignment in just X clicks</td>
-                    <td><img src="../static/images/Teachers.png" id="teacher-image"></td>
+                    <td><span class="material-icons">poll</span></td>
                     <td>Smart grade alerts and personalized progress reports</td>
                 </tr>
                 <tr>
-                    <td><img src="../static/images/Parents.png"></td>
+                    <td><span class="material-icons">restore</span></td>
                     <td>Save time by X%</td>
-                    <td><img src="../static/images/Students.png"></td>
+                    <td><span class="material-icons">post_add</span></td>
                     <td>Post an assignment in just X clicks</td>
-                    <td><img src="../static/images/Teachers.png" id="teacher-image"></td>
+                    <td><span class="material-icons">event_note</span></td>
                     <td>Integrated schedule and syllabi</td>
                 </tr>
             </table>
@@ -259,7 +278,8 @@
     <div class="section" id="mission-mobile">
         <img src="../static/images/LeftBanner.png" id="left-banner">
         <img src="../static/images/RightBanner.png" id="right-banner">
-        <img src="https://pyxis.nymag.com/v1/imgs/171/429/c95b07becc2bef532d9669b4824ea4386f-08-harry-potter.rsquare.w1200.jpg" id="mission-face">
+        <img src="{{ url_for('static', filename='images/Serhii.png') }}" id="mission-face">
+        <h1>Mission</h1>
         <h5 class="mission-mobile-statement">We strive to make a system that would allow students to focus on learning, teachers to concentrate on
             teaching, and parents to easily interact with the schools.</h5>
         <h4 class="mission-mobile-serhii">–– Serhii, CEO at Gradder</h4>
@@ -424,7 +444,7 @@
     <div class="footer-body">
         <div class="contact-info">
             <h1>Contact information</h1>
-            <a href="mailto:team@gradder.io">team@gradder.io</<a>
+            <a href="mailto:team@gradder.io">team@gradder.io</a>
             <a href="https://ua.linkedin.com/company/gradder">LinkedIn</a>
             <a href="https://www.facebook.com/gradder.io">Facebook</a>
             <br><br>
