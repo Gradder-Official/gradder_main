@@ -4,23 +4,30 @@ from app import db
 
 
 class Inquiry:
-    def __init__(self, name: str, email: str, subject: str, inquiry: str, ID: str = ''):
+    def __init__(self, name: str, email: str, subject: str, inquiry: str, _id: str = None):
         self.name = name
         self.email = email
         self.subject = subject
         self.inquiry = inquiry
-        self.ID = ID
+        self.ID = _id
     
     def __repr__(self):
         return f'<Inquiry { self.ID }>'
     
     def to_dict(self) -> dict:
+        if self.ID is not None:
+            return {
+                'name': self.name,
+                'email': self.email,
+                'subject': self.subject,
+                'inquiry': self.inquiry,
+                '_id': self.ID
+            }
         return {
             'name': self.name,
             'email': self.email,
             'subject': self.subject,
-            'inquiry': self.inquiry,
-            'ID': self.ID
+            'inquiry': self.inquiry
         }
     
     def to_json(self) -> dict:

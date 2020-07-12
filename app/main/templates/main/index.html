@@ -473,30 +473,20 @@
         <a href="#team">Our Team</a> -->
         </div>
         <div class="footer-nav">
-            <h1>Enquiries</h1>
-            <form class="enquiry-form">
+            <h1>Inquiries</h1>
+            <form class="enquiry-form" action="" method="POST">
+                {{ inquiry_form.hidden_tag() }}
                 <div class="form-group enquiry-person">
-                    <input type="text" class="form-control" id="enquiry-name" name="enquiry-name"
-                        placeholder="Your name">
-                    <input type="email" class="form-control" id="enquiry-email" name="enquiry-email"
-                        placeholder="Your email">
+                    {{ macros.field(inquiry_form.name, id="enquiry-name", placeholder="Name", label=False)}}
+                    {{ macros.field(inquiry_form.email, id="enquiry-email", placeholder="Email", label=False)}}
                 </div>
                 <div class="form-group">
-                    <select class="form-control" id="enquiry-subject">
-                        <option value="funding">Funding/investments</option>
-                        <option value="partnership">Partnership</option>
-                        <option value="careers">Careers</option>
-                        <option value="system">Using our system</option>
-                        <option value="feedback">Feedback</option>
-                        <option value="questions">Questions</option>
-                        <option value="other">Other</option>
-                    </select>
+                    {{ macros.field(inquiry_form.subject, id="enquiry-subject", placeholder="Subject", label=False)}}
                 </div>
                 <div class="form-group">
-                    <textarea id="enquiry-body" name="enquiry-body" rows="10" cols="30"
-                        placeholder="Your enquiry"></textarea>
+                    {{ macros.field(inquiry_form.inquiry, id="enquiry-body", placeholder="Your message", label=False, rows="10", cols="30")}}
                 </div>
-                <input type="submit" id="enquiry-submit" value="Submit">
+                    {{ macros.field(inquiry_form.submit2, id="enquiry-submit", label=False, class="") }}
             </form>
         </div>
     </div>
