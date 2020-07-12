@@ -1,4 +1,5 @@
 from app import db
+from bson import ObjectId
 
 
 class Subscriber:
@@ -46,10 +47,11 @@ class Subscriber:
         except BaseException as e:
             # TODO: logger
             return False
-    
-    def remove(self):
+
+    @staticmethod
+    def remove_by_id(ID: str):
         try:
-            db.subscribers.delete_one({"_id": self.ID})
+            db.subscribers.delete_one({"_id": ObjectId(ID)})
             # TODO: logger
             return True
         except BaseException as e:
