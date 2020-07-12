@@ -39,10 +39,11 @@
     padding-left: 0;
 }
 #scrollspy-nav .nav-link {
+    min-height: 40px;
     margin-bottom: 8vh;
     color: white;
     text-align: center;
-    height: 40px;
+    height: 30px;
     border-radius: 0 10px 10px 0;
     padding-left: 2vw;
 }

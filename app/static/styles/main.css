@@ -140,7 +140,6 @@ input[type=number]::-webkit-outer-spin-button
     position: absolute;
     right: 5vw;
   	list-style-type: none;
-    overflow: scroll;
     animation: 5s fadeIn ease;
 }
 .nav-bar .menu li a  {
