@@ -42,12 +42,14 @@
             </a>
         </div>
         <ul class="menu">
-            <li><a href="{{ url_for('main.index') }}">Home</a></li>
-            <li><a href="{{ url_for('main.careers') }}">Careers</a></li>
-            <li><a href="">About</a></li>
-            <li><a href="">FAQ</a></li>
-            <!-- <li><a href="{{ url_for('main.contact') }}">Contact</a></li> -->
+            <li><a class="nav-link" href="#top">Home</a></li>
+            <li><a class="nav-link" href="#why">Why Us?</a></li>
+            <li><a class="nav-link" href="#say">What People Say</a></li>
+            <li><a class="nav-link" href="#mission">Mission</a></li>
+            <li><a class="nav-link" href="#roadmap">Roadmap</a></li>
+            <li><a class="nav-link" href="#team">Our Team</a></li>
         </ul>
+        <span class="material-icons" id="forward-nav">forward</span>
         {% endblock navbar %}
     </div>
     {% block content %}
