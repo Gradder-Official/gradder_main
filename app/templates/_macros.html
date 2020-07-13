@@ -43,9 +43,7 @@
                 <p class="content">Content: {{ assignment['content'] }}</p>
                 <p class="attachments">Attached files: 
                     {% for link in assignment['filenames'] %}
-                        <form action="{{ url_for('student.view_assignment', filename=link[0], real_filename=link[1]) }}" method="POST">
-                            <a onclick="this.closest('form').submit();return false;" target="_blank" href="#">{{ link[1] }}</a> {# TODO: add filenames stored #}
-                        </form>
+                        <a target="_blank" href="{{ url_for('student.view_assignment', filename=link[0], real_filename=link[1]) }}">{{ link[1] }}</a> {# TODO: add filenames stored #}
                         <br>
                     {% endfor %}
                 </p>
