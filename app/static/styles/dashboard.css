@@ -1,14 +1,14 @@
 /* Left sidebar */
 .dash-sidebar {
     position: absolute;
-    top: 0;
+    top: -30px;
     left: 0;
     display: flex;
     flex-direction: column;
     padding: 30px 20px;
     padding-right: 4vw;
     height: 100vh;
-    width: 260px;
+    width: 230px;
     background-color: rgb(102,130,252);
 }
 
@@ -38,7 +38,7 @@
 .profile-pic {
     width: 120px;
     height: 120px;
-    border: 5px solid rgb(93, 118, 232);;
+    border: 5px solid rgb(93, 118, 232);
     background: whitesmoke;
     border-radius: 30px;
 }
@@ -89,17 +89,12 @@
 
 /* Dashboard content */
 .dash-content {
-    position: absolute;
-    top: 0;
-    left: 0;
     margin-left: 230px;
-    display: flex;
-    flex-direction: column;
     padding: 30px 50px;
     height: 100vh;
     width: 84vw;
-    border-radius: 30px 0 0 30px;
     background: whitesmoke;
+    z-index: 100;
 }
 .jumbotron {
     border-radius: 20px;
