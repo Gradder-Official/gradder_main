@@ -5,85 +5,63 @@ from flask import redirect, url_for, render_template, flash, current_app, reques
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 
-from .forms import ContactUsForm, CareersForm
+from .forms import ContactUsForm, CareersForm, SubscriberForm, InquiryForm, UnsubscribeForm
 from app.email import send_email
 from . import main
-from app.modules._classes import Message, Application, Assignment, User
+from app.modules._classes import Message, Application, Assignment, User, Inquiry, Subscriber
 from app import db
 from app.decorators import required_access
 from app.logs.form_logger import form_logger
 
 from google.cloud import storage
 
-@main.route('/')
-@main.route('/index')
+@main.route('/', methods=['GET', 'POST'])
+@main.route('/index', methods=['GET', 'POST'])
 def index():
-    return render_template('main/index.html')
+    subscription_form = SubscriberForm()
+    inquiry_form = InquiryForm()
 
+    if subscription_form.submit1.data and subscription_form.validate():
+        subscriber = Subscriber(email=subscription_form.email.data)
+        status = subscriber.add()
 
-@main.route('/contact', methods=['GET', 'POST'])
-def contact():
-    form = ContactUsForm()
+        send_email(to=[subscriber.email], subject="Subscribed to updates", template="mail/subscription", ID=subscriber.ID)
 
-    if form.is_submitted():
-        if form.validate():
-            msg_id = db.collection_messages.document("last_message_id")
-            new_id = str(int(msg_id.get().to_dict()["id"]) + 1)
+        return redirect(url_for('main.status', success=status, next='main.index'))
 
-            try:
-                send_email(to=form.email.data.lower(), subject=f'Message #{ new_id }',
-                           template='mail/contact_email_user', first_name=form.first_name.data, message=form.message.data, subject_msg=form.subject.data)
-
-                send_email(to="team@gradder.io", subject=f'{ form.subject.data } | Message #{ new_id }',
-                           template='mail/contact_email_admin', first_name=form.first_name.data,
-                           last_name=form.last_name.data, message=form.message.data, subject_msg=form.subject.data, message_id=new_id)
-
-                msg_id.set({'id': new_id})
-
-                message = Message(email=form.email.data.lower(), subject=form.subject.data,
-                                  first_name=form.first_name.data, last_name=form.last_name.data, message=form.message.data, ID=new_id)
-                message.add()
-
-            except BaseException as e:
-                form_logger.exception("Email did not send")
-                # flash('Error while sending the message. Please try again')
-        else:
-            pass
-            # flash('Not valid input')
-
-    return render_template('main/contact.html', form=form)
-
-
-@main.route('/careers', methods=['GET', 'POST'])
-def careers():
-    form = CareersForm()
-
-    if form.validate_on_submit():
-        f = form.resume.data
-        if f is not None:
-            form_logger.info("Form recieved")
-            resume_filename = f.filename
-            resume_content = f.read()
-
-        old_id = db.collection_applications.document("last_application_id")
-        new_id = str(int(old_id.get().to_dict()["id"]) + 1)
-
+    if inquiry_form.submit2.data and inquiry_form.validate():
+        inquiry = Inquiry(name=inquiry_form.name.data,
+                          email=inquiry_form.email.data,
+                          subject=inquiry_form.subject.data,
+                          inquiry=inquiry_form.inquiry.data)
         try:
-            send_email(to=form.email.data.lower(), subject=f'We received your application!',
-                       template='mail/careers_email_user', first_name=form.first_name.data, job=form.job.data, files=[(resume_filename, resume_content)] if f is not None else [], comments=form.comments.data)
+            status = inquiry.add()
 
-            send_email(to="team@gradder.io", subject=f'Application #{new_id} | {form.job.data}',
-                       template='mail/careers_email_admin', first_name=form.first_name.data,
-                       last_name=form.last_name.data, job=form.job.data, email=form.email.data.lower(), ID=new_id, files=[(resume_filename, resume_content)] if f is not None else [], comments=form.comments.data)
-
-            old_id.set({'id': new_id})
-
-            return redirect(url_for('main.index'))
-
+            send_email(to=[current_app._get_current_object().config['GRADDER_EMAIL']], subject=f"Inquiry #{inquiry.ID}", template="mail/inquiry_admin", name=inquiry.name, email=inquiry.email, inquiry_subject=inquiry.subject, inquiry=inquiry.inquiry, date=datetime.today().strftime('%Y-%m-%d-%H:%M:%S'))
+            send_email(to=[inquiry.email], subject=f"Inquiry #{inquiry.ID}", template="mail/inquiry_user", name=inquiry.name, inquiry_subject=inquiry.subject, inquiry=inquiry.inquiry, ID=inquiry.ID)
+            
+            return redirect(url_for('main.status', success=True, next='main.index', _anchor='footer'))
         except BaseException as e:
             print(e)
+            return redirect(url_for('main.status', success=False, next='main.index', _anchor='footer'))
 
-    return render_template('main/careers.html', form=form)
+    return render_template('main/index.html', subscription_form=subscription_form, inquiry_form=inquiry_form)
+
+
+@main.route('/status/<string:success>/<path:next>', methods=['GET'])
+def status(success: str, next: str):
+    return render_template('status.html', success=success, next=next)
+
+
+@main.route('/unsubscribe/<string:ID>', methods=['GET', 'POST'])
+def unsubscribe(ID: str):
+    unsubscribe_form = UnsubscribeForm()
+
+    if unsubscribe_form.validate_on_submit():
+        if Subscriber.remove_by_id(ID):
+            return render_template('main/unsubscribe.html', form=unsubscribe_form, unsubscribed=True)
+
+    return render_template('main/unsubscribe.html', form=unsubscribe_form, unsubscribed=False)
 
 
 @main.route('/dashboard')

@@ -2,6 +2,7 @@ import uuid
 import tempfile
 import webbrowser
 import os
+import time
 from flask import render_template, redirect, request, url_for, make_response
 from flask_login import current_user
 from app.modules.teacher.forms import NewSubmissionForm
@@ -62,14 +63,20 @@ def assignments():
 
 @student.route('/view_assignment/<filename>/<real_filename>', methods=['GET', 'POST'])
 def view_assignment(filename, real_filename):
-    blob = download_blob_binary(filename, real_filename)
-    with tempfile.TemporaryDirectory() as temp_dir:
-        print(temp_dir)
-        temp_file_path = os.path.join(temp_dir, filename)
+    blob = download_blob(filename, real_filename)
+    print(real_filename)
+    webbrowser.open("file://" + os.path.realpath(real_filename), new=2)
+    time.sleep(1)
+    os.remove(real_filename)
+    # with tempfile.TemporaryDirectory() as temp_dir:
+    #     print(temp_dir)
+    #     temp_file_path = os.path.join(temp_dir, filename)
 
-        # write a normal file within the temp directory
-        with open(temp_file_path, 'wb+') as fh:
-            fh.write(blob)
-
-        webbrowser.open('file://' + temp_file_path)
-    return 'OK'
+    #     # write a normal file within the temp directory
+    #     with open(temp_file_path, 'wb+') as fh:
+    #         fh.flush()
+    #         os.fsync(fh.fileno())
+    #         fh.write(blob)
+    #     time.sleep(1)
+    #     webbrowser.open('file://' + temp_file_path)
+    return ""
