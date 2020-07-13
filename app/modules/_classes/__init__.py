@@ -5,3 +5,4 @@ from .application import Application
 from .assignment import Assignment
 from .classes import Classes
 from .submission import Submission
+from .inquiry import Inquiry

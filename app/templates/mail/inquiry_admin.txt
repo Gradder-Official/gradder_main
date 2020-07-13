@@ -1,0 +1,7 @@
+The following inquiry was received:
+Name: {{ name }}
+Subject: {{ inquiry_subject }}
+Email: {{ email }}
+Inquiry:
+    {{ inquiry }}
+Date: {{ date }}
