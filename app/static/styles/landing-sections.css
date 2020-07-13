@@ -15,9 +15,53 @@
     margin-bottom: 2vh;
 }
 
+/* Scrollspy */
+.landing-sections {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+#scrollspy-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    z-index: 1000;
+    min-width: 5vw;
+    opacity: 0;
+    transition: opacity 0.3s ease-in;
+    background-color: #6ccce6;
+    font-size: 1.2vw;
+    padding-left: 0;
+}
+#scrollspy-nav .nav-link {
+    min-height: 40px;
+    margin-bottom: 8vh;
+    color: white;
+    text-align: center;
+    height: 30px;
+    border-radius: 0 10px 10px 0;
+    padding-left: 2vw;
+}
+#scrollspy-nav .material-icons {
+    text-align: center;
+    vertical-align: middle;
+}
+#scrollspy-nav .nav-pills .nav-link.active, #scrollspy-nav .nav-pills .nav-link:hover {
+    color: rgb(8, 121, 136);
+    background: white;
+}
+#why, #say, #mission, #roadmap, #team {
+    width: 95%;
+    margin-bottom: 5vw;
+}
 /* Why Us? */
-#why .section-content {
+#why .section-content, #say .section-content {
     width: 80vw;
+    margin-top: -5vw;
 }
 #why h1 {
     width: 90%;
@@ -35,28 +79,28 @@
 .reasons th {
     padding: 10px;
     padding-bottom: 20px;
-}
-.reasons th img {
-    height: 5%;
+    width: 10px;
+    text-align: center;
+    color: #62b8d0;
 }
 .reasons td {
-    padding: 3vh 1.5vw;
-    font-size: 18px;
+    padding: 20px 10px;
+    font-size: 1.3vw;
     text-align: center;
 }
-.reasons .number {
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+.reasons td span {
+    position: relative;
+    font-size: 50px;
+    left: 15px;
 }
-.reasons #one {
-    background-image: url('../images/Number\ 1.png');
+.reasons ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
-.reasons #two {
-    background-image: url('../images/Number\ 2.png');
-}
-.reasons #three {
-    background-image: url('../images/Number\ 3.png');
+.reasons th img {
+    width: 5vw;
+    margin-left: 1.2vw;
 }
 #teacher-image {
     transform: rotate(-60deg);
@@ -132,7 +176,7 @@
 }
 .timeline {
     position: absolute;
-    top: 13%;
+    top: 4.5vw;
     left: 10%;
     width: 80%;
     table-layout: fixed;
@@ -173,12 +217,36 @@ footer {
     flex-direction: column;
     background: rgb(181,230,254);
     padding: 5vh 5vw;
+    width: 100vw;
+    height: fit-content;
+
+    background-image: url(../images/Footer.png);
+    background-size: 100% 100%;
+    padding-top: 20vh;
+}
+.footer-body {
+    display: flex;
+    flex-direction: row;
+    margin: 30px auto;
+    width: 80%;
 }
 footer h1 {
     font-family: 'Gilroy', sans-serif;
     font-size: 30px;
-    text-align: center;
-    margin-bottom: 3vh;
+    color: rgb(67, 152, 168);
+    margin-bottom: 20px;
+}
+.contact-info, .footer-nav {
+    display: flex;
+    flex-direction: column;
+    font-family: 'SF UI Text', sans-serif;
+    width: fit-content;
+    margin: 0 5vw;
+}
+.footer-body p, .footer-body a {
+    font-size: 20px;
+    margin-bottom: 1rem;
+    color: white;
 }
 footer img {
     height: 13vh;
@@ -192,9 +260,7 @@ footer img {
 .contact-info, .enquiry {
     display: flex;
     flex-direction: column;
-    text-align: center;
-    margin: 0 auto;
-    font-family: 'SF UI Text', sans-serif;
+    width: 35vw;
 }
 .enquiry-person {
     display: flex;

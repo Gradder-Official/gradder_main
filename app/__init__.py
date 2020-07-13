@@ -14,7 +14,7 @@ bootstrap = Bootstrap()
 moment = Moment()
 mail = Mail()
 
-db = DB()
+db = DB('school1')
 
 
 def create_app(config_name):

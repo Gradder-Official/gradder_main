@@ -16,7 +16,7 @@ class Admin(User):
     def __init__(self, email: str, first_name: str, last_name: str, classes: list = None, ID: str = None):
         r"""Creates a user with Admin access
 
-        This class is used for school admins that will have acess to managing their school and teachers, 
+        This class is used for school admins that will have access to managing their school and teachers, 
         but with no access to grades or homework.
 
         Parameters
