@@ -78,7 +78,9 @@ def registerClasses():
                                     )
         
         Admin.add_class(new_class)
-
+       
+        user_logger.info("NEW Class: {} {} {} ".format(new_class.name, new_class.teacher, new_class.description))
+        
         flash('Added Class!')
         return redirect(url_for('main.dashboard'))
 
@@ -103,7 +105,7 @@ def addTeacherClass():
 @admin.route('/class', methods=['GET'])
 def manage_classes():
     print(current_user.get_class_names()[0])
-    return redirect(url_for('admin.manage_classes_by_id', class_id=current_user.get_class_names()[0]))
+    return redirect(url_for('admin.manage_classes_by_id', class_id=current_user.get_class_names()[0][0]))
 
 @admin.route('/class/<string:class_id>', methods=['GET', 'POST'])
 def manage_classes_by_id(class_id: str):
