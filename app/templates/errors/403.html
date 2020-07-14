@@ -1,7 +1,9 @@
 {% extends "base.html" %} 
 
 {% block content %}
-<LARGE><p>Sorry! You must not see what is behind this door!</p></LARGE>
-<br>
-<small><p>You must go to the main page <a href="{{ url_for('main.index') }}">here</a></p></small>
+<div class="error-container">
+    <h1>Sorry! You must not see what is behind this door!</h1>
+    <br>
+    <h3>You must go to the main page <a href="{{ url_for('main.index') }}">here</a></h3>
+</div>
 {% endblock content %}
