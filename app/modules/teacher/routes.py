@@ -69,6 +69,7 @@ def add_assignment():
 
 @teacher.route('/class', methods=['GET'])
 def manage_classes():
+    print(current_user.get_class_names()[0][0])
     return redirect(url_for('teacher.manage_classes_by_id', class_id=current_user.get_class_names()[0][0]))
 
 @teacher.route('/class/<string:class_id>', methods=['GET', 'POST'])
