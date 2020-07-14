@@ -38,9 +38,7 @@ def index():
 
 @admin.route('/profile')
 def profile():
-    # add_student("912f58eccfe825c85801", "coolgm@gmail.com")
     return render_template('admin/profile.html')
-
 
 
 @admin.route('/registerTS', methods=['GET', 'POST'])
@@ -69,23 +67,22 @@ def registerClasses():
 
     if form.validate_on_submit():
         new_class = Classes(department=form.department.data,
-                                    number=form.number.data,
-                                    name=form.name.data,
-                                    teacher=ObjectId(form.teacher.data),
-                                    description=form.description.data,
-                                    schedule_time=form.schedule_time.data,
-                                    schedule_days=form.schedule_days.data,
-                                    )
+                            number=form.number.data,
+                            name=form.name.data,
+                            teacher=form.teacher.data,
+                            description=form.description.data,
+                            schedule_time=form.schedule_time.data,
+                            schedule_days=form.schedule_days.data,
+                            )
         
-        Admin.add_class(new_class)
-       
+        new_class.add()
+
         user_logger.info("NEW Class: {} {} {} ".format(new_class.name, new_class.teacher, new_class.description))
         
         flash('Added Class!')
         return redirect(url_for('main.dashboard'))
 
     return render_template('admin/register.html', form=form)
-
 
 
 @admin.route('/studentClass', methods=['GET', 'POST'])
@@ -104,7 +101,6 @@ def addTeacherClass():
 
 @admin.route('/class', methods=['GET'])
 def manage_classes():
-    print(current_user.get_class_names()[0])
     return redirect(url_for('admin.manage_classes_by_id', class_id=current_user.get_class_names()[0][0]))
 
 @admin.route('/class/<string:class_id>', methods=['GET', 'POST'])

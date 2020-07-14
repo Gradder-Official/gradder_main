@@ -114,7 +114,7 @@ class User(UserMixin):
             eval(f'db.{self.USERTYPE.lower() + "s"}.insert_one(dictionary)')
             return True
         except BaseException as e:
-            user_logger.exception("Failed adding")
+            user_logger.exception(f"Failed adding {e}")
             return False
         return True
 

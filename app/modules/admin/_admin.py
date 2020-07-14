@@ -88,38 +88,18 @@ class Admin(User):
             dictionary = classes.to_dict()
             dictionary["_id"] = ObjectId()
             dictionary["students"] = list()
-            dictionary["syllabus"] = list()
             dictionary["assignments"] = list()
+            dictionary["syllabus"] = list()
             db.classes.insert_one(dictionary)
         except BaseException as e:
             print(f"Error while adding class {classes.ID}: {e}")
     
-    # def get_class_names(self):
-    #     temp = list()
-    #     print("1")
-
-    #     for document_ in db.classes.find():
-    #         tempstr = document_.get("_id")
-    #         print(tempstr)
-    #         tempobjectid = ObjectId(tempstr)
-    #         temp.append((tempobjectid))
-    #         print("2")
-        
-    #     print(temp)
-    #     classes = list()
-    #     for class_ in temp:
-    #         classes.append((class_))
-
-
-    #     return classes
     def get_class_names(self):
         classes = list()
-        #print(self.classes)
+
         for class_ in db.classes.find():
-            print(type(class_))
-            classes.append((class_.get("_id"), Classes.get_by_id(class_.get("_id")).name))
+            class_id = class_.get("_id")
+            classes.append((class_id, Classes.get_by_id(class_id).name))
 
         return classes
-
-
     
