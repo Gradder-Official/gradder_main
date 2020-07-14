@@ -9,6 +9,7 @@ from ._admin import Admin
 from app.modules._classes import Classes
 
 from app.logs.user_logger import user_logger
+from app.logs.form_logger import form_logger
 from app import db
 from .forms import NewStudentsTeachers, NewClasses, AddStudentClass, AddTeacherClass, EditClassForm
 from app.decorators import required_access
@@ -52,9 +53,11 @@ def registerTS():
         user.set_secret_question(question=form.secret_question.data, answer=form.secret_answer.data.lower())
         if user.add():
             db.delete_auth_token(form.auth_token.data)
+            form_logger.info("NEW USER: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
             user_logger.info("NEW USER: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
             return redirect(url_for('auth.login'))
         else:
+            form_logger.error("Unknown error while registering: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
             user_logger.error("Unknown error while registering: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
             flash('Unknown error while registering.')
 
@@ -77,10 +80,12 @@ def registerClasses():
         
         new_class.add()
 
-        user_logger.info("NEW Class: {} {} {} ".format(new_class.name, new_class.teacher, new_class.description))
-        
+        form_logger.info("NEW CLASS: {} {} {} ".format(new_class.name, new_class.teacher, new_class.description))
         flash('Added Class!')
         return redirect(url_for('main.dashboard'))
+    else:
+        form_logger.error("Error while registering: {} {} {} ".format(new_class.name, new_class.teacher, new_class.description))
+        
 
     return render_template('admin/register.html', form=form)
 
@@ -90,6 +95,11 @@ def addStudentClass():
     form = AddStudentClass()
     if form.validate_on_submit():
         Admin.add_student(form.class_id.data, form.email.data)
+        form_logger.info("NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(form.class_id.data, form.email.data))
+        user_logger.info("NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(form.class_id.data, form.email.data))
+    else:
+        form_logger.error("Error in registering NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(form.class_id.data, form.email.data))
+        user_logger.error("Error in registering NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(form.class_id.data, form.email.data))
     return render_template('admin/register.html', form=form)
 
 @admin.route('/teacherClass', methods=['GET', 'POST'])
@@ -97,6 +107,11 @@ def addTeacherClass():
     form = AddTeacherClass()
     if form.validate_on_submit():
         Admin.add_teacher(form.class_id.data, form.email.data)
+        form_logger.info("NEW TEACHER IN: {}  - TEACHER EMAIL: {}".format(form.class_id.data, form.email.data))
+        user_logger.info("NEW TEACHER IN: {}  - TEACHER EMAIL: {}".format(form.class_id.data, form.email.data))
+    else:
+        form_logger.error("Error in registering NEW TEACHER IN (Class Id: {}) - TEACHER EMAIL is: {}".format(form.class_id.data, form.email.data))
+        user_logger.error("Error in registering NEW TEACHER IN (Class Id: {}) - TEACHER EMAIL is: {}".format(form.class_id.data, form.email.data))
     return render_template('admin/register.html', form=form)
 
 @admin.route('/class', methods=['GET'])
@@ -121,14 +136,23 @@ def manage_classes_by_id(class_id: str):
             filename = syllabus_file.filename
             blob = upload_blob(uuid.uuid4().hex + "." + syllabus_file.content_type.split("/")[-1], syllabus_file)
             syllabus = (blob.name, filename)
+            form_logger.info("Specific Id Class: {}".format(class_))
 
         class_.update_description(class_edit_form.description.data)
         class_.update_syllabus(syllabus)
 
         flash('Class information successfully updated!')
 
-    return render_template('admin/manage_classes.html', 
+    return render_template('/admin/manage_classes.html', 
                             classes=current_user.get_class_names(), 
                             class_json=class_.to_json(), 
                             class_edit_form=class_edit_form,
                             current_description=class_.description)
+
+
+# @admin.route('/students', methods=['GET', 'POST'])
+# def allStudents():
+#     form = AddTeacherClass()
+#     if form.validate_on_submit():
+#         Admin.add_teacher(form.class_id.data, form.email.data)
+#     return render_template('admin/register.html', form=form)
