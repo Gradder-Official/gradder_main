@@ -11,13 +11,15 @@ from . import main
 from app.modules._classes import Message, Application, Assignment, User, Inquiry, Subscriber
 from app import db
 from app.decorators import required_access
-from app.logs.form_logger import form_logger
+from app.logger import logger
 
 from google.cloud import storage
 
 @main.route('/', methods=['GET', 'POST'])
 @main.route('/index', methods=['GET', 'POST'])
 def index():
+    logger.info("Page was accessed")
+
     subscription_form = SubscriberForm()
     inquiry_form = InquiryForm()
 
@@ -27,6 +29,8 @@ def index():
 
         send_email(to=[subscriber.email], subject="Subscribed to updates", template="mail/subscription", ID=subscriber.ID)
 
+        logger.info(f"Subscriber added - {subscription_form.email.data}")
+        
         return redirect(url_for('main.status', success=status, next='main.index'))
 
     if inquiry_form.submit2.data and inquiry_form.validate():
@@ -40,9 +44,11 @@ def index():
             send_email(to=[current_app._get_current_object().config['GRADDER_EMAIL']], subject=f"Inquiry #{inquiry.ID}", template="mail/inquiry_admin", name=inquiry.name, email=inquiry.email, inquiry_subject=inquiry.subject, inquiry=inquiry.inquiry, date=datetime.today().strftime('%Y-%m-%d-%H:%M:%S'))
             send_email(to=[inquiry.email], subject=f"Inquiry #{inquiry.ID}", template="mail/inquiry_user", name=inquiry.name, inquiry_subject=inquiry.subject, inquiry=inquiry.inquiry, ID=inquiry.ID)
             
+            logger.info(f"Inquiry made - {inquiry_form.email.data}")
+
             return redirect(url_for('main.status', success=True, next='main.index', _anchor='footer'))
         except BaseException as e:
-            print(e)
+            logger.exception(e)
             return redirect(url_for('main.status', success=False, next='main.index', _anchor='footer'))
 
     return render_template('main/index.html', subscription_form=subscription_form, inquiry_form=inquiry_form)
@@ -59,6 +65,8 @@ def unsubscribe(ID: str):
 
     if unsubscribe_form.validate_on_submit():
         if Subscriber.remove_by_id(ID):
+            logger.info(f"Subscriber removed")
+
             return render_template('main/unsubscribe.html', form=unsubscribe_form, unsubscribed=True)
 
     return render_template('main/unsubscribe.html', form=unsubscribe_form, unsubscribed=False)
