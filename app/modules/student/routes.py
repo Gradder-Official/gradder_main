@@ -11,7 +11,7 @@ from ._student import Student
 from app.modules._classes import Submission
 from app.decorators import required_access
 from datetime import datetime
-from app.google_storage import upload_blob, download_blob_binary, download_blob
+from app.google_storage import upload_blob, get_signed_url, download_blob
 from app import db
 from bson import ObjectId
 
@@ -61,22 +61,9 @@ def assignments():
     print(list(map(lambda x: x.to_json(), current_user.get_assignments())))
     return render_template('student/assignments.html', assignments=list(map(lambda x: x.to_json(), current_user.get_assignments())))
 
-@student.route('/view_assignment/<filename>/<real_filename>', methods=['GET', 'POST'])
-def view_assignment(filename, real_filename):
-    blob = download_blob(filename, real_filename)
-    print(real_filename)
-    webbrowser.open("file://" + os.path.realpath(real_filename), new=2)
+@student.route('/view_assignment/<filename>', methods=['GET', 'POST'])
+def view_assignment(filename):
+    blob_url = get_signed_url(filename)
+    webbrowser.open(blob_url, new=0)
     time.sleep(1)
-    os.remove(real_filename)
-    # with tempfile.TemporaryDirectory() as temp_dir:
-    #     print(temp_dir)
-    #     temp_file_path = os.path.join(temp_dir, filename)
-
-    #     # write a normal file within the temp directory
-    #     with open(temp_file_path, 'wb+') as fh:
-    #         fh.flush()
-    #         os.fsync(fh.fileno())
-    #         fh.write(blob)
-    #     time.sleep(1)
-    #     webbrowser.open('file://' + temp_file_path)
     return ""
