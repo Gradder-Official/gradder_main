@@ -4,7 +4,7 @@ import re
 from . import Assignment
 
 from app import db
-from app.logs.user_logger import user_logger
+from app.logger import logger
 from bson.objectid import ObjectId
 
 class Classes:
@@ -89,7 +89,7 @@ class Classes:
         try:
             db.classes.remove({"_id": ID})
         except BaseException as e:
-            user_logger.info(f"Error while deleting class {ID}: {e}")
+            logger.info(f"Error while deleting class {ID}: {e}")
 
     def get_assignments(self):
         assignments = list()
@@ -108,13 +108,13 @@ class Classes:
             dictionary["_id"] = ObjectId()
             db.classes.find_one_and_update({"_id": self.ID}, {"$push": {"assignments": dictionary}})
         except BaseException as e:
-            user_logger.info(f"Error while adding assignment {assignment.ID}: {e}")
+            logger.info(f"Error while adding assignment {assignment.ID}: {e}")
 
     def delete_assignment(self, assignment_id: str):
         try:
             db.classes.update({"_id": self.ID}, {"$pull": {'assignments': { "_id": assignment_id } } })
         except BaseException as e:
-            user_logger.info(f"Error while deleting assignment {assignment_id} from class {self.ID}: {e}")
+            logger.info(f"Error while deleting assignment {assignment_id} from class {self.ID}: {e}")
 
     @staticmethod
     def get_by_id(ID: str):
@@ -132,7 +132,7 @@ class Classes:
             
                 db.classes.find_one_and_update({"_id": self.ID}, {"$set": {"description": self.description}})
         except BaseException as e:
-            user_logger.info(f"Error while updating description {description}: {e}")
+            logger.info(f"Error while updating description {description}: {e}")
     
     def get_syllabus_name(self) -> str:
         return self.syllabus[1]
@@ -144,4 +144,4 @@ class Classes:
 
                 db.classes.find_one_and_update({"_id": self.ID}, {"$set": {"syllabus": self.syllabus}})
         except BaseException as e:
-            user_logger.info(f"Error while updating syllabus {self.syllabus[1]}: {e}")
+            logger.info(f"Error while updating syllabus {self.syllabus[1]}: {e}")

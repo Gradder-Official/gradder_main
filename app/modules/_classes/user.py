@@ -1,7 +1,6 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from re import match
 from flask_login import UserMixin
-from app.logs.user_logger import user_logger
 from app import db
 from flask import current_app
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
@@ -116,7 +115,6 @@ class User(UserMixin):
             eval(f'db.{self.USERTYPE.lower() + "s"}.insert_one(dictionary)')
             return True
         except BaseException as e:
-            user_logger.exception("Failed adding")
             return False
         return True
 
@@ -126,7 +124,6 @@ class User(UserMixin):
             eval(f'db.{self.USERTYPE.lower() + "s"}.delete({{"email": self.email}})')
             return True
         except BaseException as e:
-            user_logger.exception("Failed removing")
             return False
 
     def to_json(self):

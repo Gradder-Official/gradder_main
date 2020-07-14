@@ -16,7 +16,7 @@ from app.modules.student._student import Student
 from app.modules.admin._admin import Admin
 from app.modules.parent._parent import Parent
 
-from app.logs.user_logger import user_logger
+from app.logger import logger
 from bson import json_util
 from app.google_storage import download_blob
 
@@ -45,7 +45,7 @@ def login():
             user = eval(user['usertype'].capitalize()).from_dict(user)
             if user is not None and user.verify_password(form.password.data):
                 login_user(user, form.remember_me.data)
-                user_logger.info("{} LOGGED IN: {} {} {} - ACCESS: {}".format(datetime.utcnow(), user.first_name, user.last_name, user.email, user.USERTYPE))
+                logger.info("LOGGED IN: {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.USERTYPE))
 
                 next = request.args.get('next')
                 if next is None or not next.startswith('/'):
@@ -59,6 +59,7 @@ def login():
 @auth.route('/logout')
 @login_required
 def logout():
+    logger.info("LOGGED OUT: {} {} - ACCESS: {}".format(current_user.first_name, current_user.last_name, current_user.USERTYPE))
     logout_user()
     flash('You have been logged out.')
     return redirect(url_for('auth.login'))
@@ -75,10 +76,10 @@ def register():
         user.set_secret_question(question=form.secret_question.data, answer=form.secret_answer.data.lower())
         if user.add():
             db.delete_auth_token(form.auth_token.data)
-            user_logger.info("NEW USER: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
+            logger.info("NEW USER: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
             return redirect(url_for('auth.login'))
         else:
-            user_logger.error("Unknown error while registering: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
+            logger.error("Unknown error while registering: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
             flash('Unknown error while registering.')
 
     return render_template('auth/register.html', form=form)
@@ -100,6 +101,7 @@ def change_password():
             if curr_user.add():
                 return redirect(url_for('main.profile'))
             else:
+                logger.error("Unknown error while changing the password: {} {} - ACCESS: {}".format(curr_user.first_name, curr_user.last_name, curr_user.USERTYPE))
                 flash('Unknown error while changing the password.')
                 return render_template('auth/change-password.html', form=form)
 
