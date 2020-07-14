@@ -1,7 +1,9 @@
 {% extends "base.html" %} 
 
 {% block content %}
-<LARGE><p>Page 404 could not be found :(</p></LARGE>
-<br>
-<small><p>Please go on the main page <a href="{{ url_for('main.index') }}">here</a></p></small>
+<div class="error-container">
+    <h1>Page 404 could not be found :(</h1>
+    <br>
+    <h3>Please go to the main page <a href="{{ url_for('main.index') }}">here</a></h3>
+</div>
 {% endblock content %}
