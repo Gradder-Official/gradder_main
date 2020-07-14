@@ -2,7 +2,6 @@ import uuid
 import tempfile
 import webbrowser
 import os
-import time
 from flask import render_template, redirect, request, url_for, make_response
 from flask_login import current_user
 from app.modules.teacher.forms import NewSubmissionForm
@@ -65,5 +64,4 @@ def assignments():
 def view_assignment(filename):
     blob_url = get_signed_url(filename)
     webbrowser.open(blob_url, new=0)
-    time.sleep(1)
     return ""
