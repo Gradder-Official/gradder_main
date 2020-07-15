@@ -1,0 +1,59 @@
+/* TEACHERS */
+#classes_navbar {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 3vh;
+    background-color: white;
+}
+#classes_navbar .active {
+    font-weight: bold;
+}
+
+#classes-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 auto;
+    padding: 0;
+    min-width: 800px;
+    flex-wrap: nowrap;
+}
+#classes-container h3 {
+    font-weight: bold;
+    margin-bottom: 2vh;
+}
+
+#students-container {
+    margin: 0;
+    padding: 30px;
+    width: 58%;
+    min-width: 230px;
+}
+#students-table thead tr {
+    border-bottom: 2px solid gainsboro;
+}
+#students-table th, #students-container td {
+    padding: 10px;
+}
+#class-info-container {
+    margin: 0;
+    padding: 30px;
+    width: 40%;
+    min-width: 320px;
+}
+#class-info-container form {
+    border-top: 2px solid gainsboro;
+    padding-top: 10px;
+}
+#class-info-container form input, #class-info-container label {
+    margin: 5px 0;
+}
+#class-info-container form .btn {
+    margin: 0;
+    border-radius: 10px;
+    background: rgb(102,130,252);
+    border: none;
+}
+#class-info-container form .btn:hover {
+    background:rgb(93, 118, 232);
+}
