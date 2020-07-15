@@ -1,8 +1,6 @@
 from flask import render_template, redirect, request, url_for
-
 from . import admin
 from ._admin import Admin
-
 from app.decorators import required_access
 
 @admin.before_request
