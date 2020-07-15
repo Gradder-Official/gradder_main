@@ -1,5 +1,4 @@
 from app.modules._classes import User, Classes
-from app.logs import user_logger
 from app import db
 from app.modules.student._student import Student 
 from bson import ObjectId

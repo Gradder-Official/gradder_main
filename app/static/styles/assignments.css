@@ -1,6 +1,13 @@
 /* Assignment preview */
+.assignments {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
 .assignment-card {
     border: none;
+    margin: 20px;
+    margin-left: 0;
     border-radius: 20px;
     padding: 30px;
     width: fit-content;
@@ -31,6 +38,7 @@
     width: 40px;
     height: 40px;
     background-color: transparent;
+    margin-left: 20px;
 }
 .info-badge i {
     font-size: 40px;
@@ -56,6 +64,7 @@
 }
 .modal-btn {
     background-color: rgb(93, 118, 232);
+    color: white;
     font-size: 14px;
     padding: 5px 10px;
     border-radius: 10px;

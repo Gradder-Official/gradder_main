@@ -1,6 +1,5 @@
 from datetime import time, datetime
 from typing import List
-from app.logs.user_logger import user_logger
 from app import db
 from .submission import Submission
 

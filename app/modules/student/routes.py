@@ -2,7 +2,6 @@ import uuid
 import tempfile
 import webbrowser
 import os
-import time
 from flask import render_template, redirect, request, url_for, make_response
 from flask_login import current_user
 from app.modules.teacher.forms import NewSubmissionForm
@@ -11,9 +10,10 @@ from ._student import Student
 from app.modules._classes import Submission
 from app.decorators import required_access
 from datetime import datetime
-from app.google_storage import upload_blob, download_blob_binary, download_blob
+from app.google_storage import upload_blob, get_signed_url, download_blob
 from app import db
 from bson import ObjectId
+from app.logger import logger
 
 
 @student.before_request
@@ -47,6 +47,9 @@ def submit(class_id, assignment_id):
                 blob = upload_blob(uuid.uuid4().hex + "." + file_.content_type.split("/")[-1], file_)
                 file_list.append((blob.name, filename))
         submission = Submission(date_submitted=datetime.utcnow(), content=form.content.data, filenames=file_list)
+
+        logger.info(f"Submission {form.title.data} made")
+
         student.add_submission(current_user.ID, class_id, assignment_id, submission=submission) # need to replace IDs with current class and assignment ID
     return render_template('student/submission.html', form=form, class_id=class_id, assignment_id=assignment_id, full_name=full_name, 
                         content=content, estimated_time=estimated_time, due_by=due_by)
@@ -61,22 +64,8 @@ def assignments():
     print(list(map(lambda x: x.to_json(), current_user.get_assignments())))
     return render_template('student/assignments.html', assignments=list(map(lambda x: x.to_json(), current_user.get_assignments())))
 
-@student.route('/view_assignment/<filename>/<real_filename>', methods=['GET', 'POST'])
-def view_assignment(filename, real_filename):
-    blob = download_blob(filename, real_filename)
-    print(real_filename)
-    webbrowser.open("file://" + os.path.realpath(real_filename), new=2)
-    time.sleep(1)
-    os.remove(real_filename)
-    # with tempfile.TemporaryDirectory() as temp_dir:
-    #     print(temp_dir)
-    #     temp_file_path = os.path.join(temp_dir, filename)
-
-    #     # write a normal file within the temp directory
-    #     with open(temp_file_path, 'wb+') as fh:
-    #         fh.flush()
-    #         os.fsync(fh.fileno())
-    #         fh.write(blob)
-    #     time.sleep(1)
-    #     webbrowser.open('file://' + temp_file_path)
+@student.route('/view_assignment/<filename>', methods=['GET', 'POST'])
+def view_assignment(filename):
+    blob_url = get_signed_url(filename)
+    webbrowser.open(blob_url, new=0)
     return ""

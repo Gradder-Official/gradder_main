@@ -1,5 +1,4 @@
 from datetime import time, datetime
-from app.logs.user_logger import user_logger
 from app import db
 
 

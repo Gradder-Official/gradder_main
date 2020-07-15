@@ -3,7 +3,7 @@
 {% block navbar %}
 <div class="dash-sidebar">
     <div class="navbar-header">
-        <a href="#" class="sidebar-logo">
+        <a href="{{ url_for('main.dashboard') }}" class="sidebar-logo">
             <img src="{{ url_for('static', filename='images/White Logo.png') }}" alt="Gradder">
             <h4>Gradder</h4>
         </a>

@@ -1,5 +1,4 @@
 from typing import List
-from app.logs.user_logger import user_logger
 from app import db
 
 
@@ -32,5 +31,4 @@ class Message:
             db.collection_messages.document(self.ID).set(self.to_dict())
             return True
         except BaseException as e:
-            user_logger.exception("Failed adding")
             return False

@@ -1,6 +1,11 @@
 {% extends "bootstrap/base.html" %}
 {% import "_macros.html" as macro %}
 
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/auth.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="container">
     {% with messages = get_flashed_messages() %}
