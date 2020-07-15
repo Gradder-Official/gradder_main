@@ -54,6 +54,19 @@
     font-size: 1.2vw;
     height: fit-content;
 }
+.reg-log-box .form-group .has-error {
+    flex-flow: wrap;
+}
+.reg-log-box .form-group .has-error .control-label {
+    width: 10vw;
+}
+.reg-log-box .form-group .has-error .form-control {
+    width: 28vw;
+}
+.reg-log-box .form-group .has-error .help-block {
+    width: 100%;
+    text-align: right;
+}
 .reg-log-box .form-group .form-control:focus {
     box-shadow: none;
 }

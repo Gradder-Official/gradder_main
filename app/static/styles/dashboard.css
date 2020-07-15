@@ -95,6 +95,7 @@
     width: 84vw;
     background: whitesmoke;
     z-index: 100;
+    overflow-y: scroll;
 }
 .jumbotron {
     border-radius: 20px;
