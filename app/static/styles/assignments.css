@@ -3,14 +3,14 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: space-between;
 }
 .assignment-card {
     border: none;
-    margin: 20px;
-    margin-left: 0;
+    margin-bottom: 5vh;
     border-radius: 20px;
     padding: 30px;
-    width: fit-content;
+    width: 48%;
     font-family: 'SF UI Text', sans-serif;
 }
 .assignment-card .card-title {
