@@ -82,9 +82,7 @@ def registerClasses():
 
         form_logger.info("NEW CLASS: {} {} {} ".format(new_class.name, new_class.teacher, new_class.description))
         flash('Added Class!')
-        return redirect(url_for('main.dashboard'))
-    else:
-        form_logger.error("Error while registering: {} {} {} ".format(new_class.name, new_class.teacher, new_class.description))
+        return redirect(url_for('main.dashboard'))  
         
 
     return render_template('admin/register.html', form=form)
