@@ -1,4 +1,4 @@
-from __future__ import annotations # To use Student as a type in Student
+from __future__ import annotations  # To use Student as a type in Student
 from typing import List, Dict
 
 from app import db
@@ -7,10 +7,19 @@ from bson import ObjectId
 from typing import Dict, List
 from flask_login import current_user
 
-class Student(User):
-    USERTYPE = 'Student'
 
-    def __init__(self, email: str, first_name: str, last_name: str, classes: List[str] = None, assignments: List[str] = None, ID: str = None):
+class Student(User):
+    USERTYPE = "Student"
+
+    def __init__(
+        self,
+        email: str,
+        first_name: str,
+        last_name: str,
+        classes: List[str] = None,
+        assignments: List[str] = None,
+        ID: str = None,
+    ):
         r"""Initializes a Student object.
 
         Parameters
@@ -27,19 +36,19 @@ class Student(User):
             User's string ID. If not specified, defaults to None and then iss auto-generated.
         """
         super().__init__(email=email, first_name=first_name, last_name=last_name, ID=ID)
-        
+
         self.classes = classes if classes is not None else list()
         self.assignments = assignments if assignments is not None else list()
 
     def __repr__(self):
-        return f'<Student {self.ID}'
+        return f"<Student {self.ID}"
 
     def to_json(self) -> Dict[str, str]:
         """ Returns the user represented as a dict (equivalent to to_dict).
         """
         json_user = super().to_json()
-        json_user['classes'] = self.classes
-        json_user['assignments'] = self.assignments
+        json_user["classes"] = self.classes
+        json_user["assignments"] = self.assignments
         return json_user
 
     def to_dict(self) -> Dict[str, str]:
@@ -49,23 +58,26 @@ class Student(User):
 
     @staticmethod
     def from_dict(dictionary: dict) -> Student:
-        user = Student(email=dictionary['email'],
-                       first_name=dictionary['first_name'],
-                       last_name=dictionary['last_name'],
-                       ID=str(dictionary['_id']) if '_id' in dictionary else None)
+        user = Student(
+            email=dictionary["email"],
+            first_name=dictionary["first_name"],
+            last_name=dictionary["last_name"],
+            ID=str(dictionary["_id"]) if "_id" in dictionary else None,
+        )
 
-        if 'classes' in dictionary:
-            user.classes.extend(dictionary['classes'])
-        
-        if 'assignments' in dictionary:
-            user.assignments.extend(dictionary['classes'])
+        if "classes" in dictionary:
+            user.classes.extend(dictionary["classes"])
 
-        if 'password' in dictionary:
-            user.set_password(dictionary['password'])
+        if "assignments" in dictionary:
+            user.assignments.extend(dictionary["classes"])
 
-        if 'secret_question' in dictionary and 'secret_answer' in dictionary:
+        if "password" in dictionary:
+            user.set_password(dictionary["password"])
+
+        if "secret_question" in dictionary and "secret_answer" in dictionary:
             user.set_secret_question(
-                dictionary['secret_question'], dictionary['secret_answer'])
+                dictionary["secret_question"], dictionary["secret_answer"]
+            )
 
         return user
 
@@ -75,7 +87,9 @@ class Student(User):
 
     @staticmethod
     def get_by_name(first_name: str, last_name: str) -> Student:
-        return Student.from_dict(super(Student, Student).get_by_name("student", first_name, last_name))
+        return Student.from_dict(
+            super(Student, Student).get_by_name("student", first_name, last_name)
+        )
 
     @staticmethod
     def get_by_email(email: str) -> Student:
@@ -90,10 +104,18 @@ class Student(User):
 
         return assignments
 
-    def add_submission(self, current_user_id,  class_id, assignment_id, submission):
+    def add_submission(self, current_user_id, class_id, assignment_id, submission):
         dictionary = submission.to_dict()
         dictionary["student_id"] = self.ID
         dictionary["_id"] = ObjectId()
-        db.classes.find_one_and_update({"_id": ObjectId(class_id), "assignments._id": ObjectId(assignment_id)}, {"$push": {"assignments.$.submissions": dictionary}})
-        unique_submission_string = class_id + "_" + assignment_id + "_" + str(dictionary["_id"])
-        db.students.find_one_and_update({"_id": ObjectId(current_user_id)}, {"$push": {"assignments": unique_submission_string}})
+        db.classes.find_one_and_update(
+            {"_id": ObjectId(class_id), "assignments._id": ObjectId(assignment_id)},
+            {"$push": {"assignments.$.submissions": dictionary}},
+        )
+        unique_submission_string = (
+            class_id + "_" + assignment_id + "_" + str(dictionary["_id"])
+        )
+        db.students.find_one_and_update(
+            {"_id": ObjectId(current_user_id)},
+            {"$push": {"assignments": unique_submission_string}},
+        )

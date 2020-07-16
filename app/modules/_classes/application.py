@@ -2,7 +2,16 @@ from app import db
 
 
 class Application:
-    def __init__(self, email: str, job: str, ID: str, first_name: str, last_name: str, resume_url: str, comments: str):
+    def __init__(
+        self,
+        email: str,
+        job: str,
+        ID: str,
+        first_name: str,
+        last_name: str,
+        resume_url: str,
+        comments: str,
+    ):
         self.email = email
         self.job = job
         self.first_name = first_name
@@ -13,13 +22,13 @@ class Application:
 
     def to_dict(self):
         json_dict = {
-            'email': self.email,
-            'job': self.job,
-            'first_name': self.first_name,
-            'last_name': self.last_name,
-            'resume_url': self.resume_url,
-            'comments': self.comments,
-            'id': self.ID
+            "email": self.email,
+            "job": self.job,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "resume_url": self.resume_url,
+            "comments": self.comments,
+            "id": self.ID,
         }
 
         return json_dict

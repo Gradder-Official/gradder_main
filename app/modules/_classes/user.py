@@ -4,13 +4,13 @@ from flask_login import UserMixin
 from app import db
 from flask import current_app
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from bson.objectid import ObjectId
+from bson import ObjectId
 
 
 class User(UserMixin):
     USERTYPE = None  # is unique per each class, acts as access levels
 
-    def __init__(self, email: str, first_name: str, last_name: str, ID: str=None):
+    def __init__(self, email: str, first_name: str, last_name: str, ID: str = None):
         self.email = email
         self.first_name = first_name
         self.last_name = last_name
@@ -19,16 +19,19 @@ class User(UserMixin):
         self.secret_answer = None
 
     def __repr__(self):
-        return f'<User {self.ID}>'
+        return f"<User {self.ID}>"
 
     def set_password(self, password: str):
-        if match(r"(pbkdf2:sha256:)([^\$.]+)(\$)([^\$.]+)(\$)([^\$.]+)", password) is not None:
+        if (
+            match(r"(pbkdf2:sha256:)([^\$.]+)(\$)([^\$.]+)(\$)([^\$.]+)", password)
+            is not None
+        ):
             self.password_hash = password
         else:
             self.password_hash = generate_password_hash(password)
 
     def update_password(self, password: str):
-        self.password_hash=generate_password_hash(password)
+        self.password_hash = generate_password_hash(password)
         self.add()
 
     def verify_password(self, password: str):
@@ -111,13 +114,12 @@ class User(UserMixin):
             if self.USERTYPE == "Teacher":
                 print(dictionary)
                 dictionary["classes"] = []
-            
+
             eval(f'db.{self.USERTYPE.lower() + "s"}.insert_one(dictionary)')
             return True
         except BaseException as e:
             return False
         return True
-
 
     def remove(self):
         try:
@@ -128,13 +130,13 @@ class User(UserMixin):
 
     def to_json(self):
         json_user = {
-            'email': self.email,
-            'first_name': self.first_name,
-            'last_name': self.last_name,
-            'password': self.password_hash,
-            'usertype': self.USERTYPE,
-            'secret_question': self.secret_question,
-            'secret_answer': self.secret_answer
+            "email": self.email,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "password": self.password_hash,
+            "usertype": self.USERTYPE,
+            "secret_question": self.secret_question,
+            "secret_answer": self.secret_answer,
         }
         return json_user
 
@@ -143,32 +145,36 @@ class User(UserMixin):
 
     @staticmethod
     def from_dict(dictionary: dict):
-        user = User(email=dictionary['email'],
-                    first_name=dictionary['first_name'],
-                    last_name=dictionary['last_name'],
-                    ID=dictionary['_id'] if '_id' in dictionary else None)
+        user = User(
+            email=dictionary["email"],
+            first_name=dictionary["first_name"],
+            last_name=dictionary["last_name"],
+            ID=dictionary["_id"] if "_id" in dictionary else None,
+        )
 
-        if 'password' in dictionary:
-            user.set_password(dictionary['password'])
+        if "password" in dictionary:
+            user.set_password(dictionary["password"])
 
-        if 'secret_question' in dictionary and 'secret_answer' in dictionary:
+        if "secret_question" in dictionary and "secret_answer" in dictionary:
             user.set_secret_question(
-                dictionary['secret_question'], dictionary['secret_answer'])
+                dictionary["secret_question"], dictionary["secret_answer"]
+            )
 
         return user
 
     def get_reset_token(self, expires_sec=1800):
-        s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
-        return s.dumps({'user_id': self.ID}).decode('utf-8')
-    
+        s = Serializer(current_app.config["SECRET_KEY"], expires_sec)
+        return s.dumps({"user_id": self.ID}).decode("utf-8")
+
     @staticmethod
     def verify_reset_token(token):
-        s = Serializer(current_app.config['SECRET_KEY'])
+        s = Serializer(current_app.config["SECRET_KEY"])
         try:
-            user_id = s.loads(token)['user_id']
+            user_id = s.loads(token)["user_id"]
         except:
             return None
         return User.get_by_id(user_id)
-    
+
     def get_id(self):
         return self.ID
+

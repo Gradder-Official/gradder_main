@@ -2,7 +2,6 @@
 
 {% block head %}
 {{ super() }}
-<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
 {% endblock %}
 
@@ -94,19 +93,20 @@
 {% endblock %}
 
 {% block scripts %}
-{{ super() }}
-<script>
-    $(document).ready(function () {
-        $('#students-table').DataTable({
-            scrollY: '50vh',
-            scrollCollapse: true,
-            paging: false
-        });
-    });
-</script>
-<script>
-    if (!$('#description').val()) {
-        $('#description').val($('#description').attr('placeholder'));
-    }
-</script>
+    {{ super() }}
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#students-table').DataTable( {
+                scrollY:        '50vh',
+                scrollCollapse: true,
+                paging:         false
+            } );
+        } );
+    </script>
+    <script>
+        if (!$('#description').val()){
+            $('#description').val($('#description').attr('placeholder'));
+        }
+    </script>
 {% endblock %}
