@@ -5,7 +5,7 @@ from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class DB:
-    client = MongoClient(os.environ.get("MONGO_CONNECTION_STRING"), ssl=True, ssl_cert_reqs=ssl.CERT_NONE)
+    client = MongoClient(os.environ.get("MONGO_CONNECTION_STRING"), ssl=True, tlsAllowInvalidCertificates=False)
     
     def __init__(self, school: str):
         self.db = self.client.get_database(school)
