@@ -2,7 +2,6 @@
 
 {% block head %}
 {{ super() }}
-<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
 {% endblock %}
 
@@ -108,6 +107,7 @@
 
 {% block scripts %}
     {{ super() }}
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#students-table').DataTable( {

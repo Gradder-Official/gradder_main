@@ -8,8 +8,6 @@ from app.modules.teacher._teacher import Teacher
 from bson import ObjectId
 from re import match
 from app.logs import user_logger
-import regex 
-
 
 
 class Admin(User):
@@ -166,7 +164,7 @@ class Admin(User):
     def add_class(classes: Classes):
         r""" Adds a new class to the classes collection
 
-        Uses all the parameters that are necessary to create a new class and initalizes them. Sets the _id, as a unique ObjectId, along with Students, Assignemnts, and Syllabus as empty lists
+        Uses all the parameters that are necessary to create a new class and initializes them. Sets the _id, as a unique ObjectId, along with Students, Assignments, and Syllabus as empty lists
         
         Parameters
         ----------
@@ -186,7 +184,7 @@ class Admin(User):
     def get_class_names(self):
         r""" Gets all the ObjectId's for the classes collection, along with there names
 
-        First initalizes an empty list, and then loops through the entire "classes" collection, and for each doocument it gets the specific "_id" and then proceds to put the information inside a tuple which contains the _id, and the name of the class
+        First initializes an empty list, and then loops through the entire "classes" collection, and for each document it gets the specific "_id" and then proceds to put the information inside a tuple which contains the _id, and the name of the class
 
         Returns a list containing tuples of class_id, and the name of the class
         """
