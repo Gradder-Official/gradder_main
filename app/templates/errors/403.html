@@ -1,7 +1,9 @@
 {% extends "base.html" %} 
 
 {% block content %}
-<LARGE><p>Sorry! You must not see what is behind this door!</p></LARGE>
-<br>
-<small><p>You must go to the main page <a href="{{ url_for('main.index') }}">here</a></p></small>
+<div class="error-container">
+    <h1>Sorry! This door guards its terrible secrets well...</h1>
+    <br>
+    <h3>I can still pretend you weren't here if you go <a href="#" onclick="javascript:window.history.back(-1);return false;">back</a>!</h3>
+</div>
 {% endblock content %}
