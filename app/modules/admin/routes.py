@@ -1,27 +1,16 @@
-from datetime import datetime
-from flask import redirect, url_for, flash, render_template, request
+from flask import render_template, redirect, request, url_for, flash
 from flask_login import current_user
-from werkzeug.utils import secure_filename
+import uuid
+
+from app import db
+from app.logger import logger
+from app.decorators import required_access
+from app.modules._classes import Classes
+from app.google_storage import upload_blob
 
 from . import admin
-
 from ._admin import Admin
-from app.modules._classes import Classes
-
-from app.logs.user_logger import user_logger
-from app.logs.form_logger import form_logger
-from app import db
 from .forms import NewStudentsTeachers, NewClasses, AddStudentClass, AddTeacherClass, EditClassForm
-from app.decorators import required_access
-from app.google_storage import upload_blob
-from app.modules._classes import Assignment, Classes
-from app.logs.form_logger import form_logger
-import uuid
-from app.modules.teacher._teacher import Teacher
-from app.modules.student._student import Student
-from bson import ObjectId
-
-from app.decorators import required_access
 
 @admin.before_request
 @required_access('Admin')
@@ -53,12 +42,12 @@ def registerTS():
         user.set_secret_question(question=form.secret_question.data, answer=form.secret_answer.data.lower())
         if user.add():
             db.delete_auth_token(form.auth_token.data)
-            form_logger.info("NEW USER: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
-            user_logger.info("NEW USER: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
+            logger.info("NEW USER: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
+            logger.info("NEW USER: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
             return redirect(url_for('auth.login'))
         else:
-            form_logger.error("Unknown error while registering: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
-            user_logger.error("Unknown error while registering: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
+            logger.error("Unknown error while registering: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
+            logger.error("Unknown error while registering: {} {} {} - ACCESS: {}".format(user.first_name, user.last_name, user.email, user.USERTYPE))
             flash('Unknown error while registering.')
 
     return render_template('admin/register.html', form=form)
@@ -80,7 +69,7 @@ def registerClasses():
         
         new_class.add()
 
-        form_logger.info("NEW CLASS: {} {} {} ".format(new_class.name, new_class.teacher, new_class.description))
+        logger.info("NEW CLASS: {} {} {} ".format(new_class.name, new_class.teacher, new_class.description))
         flash('Added Class!')
         return redirect(url_for('main.dashboard'))  
         
@@ -93,11 +82,11 @@ def addStudentClass():
     form = AddStudentClass()
     if form.validate_on_submit():
         Admin.add_student(form.class_id.data, form.email.data)
-        form_logger.info("NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(form.class_id.data, form.email.data))
-        user_logger.info("NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(form.class_id.data, form.email.data))
+        logger.info("NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(form.class_id.data, form.email.data))
+        logger.info("NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(form.class_id.data, form.email.data))
     else:
-        form_logger.error("Error in registering NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(form.class_id.data, form.email.data))
-        user_logger.error("Error in registering NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(form.class_id.data, form.email.data))
+        logger.error("Error in registering NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(form.class_id.data, form.email.data))
+        logger.error("Error in registering NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(form.class_id.data, form.email.data))
     return render_template('admin/register.html', form=form)
 
 @admin.route('/teacherClass', methods=['GET', 'POST'])
@@ -105,11 +94,11 @@ def addTeacherClass():
     form = AddTeacherClass()
     if form.validate_on_submit():
         Admin.add_teacher(form.class_id.data, form.email.data)
-        form_logger.info("NEW TEACHER IN: {}  - TEACHER EMAIL: {}".format(form.class_id.data, form.email.data))
-        user_logger.info("NEW TEACHER IN: {}  - TEACHER EMAIL: {}".format(form.class_id.data, form.email.data))
+        logger.info("NEW TEACHER IN: {}  - TEACHER EMAIL: {}".format(form.class_id.data, form.email.data))
+        logger.info("NEW TEACHER IN: {}  - TEACHER EMAIL: {}".format(form.class_id.data, form.email.data))
     else:
-        form_logger.error("Error in registering NEW TEACHER IN (Class Id: {}) - TEACHER EMAIL is: {}".format(form.class_id.data, form.email.data))
-        user_logger.error("Error in registering NEW TEACHER IN (Class Id: {}) - TEACHER EMAIL is: {}".format(form.class_id.data, form.email.data))
+        logger.error("Error in registering NEW TEACHER IN (Class Id: {}) - TEACHER EMAIL is: {}".format(form.class_id.data, form.email.data))
+        logger.error("Error in registering NEW TEACHER IN (Class Id: {}) - TEACHER EMAIL is: {}".format(form.class_id.data, form.email.data))
     return render_template('admin/register.html', form=form)
 
 @admin.route('/class', methods=['GET'])
@@ -134,7 +123,7 @@ def manage_classes_by_id(class_id: str):
             filename = syllabus_file.filename
             blob = upload_blob(uuid.uuid4().hex + "." + syllabus_file.content_type.split("/")[-1], syllabus_file)
             syllabus = (blob.name, filename)
-            form_logger.info("Specific Id Class: {}".format(class_))
+            logger.info("Specific Id Class: {}".format(class_))
 
         class_.update_description(class_edit_form.description.data)
         class_.update_syllabus(syllabus)
