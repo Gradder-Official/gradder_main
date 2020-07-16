@@ -19,7 +19,7 @@ class Config:
     MAIL_SUBJECT_PREFIX = '[Gradder]'
     MAIL_SENDER = 'Gradder Team <team@gradder.io>'
 
-    SSL_REDIRECT = True
+    SSL_REDIRECT = False
     
     @staticmethod
     def init_app(app):
@@ -37,6 +37,7 @@ class TestingConfig(Config):
 class ProductionConfig(Config):
     @classmethod
     def init_app(cls, app):
+        SSL_REDIRECT = True
         Config.init_app(app)
 
         # Add the logging on production later
