@@ -12,7 +12,7 @@ from .forms import NewAssignmentForm, EditClassForm
 from app.decorators import required_access
 from app.google_storage import upload_blob
 from app.modules._classes import Assignment, Classes
-from app.logs.form_logger import form_logger
+from app.logger import logger
 import uuid
 
 
@@ -59,9 +59,8 @@ def add_assignment():
                                     filenames=file_list,
                                     estimated_time=form.estimated_time.data
                                     )
-        
+        logger.info(f"Assignment {form.title.data} added")
         Classes.get_by_id(form.assigned_to.data).add_assignment(new_assignment)
-
         flash('Assignment sent!')
         return redirect(url_for('main.dashboard'))
 
@@ -90,7 +89,7 @@ def manage_classes_by_id(class_id: str):
             filename = syllabus_file.filename
             blob = upload_blob(uuid.uuid4().hex + "." + syllabus_file.content_type.split("/")[-1], syllabus_file)
             syllabus = (blob.name, filename)
-
+        logger.info(f"Syllabus updated")
         class_.update_description(class_edit_form.description.data)
         class_.update_syllabus(syllabus)
 

@@ -1,13 +1,12 @@
 # Note MongoDB uses Bson
 
 from app import db
-from app.logs import user_logger
+from app.logger import logger
 from app.modules._classes import User, Classes
 from app.modules.student._student import Student
 from app.modules.teacher._teacher import Teacher
-from bson import ObjectId
+from bson.objectid import ObjectId
 from re import match
-from app.logs import user_logger
 
 
 class Admin(User):
