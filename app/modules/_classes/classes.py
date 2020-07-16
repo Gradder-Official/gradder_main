@@ -5,7 +5,7 @@ from . import Assignment
 
 from app import db
 from app.logs.user_logger import user_logger
-from bson.objectid import ObjectId
+from bson import ObjectId
 
 class Classes:
     def __init__(self, department:str, number: int, name: str, teacher: str = None, students: List[str] = None, description: str = 'Description', 
@@ -42,7 +42,7 @@ class Classes:
         return dict_object
     
     def to_json(self):
-        from app.modules.student._student import Student
+        from app.modules.student._student import Student # import must be here to avoid circular imports
         # JSON object to be passed on to HTML templates
         # 'admin_info' should only be read-only for everyone except admins, 
         # teacher_info should only be read-only for everyone except teachers
@@ -57,8 +57,8 @@ class Classes:
             },
             'teacher_info': {
                 'description': self.description,
-                'syllabus_filename': self.syllabus[1],
-                'syllabus_id': self.syllabus[0]
+                'syllabus_filename': self.syllabus[1] if self.syllabus is not None and len(self.syllabus) > 1 else '',
+                'syllabus_id': self.syllabus[0] if self.syllabus is not None and len(self.syllabus) > 0 else '',
             },
             'immutable_info': {
                 'alias': self.department + "_" + str(self.number) + "_" + re.sub(r'[^a-zA-Z]+', '', self.name.lower()),
@@ -136,7 +136,10 @@ class Classes:
             user_logger.info(f"Error while updating description {description}: {e}")
     
     def get_syllabus_name(self) -> str:
-        return self.syllabus[1]
+        try:
+            return self.syllabus[1]
+        except BaseException as e:
+            return None
 
     def update_syllabus(self, syllabus: tuple):
         try:

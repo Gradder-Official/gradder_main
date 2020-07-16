@@ -78,7 +78,7 @@ def manage_classes_by_id(class_id: str):
     class_ = Classes.get_by_id(class_id)
 
     syllabus_name = class_.get_syllabus_name() 
-    if syllabus_name!= "":
+    if syllabus_name is not None:
         if len(syllabus_name) > 20:
             syllabus_name = syllabus_name[:20] + '...'
         class_edit_form.syllabus.label.text = f"Update syllabus (current: { syllabus_name })"
