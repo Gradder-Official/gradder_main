@@ -6,20 +6,15 @@ class Subscriber:
     def __init__(self, email: str, _id: str = None):
         self.email = email
         self.ID = _id
-    
+
     def __repr__(self):
-        return f'<Subscriber { self.ID }>'
-    
+        return f"<Subscriber { self.ID }>"
+
     def to_dict(self):
         if self.ID is not None:
-            return {
-                '_id': self.ID,
-                'email': self.email
-            }
-        return {
-            'email': self.email
-        }
-    
+            return {"_id": self.ID, "email": self.email}
+        return {"email": self.email}
+
     def to_json(self):
         return self.to_dict()
 
@@ -41,7 +36,9 @@ class Subscriber:
 
     def update(self, email: str):
         try:
-            db.subscribers.find_one_and_update({"_id": self.ID}, {"$set": {"email": self.email}})
+            db.subscribers.find_one_and_update(
+                {"_id": self.ID}, {"$set": {"email": self.email}}
+            )
             # TODO: logger
             return True
         except BaseException as e:

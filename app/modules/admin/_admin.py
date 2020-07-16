@@ -5,14 +5,21 @@ from app.logger import logger
 from app.modules._classes import User, Classes
 from app.modules.student._student import Student
 from app.modules.teacher._teacher import Teacher
-from bson.objectid import ObjectId
+from bson import ObjectId
 from re import match
 
 
 class Admin(User):
-    USERTYPE = 'Admin'
+    USERTYPE = "Admin"
 
-    def __init__(self, email: str, first_name: str, last_name: str, classes: list = None, ID: str = None):
+    def __init__(
+        self,
+        email: str,
+        first_name: str,
+        last_name: str,
+        classes: list = None,
+        ID: str = None,
+    ):
         r"""Creates a user with Admin access
 
         This class is used for school admins that will have access to managing their school and teachers, 
@@ -40,7 +47,7 @@ class Admin(User):
         Returns a string labeled:
         "Admin {self.ID}"
         """
-        return f'<Admin {self.ID}> '
+        return f"<Admin {self.ID}> "
 
     def to_json(self):
         r"""Turns a specific class into Json format
@@ -71,16 +78,19 @@ class Admin(User):
         dictionary : dict
             Containing all information related to creating a specific admin in dictionary format
         """
-        user = Admin(email=dictionary['email'],
-                     first_name=dictionary['first_name'],
-                     last_name=dictionary['last_name'],
-                     ID=str(dictionary['_id']) if '_id' in dictionary else None)
-        if 'password' in dictionary:
-            user.set_password(dictionary['password'])
+        user = Admin(
+            email=dictionary["email"],
+            first_name=dictionary["first_name"],
+            last_name=dictionary["last_name"],
+            ID=str(dictionary["_id"]) if "_id" in dictionary else None,
+        )
+        if "password" in dictionary:
+            user.set_password(dictionary["password"])
 
-        if 'secret_question' in dictionary and 'secret_answer' in dictionary:
+        if "secret_question" in dictionary and "secret_answer" in dictionary:
             user.set_secret_question(
-                dictionary['secret_question'], dictionary['secret_answer'])
+                dictionary["secret_question"], dictionary["secret_answer"]
+            )
 
         return user
 
@@ -110,7 +120,9 @@ class Admin(User):
         last_name: str
             Last name of an admin 
         """
-        return Admin.from_dict(super(Admin, Admin).get_by_name('Admin', first_name, last_name))
+        return Admin.from_dict(
+            super(Admin, Admin).get_by_name("Admin", first_name, last_name)
+        )
 
     @staticmethod
     def get_by_email(email: str):
@@ -139,8 +151,9 @@ class Admin(User):
             The email of the student
         """
         student = Student.get_by_email(email)
-        db.classes.update_one({"_id": ObjectId(class_id)}, {"$push": {"students": ObjectId(student.ID)}})
-        
+        db.classes.update_one(
+            {"_id": ObjectId(class_id)}, {"$push": {"students": ObjectId(student.ID)}}
+        )
 
     @staticmethod
     def add_teacher(class_id: str, email: str):
@@ -157,7 +170,9 @@ class Admin(User):
             The email of the teacher
         """
         teacher = Teacher.get_by_email(email)
-        db.classes.update_one({"_id": ObjectId(class_id)}, {"$set": {"teacher": ObjectId(teacher.ID)}})
+        db.classes.update_one(
+            {"_id": ObjectId(class_id)}, {"$set": {"teacher": ObjectId(teacher.ID)}}
+        )
 
     @staticmethod
     def add_class(classes: Classes):
@@ -179,7 +194,7 @@ class Admin(User):
             db.classes.insert_one(dictionary)
         except BaseException as e:
             print(f"Error while adding class {classes.ID}: {e}")
-    
+
     def get_class_names(self):
         r""" Gets all the ObjectId's for the classes collection, along with there names
 
@@ -188,10 +203,10 @@ class Admin(User):
         Returns a list containing tuples of class_id, and the name of the class
         """
         classes = list()
-        
+
         for class_ in db.classes.find():
             class_id = class_.get("_id")
             classes.append((class_id, Classes.get_by_id(class_id).name))
 
         return classes
-    
+
