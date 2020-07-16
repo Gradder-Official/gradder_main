@@ -68,6 +68,7 @@ def add_assignment():
 
 @teacher.route('/class', methods=['GET'])
 def manage_classes():
+    print(current_user.get_class_names()[0][0])
     return redirect(url_for('teacher.manage_classes_by_id', class_id=current_user.get_class_names()[0][0]))
 
 @teacher.route('/class/<string:class_id>', methods=['GET', 'POST'])
@@ -76,7 +77,7 @@ def manage_classes_by_id(class_id: str):
     class_ = Classes.get_by_id(class_id)
 
     syllabus_name = class_.get_syllabus_name() 
-    if syllabus_name!= "":
+    if syllabus_name is not None:
         if len(syllabus_name) > 20:
             syllabus_name = syllabus_name[:20] + '...'
         class_edit_form.syllabus.label.text = f"Update syllabus (current: { syllabus_name })"

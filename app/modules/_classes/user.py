@@ -5,8 +5,6 @@ from app import db
 from flask import current_app
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from bson.objectid import ObjectId
-
-
 class User(UserMixin):
     USERTYPE = None  # is unique per each class, acts as access levels
 
@@ -172,3 +170,4 @@ class User(UserMixin):
     
     def get_id(self):
         return self.ID
+

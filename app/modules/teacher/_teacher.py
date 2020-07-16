@@ -59,7 +59,8 @@ class Teacher(User):
         print(self.classes)
         for class_ in self.classes:
             classes.append((class_, Classes.get_by_id(class_).name))
-        
+
         return classes
+
 
     
