@@ -41,10 +41,3 @@ class TeachersTests(unittest.TestCase):
     r"""
     Teachers test
     """
-
-
-
-
-
-if __name__=="__main__":
-    unittest.main()
