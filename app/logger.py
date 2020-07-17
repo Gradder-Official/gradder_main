@@ -12,7 +12,7 @@ class logger:
     def debug(message):
         from flask_login import current_user
 
-        if current_user:
+        if current_user.is_authenticated:
             file_handler = logging.FileHandler(
                 f"./app/logs/{current_user.USERTYPE.lower()}_actions.log", mode="a+"
             )
@@ -37,7 +37,7 @@ class logger:
     def info(message):
         from flask_login import current_user
 
-        if current_user:
+        if current_user.is_authenticated:
             file_handler = logging.FileHandler(
                 f"./app/logs/{current_user.USERTYPE.lower()}_actions.log", mode="a+"
             )
@@ -62,7 +62,7 @@ class logger:
     def warning(message):
         from flask_login import current_user
 
-        if current_user:
+        if current_user.is_authenticated:
             file_handler = logging.FileHandler(
                 f"./app/logs/{current_user.USERTYPE.lower()}_actions.log", mode="a+"
             )
@@ -87,7 +87,7 @@ class logger:
     def critical(message):
         from flask_login import current_user
 
-        if current_user:
+        if current_user.is_authenticated:
             file_handler = logging.FileHandler(
                 f"./app/logs/{current_user.USERTYPE.lower()}_actions.log", mode="a+"
             )
@@ -112,7 +112,7 @@ class logger:
     def exception(message):
         from flask_login import current_user
 
-        if current_user:
+        if current_user.is_authenticated:
             file_handler = logging.FileHandler(
                 f"./app/logs/{current_user.USERTYPE.lower()}_actions.log", mode="a+"
             )
