@@ -32,7 +32,7 @@ from google.cloud import storage
 @main.route("/", methods=["GET", "POST"])
 @main.route("/index", methods=["GET", "POST"])
 def index():
-    logger.info("Page was accessed")
+    # logger.info("Page was accessed")
 
     subscription_form = SubscriberForm()
     inquiry_form = InquiryForm()

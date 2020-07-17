@@ -2,14 +2,13 @@ import os
 import ssl
 from datetime import datetime
 from pymongo import MongoClient
+import dns
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class DB:
     client = MongoClient(
-        os.environ.get("MONGO_CONNECTION_STRING"),
-        ssl=True,
-        tlsAllowInvalidCertificates=False,
+        os.environ.get("MONGO_CONNECTION_STRING"), 
     )
 
     def __init__(self, school: str):
