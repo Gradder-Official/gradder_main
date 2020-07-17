@@ -1,5 +1,4 @@
 import logging
-import app.werkzeug_logger
 from flask_login import current_user
 
 
