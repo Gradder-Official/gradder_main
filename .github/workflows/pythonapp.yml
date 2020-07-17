@@ -55,6 +55,12 @@ jobs:
         GOOGLE_APPLICATION_CREDENTIALS: key.json
       run: |
         pytest
+    
+    # Checks with codecov and uploads the codecov report
+    - uses: actions/checkout@master
+    - uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
         
     - name: Delete the key # Couldn't do it before because the GAPP env wouldn't set up properly
       shell: bash
