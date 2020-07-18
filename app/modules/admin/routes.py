@@ -64,16 +64,16 @@ def registerTS():
             )
             return redirect(url_for("auth.login"))
         else:
-            logger.error(
-                "Unknown error while registering: {} {} {} - ACCESS: {}".format(
-                    user.first_name, user.last_name, user.email, user.USERTYPE
-                )
-            )
-            logger.error(
-                "Unknown error while registering: {} {} {} - ACCESS: {}".format(
-                    user.first_name, user.last_name, user.email, user.USERTYPE
-                )
-            )
+            # logger.error(
+            #     "Unknown error while registering: {} {} {} - ACCESS: {}".format(
+            #         user.first_name, user.last_name, user.email, user.USERTYPE
+            #     )
+            # )
+            # logger.error(
+            #     "Unknown error while registering: {} {} {} - ACCESS: {}".format(
+            #         user.first_name, user.last_name, user.email, user.USERTYPE
+            #     )
+            # )
             flash("Unknown error while registering.")
 
     return render_template("admin/register.html", form=form)
@@ -122,17 +122,17 @@ def addStudentClass():
                 form.class_id.data, form.email.data
             )
         )
-    else:
-        logger.error(
-            "Error in registering NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(
-                form.class_id.data, form.email.data
-            )
-        )
-        logger.error(
-            "Error in registering NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(
-                form.class_id.data, form.email.data
-            )
-        )
+   # else:
+        # logger.error(
+        #     "Error in registering NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(
+        #         form.class_id.data, form.email.data
+        #     )
+        # )
+        # logger.error(
+        #     "Error in registering NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(
+        #         form.class_id.data, form.email.data
+        #     )
+        # )
     return render_template("admin/register.html", form=form)
 
 
@@ -151,17 +151,17 @@ def addTeacherClass():
                 form.class_id.data, form.email.data
             )
         )
-    else:
-        logger.error(
-            "Error in registering NEW TEACHER IN (Class Id: {}) - TEACHER EMAIL is: {}".format(
-                form.class_id.data, form.email.data
-            )
-        )
-        logger.error(
-            "Error in registering NEW TEACHER IN (Class Id: {}) - TEACHER EMAIL is: {}".format(
-                form.class_id.data, form.email.data
-            )
-        )
+    #else:
+        # logger.error(
+        #     "Error in registering NEW TEACHER IN (Class Id: {}) - TEACHER EMAIL is: {}".format(
+        #         form.class_id.data, form.email.data
+        #     )
+        # )
+        # logger.error(
+        #     "Error in registering NEW TEACHER IN (Class Id: {}) - TEACHER EMAIL is: {}".format(
+        #         form.class_id.data, form.email.data
+        #     )
+        # )
     return render_template("admin/register.html", form=form)
 
 
