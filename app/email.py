@@ -23,10 +23,12 @@ def send_async_email(app, msg: Message):
         mail.send(msg)
 
 
-def send_email(to: List[str], subject: str, template: str, files: fileList = None, **kwargs):
+def send_email(
+    to: List[str], subject: str, template: str, files: fileList = None, **kwargs
+):
     r"""Sends an email in another thread.
 
-    Compiles a flask_mail.Message object from the arguments, and passes it to send_asyn_mail in a new thread.
+    Compiles a flask_mail.Message object from the arguments, and passes it to send_async_mail in a new thread.
 
     Parameters
     ----------
@@ -43,16 +45,18 @@ def send_email(to: List[str], subject: str, template: str, files: fileList = Non
     """
     app = current_app._get_current_object()
 
-    msg = Message(app.config['MAIL_SUBJECT_PREFIX'] + ' ' + subject,
-                  sender=app.config['MAIL_SENDER'], recipients=to)
+    msg = Message(
+        app.config["MAIL_SUBJECT_PREFIX"] + " " + subject,
+        sender=app.config["MAIL_SENDER"],
+        recipients=to,
+    )
     # msg.body is used if html cannot be rendered properly
-    msg.body = render_template(template + '.txt', **kwargs)
-    msg.html = render_template(template + '.html', **kwargs)
+    msg.body = render_template(template + ".txt", **kwargs)
+    msg.html = render_template(template + ".html", **kwargs)
 
     if files is not None:
         for filename, file_content in files:
-            msg.attach(filename,
-                       'application/octect-stream', file_content)
+            msg.attach(filename, "application/octect-stream", file_content)
 
     thr = Thread(target=send_async_email, args=[app, msg])
     thr.start()

@@ -1,8 +1,14 @@
 {% extends "bootstrap/base.html" %}
 
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/error.css') }}">
+{% endblock %}
+
 {% block content %}
+<div class="status-container">
     <p style="display: none;" id="next-page">{{ url_for(next, _anchor=_anchor) }}</p>
-    <div class="container justify-center align-items-center" style="display:flex; width:100%; height:100%;">
+    <div class="container">
         {% if success is in ['True', True, 1] %}
             <img class="rounded" style="max-width: 300px; max-height: 300px;" alt="The form was successfully submitted :)" src="https://images.vexels.com/media/users/3/157931/isolated/preview/604a0cadf94914c7ee6c6e552e9b4487-curved-check-mark-circle-icon-by-vexels.png" id="status-icon" /> 
             <br><h1>Redirecting you to your <a href="{{ url_for(next, _anchor=_anchor) }}">next</a> page in <p id="seconds">5</p> seconds...</h1>
@@ -11,6 +17,7 @@
             <br><h1>Please try again <a href="{{ url_for(next, _anchor=_anchor) }}">here</a> in <p id="seconds">5</p> seconds...</h1>
         {% endif %}
     </div>
+</div>
 {% endblock %}
 
 {% block scripts %}

@@ -1,13 +1,13 @@
-$(window).on("load", function () {
-    $('html, body').css('overflow', 'auto');
+$(window).on("load",function(){
+    $('html, body').css('overflow', 'auto'); 
     AOS.init();
 });
 
-window.onload = function () {
-    if (localStorage.getItem('lang') == null) {
-        localStorage.lang = "укр";
-    }
-}
+window.onload = function(){ 
+   	if (localStorage.getItem('lang') == null) {
+      localStorage.lang = "укр";
+   	}
+} 	
 
 /* Animation selectors */
 var svg = document.getElementById("slides");
@@ -56,7 +56,7 @@ function changeBlobShape(finalBlobPoints, finalBlobImage, activateIndicator) {
 }
 
 /* Change blobs and images for slides */
-function toOne() {
+function toOne () {
     changeBlobShape(slide1Points, slide1Image, changeIndicator(indicator1));
     timeOut = setTimeout(() => { toTwo() }, 10000);
 }

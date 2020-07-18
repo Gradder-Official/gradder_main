@@ -3,7 +3,7 @@
 {% block navbar %}
 <div class="dash-sidebar">
     <div class="navbar-header">
-        <a href="#" class="sidebar-logo">
+        <a href="{{ url_for('main.dashboard') }}" class="sidebar-logo">
             <img src="{{ url_for('static', filename='images/White Logo.png') }}" alt="Gradder">
             <h4>Gradder</h4>
         </a>
@@ -16,7 +16,7 @@
     <nav class="nav flex-column nav-pills" id="sidebar-nav">
         <a class="nav-link active" href="{{ url_for('main.dashboard') }}">Overview</a>
         <a class="nav-link" href="{{ url_for('teacher.manage_classes') }}">Classes</a>
-        <a class="nav-link" href="#">Assignments</a>
+        <a class="nav-link" href="{{ url_for('teacher.add_assignment') }}">Assignments</a>
         <a class="nav-link" href="#">Analytics</a>
         <a class="nav-link" href="{{ url_for('main.profile') }}">Profile</a>
     </nav>

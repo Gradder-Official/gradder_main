@@ -1,13 +1,23 @@
 from datetime import time, datetime
 from typing import List
-from app.logs.user_logger import user_logger
 from app import db
 from .submission import Submission
 
 
 class Assignment:
-    def __init__(self, title: str, date_assigned: time, assigned_by: int, assigned_to: str, due_by: datetime, content: str, filenames: list, 
-                       estimated_time: int, submissions: List[Submission] = None, ID: str = None):
+    def __init__(
+        self,
+        title: str,
+        date_assigned: time,
+        assigned_by: int,
+        assigned_to: str,
+        due_by: datetime,
+        content: str,
+        filenames: list,
+        estimated_time: int,
+        submissions: List[Submission] = None,
+        ID: str = None,
+    ):
         r"""Initializes the Assignment object
 
         Parameters
@@ -43,34 +53,34 @@ class Assignment:
         self.ID = ID
 
     def __repr__(self):
-        return f'<Assignment { self.ID }>'
+        return f"<Assignment { self.ID }>"
 
     def to_dict(self):
         return {
-            'title': self.title,
-            'date_assigned': str(self.date_assigned),
-            'assigned_by': str(self.assigned_by),
-            'assigned_to': str(self.assigned_to),
-            'due_by': str(self.due_by),
-            'content': str(self.content),
-            'filenames': self.filenames,
-            'estimated_time': str(self.estimated_time),
-            'submissions': self.submissions
+            "title": self.title,
+            "date_assigned": str(self.date_assigned),
+            "assigned_by": str(self.assigned_by),
+            "assigned_to": str(self.assigned_to),
+            "due_by": str(self.due_by),
+            "content": str(self.content),
+            "filenames": self.filenames,
+            "estimated_time": str(self.estimated_time),
+            "submissions": self.submissions,
         }
 
     def to_json(self):
         return {
-            'ID': str(self.ID),
-            'title': self.title,
-            'date_assigned': str(self.date_assigned),
-            'assigned_by': str(self.assigned_by),
-            'assigned_to': str(self.assigned_to),
-            'due_by': str(self.due_by),
-            'content': str(self.content),
-            'filenames': self.filenames,
-            'estimated_time': str(self.estimated_time),
-            'submissions': list(map(lambda x: x.to_json(), self.submissions)),
-            'class_name': self.class_name if self.class_name else ''
+            "ID": str(self.ID),
+            "title": self.title,
+            "date_assigned": str(self.date_assigned),
+            "assigned_by": str(self.assigned_by),
+            "assigned_to": str(self.assigned_to),
+            "due_by": str(self.due_by),
+            "content": str(self.content),
+            "filenames": self.filenames,
+            "estimated_time": str(self.estimated_time),
+            "submissions": list(map(lambda x: x.to_json(), self.submissions)),
+            "class_name": self.class_name if self.class_name else "",
         }
 
     @staticmethod
@@ -82,9 +92,17 @@ class Assignment:
         dictionary : dict
             Dictionary with proper Assignment parameters
         """
-        return Assignment(dictionary["title"], dictionary["date_assigned"], dictionary["assigned_by"], 
-                            dictionary["assigned_to"], dictionary["due_by"], 
-                            dictionary["content"], dictionary["filenames"], 
-                            dictionary["estimated_time"], 
-                            list(map(lambda x: Submission.from_dict(x), dictionary["submissions"])) if dictionary['submissions'] is not None else None, 
-                            ID=dictionary["_id"])
+        return Assignment(
+            dictionary["title"],
+            dictionary["date_assigned"],
+            dictionary["assigned_by"],
+            dictionary["assigned_to"],
+            dictionary["due_by"],
+            dictionary["content"],
+            dictionary["filenames"],
+            dictionary["estimated_time"],
+            list(map(lambda x: Submission.from_dict(x), dictionary["submissions"]))
+            if dictionary["submissions"] is not None
+            else None,
+            ID=dictionary["_id"],
+        )

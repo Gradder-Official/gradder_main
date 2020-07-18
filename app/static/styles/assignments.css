@@ -1,9 +1,16 @@
 /* Assignment preview */
+.assignments {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
 .assignment-card {
     border: none;
+    margin-bottom: 5vh;
     border-radius: 20px;
     padding: 30px;
-    width: fit-content;
+    width: 48%;
     font-family: 'SF UI Text', sans-serif;
 }
 .assignment-card .card-title {
@@ -31,6 +38,7 @@
     width: 40px;
     height: 40px;
     background-color: transparent;
+    margin-left: 20px;
 }
 .info-badge i {
     font-size: 40px;
@@ -56,6 +64,7 @@
 }
 .modal-btn {
     background-color: rgb(93, 118, 232);
+    color: white;
     font-size: 14px;
     padding: 5px 10px;
     border-radius: 10px;

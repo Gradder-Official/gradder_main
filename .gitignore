@@ -1,21 +1,27 @@
+# Editor/OS-specific files
 .vscode/
-
-**/__pycache__
-
-.pytest_cache
-
-**.pyc
-
-.sh
-
-venv
-
+.idea
 .DS_Store
 
-.idea
+# Cache files
+**/__pycache__
+.pytest_cache
+**.pyc
 
+# Scripts
+.sh
+
+# Virtual environments
+venv
+
+# JSON tokens
 gradder_cred.json
+
+# Logs
 app/logs/user_actions.log
 app/logs/forms.log
+**.log
 
+# Other
 .env
+.coverage

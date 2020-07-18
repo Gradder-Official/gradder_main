@@ -117,8 +117,7 @@ input[type=number]::-webkit-outer-spin-button
 
 /* Landing menu */
 .nav-bar {
-	position: absolute;
-	height: fit-content;
+    position: absolute;
     width: 100vw;
     margin-top: 30px;
     display: flex;
@@ -186,7 +185,7 @@ input[type=number]::-webkit-outer-spin-button
 		justify-content: flex-end;
     }
 }
-/*
+
 @media screen and (max-width: 960px) {
 	.nav-bar {
 		position: relative;
