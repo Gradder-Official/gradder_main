@@ -7,6 +7,7 @@ blinker==1.4
 CacheControl==0.12.6
 cachetools==4.0.0
 certifi==2019.11.28
+cffi==1.14.0
 chardet==3.0.4
 click==7.1.1
 colorama==0.4.3
@@ -64,6 +65,7 @@ pyparsing==2.4.7
 pytest==5.4.2
 python-dateutil==2.8.1
 python-dotenv==0.14.0
+python-snappy==0.5.4
 pytz==2019.3
 regex==2020.7.14
 requests==2.23.0
