@@ -5,7 +5,7 @@ name: Deploy
 # Triggered only on release creation
 on:
   release:
-    types: [created, edited]
+    types: [created]
 
 jobs:
 
