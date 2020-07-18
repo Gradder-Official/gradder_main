@@ -1,10 +1,17 @@
 from typing import List
-from app.logs.user_logger import user_logger
 from app import db
 
 
 class Message:
-    def __init__(self, email: str, subject: str, first_name: str, last_name: str, message: str, ID: str):
+    def __init__(
+        self,
+        email: str,
+        subject: str,
+        first_name: str,
+        last_name: str,
+        message: str,
+        ID: str,
+    ):
         self.email = email
         self.subject = subject
         self.first_name = first_name
@@ -14,12 +21,12 @@ class Message:
 
     def to_dict(self):
         json_dict = {
-            'email': self.email,
-            'subject': self.subject,
-            'first_name': self.first_name,
-            'last_name': self.last_name,
-            'message': self.message,
-            'id': self.ID
+            "email": self.email,
+            "subject": self.subject,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "message": self.message,
+            "id": self.ID,
         }
 
         return json_dict
@@ -32,5 +39,4 @@ class Message:
             db.collection_messages.document(self.ID).set(self.to_dict())
             return True
         except BaseException as e:
-            user_logger.exception("Failed adding")
             return False

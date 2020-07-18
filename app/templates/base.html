@@ -9,9 +9,14 @@
     {% block metas %}
     <meta name="title" content="Gradder - Your Smart School Diary">
     <meta name="google" content="notranslate">
-    <meta name="theme-color" content="#2B9264">
+    <meta name="theme-color" content="#8DD9F4">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta property="og:type"               content="website" />
+    <meta property="og:title"              content="Gradder - Your Smart School Diary" />
+    <meta property="og:description"        content="The first transparent all-in-one school management system." />
+    <meta property="og:image"              content="./static/images/gradder-meta-tag.png" />
     {% endblock metas %}
     {% block fonts %}
     {% endblock fonts %}
@@ -28,6 +33,12 @@
     <link rel="icon" sizes="192x192" href="{{ url_for('static', filename='images/even more resized-09.png') }}"
         type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/main.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/dashboard.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/assignments.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/teacher-systems.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/profile.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/auth.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/error.css') }}">
     {% endblock styles %}
     <title>{% block title %}Gradder | Your Smart School Diary{% endblock title %}</title>
     {% endblock head %}
@@ -67,7 +78,7 @@
     {% endblock content%}
 
     {% block scripts %}
-    <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery-1.12.4.min.js') }}"></script>
+    <!-- <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery-1.12.4.min.js') }}"></script> -->
     <script type='text/javascript' src="{{ url_for('static', filename='scripts/main.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='scripts/animations.js') }}"></script>
 

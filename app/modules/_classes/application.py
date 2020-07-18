@@ -1,9 +1,17 @@
 from app import db
-from app.logs.user_logger import user_logger
 
 
 class Application:
-    def __init__(self, email: str, job: str, ID: str, first_name: str, last_name: str, resume_url: str, comments: str):
+    def __init__(
+        self,
+        email: str,
+        job: str,
+        ID: str,
+        first_name: str,
+        last_name: str,
+        resume_url: str,
+        comments: str,
+    ):
         self.email = email
         self.job = job
         self.first_name = first_name
@@ -14,13 +22,13 @@ class Application:
 
     def to_dict(self):
         json_dict = {
-            'email': self.email,
-            'job': self.job,
-            'first_name': self.first_name,
-            'last_name': self.last_name,
-            'resume_url': self.resume_url,
-            'comments': self.comments,
-            'id': self.ID
+            "email": self.email,
+            "job": self.job,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "resume_url": self.resume_url,
+            "comments": self.comments,
+            "id": self.ID,
         }
 
         return json_dict
@@ -33,5 +41,4 @@ class Application:
             db.collection_applications.document(self.ID).set(self.to_dict())
             return True
         except BaseException as e:
-            user_logger.exception("Failed adding")
             return False

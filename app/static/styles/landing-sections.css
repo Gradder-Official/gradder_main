@@ -57,7 +57,7 @@
 }
 #why, #say, #mission, #roadmap, #team {
     width: 95%;
-    margin-bottom: 5vw;
+    margin-bottom: 14vh;
 }
 /* Why Us? */
 #why .section-content, #say .section-content {
@@ -76,7 +76,7 @@
 .reasons {
     width: 95%;
     margin-left: -50px;
-    margin-top: 5vh;
+    margin-top: 7vh;
 }
 .reasons th {
     padding: 10px;
@@ -86,15 +86,15 @@
     color: #62b8d0;
 }
 .reasons td {
-    padding: 20px 10px;
+    padding: 20px 15px;
     font-size: 1.3vw;
     text-align: center;
     margin-left: 0;
 }
 .reasons td span {
     position: relative;
-    font-size: 50px;
-    left: 15px;
+    font-size: 35px;
+    left: 10px;
 }
 .reasons ul {
     list-style-type: none;
@@ -109,14 +109,20 @@
     transform: rotate(-60deg);
 }
 /* What People Say */
+#say {
+    margin-top: -5vh;
+    margin-bottom: 6vh;
+}
 #say h1 {
     text-align: left;
     margin-left: 12vh;
 }
 #say .side-image {
-    width: 30%;
-    background-image: url('../images/Vial.png');
-    background-size: contain;
+    margin-top: -5vw;
+    width: 30vw;
+    height: 40vw;
+    background-image: url(../images/Vial.png);
+    background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: right;
 }
@@ -125,9 +131,10 @@
     width: 80%;
     margin-left: 5vh;
     align-items: center;
+    margin-top: 5vh;
 }
 .comment .quote-bar {
-    width: 15vw;
+    width: 8vw;
 }
 .comment .quote {
     width: 70%;
@@ -137,8 +144,7 @@
     align-items: center;
 }
 .comment p {
-    font-size: 1.7vw;
-    margin-left: -20px
+    font-size: 1.5vw;
 }
 #comment-carousel {
     padding-left: 50px;
@@ -151,15 +157,16 @@
 }
 .comment .commenter img {
     border-radius: 50%;
-    height: 13vw;
-    width: 13vw;
+    height: 10vw;
+    width: 10vw;
     margin: 0 auto;
 }
 .commenter p {
-    margin-top: 30px;
-    font-size: 1.4vw;
+    margin-top: 20px;
+    font-size: 1.3vw;
     text-align: center;
     margin-left: 0;
+    color: rgb(83, 189, 129);
 }
 #comment-carousel span {
     color: black;
@@ -178,6 +185,7 @@
     background-image: url('../images/Banner.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
+    min-height: 70vh;
 }
 .mission-statement {
     width: 50%;
@@ -193,7 +201,7 @@
     color: #62b8d0;
 }
 .mission-statement h3 {
-    font-size: 28px;
+    font-size: 24px;
 }
 
 /* Roadmap and team */
@@ -204,6 +212,7 @@
 }
 #roadmap h1, #team h1 {
     font-family: 'Gilroy', sans-serif;
+    font-weight: bold;
     font-size: 50px;
     margin-bottom: 2vh;
     text-align: center;
@@ -233,6 +242,7 @@
 .timeline td strong {
     font-family: 'Gilroy', sans-serif;
     font-weight: 800;
+    color: rgb(83, 189, 129);
 }
 .timeline #top-row {
     vertical-align: bottom;
@@ -259,12 +269,18 @@
     height: 20vw;
 }
 .people p {
-    font-size: 18px;
+    font-size: 16px;
     margin-top: 0;
     padding: 0 1vw;
 }
 .people h4 {
     font-family: 'SF UI Text', sans-serif;
+    font-weight: bolder;
+    color: rgb(83, 189, 129);
+    font-size: 17px;
+    max-width: 15vw;
+    margin: 0 auto;
+    margin-top: 3vh;
 }
 
 /* Footer */

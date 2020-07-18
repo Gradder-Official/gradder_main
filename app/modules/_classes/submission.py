@@ -1,10 +1,11 @@
 from datetime import time, datetime
-from app.logs.user_logger import user_logger
 from app import db
 
 
 class Submission:
-    def __init__(self, date_submitted: time, content: str, filenames: list, ID: str = None):
+    def __init__(
+        self, date_submitted: time, content: str, filenames: list, ID: str = None
+    ):
         r"""Initializes the Assignment object
 
         Parameters
@@ -33,16 +34,16 @@ class Submission:
 
     def to_dict(self):
         return {
-            'date_submitted': str(self.date_submitted),
-            'content': str(self.content),
-            'filenames': self.filenames,
+            "date_submitted": str(self.date_submitted),
+            "content": str(self.content),
+            "filenames": self.filenames,
         }
 
     def to_json(self):
         return {
-            'date_submitted': str(self.date_submitted),
-            'content': str(self.content),
-            'filenames': self.filenames,
+            "date_submitted": str(self.date_submitted),
+            "content": str(self.content),
+            "filenames": self.filenames,
         }
 
     @staticmethod
@@ -56,5 +57,9 @@ class Submission:
         """
         print(dictionary)
         if dictionary:
-            return Submission(dictionary["date_submitted"], 
-                            dictionary["content"], dictionary["filenames"], ID=dictionary["_id"])
+            return Submission(
+                dictionary["date_submitted"],
+                dictionary["content"],
+                dictionary["filenames"],
+                ID=dictionary["_id"],
+            )

@@ -1,7 +1,9 @@
 {% extends "base.html" %} 
 
 {% block content %}
-<LARGE><p>Server is tired right now :( Try reloading in a bit or </p></LARGE>
-<br>
-<small><p>go back to the main page <a href="{{ url_for('main.index') }}">here</a></p></small>
+<div class="error-container">
+    <h1>The server is tired right now :( Try reloading in a bit or </h1>
+    <br>
+    <h3>go back <a href="a href="#" onclick="javascript:window.history.back(-1);return false;">here</a></h3>
+</div>
 {% endblock content %}

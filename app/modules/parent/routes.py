@@ -5,20 +5,22 @@ from ._parent import Parent
 
 from app.decorators import required_access
 
+
 @parent.before_request
-@required_access('Parent')
+@required_access("Parent")
 def parent_verification():
     # Required_access decorator already handled it
     pass
 
 
-@parent.route('/')
-@parent.route('/index')
-@parent.route('/dashboard')
+@parent.route("/")
+@parent.route("/index")
+@parent.route("/dashboard")
 def index():
-    return render_template('parent/dashboard.html')
+    return render_template("parent/dashboard.html")
 
 
-@parent.route('/profile')
+@parent.route("/profile")
 def profile():
-    return render_template('parent/profile.html')
+    return render_template("parent/profile.html")
+

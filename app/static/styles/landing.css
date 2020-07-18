@@ -29,12 +29,14 @@
 .new-landing .left-container .hero-text p {
     font-size: 20px;
     font-weight: 600;
-    color:#00b0c7;
+    color:rgb(83, 189, 129);
     z-index: 100;
     font-weight: bolder;
+    margin-top: 5vh;
 }
 .new-landing .left-container .hero-text h1 {
     font-family: 'Gilroy', sans-serif;
+    font-weight: bold;
     color: #212121;
     font-size: 72px; /* 77px */
     margin-top: 1.2vw;
@@ -109,7 +111,7 @@
     width: 100%;
     overflow-x: hidden;
 }
-.carousel-slide {
+.header-slide {
     position: absolute;
     top: 0;
     left: 0;
