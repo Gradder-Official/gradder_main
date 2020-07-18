@@ -1,0 +1,24 @@
+# Workflow that connects to GCP App Engine and deploys the app
+
+name: Deploy
+
+# Triggered only on release creation
+on:
+  release:
+    types: [created]
+
+jobs:
+
+  deploy:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+    
+    - name: Deploy to Google App Engine
+      uses: atRobertoFlores/gae_deploy_action@master
+      with:
+        service_account: ${{ secrets.SERVICE_ACCOUNT }}
+        project_name: ${{ secrets.PROJECT_NAME }}
