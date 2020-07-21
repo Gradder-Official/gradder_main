@@ -15,4 +15,4 @@ For the coding guidelines and explained application structure, please check out 
 
 **Authors**
 
-Alex Nikanov, Shrey Gupta, Michelle Lo, Karthik Bhargav. 
+Alex Nikanov, Shrey Gupta, Michelle Lo, Karthik Bhargav, Jacob MacKenzie-Websdale. 
