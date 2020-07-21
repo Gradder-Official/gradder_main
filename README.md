@@ -1,7 +1,7 @@
 # Gradder
 Official repo for Gradder: an AI-driven platform for smart grade management.
 
-![Python application](https://github.com/Niklex21/gradder/workflows/Python%20application/badge.svg)
+![CI/pre-deploy workflow](https://github.com/Niklex21/gradder_main/workflows/CI/pre-deploy%20workflow/badge.svg?branch=master)
 
 **Contacts**
 
@@ -9,10 +9,10 @@ Official repo for Gradder: an AI-driven platform for smart grade management.
 
 team@gradder.io
 
-**To run locally**
-- Clone the repor
-- Install venv/conda
-- Set up the virtual env with Python3.8
-- `pip install -r requirements.txt`
-- set ENV vars (ask @Alex Nikanov)
-- `flask run`
+**Guidelines**
+
+For the coding guidelines and explained application structure, please check out Notion.
+
+**Authors**
+
+Alex Nikanov, Shrey Gupta, Michelle Lo, Karthik Bhargav. 

@@ -1,4 +1,3 @@
-from __future__ import annotations  # To use Student as a type in Student
 from typing import List, Dict
 
 from app import db
@@ -57,7 +56,7 @@ class Student(User):
         return self.to_json()
 
     @staticmethod
-    def from_dict(dictionary: dict) -> Student:
+    def from_dict(dictionary: dict):
         user = Student(
             email=dictionary["email"],
             first_name=dictionary["first_name"],
@@ -82,17 +81,17 @@ class Student(User):
         return user
 
     @staticmethod
-    def get_by_id(id: str) -> Student:
+    def get_by_id(id: str):
         return Student.from_dict(super(Student, Student).get_by_id(id))
 
     @staticmethod
-    def get_by_name(first_name: str, last_name: str) -> Student:
+    def get_by_name(first_name: str, last_name: str):
         return Student.from_dict(
             super(Student, Student).get_by_name("student", first_name, last_name)
         )
 
     @staticmethod
-    def get_by_email(email: str) -> Student:
+    def get_by_email(email: str):
         return Student.from_dict(super(Student, Student).get_by_email(email))
 
     def get_assignments(self) -> List[Assignment]:

@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from app import db
 
 
@@ -36,7 +34,7 @@ class Inquiry:
         return self.to_dict()
 
     @staticmethod
-    def from_dict(dictionary: dict) -> Inquiry:
+    def from_dict(dictionary: dict):
         return Inquiry(**dictionary)
 
     def add(self) -> bool:
