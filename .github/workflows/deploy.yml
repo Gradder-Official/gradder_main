@@ -24,7 +24,7 @@ jobs:
         GOOGLE_APPLICATION_CREDENTIALS: key.json
       run: |
         echo -n '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > key.json
-        echo " GOOGLE_APPLICATION_CREDENTIALS:\"$GOOGLE_APPLICATION_CREDENTIALS\"" >> app.yaml
+        echo -e "\n GOOGLE_APPLICATION_CREDENTIALS:\"$GOOGLE_APPLICATION_CREDENTIALS\"" >> app.yaml
         echo " MONGO_CONNECTION_STRING:\"${{ secrets.MONGO_CONNECTION_STRING }}\"" >> app.yaml
         echo " MAIL_PASSWORD:\"${{ secrets.MAIL_PASSWORD }}\"" >> app.yaml
         echo " MAIL_USERNAME:\"${{ secrets.MAIL_USERNAME }}\"" >> app.yaml
