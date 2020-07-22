@@ -22,12 +22,15 @@ jobs:
       shell: bash
       env: 
         GOOGLE_APPLICATION_CREDENTIALS: key.json
+        MONGO_CONNECTION_STRING: secrets.MONGO_CONNECTION_STRING
+        MAIL_PASSWORD: secrets.MAIL_PASSWORD
+        MAIL_USERNAME: secrets.MAIL_USERNAME
       run: |
         echo -n '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > key.json
-        echo -e "\n GOOGLE_APPLICATION_CREDENTIALS:\"$GOOGLE_APPLICATION_CREDENTIALS\"" >> app.yaml
-        echo -e "\n MONGO_CONNECTION_STRING:\"${{ secrets.MONGO_CONNECTION_STRING }}\"" >> app.yaml
-        echo -e "\n MAIL_PASSWORD:\"${{ secrets.MAIL_PASSWORD }}\"" >> app.yaml
-        echo -e "\n MAIL_USERNAME:\"${{ secrets.MAIL_USERNAME }}\"" >> app.yaml
+        echo -e "\n GOOGLE_APPLICATION_CREDENTIALS: \"$GOOGLE_APPLICATION_CREDENTIALS\"" >> app.yaml
+        echo -e "\n MONGO_CONNECTION_STRING: \"$MONGO_CONNECTION_STRING\"" >> app.yaml
+        echo -e "\n MAIL_PASSWORD: \"$MAIL_PASSWORD\"" >> app.yaml
+        echo -e "\n MAIL_USERNAME: \"$MAIL_USERNAME\"" >> app.yaml
     
     - name: Deploy to Google App Engine
       uses: atRobertoFlores/gae_deploy_action@master
