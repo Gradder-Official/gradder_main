@@ -6,4 +6,5 @@ runtime_config:
  python_version: 3.8
 
 env_variables: # Is later added with a bash script on deploy to avoid exposure
+ FLASK_ENV:"production"
  
