@@ -7,4 +7,3 @@ runtime_config:
 
 env_variables: # Is later added with a bash script on deploy to avoid exposure
  FLASK_ENV:"production"
- 
