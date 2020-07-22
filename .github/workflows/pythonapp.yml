@@ -57,8 +57,11 @@ jobs:
         pytest
     
     # Checks with codecov and uploads the codecov report
-    - uses: actions/checkout@master
-    - uses: codecov/codecov-action@v1
+    - name: Checkout the code in main for CodeCov
+      uses: actions/checkout@main
+      
+    - name: Generate and send the codecov report
+      uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         
