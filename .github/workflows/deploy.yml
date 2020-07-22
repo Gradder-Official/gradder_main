@@ -26,9 +26,8 @@ jobs:
         echo -n '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > key.json
         echo " GOOGLE_APPLICATION_CREDENTIALS:\"$GOOGLE_APPLICATION_CREDENTIALS\"" >> app.yaml
         echo " MONGO_CONNECTION_STRING:\"${{ secrets.MONGO_CONNECTION_STRING }}\"" >> app.yaml
-        echo " MAIL_PASSWORD:\"${{ secrets.MAIL_PASSWORDS }}\"" >> app.yaml
+        echo " MAIL_PASSWORD:\"${{ secrets.MAIL_PASSWORD }}\"" >> app.yaml
         echo " MAIL_USERNAME:\"${{ secrets.MAIL_USERNAME }}\"" >> app.yaml
-        echo " FLASK_ENV:\"production\"" >> app.yaml
     
     - name: Deploy to Google App Engine
       uses: atRobertoFlores/gae_deploy_action@master
