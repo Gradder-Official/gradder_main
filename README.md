@@ -15,8 +15,4 @@ For the coding guidelines and explained application structure, please check out 
 
 **Authors**
 
-<<<<<<< HEAD
-Alex Nikanov, Shrey Gupta, Michelle Lo, Karthik Bhargav. 
-=======
 Alex Nikanov, Shrey Gupta, Michelle Lo, Karthik Bhargav, Jacob MacKenzie-Websdale. 
->>>>>>> 7339ed3394de18673426fd11105a8dbf5032c212

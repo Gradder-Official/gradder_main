@@ -42,10 +42,10 @@ class AdminTests(unittest.TestCase):
         ), follow_redirects=True)
     # Checking register classes
 
-    def test_dashboard_loading(self):
-        response = self.client.get('/dashboard')
-        self.assertEqual(response.status, '302 FOUND', 'Dashboard route does not redirect')
+    # def test_dashboard_loading(self, usertype):
+    #     response = self.client.get('/dashboard')
+    #     self.assertEqual(response.status, '302 FOUND', 'Dashboard route does not redirect')
 
-    def registerClasses(self):
-        response = self.register_classes('CS', '321n', 'Game Theory in CS', '5f016d7d0fcc27aa6bdffe43', 'Learning Game Theory', '09:10', '3, 4')
-        self.assertTrue(response, "Registering Classes worked")
+    # def registerClasses(self):
+    #     response = self.register_classes('CS', '321n', 'Game Theory in CS', '5f016d7d0fcc27aa6bdffe43', 'Learning Game Theory', '09:10', '3, 4')
+    #     self.assertTrue(response, "Registering Classes worked")
