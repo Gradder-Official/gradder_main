@@ -3,8 +3,8 @@ from flask import current_app
 from app import create_app
 import os
 
-# Write Tests for everything you can think of 
-# Todo: Add Parents Tests?
+
+
 
 class BasicsTestCase(unittest.TestCase):
     def setUp(self):
@@ -20,3 +20,8 @@ class BasicsTestCase(unittest.TestCase):
 
     def test_app_is_testing(self):
         self.assertTrue(current_app.config['TESTING'])
+    
+    
+    # Please Test
+    # def assignment_test(self):
+    #     return ""
