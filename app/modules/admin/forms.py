@@ -12,6 +12,7 @@ from wtforms import (
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 from app import db
+from app.mixins import JSONForm
 from bson import ObjectId
 
 
@@ -85,7 +86,7 @@ class AddTeacherClass(FlaskForm):
     submit = SubmitField("Confirm")
 
 
-class EditClassForm(FlaskForm):
+class EditClassForm(FlaskForm, JSONForm):
     description = TextAreaField("Description")
     syllabus = FileField("Update syllabus (current: empty)")
 
