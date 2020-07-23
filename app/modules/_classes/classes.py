@@ -103,11 +103,11 @@ class Classes:
             dictionary["number"],
             dictionary["name"],
             dictionary["teacher"],
-            list(dictionary["students"]),
+            dictionary["students"],
             dictionary["description"],
             dictionary["schedule_time"],
             dictionary["schedule_days"],
-            list(dictionary["syllabus"]),
+            dictionary["syllabus"],
             list(
                 map(lambda x: Assignment.from_dict(x), list(dictionary["assignments"]))
             )
