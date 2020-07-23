@@ -15,7 +15,40 @@ jobs:
 
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+    - name: Checking out the repository
+      uses: actions/checkout@v2
+    
+    - name: Attach the environment variables to app.yaml
+      shell: bash
+      env: 
+        GOOGLE_APPLICATION_CREDENTIALS: key.json
+        MONGO_CONNECTION_STRING: secrets.MONGO_CONNECTION_STRING
+        MAIL_PASSWORD: secrets.MAIL_PASSWORD
+        MAIL_USERNAME: secrets.MAIL_USERNAME
+      run: |
+        echo -e "env_variables:" >> app.yaml
+        echo -n '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > key.json
+        echo -e "\n FLASK_ENV: \"production\"" >> app.yaml
+        echo -e "\n GOOGLE_APPLICATION_CREDENTIALS: \"$GOOGLE_APPLICATION_CREDENTIALS\"" >> app.yaml
+        echo -e "\n MONGO_CONNECTION_STRING: \"$MONGO_CONNECTION_STRING\"" >> app.yaml
+        echo -e "\n MAIL_PASSWORD: \"$MAIL_PASSWORD\"" >> app.yaml
+        echo -e "\n MAIL_USERNAME: \"$MAIL_USERNAME\"" >> app.yaml
+      
+    - name: Create the .env files
+      shell: bash
+      env: 
+        GOOGLE_APPLICATION_CREDENTIALS: key.json
+        MONGO_CONNECTION_STRING: secrets.MONGO_CONNECTION_STRING
+        MAIL_PASSWORD: secrets.MAIL_PASSWORD
+        MAIL_USERNAME: secrets.MAIL_USERNAME
+      run: |
+        touch .env
+        echo -n '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > key.json
+        echo -e "FLASK_ENV=\"production\"" >> .env
+        echo -e "GOOGLE_APPLICATION_CREDENTIALS=\"$GOOGLE_APPLICATION_CREDENTIALS\"" >> .env
+        echo -e "MONGO_CONNECTION_STRING=\"$MONGO_CONNECTION_STRING\"" >> .env
+        echo -e "MAIL_PASSWORD=\"$MAIL_PASSWORD\"" >> .env
+        echo -e "MAIL_USERNAME=\"$MAIL_USERNAME\"" >> .env
     
     - name: Deploy to Google App Engine
       uses: atRobertoFlores/gae_deploy_action@master
