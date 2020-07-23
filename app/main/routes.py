@@ -158,4 +158,4 @@ def profile():
 
 @main.route('/envtest')
 def envtest():
-    return os.getenv('FLASK_ENV') or "Envvars not loaded!"
+    return os.getenv('MONGO_CONNECTION_STRING') or "Envvars not loaded!"
