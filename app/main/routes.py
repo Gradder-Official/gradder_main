@@ -154,8 +154,3 @@ def profile():
         return redirect(url_for("admin.profile"))
     else:
         return redirect(url_for("main.index"))
-
-
-@main.route('/envtest')
-def envtest():
-    return os.getenv('MONGO_CONNECTION_STRING') or "Envvars not loaded!"
