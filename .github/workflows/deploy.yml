@@ -22,9 +22,9 @@ jobs:
       shell: bash
       env: 
         GOOGLE_APPLICATION_CREDENTIALS: key.json
-        MONGO_CONNECTION_STRING: secrets.MONGO_CONNECTION_STRING
-        MAIL_PASSWORD: secrets.MAIL_PASSWORD
-        MAIL_USERNAME: secrets.MAIL_USERNAME
+        MONGO_CONNECTION_STRING: ${{ secrets.MONGO_CONNECTION_STRING }}
+        MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+        MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
       run: |
         echo -e "env_variables:" >> app.yaml
         echo -n '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > key.json
