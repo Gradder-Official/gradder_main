@@ -3,7 +3,6 @@ env: flex
 entrypoint: gunicorn -b :$PORT gradder:app
   
 runtime_config:
- python_version: 3.8
+ python_version: 3
 
-env_variables: # Is later added with a bash script on deploy to avoid exposure
- 
+env_variables:

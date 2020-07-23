@@ -20,3 +20,7 @@ class BasicsTestCase(unittest.TestCase):
 
     def test_app_is_testing(self):
         self.assertTrue(current_app.config['TESTING'])
+
+    # Please change
+    # def add_assignment(self):
+    #     return "cool" 
