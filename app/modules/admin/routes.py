@@ -212,11 +212,3 @@ def manage_classes_by_id(class_id: str):
         class_edit_form=class_edit_form,
         current_description=class_.description,
     )
-
-
-# @admin.route('/students', methods=['GET', 'POST'])
-# def allStudents():
-#     form = AddTeacherClass()
-#     if form.validate_on_submit():
-#         Admin.add_teacher(form.class_id.data, form.email.data)
-#     return render_template('admin/register.html', form=form)
