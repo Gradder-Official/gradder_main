@@ -172,9 +172,11 @@ def manage_classes():
     except TypeError:
         # We can assume that the admin has no classes.
         classes = []
-
+    
     return {
-        'forms': {},
+        'forms': {
+            'edit_class': EditClassForm().get_form_json()
+        },
         'flashes': [],
         'data': {
             'classes': classes
@@ -184,20 +186,16 @@ def manage_classes():
 @admin.route("/class/<string:class_id>", methods=["GET", "POST"])
 def manage_classes_by_id(class_id: str):
     flashes = []
-    class_edit_form = {
-        'fields': [
-            {'name': 'description', 'type': 'text', 'title': 'Description'},
-            {'name': 'syllabus', 'type': 'file', 'title': 'Update syllabus (current: empty)'},
-            {'name': 'submit', 'type': 'submit', 'title': 'Submit'}
-        ]
-    }
+    class_edit_form = EditClassForm()
     class_ = Classes.get_by_id(class_id)
 
     syllabus_name = class_.get_syllabus_name()
     if syllabus_name is not None:
         if len(syllabus_name) > 20:
             syllabus_name = syllabus_name[:20] + "..."
-        class_edit_form['fields'][2]['text'] = f"Update syllabus (current: { syllabus_name })"
+        class_edit_form.syllabus.label.text = (
+            f"Update syllabus (current: { syllabus_name })"
+        )
 
     if class_edit_form.validate_on_submit():
         syllabus = tuple()
@@ -217,10 +215,12 @@ def manage_classes_by_id(class_id: str):
         flashes.append(
             "Class information successfully updated!"
         )
+    else:
+        data
 
     return {
         'forms': {
-            'class_edit': class_edit_form
+            'class_edit': class_edit_form.get_form_json()
         },
         'flashes': flashes,
         'data': {
