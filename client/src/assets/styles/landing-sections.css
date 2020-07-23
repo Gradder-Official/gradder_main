@@ -1,0 +1,383 @@
+.section {
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    background: #fff;
+}
+.section-content {
+    width: 70%;
+}
+.section-content h1 {
+    font-family: 'Gilroy', sans-serif;
+    font-size: 50px;
+    text-align: center;
+    margin-top: 15vh;
+    margin-bottom: 2vh;
+    font-weight: bold;
+}
+
+/* Scrollspy */
+.landing-sections {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+#scrollspy-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    z-index: 1000;
+    min-width: 5vw;
+    opacity: 0;
+    transition: opacity 0.3s ease-in;
+    background-color: #6ccce6;
+    font-size: 1.2vw;
+    padding-left: 0;
+}
+#scrollspy-nav .nav-link {
+    min-height: 40px;
+    margin-bottom: 8vh;
+    color: white;
+    text-align: center;
+    height: 30px;
+    border-radius: 0 10px 10px 0;
+    padding-left: 2vw;
+}
+#scrollspy-nav .material-icons {
+    text-align: center;
+    vertical-align: middle;
+}
+#scrollspy-nav .nav-pills .nav-link.active, #scrollspy-nav .nav-pills .nav-link:hover {
+    color: rgb(8, 121, 136);
+    background: white;
+}
+#why, #say, #mission, #roadmap, #team {
+    width: 95%;
+    margin-bottom: 14vh;
+}
+/* Why Us? */
+#why .section-content, #say .section-content {
+    width: 80vw;
+    margin-top: -5vw;
+}
+#why h1 {
+    width: 90%;
+}
+#why .side-image {
+    width: 35%;
+    background-image: url('../images/Globe.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.reasons {
+    width: 95%;
+    margin-left: -50px;
+    margin-top: 7vh;
+}
+.reasons th {
+    padding: 10px;
+    padding-bottom: 20px;
+    width: 10px;
+    text-align: center;
+    color: #62b8d0;
+}
+.reasons td {
+    padding: 20px 15px;
+    font-size: 1.3vw;
+    text-align: center;
+    margin-left: 0;
+}
+.reasons td span {
+    position: relative;
+    font-size: 35px;
+    left: 10px;
+}
+.reasons ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.reasons th img {
+    width: 5vw;
+    margin-left: 1.2vw;
+}
+#teacher-image {
+    transform: rotate(-60deg);
+}
+/* What People Say */
+#say {
+    margin-top: -5vh;
+    margin-bottom: 6vh;
+}
+#say h1 {
+    text-align: left;
+    margin-left: 12vh;
+}
+#say .side-image {
+    margin-top: -5vw;
+    width: 30vw;
+    height: 40vw;
+    background-image: url(../images/Vial.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: right;
+}
+#say .comment {
+    display: flex;
+    width: 80%;
+    margin-left: 5vh;
+    align-items: center;
+    margin-top: 5vh;
+}
+.comment .quote-bar {
+    width: 8vw;
+}
+.comment .quote {
+    width: 70%;
+    margin-right: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.comment p {
+    font-size: 1.5vw;
+}
+#comment-carousel {
+    padding-left: 50px;
+    width: 65vw;
+}
+.commenter {
+    display: flex;
+    flex-direction: column;
+    margin-right: 4%;
+}
+.comment .commenter img {
+    border-radius: 50%;
+    height: 10vw;
+    width: 10vw;
+    margin: 0 auto;
+}
+.commenter p {
+    margin-top: 20px;
+    font-size: 1.3vw;
+    text-align: center;
+    margin-left: 0;
+    color: rgb(83, 189, 129);
+}
+#comment-carousel span {
+    color: black;
+    font-size: 50px;
+}
+#comment-carousel .carousel-control-next {
+    width: 3vw;
+    margin-right: 5%;
+}
+#comment-carousel .carousel-inner {
+    width: 63vw;
+}
+/* Mission */
+#mission {
+    margin-bottom: 8vw;
+    background-image: url('../images/Banner.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    min-height: 70vh;
+}
+.mission-statement {
+    width: 50%;
+    margin: auto;
+    text-align: center;
+}
+.mission-statement h1 {
+    margin-top: 0;
+}
+.mission-statement h2 {
+    font-size: 32px;
+    line-height: 1.5;
+    color: #62b8d0;
+}
+.mission-statement h3 {
+    font-size: 24px;
+}
+
+/* Roadmap and team */
+#roadmap, #team {
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+}
+#roadmap h1, #team h1 {
+    font-family: 'Gilroy', sans-serif;
+    font-weight: bold;
+    font-size: 50px;
+    margin-bottom: 2vh;
+    text-align: center;
+}
+#roadmap img, .people {
+    width: 80%;
+    margin: 0 auto;
+    table-layout: fixed;
+}
+.timeline {
+    position: absolute;
+    top: 4.5vw;
+    left: 10%;
+    width: 80%;
+    height: 75%;
+    table-layout: fixed;
+    line-height: 1.3;
+    display: block;
+}
+.timeline td {
+    padding: 3vw 1vh;
+    font-size: 1.2vw;
+    text-align: center;
+    height: 16.5vw;
+    max-width: 10vw;
+}
+.timeline td strong {
+    font-family: 'Gilroy', sans-serif;
+    font-weight: 800;
+    color: rgb(83, 189, 129);
+}
+.timeline #top-row {
+    vertical-align: bottom;
+}
+.timeline #bottom-row {
+    vertical-align: top;
+}
+.people th {
+    padding: 30px 10px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+.people tr {
+    height: 100%;
+    vertical-align: top;
+}
+.people td {
+    padding: 10px;
+    font-size: 20px;
+    text-align: center;
+}
+.people img {
+    height: 20vw;
+}
+.people p {
+    font-size: 16px;
+    margin-top: 0;
+    padding: 0 1vw;
+}
+.people h4 {
+    font-family: 'SF UI Text', sans-serif;
+    font-weight: bolder;
+    color: rgb(83, 189, 129);
+    font-size: 17px;
+    max-width: 15vw;
+    margin: 0 auto;
+    margin-top: 3vh;
+}
+
+/* Footer */
+footer {
+    display: flex;
+    flex-direction: column;
+    padding: 5vh 5vw;
+    width: 100vw;
+    height: fit-content;
+
+    background-image: url(../images/Footer.png);
+    background-size: 100% 100%;
+    padding-top: 20vh;
+}
+.footer-body {
+    display: flex;
+    flex-direction: row;
+    margin: 30px auto;
+    width: 80%;
+}
+footer h1 {
+    font-family: 'Gilroy', sans-serif;
+    font-weight: bolder;
+    font-size: 30px;
+    color: rgb(67, 152, 168);
+    margin-bottom: 20px;
+}
+.contact-info, .footer-nav {
+    display: flex;
+    flex-direction: column;
+    font-family: 'SF UI Text', sans-serif;
+    width: fit-content;
+    margin: 0 5vw;
+}
+.footer-body p, .footer-body a {
+    font-size: 20px;
+    margin-bottom: 1rem;
+    color: white;
+}
+.footer-body a:hover {
+    text-decoration: none;
+}
+#inquiry-btn {
+    width: fit-content;
+    background-color: rgb(67, 152, 168);
+    border: none;
+}
+
+.enquiry-form {
+    display: flex;
+    flex-direction: column;
+    width: 35vw;
+}
+.form-control {
+    margin-bottom: 15px;
+}
+.form-group {
+    margin-bottom: 0;
+}
+.modal-header h1 {
+    font-weight: bold;
+    margin: 3% 0 0 5%;
+}
+.modal-content {
+    border-radius: 30px;
+    border: none;
+    padding: 5px 0;
+}
+#enquiry-name, #enquiry-email, #enquiry-subject, #enquiry-body {
+    padding: 8px;
+    border: 1px solid #6ccce6;
+    border-radius: 8px;
+    font-family: 'SF UI Text', sans-serif;
+    width: 100%;
+}
+#enquiry-body {
+    height: 20vh;
+}
+#enquiry-subject {
+    height: fit-content;
+    width: 100%;
+}
+#enquiry-name:focus, #enquiry-email:focus, #enquiry-subject:focus, #enquiry-body:focus {
+    outline: none !important;
+    box-shadow: inset 0px 0px 0px 1px #00b0c7;
+}
+#enquiry-submit {
+    padding: 10px 20px;
+    border-radius: 8px;
+    width: fit-content;
+    margin: 10px 0;
+    border: 0px;
+    background: #00b0c7;
+    font-weight: bold;
+}
+#enquiry-submit:hover, #enquiry-submit:active {
+    color: white;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    background: #00b0c7;
+}
