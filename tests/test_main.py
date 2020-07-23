@@ -72,11 +72,15 @@ class MainTestCase(unittest.TestCase):
         self.assertFalse(form.validate(), "Validates invalid email")
 
     # Redirecting - h e l p  I don't know why this part doesn't work
-
+    # Wait I think this commented code should work but it looks wrong(I think it is btw)
     # def test_forms_redirect_home(self):
     #    response = self.client.post(
     #        '/index',
-    #        data={'email': 'test@gmail.com'}
+    #        data = {
+    #         'name': 'bobby', 
+    #         'email': 'mynameisbobby!',
+    #         'subject': "Bugs/suggestions",
+    #         'inquiry': 'I have an inquiry!'
+    #     }
     #    )
-    #    self.assertEqual(response.status_code, 302, "Forms do not redirect")
-    #    self.assertEqual(response['location'], '/index', "Forms do not redirect to landing")
+    #    self.assertEqual(response.status, '200 OK', 'Forms do not redirect')
