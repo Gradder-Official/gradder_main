@@ -228,7 +228,7 @@ def manage_classes_by_id(class_id: str):
 
     return {
         'forms': {
-            'class_edit': class_edit_form.get_form_json()
+            'class_edit': EditClassForm().get_form_json()
         },
         'flashes': flashes,
         'data': {
