@@ -109,61 +109,72 @@ def registerClasses():
 
 @admin.route("/studentClass", methods=["GET", "POST"])
 def addStudentClass():
-    form = AddStudentClass()
-    if form.validate_on_submit():
-        Admin.add_student(form.class_id.data, form.email.data)
+    add_student_form = AddStudentClass()
+    if add_student_form.validate_on_submit():
+        Admin.add_student(add_student_form.class_id.data, add_student_form.email.data)
         logger.info(
             "NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(
-                form.class_id.data, form.email.data
+                add_student_form.class_id.data, add_student_form.email.data
             )
         )
         logger.info(
             "NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(
-                form.class_id.data, form.email.data
+                add_student_form.class_id.data, add_student_form.email.data
             )
         )
     else:
         logger.error(
             "Error in registering NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(
-                form.class_id.data, form.email.data
+                add_student_form.class_id.data, add_student_form.email.data
             )
         )
         logger.error(
             "Error in registering NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(
-                form.class_id.data, form.email.data
+                add_student_form.class_id.data, add_student_form.email.data
             )
         )
-    return render_template("admin/register.html", form=form)
+    return {
+        'forms': {
+            'add_student': add_student_form.get_form_json()
+        },
+        'flashes': [],
+        'data': []
+    }
 
 
 @admin.route("/teacherClass", methods=["GET", "POST"])
 def addTeacherClass():
-    form = AddTeacherClass()
-    if form.validate_on_submit():
-        Admin.add_teacher(form.class_id.data, form.email.data)
+    add_teacher_form = AddTeacherClass()
+    if add_teacher_form.validate_on_submit():
+        Admin.add_teacher(add_teacher_form.class_id.data, add_teacher_form.email.data)
         logger.info(
             "NEW TEACHER IN: {}  - TEACHER EMAIL: {}".format(
-                form.class_id.data, form.email.data
+                add_teacher_form.class_id.data, add_teacher_form.email.data
             )
         )
         logger.info(
             "NEW TEACHER IN: {}  - TEACHER EMAIL: {}".format(
-                form.class_id.data, form.email.data
+                add_teacher_form.class_id.data, add_teacher_form.email.data
             )
         )
     else:
         logger.error(
             "Error in registering NEW TEACHER IN (Class Id: {}) - TEACHER EMAIL is: {}".format(
-                form.class_id.data, form.email.data
+                add_teacher_form.class_id.data, add_teacher_form.email.data
             )
         )
         logger.error(
             "Error in registering NEW TEACHER IN (Class Id: {}) - TEACHER EMAIL is: {}".format(
-                form.class_id.data, form.email.data
+                add_teacher_form.class_id.data, add_teacher_form.email.data
             )
         )
-    return render_template("admin/register.html", form=form)
-
+    return {
+        'forms': {
+            'add_teacher': add_teacher_form.get_form_json()
+        },
+        'flashes': [],
+        'data': []
+    }
 
 @admin.route("/class", methods=["GET"])
 def manage_classes():
