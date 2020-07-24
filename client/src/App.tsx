@@ -14,9 +14,14 @@ import ParentDash from './pages/parent/ParentDash';
 // Stylesheets
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+interface student {
+  userType: string;
+  loggedIn: true;
+}
+
 const App: FunctionComponent = () => {
   // Fetch user type from API. Below is a dummy.
-  const user = useState({
+  const [user] = useState<student>({
     userType: 'student',
     loggedIn: true,
   });
