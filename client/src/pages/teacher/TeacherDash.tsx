@@ -1,11 +1,7 @@
-import React, { Component } from 'react'
+import React, { FunctionComponent } from 'react';
 
-export default class TeacherDash extends Component {
-    render() {
-        return (
-            <div>
-                TEACHER DASHBOARD
-            </div>
-        )
-    }
-}
+const TeacherDash: FunctionComponent = () => {
+  return <div>TEACHER DASHBOARD</div>;
+};
+
+export default TeacherDash;

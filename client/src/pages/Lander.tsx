@@ -1,19 +1,23 @@
 // NPM Imports
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, FunctionComponent } from 'react';
 import { Container } from 'reactstrap';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 
-const Lander = () => {
-  const [apiRes, setApiRes] = useState({
+interface testAPIRes {
+  hello: string;
+}
+
+const Lander: FunctionComponent = () => {
+  const [apiRes, setApiRes] = useState<testAPIRes>({
     hello: '',
   });
 
   useEffect(() => {
     axios
       .get('/api')
-      .then((res) => res.data)
-      .then((res) => setApiRes(res));
+      .then((res: any) => res.data)
+      .then((res: any) => setApiRes(res));
   }, []);
 
   return (

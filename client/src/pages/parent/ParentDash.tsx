@@ -1,11 +1,7 @@
-import React, { Component } from 'react'
+import React, { FunctionComponent } from 'react';
 
-export default class ParentDash extends Component {
-    render() {
-        return (
-            <div>
-                PARENT DASHBOARD
-            </div>
-        )
-    }
-}
+const ParentDash: FunctionComponent = () => {
+  return <div>PARENT DASHBOARD</div>;
+};
+
+export default ParentDash;

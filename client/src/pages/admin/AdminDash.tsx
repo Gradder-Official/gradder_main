@@ -1,11 +1,7 @@
-import React, { Component } from 'react'
+import React, { FunctionComponent } from 'react';
 
-export default class AdminDash extends Component {
-    render() {
-        return (
-            <div>
-                ADMIN DASHBOARD
-            </div>
-        )
-    }
-}
+const AdminDash: FunctionComponent = () => {
+  return <div>ADMIN DASHBOARD</div>;
+};
+
+export default AdminDash;
