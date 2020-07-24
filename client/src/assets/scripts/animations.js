@@ -1,9 +1,8 @@
 /* Ripples animation */
-$(window, document, undefined).ready(function() {
-
+$(window, document, undefined).ready(function () {
   var $ripples = $('.ripples');
 
-  $ripples.on('click.Ripples', function(e) {
+  $ripples.on('click.Ripples', function (e) {
     var $this = $(this);
     var $offset = $this.parent().offset();
     var $circle = $this.find('.ripplesCircle');
@@ -13,13 +12,13 @@ $(window, document, undefined).ready(function() {
 
     $circle.css({
       top: y + 'px',
-      left: x + 'px'
+      left: x + 'px',
     });
 
     $this.addClass('is-active');
   });
 
-  $ripples.on('animationend webkitAnimationEnd mozAnimationEnd oanimationend MSAnimationEnd', function(e) {
-  	$(this).removeClass('is-active');
+  $ripples.on('animationend webkitAnimationEnd mozAnimationEnd oanimationend MSAnimationEnd', function (e) {
+    $(this).removeClass('is-active');
   });
 });
