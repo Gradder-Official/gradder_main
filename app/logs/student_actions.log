@@ -1,2 +1,3 @@
 2020-07-16 18:29:14,779 - app.logger - INFO - Page was accessed - johnnydoe@students.edu - Student - info - line 32
 2020-07-16 18:31:04,447 - app.logger - INFO - File 58fe02b213184767936d2edfbda6244f.pdf opened from assignment - johnnydoe@students.edu - Student - info - line 32
+2020-07-24 15:04:02,690 - app.logger - INFO - LOGGED IN: Dedicated Pupil - ACCESS: Student - dp@gmail.com - Student - info - line 58
