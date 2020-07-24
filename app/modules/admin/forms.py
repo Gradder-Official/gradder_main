@@ -74,13 +74,13 @@ class NewClasses(FlaskForm):
     submit = SubmitField("Register")
 
 
-class AddStudentClass(FlaskForm):
+class AddStudentClass(FlaskForm, JSONForm):
     class_id = StringField("ObjectId", validators=[DataRequired(), Length(1, 128)])
     email = StringField("Email", validators=[DataRequired(), Length(1, 128)])
     submit = SubmitField("Confirm")
 
 
-class AddTeacherClass(FlaskForm):
+class AddTeacherClass(FlaskForm, JSONForm):
     class_id = StringField("ObjectId", validators=[DataRequired(), Length(1, 128)])
     email = StringField("Email", validators=[DataRequired(), Length(1, 128)])
     submit = SubmitField("Confirm")
