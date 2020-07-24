@@ -1,16 +1,9 @@
-import React, { Component } from 'react';
+import React, { FunctionComponent } from 'react';
 
 // Need to route for student/dashboard, teacher/dashboard, admin/dashboard, parent/dashboard
 
-class StudentDash extends Component {
+const StudentDash: FunctionComponent = () => {
+  return <h1>STUDENT DASHBOARD</h1>;
+};
 
-    render() {
-        return (
-            <div>
-                STUDENT DASHBOARD
-            </div>
-        )
-    }
-}
-
-export default StudentDash
+export default StudentDash;

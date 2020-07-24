@@ -1,5 +1,5 @@
 // NPM Imports
-import React, { useState } from 'react';
+import React, { useState, FunctionComponent } from 'react';
 import { Switch, BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
 // Components
@@ -14,9 +14,9 @@ import ParentDash from './pages/parent/ParentDash';
 // Stylesheets
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const App: React.FunctionComponent = () => {
+const App: FunctionComponent = () => {
   // Fetch user type from API. Below is a dummy.
-  const [user, setUser] = useState({
+  const user = useState({
     userType: 'student',
     loggedIn: true,
   });
