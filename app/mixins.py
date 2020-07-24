@@ -1,5 +1,9 @@
+import json
+
+from bson import ObjectId
 from wtforms.fields.core import Field
-from wtforms.widgets import TextArea, Select, Option
+from wtforms.widgets import Option, Select, TextArea
+
 
 class JSONForm:
     def get_form_json(self):
@@ -38,3 +42,10 @@ class JSONForm:
                 fields.append(field_data)
 
         return fields
+
+    
+class JSONEncoder(json.JSONEncoder):
+        def default(self, o):
+            if isinstance(o, ObjectId):
+                return str(o)
+            return json.JSONEncoder.default(self, o)
