@@ -105,14 +105,14 @@ def view_assignment_by_class_id(class_id: str):
     }
 
 
-@teacher.route("/assignments/<:class_id:>/<string:assignment_id>", methods=["GET", "POST"])
+@teacher.route("/assignments/<string:class_id>/<string:assignment_id>", methods=["GET", "POST"])
 def edit_assignment(class_id: str, assignment_id: str):
     # Find assignment in teacher's classes
     flashes = []
     class_ = Classes.get_by_id(class_id)
     assignments = class_.get_assignments()
     # TODO: Create custom error when assignment isn't found
-    assignment = filter(lambda a: str(a.ID) == assignment_id, assignments)[0]
+    assignment = list(filter(lambda a: str(a.ID) == assignment_id, assignments))[0]
 
     edit_assignment_form = EditAssignmentForm()
     if edit_assignment_form.validate_on_submit():
@@ -123,9 +123,9 @@ def edit_assignment(class_id: str, assignment_id: str):
         'forms': {
             'edit_assignment': EditAssignmentForm().get_form_json()
         },
-        'flashes': [],
+        'flashes': flashes,
         'data': {
-            'assignments': list(map(lambda a: a.to_json(), class_assignments))
+            'assignment': assignment.to_json()
         }
     }
 
