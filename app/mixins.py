@@ -15,8 +15,8 @@ class JSONForm:
                     for flag_name, flag_value in field.flags.__dict__.items()
                 ],
                 'default': field.default,
-                'description': field.description
-
+                'description': field.description,
+                'value': field._value() if hasattr(field, '_value') else None
             }
             for name, field in self.__dict__.items()
             if issubclass(field.__class__, Field)
