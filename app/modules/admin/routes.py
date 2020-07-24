@@ -167,15 +167,25 @@ def addTeacherClass():
 
 @admin.route("/class", methods=["GET"])
 def manage_classes():
-    return redirect(
-        url_for(
-            "admin.manage_classes_by_id", class_id=current_user.get_class_names()[0][0]
-        )
-    )
-
+    try:
+        classes = current_user.get_class_names()
+    except TypeError:
+        # We can assume that the admin has no classes.
+        classes = []
+    
+    return {
+        'forms': {
+            'edit_class': EditClassForm().get_form_json()
+        },
+        'flashes': [],
+        'data': {
+            'classes': classes
+        }
+    }
 
 @admin.route("/class/<string:class_id>", methods=["GET", "POST"])
 def manage_classes_by_id(class_id: str):
+    flashes = []
     class_edit_form = EditClassForm()
     class_ = Classes.get_by_id(class_id)
 
@@ -202,15 +212,23 @@ def manage_classes_by_id(class_id: str):
         class_.update_description(class_edit_form.description.data)
         class_.update_syllabus(syllabus)
 
-        flash("Class information successfully updated!")
+        flashes.append(
+            "Class information successfully updated!"
+        )
+    else:
+        data
 
-    return render_template(
-        "/admin/manage_classes.html",
-        classes=current_user.get_class_names(),
-        class_json=class_.to_json(),
-        class_edit_form=class_edit_form,
-        current_description=class_.description,
-    )
+    return {
+        'forms': {
+            'class_edit': class_edit_form.get_form_json()
+        },
+        'flashes': flashes,
+        'data': {
+            'current_description': class_.description,
+            'class_json': class_.to_dict(),
+            'classes': current_user.get_class_names(),
+        }
+    }
 
 
 # @admin.route('/students', methods=['GET', 'POST'])
