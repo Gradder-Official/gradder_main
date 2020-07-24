@@ -68,6 +68,28 @@ def add_assignment():
 
     return render_template("teacher/add_assignment.html", form=form)
 
+@teacher.route("/view_assignments", methods=["GET"])
+def view_assignments():
+    # Collect assignments from all classes
+    classes = []
+    for class_id in current_user.classes:
+        class_ = Classes.get_by_id(class_id)
+        class_assignments = class_.get_assignments()
+        class_data = {
+            'id': str(class_id),
+            'name': class_.name,
+            'assignments': list(map(lambda a: a.to_json(), class_assignments))
+        }
+
+        classes.append(class_data)
+    
+    return {
+        'forms': {},
+        'flashes': [],
+        'data': {
+            'classes': classes
+        }
+    }
 
 @teacher.route("/class", methods=["GET"])
 def manage_classes():
