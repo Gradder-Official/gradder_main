@@ -172,7 +172,9 @@ def manage_classes():
     except TypeError:
         # We can assume that the admin has no classes.
         classes = []
-    
+
+    classes = list(map(lambda class_: [str(class_[0]), class_[1]], classes))
+
     return {
         'forms': {
             'edit_class': EditClassForm().get_form_json()
@@ -215,8 +217,14 @@ def manage_classes_by_id(class_id: str):
         flashes.append(
             "Class information successfully updated!"
         )
-    else:
-        data
+
+    try:
+        classes = current_user.get_class_names()
+    except TypeError:
+        # We can assume that the admin has no classes.
+        classes = []
+
+    classes = list(map(lambda class_: [str(class_[0]), class_[1]], classes))
 
     return {
         'forms': {
@@ -226,7 +234,7 @@ def manage_classes_by_id(class_id: str):
         'data': {
             'current_description': class_.description,
             'class_json': class_.to_dict(),
-            'classes': current_user.get_class_names(),
+            'classes': classes,
         }
     }
 
