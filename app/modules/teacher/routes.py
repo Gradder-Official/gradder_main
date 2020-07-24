@@ -1,19 +1,18 @@
+import uuid
 from datetime import datetime
-from flask import redirect, url_for, flash, render_template, request
+
+from flask import flash, redirect, render_template, request, url_for
 from flask_login import current_user
 from werkzeug.utils import secure_filename
 
-from . import teacher
-
-from ._teacher import Teacher
-from app.modules._classes import Classes
-from .forms import NewAssignmentForm, EditClassForm
-
 from app.decorators import required_access
 from app.google_storage import upload_blob
-from app.modules._classes import Assignment, Classes
 from app.logger import logger
-import uuid
+from app.modules._classes import Assignment, Classes
+
+from . import teacher
+from ._teacher import Teacher
+from .forms import EditAssignmentForm, EditClassForm, NewAssignmentForm
 
 
 @teacher.before_request
@@ -68,7 +67,7 @@ def add_assignment():
 
     return render_template("teacher/add_assignment.html", form=form)
 
-@teacher.route("/view_assignments", methods=["GET"])
+@teacher.route("/assignments", methods=["GET"])
 def view_assignments():
     # Collect assignments from all classes
     classes = []
@@ -88,6 +87,20 @@ def view_assignments():
         'flashes': [],
         'data': {
             'classes': classes
+        }
+    }
+
+@teacher.route("/assignments/<string:class_id>", methods=["GET"])
+def view_assignment_by_class_id(class_id: str):
+    # Collect assignments from all classes
+    class_ = Classes.get_by_id(class_id)
+    class_assignments = class_.get_assignments()
+    
+    return {
+        'forms': {},
+        'flashes': [],
+        'data': {
+            'assignments': list(map(lambda a: a.to_json(), class_assignments))
         }
     }
 
@@ -138,4 +151,3 @@ def manage_classes_by_id(class_id: str):
         class_edit_form=class_edit_form,
         current_description=class_.description,
     )
-
