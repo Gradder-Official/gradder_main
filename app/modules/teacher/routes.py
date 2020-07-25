@@ -112,16 +112,38 @@ def edit_assignment(class_id: str, assignment_id: str):
     class_ = Classes.get_by_id(class_id)
     assignments = class_.get_assignments()
     # TODO: Create custom error when assignment isn't found
-    assignment = list(filter(lambda a: str(a.ID) == assignment_id, assignments))[0]
+    assignment: Assignment = list(filter(lambda a: str(a.ID) == assignment_id, assignments))[0]
 
     edit_assignment_form = EditAssignmentForm()
     if edit_assignment_form.validate_on_submit():
         # TODO: Edit assignment data
-        pass
+        edited_assignment = Assignment(
+            date_assigned=assignment.date_assigned,
+            assigned_by=assignment.assigned_by,
+            assigned_to=form.assigned_to.data,
+            due_by=form.due_by.data,
+            title=form.title.data,
+            content=form.content.data,
+            filenames=file_list,
+            estimated_time=form.estimated_time.data,
+        )
+        edited_assignment.ID = assignment.ID
+        class_.edit_assignment(edited_assignment)
+        # Assign to 'assignment' so form has new details
+        assignment = edited_assignment
+    
+    # Set default values for form.
+    edit_assignment_form.assigned_to.default = assignment.assigned_to
+    edit_assignment_form.due_by.default = assignment.due_by
+    edit_assignment_form.estimated_time.default = assignment.estimated_time
+    edit_assignment_form.title.default = assignment.title
+    edit_assignment_form.content.default = assignment.content
+    # TODO: Handle default files
+    # edit_assignment_form.files.default = assignment.filenames
 
     return {
         'forms': {
-            'edit_assignment': EditAssignmentForm().get_form_json()
+            'edit_assignment': edit_assignment_form.get_form_json()
         },
         'flashes': flashes,
         'data': {
