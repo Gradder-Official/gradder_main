@@ -105,9 +105,39 @@ def assignments():
         }
     }
 
+@student.route("/assignments/<string:class_id>", methods=["GET"])
+def view_assignments_by_class_id(class_id: str):
+    # Collect assignments from all classes
+    class_ = Classes.get_by_id(class_id)
+    class_assignments = class_.get_assignments()
+    
+    return {
+        'forms': {},
+        'flashes': [],
+        'data': {
+            'assignments': list(map(lambda a: a.to_json(), class_assignments))
+        }
+    }
+
+@student.route("/assignments/<string:class_id>/<string:assignment_id>", methods=["GET", "POST"])
+def view_assignment(class_id: str, assignment_id: str):
+    # Find assignment in teacher's classes
+    flashes = []
+    class_ = Classes.get_by_id(class_id)
+    assignments = class_.get_assignments()
+    # TODO: Create custom error when assignment isn't found
+    assignment = list(filter(lambda a: str(a.ID) == assignment_id, assignments))[0]
+
+    return {
+        'forms': {},
+        'flashes': flashes,
+        'data': {
+            'assignment': assignment.to_json()
+        }
+    }
 
 @student.route("/view_assignment/<filename>", methods=["GET", "POST"])
-def view_assignment(filename):
+def view_file(filename):
     blob_url = get_signed_url(filename)
     webbrowser.open(blob_url, new=0)
     return {}
