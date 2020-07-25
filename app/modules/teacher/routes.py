@@ -14,7 +14,6 @@ from . import teacher
 from ._teacher import Teacher
 from .forms import EditAssignmentForm, EditClassForm, NewAssignmentForm
 
-
 @teacher.before_request
 @required_access("Teacher")
 def teacher_verification():
@@ -170,10 +169,22 @@ def manage_classes_by_id(class_id: str):
 
         flash("Class information successfully updated!")
 
-    return render_template(
-        "/teacher/manage_classes.html",
-        classes=current_user.get_class_names(),
-        class_json=class_.to_json(),
-        class_edit_form=class_edit_form,
-        current_description=class_.description,
-    )
+    classes=[]
+    for class_id in current_user.classes:
+        class_ = Classes.get_by_id(class_id)
+        class_data = {
+            'id': str(class_id),
+            'name': class_.name,
+        }
+
+        classes.append(class_data)
+
+    return {
+        'forms': class_edit_form.get_form_json(),
+        'flashes': ["Class information successfully updated!"],
+        'data':{
+            "classes": classes,
+            "current_description": class_.description
+         }
+    }
+    
