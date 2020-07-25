@@ -67,7 +67,7 @@ class NewSubmissionForm(FlaskForm):
     submit = SubmitField("Submit")
 
 
-class EditClassForm(FlaskForm):
+class EditClassForm(FlaskForm, JSONForm):
     description = TextAreaField("Description")
     syllabus = FileField("Update syllabus (current: empty)")
 
