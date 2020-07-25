@@ -16,7 +16,7 @@ from app.mixins import JSONForm
 from bson import ObjectId
 
 
-class NewStudentsTeachers(FlaskForm):
+class NewStudentsTeachers(FlaskForm, JSONForm):
     first_name = StringField("First name", validators=[DataRequired(), Length(1, 64)])
     last_name = StringField("Last name", validators=[DataRequired(), Length(1, 64)])
     email = StringField("Email", validators=[DataRequired(), Email(), Length(1, 64)])
@@ -62,7 +62,7 @@ class NewStudentsTeachers(FlaskForm):
             raise ValidationError("Invalid token")
 
 
-class NewClasses(FlaskForm):
+class NewClasses(FlaskForm, JSONForm):
     department = StringField("Department", validators=[DataRequired(), Length(1, 64)])
     number = StringField("Class Number", validators=[DataRequired(), Length(1, 64)])
     name = StringField("Class Name", validators=[DataRequired(), Length(1, 64)])
