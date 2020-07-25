@@ -135,7 +135,7 @@ def registerClasses():
         }
     }
 
-    return render_template("admin/register.html", form=form)
+    # return render_template("admin/register.html", form=form)
 
 
 @admin.route("/studentClass", methods=["GET", "POST"])
