@@ -16,4 +16,4 @@ For the coding guidelines and explained application structure, please check out 
 
 **Authors**
 
-Alex Nikanov, Shrey Gupta, Michelle Lo, Karthik Bhargav, Jacob MacKenzie-Websdale, Aryan Kumawat, Safin Singh, Michael Wang, Lakshita Jain. 
+Alex Nikanov, Shrey Gupta, Michelle Lo, Karthik Bhargav, Jacob MacKenzie-Websdale, Aryan Kumawat, Safin Singh, Michael Wang, Lakshita Jain, Varun Chilukuri. 
