@@ -202,11 +202,12 @@ class Admin(User):
 
         Returns a list containing tuples of class_id, and the name of the class
         """
-        classes = list()
 
+        
+        classes = list()
+        
         for class_ in db.classes.find():
             class_id = class_.get("_id")
             classes.append((class_id, Classes.get_by_id(class_id).name))
 
         return classes
-
