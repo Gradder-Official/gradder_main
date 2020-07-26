@@ -2,6 +2,7 @@ from flask import render_template, redirect, request, url_for, flash
 from flask_login import current_user
 import uuid
 
+from bson import ObjectId
 from app import db
 from app.logger import logger
 from app.decorators import required_access
@@ -88,13 +89,13 @@ def registerClasses():
             department=form.department.data,
             number=form.number.data,
             name=form.name.data,
-            teacher=form.teacher.data,
+            teacher=ObjectId(form.teacher.data),
             description=form.description.data,
             schedule_time=form.schedule_time.data,
             schedule_days=form.schedule_days.data,
         )
 
-        new_class.add()
+        Admin.add_class(new_class)
 
         logger.info(
             "NEW CLASS: {} {} {} ".format(
@@ -211,11 +212,3 @@ def manage_classes_by_id(class_id: str):
         class_edit_form=class_edit_form,
         current_description=class_.description,
     )
-
-
-# @admin.route('/students', methods=['GET', 'POST'])
-# def allStudents():
-#     form = AddTeacherClass()
-#     if form.validate_on_submit():
-#         Admin.add_teacher(form.class_id.data, form.email.data)
-#     return render_template('admin/register.html', form=form)
