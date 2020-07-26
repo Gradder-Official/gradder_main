@@ -32,7 +32,11 @@ def student_verification():
 @student.route("/dashboard")
 def index():
     return {
-        "assignments": [assignment.to_json() for assignment in current_user.get_assignments()]
+        "forms": {},
+        "flashes": [],
+        "data": {
+            "assignments": [assignment.to_json() for assignment in current_user.get_assignments()]
+        }
     } 
 
 
@@ -70,7 +74,10 @@ def submit(class_id, assignment_id):
             current_user.ID, class_id, assignment_id, submission=submission
         )  # need to replace IDs with current class and assignment ID
     return {
-        "submission": form.get_form_json(),
+        "forms": {
+            "submission": form.get_form_json()
+        },
+        "flashes": [],
         "data": {
             "class_id": class_id,
             "assignment_id": assignment_id,
@@ -91,7 +98,11 @@ def profile():
 def assignments():
     print(list(map(lambda x: x.to_json(), current_user.get_assignments())))
     return {
-        "assignments": list(map(lambda x: x.to_json(), current_user.get_assignments()))
+        "forms": {},
+        "flashes": [],
+        "data": {
+            "assignments": list(map(lambda x: x.to_json(), current_user.get_assignments()))
+        }
     }
 
 
