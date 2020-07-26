@@ -1,4 +1,5 @@
-import React, {FunctionComponent} from 'react'
+import React, { FunctionComponent } from 'react'
+import { Link } from "react-router-dom";
 import "../assets/styles/dashboard.css"
 import "../assets/styles/profile.css"
 
@@ -18,13 +19,14 @@ const Profile:FunctionComponent<student> = ({ userName, userType }) => {
                     <h4>Status: {userType}</h4>
                 </div>
                 <div className="welcome-top-right">
+                    {/* Dummy profile picture, to be replaced */}
                     <img src="https://www.iambetter.org/wp-content/uploads/2020/04/Albert_Einstein_1024x1024.jpg" alt="Profile" className="profile-pic" id="welcome-profile-pic"/>
                     <div className="welcome-buttons">
                         <button type="button" className="btn btn-light">
-                            <a href="/auth/change-password">Change password</a>
+                            <Link to="/auth/change-password">Change password</Link>
                         </button>
                         <button type="button" className="btn btn-light">
-                            <a href="/auth/change-secret-question">Change secret question</a>
+                            <Link to="/auth/change-secret-question">Change secret question</Link>
                         </button>
                     </div>
                 </div>

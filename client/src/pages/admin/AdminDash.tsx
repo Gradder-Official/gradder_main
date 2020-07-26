@@ -4,10 +4,10 @@ import { student } from "../../components/ProfileContent";
 
 const AdminDash: FunctionComponent<student> = ({ userName, userType, loggedIn }) => {
   return (
-    <div>
+    <React.Fragment>
       ADMIN DASHBOARD 
       <DashboardSidebar userName={userName} userType={userType} loggedIn={loggedIn}/>
-    </div>
+    </React.Fragment>
   );
 };
 

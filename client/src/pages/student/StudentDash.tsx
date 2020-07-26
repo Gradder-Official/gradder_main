@@ -4,10 +4,10 @@ import { student } from "../../components/ProfileContent";
 
 const StudentDash:FunctionComponent<student> = ({ userName, userType, loggedIn }) => {
   return (
-    <div>
+    <React.Fragment>
       STUDENT DASHBOARD 
       <DashboardSidebar userName={userName} userType={userType} loggedIn={loggedIn}/>
-    </div>
+    </React.Fragment>
   );
 };
 
