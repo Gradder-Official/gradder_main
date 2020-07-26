@@ -138,7 +138,10 @@ def addStudentClass():
             'add_student': add_student_form.get_form_json()
         },
         'flashes': [],
-        'data': []
+        'data': {
+            'class_id': add_student_form.class_id.data,
+            'email': add_student_form.email.data
+        }
     }
 
 
@@ -173,7 +176,10 @@ def addTeacherClass():
             'add_teacher': add_teacher_form.get_form_json()
         },
         'flashes': [],
-        'data': []
+        'data': {
+            'class_id': add_teacher_form.class_id.data,
+            'email': add_teacher_form.email.data
+        }
     }
 
 @admin.route("/class", methods=["GET"])
