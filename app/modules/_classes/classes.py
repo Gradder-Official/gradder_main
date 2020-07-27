@@ -147,14 +147,27 @@ class Classes:
         except BaseException as e:
             logger.info(f"Error while adding assignment {assignment.ID}: {e}")
 
+    def edit_assignment(self, assignment: Assignment):
+        try:
+            dictionary = assignment.to_dict()
+            dictionary['_id'] = ObjectId(assignment.ID)
+            db.classes.update_one(
+                {"_id": self.ID, "assignments._id": dictionary['_id']},
+                {"$set": { "assignments.$": dictionary }}
+            )
+        except BaseException as e:
+            logger.exception(
+                f"Error while updating assignment {assignment.ID} from class {self.ID}"
+            )
+
     def delete_assignment(self, assignment_id: str):
         try:
             db.classes.update(
                 {"_id": self.ID}, {"$pull": {"assignments": {"_id": assignment_id}}}
             )
         except BaseException as e:
-            logger.info(
-                f"Error while deleting assignment {assignment_id} from class {self.ID}: {e}"
+            logger.exception(
+                f"Error while deleting assignment {assignment_id} from class {self.ID}"
             )
 
     @staticmethod
