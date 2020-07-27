@@ -1,13 +1,10 @@
-$(window).on("load",function(){
-    $('html, body').css('overflow', 'auto'); 
+window.onload = function() {
     AOS.init();
-});
 
-window.onload = function(){ 
-   	if (localStorage.getItem('lang') == null) {
-      localStorage.lang = "укр";
-   	}
-} 	
+    if (localStorage.getItem('lang') == null) {
+        localStorage.lang = "укр";
+    }
+};
 
 /* Animation selectors */
 var svg = document.getElementById("slides");
