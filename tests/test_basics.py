@@ -30,7 +30,6 @@ class BasicsTestCase(unittest.TestCase):
     def test_app_is_testing(self):
         self.assertTrue(current_app.config['TESTING'])
 
-
 class StudentTests(unittest.TestCase):
     r"""
     This class contains tests for the Student Class 
@@ -49,7 +48,6 @@ class StudentTests(unittest.TestCase):
          self.assertTrue(self.student.add_submission(self.student.ID, "5efbe85b4aeb5d21e56fa81f", "5f08c46b901a9d46438b35ed", 
                                     Submission(datetime.utcnow(), "Hello", [])))
 
-
 class AdminTests(unittest.TestCase):
     r"""
 
@@ -61,10 +59,3 @@ class TeachersTests(unittest.TestCase):
     r"""
     Teachers test
     """
-
-
-
-
-
-if __name__=="__main__":
-    unittest.main()
