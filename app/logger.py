@@ -83,6 +83,32 @@ class logger:
         log.warning(message)
 
     @staticmethod
+    def error(message):
+        from flask_login import current_user
+
+        if current_user.is_authenticated:
+            file_handler = logging.FileHandler(
+                f"./app/logs/{current_user.USERTYPE.lower()}_actions.log", mode="a+"
+            )
+            file_handler.setFormatter(
+                logging.Formatter(
+                    "%(asctime)s - %(name)s - %(levelname)s - %(message)s - {} - {} - %(funcName)s - line %(lineno)d".format(
+                        current_user.email, current_user.USERTYPE
+                    )
+                )
+            )
+        else:
+            file_handler = logging.FileHandler("./app/logs/user_actions.log", mode="a+")
+            file_handler.setFormatter(
+                logging.Formatter(
+                    "%(asctime)s - %(name)s - %(levelname)s - %(message)s - %(funcName)s - line %(lineno)d"
+                )
+            )
+        
+        log.addHandler(file_handler)
+        log.error(message)
+
+    @staticmethod
     def critical(message):
         from flask_login import current_user
 
