@@ -9,8 +9,6 @@ from json import dumps
 
 from app.modules.admin import routes
 
-# Todo: Make sure to work on Admin Tests(Database functionality(add Teachers to class/to school, add Students to class/to school, load certain pages))#
-
 
 class AdminTests(unittest.TestCase):
     r"""
