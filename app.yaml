@@ -1,4 +1,4 @@
-runtime: python38
+runtime: python
 env: flex
 entrypoint: gunicorn -b :$PORT --log-level debug --timeout 90 --workers 4 --threads 4 gradder:app
   
