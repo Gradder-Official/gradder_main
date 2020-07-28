@@ -40,8 +40,6 @@ class ProductionConfig(Config):
         SSL_REDIRECT = True
         Config.init_app(app)
 
-        # Add the logging on production later
-
 
 config = {
     "development": DevelopmentConfig,
