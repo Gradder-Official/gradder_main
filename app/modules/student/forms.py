@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from app.mixins import JSONForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms import (
     DateTimeField,
@@ -11,8 +12,8 @@ from wtforms import (
 from wtforms.validators import DataRequired
 
 
-class SubmissionForm(FlaskForm):
-    comment = TextAreaField("Send a private comment to your teacher")
+class SubmissionForm(FlaskForm, JSONForm):
+    comment = TextAreaField("Submit your work here")
 
     files = MultipleFileField(
         "File upload",

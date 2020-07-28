@@ -12,10 +12,11 @@ from wtforms import (
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 from app import db
+from app.mixins import JSONForm
 from bson import ObjectId
 
 
-class NewStudentsTeachers(FlaskForm):
+class NewStudentsTeachers(FlaskForm, JSONForm):
     first_name = StringField("First name", validators=[DataRequired(), Length(1, 64)])
     last_name = StringField("Last name", validators=[DataRequired(), Length(1, 64)])
     email = StringField("Email", validators=[DataRequired(), Email(), Length(1, 64)])
@@ -61,7 +62,7 @@ class NewStudentsTeachers(FlaskForm):
             raise ValidationError("Invalid token")
 
 
-class NewClasses(FlaskForm):
+class NewClasses(FlaskForm, JSONForm):
     department = StringField("Department", validators=[DataRequired(), Length(1, 64)])
     number = StringField("Class Number", validators=[DataRequired(), Length(1, 64)])
     name = StringField("Class Name", validators=[DataRequired(), Length(1, 64)])
@@ -73,19 +74,19 @@ class NewClasses(FlaskForm):
     submit = SubmitField("Register")
 
 
-class AddStudentClass(FlaskForm):
+class AddStudentClass(FlaskForm, JSONForm):
     class_id = StringField("ObjectId", validators=[DataRequired(), Length(1, 128)])
     email = StringField("Email", validators=[DataRequired(), Length(1, 128)])
     submit = SubmitField("Confirm")
 
 
-class AddTeacherClass(FlaskForm):
+class AddTeacherClass(FlaskForm, JSONForm):
     class_id = StringField("ObjectId", validators=[DataRequired(), Length(1, 128)])
     email = StringField("Email", validators=[DataRequired(), Length(1, 128)])
     submit = SubmitField("Confirm")
 
 
-class EditClassForm(FlaskForm):
+class EditClassForm(FlaskForm, JSONForm):
     description = TextAreaField("Description")
     syllabus = FileField("Update syllabus (current: empty)")
 

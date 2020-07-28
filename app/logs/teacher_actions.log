@@ -16,3 +16,10 @@
 2020-07-17 18:24:15,312 - app.logger - INFO - LOGGED OUT: Alex Nikanov - ACCESS: Teacher - alekseynikanov.21@gmail.com - Teacher - info - line 58
 2020-07-17 18:24:15,312 - app.logger - INFO - LOGGED OUT: Alex Nikanov - ACCESS: Teacher - alekseynikanov.21@gmail.com - Teacher - info - line 58
 2020-07-17 21:18:58,529 - app.logger - INFO - LOGGED IN: Alex Nikanov - ACCESS: Teacher - alekseynikanov.21@gmail.com - Teacher - info - line 58
+2020-07-27 20:58:33,559 - app.logger - INFO - LOGGED IN: Alex Nikanov - ACCESS: Teacher - alekseynikanov.21@gmail.com - Teacher - info - line 58
+2020-07-27 20:58:45,571 - app.logger - INFO - LOGGED OUT: Alex Nikanov - ACCESS: Teacher - alekseynikanov.21@gmail.com - Teacher - info - line 58
+2020-07-27 20:58:45,571 - app.logger - INFO - LOGGED OUT: Alex Nikanov - ACCESS: Teacher - alekseynikanov.21@gmail.com - Teacher - info - line 58
+2020-07-27 20:58:57,478 - app.logger - INFO - LOGGED IN: Important Admin - ACCESS: Admin - alekseynikanov.21@gmail.com - Teacher - info - line 58
+2020-07-27 20:58:57,478 - app.logger - INFO - LOGGED IN: Important Admin - ACCESS: Admin - alekseynikanov.21@gmail.com - Teacher - info - line 58
+2020-07-27 21:01:04,353 - app.logger - INFO - LOGGED OUT: Important Admin - ACCESS: Admin - alekseynikanov.21@gmail.com - Teacher - info - line 58
+2020-07-27 21:01:04,353 - app.logger - INFO - LOGGED OUT: Important Admin - ACCESS: Admin - alekseynikanov.21@gmail.com - Teacher - info - line 58

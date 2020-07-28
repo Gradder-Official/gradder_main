@@ -2,6 +2,7 @@ from flask import render_template, redirect, request, url_for, flash
 from flask_login import current_user
 import uuid
 
+from bson import ObjectId
 from app import db
 from app.logger import logger
 from app.decorators import required_access
@@ -40,6 +41,8 @@ def profile():
 
 @admin.route("/registerTS", methods=["GET", "POST"])
 def registerTS():
+    # Method adds new Teachers/Students
+    flashes = list()
     form = NewStudentsTeachers()
     if form.validate_on_submit():
         user = eval(
@@ -62,120 +65,177 @@ def registerTS():
                     user.first_name, user.last_name, user.email, user.USERTYPE
                 )
             )
+            flashes.append("New Teacher/Student has been added")
             return redirect(url_for("auth.login"))
         else:
-            # logger.error(
-            #     "Unknown error while registering: {} {} {} - ACCESS: {}".format(
-            #         user.first_name, user.last_name, user.email, user.USERTYPE
-            #     )
-            # )
-            # logger.error(
-            #     "Unknown error while registering: {} {} {} - ACCESS: {}".format(
-            #         user.first_name, user.last_name, user.email, user.USERTYPE
-            #     )
-            # )
-            flash("Unknown error while registering.")
+            logger.error(
+                "Unknown error while registering: {} {} {} - ACCESS: {}".format(
+                    user.first_name, user.last_name, user.email, user.USERTYPE
+                )
+            )
+            logger.error(
+                "Unknown error while registering: {} {} {} - ACCESS: {}".format(
+                    user.first_name, user.last_name, user.email, user.USERTYPE
+                )
+            )
+            flashes.append("Unknown error while registering.")
 
-    return render_template("admin/register.html", form=form)
+    return {
+        'forms': {
+            'new_ts': form.get_form_json()
+        },
+        'flashes': flashes,
+        'data': {
+            'first_name': form.first_name,
+            'last_name': form.last_name,
+            'email': form.email
+        }
+    }
 
 
 @admin.route("/registerClasses", methods=["GET", "POST"])
 def registerClasses():
-    form = NewClasses()
-
-    if form.validate_on_submit():
+    register_classes = NewClasses()
+    flashes = list()
+    if register_classes.validate_on_submit():
         new_class = Classes(
-            department=form.department.data,
-            number=form.number.data,
-            name=form.name.data,
-            teacher=form.teacher.data,
-            description=form.description.data,
-            schedule_time=form.schedule_time.data,
-            schedule_days=form.schedule_days.data,
+            department=register_classes.department.data,
+            number=register_classes.number.data,
+            name=register_classes.name.data,
+            teacher=ObjectId(register_classes.teacher.data),
+            description=register_classes.description.data,
+            schedule_time=register_classes.schedule_time.data,
+            schedule_days=register_classes.schedule_days.data,
         )
 
-        new_class.add()
+        Admin.add_class(new_class)
 
         logger.info(
             "NEW CLASS: {} {} {} ".format(
                 new_class.name, new_class.teacher, new_class.description
             )
         )
-        flash("Added Class!")
-        return redirect(url_for("main.dashboard"))
+        flashes.append(
+            "New Class has been added to DB!"
+        )
+    # I think this is right feel free to comment it if it isn't correct
+    return {
+        'forms': {
+            'register_class': register_classes.get_form_json()
+        },
+        'flashes': flashes,
+        'data': {
+            'department': new_class.department,
+            'number': new_class.number,
+            'name': new_class.name,
+            'teacher': new_class.teacher,
+            'description': new_class.description,
+            'schedule_time': new_class.schedule_time,
+            'schedule_days': new_class.schedule_days
+        }
+    }
 
-    return render_template("admin/register.html", form=form)
+    # return render_template("admin/register.html", form=form)
 
 
 @admin.route("/studentClass", methods=["GET", "POST"])
 def addStudentClass():
-    form = AddStudentClass()
-    if form.validate_on_submit():
-        Admin.add_student(form.class_id.data, form.email.data)
+    add_student_form = AddStudentClass()
+    if add_student_form.validate_on_submit():
+        Admin.add_student(add_student_form.class_id.data, add_student_form.email.data)
         logger.info(
             "NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(
-                form.class_id.data, form.email.data
+                add_student_form.class_id.data, add_student_form.email.data
             )
         )
         logger.info(
             "NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(
-                form.class_id.data, form.email.data
+                add_student_form.class_id.data, add_student_form.email.data
             )
         )
-   # else:
-        # logger.error(
-        #     "Error in registering NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(
-        #         form.class_id.data, form.email.data
-        #     )
-        # )
-        # logger.error(
-        #     "Error in registering NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(
-        #         form.class_id.data, form.email.data
-        #     )
-        # )
-    return render_template("admin/register.html", form=form)
+    else:
+        logger.error(
+            "Error in registering NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(
+                add_student_form.class_id.data, add_student_form.email.data
+            )
+        )
+        logger.error(
+            "Error in registering NEW STUDENT IN: {}  - STUDENT EMAIL: {}".format(
+                add_student_form.class_id.data, add_student_form.email.data
+            )
+        )
+    return {
+        'forms': {
+            'add_student': add_student_form.get_form_json()
+        },
+        'flashes': [],
+        'data': {
+            'class_id': add_student_form.class_id.data,
+            'email': add_student_form.email.data
+        }
+    }
 
 
 @admin.route("/teacherClass", methods=["GET", "POST"])
 def addTeacherClass():
-    form = AddTeacherClass()
-    if form.validate_on_submit():
-        Admin.add_teacher(form.class_id.data, form.email.data)
+    add_teacher_form = AddTeacherClass()
+    if add_teacher_form.validate_on_submit():
+        Admin.add_teacher(add_teacher_form.class_id.data, add_teacher_form.email.data)
         logger.info(
             "NEW TEACHER IN: {}  - TEACHER EMAIL: {}".format(
-                form.class_id.data, form.email.data
+                add_teacher_form.class_id.data, add_teacher_form.email.data
             )
         )
         logger.info(
             "NEW TEACHER IN: {}  - TEACHER EMAIL: {}".format(
-                form.class_id.data, form.email.data
+                add_teacher_form.class_id.data, add_teacher_form.email.data
             )
         )
-    #else:
-        # logger.error(
-        #     "Error in registering NEW TEACHER IN (Class Id: {}) - TEACHER EMAIL is: {}".format(
-        #         form.class_id.data, form.email.data
-        #     )
-        # )
-        # logger.error(
-        #     "Error in registering NEW TEACHER IN (Class Id: {}) - TEACHER EMAIL is: {}".format(
-        #         form.class_id.data, form.email.data
-        #     )
-        # )
-    return render_template("admin/register.html", form=form)
-
+    else:
+        logger.error(
+            "Error in registering NEW TEACHER IN (Class Id: {}) - TEACHER EMAIL is: {}".format(
+                add_teacher_form.class_id.data, add_teacher_form.email.data
+            )
+        )
+        logger.error(
+            "Error in registering NEW TEACHER IN (Class Id: {}) - TEACHER EMAIL is: {}".format(
+                add_teacher_form.class_id.data, add_teacher_form.email.data
+            )
+        )
+    return {
+        'forms': {
+            'add_teacher': add_teacher_form.get_form_json()
+        },
+        'flashes': [],
+        'data': {
+            'class_id': add_teacher_form.class_id.data,
+            'email': add_teacher_form.email.data
+        }
+    }
 
 @admin.route("/class", methods=["GET"])
 def manage_classes():
-    return redirect(
-        url_for(
-            "admin.manage_classes_by_id", class_id=current_user.get_class_names()[0][0]
-        )
-    )
+    try:
+        classes = current_user.get_class_names()
+    except TypeError:
+        # We can assume that the admin has no classes.
+        classes = []
 
+    classes = list(map(lambda class_: [str(class_[0]), class_[1]], classes))
+
+    return {
+        'forms': {
+            'edit_class': EditClassForm().get_form_json()
+        },
+        'flashes': [],
+        'data': {
+            'classes': classes
+        }
+    }
 
 @admin.route("/class/<string:class_id>", methods=["GET", "POST"])
 def manage_classes_by_id(class_id: str):
+    flashes = []
     class_edit_form = EditClassForm()
     class_ = Classes.get_by_id(class_id)
 
@@ -202,15 +262,29 @@ def manage_classes_by_id(class_id: str):
         class_.update_description(class_edit_form.description.data)
         class_.update_syllabus(syllabus)
 
-        flash("Class information successfully updated!")
+        flashes.append(
+            "Class information successfully updated!"
+        )
 
-    return render_template(
-        "/admin/manage_classes.html",
-        classes=current_user.get_class_names(),
-        class_json=class_.to_json(),
-        class_edit_form=class_edit_form,
-        current_description=class_.description,
-    )
+    try:
+        classes = current_user.get_class_names()
+    except TypeError:
+        # We can assume that the admin has no classes.
+        classes = []
+
+    classes = list(map(lambda class_: [str(class_[0]), class_[1]], classes))
+
+    return {
+        'forms': {
+            'class_edit': EditClassForm().get_form_json()
+        },
+        'flashes': flashes,
+        'data': {
+            'current_description': class_.description,
+            'class_json': class_.to_dict(),
+            'classes': classes,
+        }
+    }
 
 
 # @admin.route('/students', methods=['GET', 'POST'])
