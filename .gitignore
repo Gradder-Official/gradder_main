@@ -13,6 +13,8 @@
 
 # Virtual environments
 venv
+Pipfile
+Pipfile.lock
 
 # JSON tokens
 gradder_cred.json
