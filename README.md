@@ -8,11 +8,13 @@ Official repo for Gradder: an AI-driven platform for smart grade management.
 
 [Official website](https://gradder.io)
 
-team@gradder.io
+[LinkedIn](https://www.linkedin.com/company/gradder)
+
+[team@gradder.io](mailto:team@gradder.io)
 
 **Guidelines**
 
-For the coding guidelines and explained application structure, please check out Notion.
+For the coding guidelines and explained application structure, please check out our Notion.
 
 **Authors**
 
