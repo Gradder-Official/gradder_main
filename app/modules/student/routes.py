@@ -31,9 +31,13 @@ def student_verification():
 @student.route("/index")
 @student.route("/dashboard")
 def index():
-    return render_template(
-        "student/dashboard.html", assignments=current_user.get_assignments()
-    )
+    return {
+        "forms": {},
+        "flashes": [],
+        "data": {
+            "assignments": [assignment.to_json() for assignment in current_user.get_assignments()]
+        }
+    } 
 
 
 @student.route("/submit/<class_id>/<assignment_id>", methods=["GET", "POST"])
@@ -69,16 +73,20 @@ def submit(class_id, assignment_id):
         student.add_submission(
             current_user.ID, class_id, assignment_id, submission=submission
         )  # need to replace IDs with current class and assignment ID
-    return render_template(
-        "student/submission.html",
-        form=form,
-        class_id=class_id,
-        assignment_id=assignment_id,
-        full_name=full_name,
-        content=content,
-        estimated_time=estimated_time,
-        due_by=due_by,
-    )
+    return {
+        "forms": {
+            "submission": form.get_form_json()
+        },
+        "flashes": [],
+        "data": {
+            "class_id": class_id,
+            "assignment_id": assignment_id,
+            "full_name": full_name,
+            "content": content,
+            "estimated_time": estimated_time,
+            "due_by": due_by
+        }
+    }
 
 
 @student.route("/profile")
@@ -89,14 +97,47 @@ def profile():
 @student.route("/assignments")
 def assignments():
     print(list(map(lambda x: x.to_json(), current_user.get_assignments())))
-    return render_template(
-        "student/assignments.html",
-        assignments=list(map(lambda x: x.to_json(), current_user.get_assignments())),
-    )
+    return {
+        "forms": {},
+        "flashes": [],
+        "data": {
+            "assignments": list(map(lambda x: x.to_json(), current_user.get_assignments()))
+        }
+    }
 
+@student.route("/assignments/<string:class_id>", methods=["GET"])
+def view_assignments_by_class_id(class_id: str):
+    # Collect assignments from all classes
+    class_ = Classes.get_by_id(class_id)
+    class_assignments = class_.get_assignments()
+    
+    return {
+        'forms': {},
+        'flashes': [],
+        'data': {
+            'assignments': list(map(lambda a: a.to_json(), class_assignments))
+        }
+    }
+
+@student.route("/assignments/<string:class_id>/<string:assignment_id>", methods=["GET", "POST"])
+def view_assignment(class_id: str, assignment_id: str):
+    # Find assignment in teacher's classes
+    flashes = []
+    class_ = Classes.get_by_id(class_id)
+    assignments = class_.get_assignments()
+    # TODO: Create custom error when assignment isn't found
+    assignment = list(filter(lambda a: str(a.ID) == assignment_id, assignments))[0]
+
+    return {
+        'forms': {},
+        'flashes': flashes,
+        'data': {
+            'assignment': assignment.to_json()
+        }
+    }
 
 @student.route("/view_assignment/<filename>", methods=["GET", "POST"])
-def view_assignment(filename):
+def view_file(filename):
     blob_url = get_signed_url(filename)
     webbrowser.open(blob_url, new=0)
-    return ""
+    return {}

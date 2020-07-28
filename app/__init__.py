@@ -1,11 +1,13 @@
-from app.db import DB
 from flask import Flask
 from flask_login import LoginManager
-from flask_bootstrap import Bootstrap
-from flask_moment import Moment
-from flask_mail import Mail
-from flask_talisman import Talisman
+
+from app.db import DB
+from app.mixins import JSONImproved
 from config import config
+from flask_bootstrap import Bootstrap
+from flask_mail import Mail
+from flask_moment import Moment
+from flask_talisman import Talisman
 
 login_manager = LoginManager()
 login_manager.login_view = "auth.login"
@@ -19,6 +21,9 @@ db = DB("school1")
 
 def create_app(config_name):
     app = Flask(__name__)
+    # Set default encoder to improved one which handles ObjectIds and
+    # converts them to strings
+    app.json_encoder = JSONImproved
 
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
