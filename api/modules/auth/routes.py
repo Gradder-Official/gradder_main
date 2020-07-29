@@ -74,8 +74,6 @@ def login():
         ))
         return response(flashes=["Log in successful"]), 200
 
-    abort(400)
-
 
 @auth.route("/logout")
 @login_required
@@ -149,7 +147,6 @@ def request_password_reset():
         return error("Not all fields satisfied"), 400
     else:
         return response(["An email has been sent to reset your password."]), 200
-
 
 
 @auth.route("/request-password-reset/<token:string>", methods=["POST"])
