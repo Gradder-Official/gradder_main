@@ -97,6 +97,13 @@ def logout():
 @auth.route("/change-password", methods=["POST"])
 @login_required
 def change_password():
+    """Changes the user password (while authenticated)
+
+    Returns
+    -------
+    dict
+        The view response
+    """
     user = TYPE_DICTIONARY[
         current_user.USERTYPE.capitalize()].get_by_id(current_user.ID)
     
@@ -137,6 +144,13 @@ If you did not make this reset password request, please change your password imm
 
 @auth.route("/request-password-reset", methods=["POST"])
 def request_password_reset():
+    """Request a password reset (while not authenticated)
+
+    Returns
+    -------
+    dict
+        The view response
+    """
     if current_user.is_authenticated:
         return error(f"Wrong route, use {url_for('auth.change_password')}."), 303
     
@@ -151,6 +165,18 @@ def request_password_reset():
 
 @auth.route("/request-password-reset/<token:string>", methods=["POST"])
 def password_reset(token: str):
+    """Resets the password (while not authenticated)
+
+    Parameters
+    ----------
+    token : str
+        The reset token
+
+    Returns
+    -------
+    dict
+        The view response
+    """
     if current_user.is_authenticated:
         return error(f"Wrong route, use {url_for('auth.change_password')}."), 303
     
