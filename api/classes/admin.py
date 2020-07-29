@@ -72,45 +72,6 @@ class Admin(User):
         """
         return Admin.from_dict(db.admins.find_one({"email": email}))
     
-    @staticmethod
-    def add_student(class_id: str, email: str):
-        r""" Adds a student to a specific class
-
-        Gets a student using their email and adds their id to their appropriate class(school class)
-        
-        Parameters
-        ----------
-        class_id : str
-            The ObjectId of the class(school class) in the string format
-        email: str
-            The email of the student
-        """
-        student = Student.get_by_email(email)
-        db.classes.update_one(
-            {"_id": ObjectId(class_id)}, {"$push": {"students": ObjectId(student.ID)}}
-        )
-    
-    @staticmethod
-    def add_class(course: Course):
-        r""" Adds a new class to the course collection
-
-        Adds a course to the course collection with empty students, assignments, and syllabus lists
-        
-        Parameters
-        ----------
-        courses : Course
-            Course object
-        """
-        try:
-            dictionary = course.to_dict()
-            dictionary["_id"] = ObjectId()
-            dictionary["students"] = list()
-            dictionary["assignments"] = list()
-            dictionary["syllabus"] = list()
-            db.classes.insert_one(dictionary)
-        except BaseException as e:
-            print(f"Error while adding class {course.ID}: {e}")
-        
     def get_course_names(self) -> Course:
         r"""Returns a list of the Teacher's courses
 
