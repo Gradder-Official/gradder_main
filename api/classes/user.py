@@ -65,7 +65,7 @@ class User(UserMixin):
         return f"<User {self.ID}>"
 
     @property
-    def pasword(self) -> str:
+    def password(self) -> str:
         r"""Returns the hash of the password.
         """
         return self._password
