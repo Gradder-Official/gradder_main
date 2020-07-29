@@ -1,7 +1,10 @@
 from datetime import time, datetime
 from typing import List
 
+from api.classes import Submission
+
 class Assignment:
+    _id: str
     def __init__(
         self,
         title: str,
@@ -9,13 +12,13 @@ class Assignment:
         assigned_by: int,
         assigned_to: str,
         due_by: datetime,
-        content: str,
+        content: str, #TODO: this should be represented int Deltas(JSON)
         filenames: list,
         estimated_time: int,
         submissions: List[Submission] = None,
-        ID: str = None,
+        _id: str = None,
     ):
-     r"""Initializes the Assignment object
+        r"""Initializes the Assignment object
         Parameters
         ----------
         title: str
@@ -31,10 +34,23 @@ class Assignment:
         subject: str
             The subject of the assignment
         content: JSON object
-            An HTML string that is the content of this assignment (may include links to the files on the server).
+            An JSON string that is the content of this assignment (may include links to the files on the server).
         estimated_time: int
             Estimated time in minutes that this assignment should take to complete (set by the teacher).
-        ID: str, optional
-            Specifies the assignment ID, generated automatically if not specified
+        _id: str, optional
+            Specifies the assignment ID, will be empty if not specified
         """
-    pass
+        if _id is not None:
+            self.id = _id
+
+    def __repr__(self):
+        return f"<Assignment { self.id }>"
+        
+    @property
+    def id(self) -> str:
+        return self._id
+    
+    @id.setter 
+    def id(self, id: str):
+        self._id = id
+
