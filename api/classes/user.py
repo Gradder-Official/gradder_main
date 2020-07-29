@@ -105,7 +105,7 @@ class User(UserMixin):
         id: str
             The new ID.
         """
-        self.id = id
+        self._id = id
 
     def to_dict(self) -> Dict[str, str]:
         r"""Converts the object to a dictionary.
