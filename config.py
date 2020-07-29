@@ -7,6 +7,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     load_dotenv(find_dotenv())
     SECRET_KEY = os.environ.get("SECRET_KEY") or "329v8qrvnkjehgioqrgh3$##$#UOJ`3r0"
+    
     MONGO_CONNECTION_STRING = os.environ.get("MONGO_CONNECTION_STRING")
 
     MAIL_SERVER = os.environ.get("MAIL_SERVER", "smtp.gmail.com")
@@ -28,15 +29,23 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
 
+    @staticmethod 
+    def init_app(app):
+        Config.init_app(app)
+
 
 class TestingConfig(Config):
     TESTING = True
     WTF_CSRF_ENABLED = False
 
+    @staticmethod 
+    def init_app(app):
+        Config.init_app(app)
+
 
 class ProductionConfig(Config):
     @classmethod
-    def init_app(cls, app):
+    def init_app(app):
         SSL_REDIRECT = True
         Config.init_app(app)
 
