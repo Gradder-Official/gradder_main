@@ -7,15 +7,12 @@ class DB:
         self.db = MongoClient(connection_string).get_database(database)
 
         # All the collection initializations go here
-        self.classes = self.db.classes
+        self.courses = self.db.courses
         self.admins = self.db.admins
         self.teachers = self.db.teachers
         self.students = self.db.students
         self.parents = self.db.parents
         self.general_info = self.db.general_info
-        self.tokens = self.db.tokens
-        self.subscribers = self.db.subscribers
-        self.inquiries = self.db.inquiries
 
     def __repr__(self):
         return "<MongoDB database>"
