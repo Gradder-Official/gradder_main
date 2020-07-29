@@ -1,111 +1,86 @@
-# imports
-from api.classes.user import User
+from __future__ import annotations
+from typing import Dict, List, Tuple
+from bson import ObjectId
+
+from api.classes import User
+from api import db
 
 class Teacher(User):
-    USERTYPE = "Teacher"
-
+    _type = Teacher  # Immutable
     def __init__(
         self,
         email: str,
         first_name: str,
         last_name: str,
         classes: list = None,
-        id: str = None,
+        _id: str = None,
     ):
 
-        r''' Initializes a Teacher user with information about email, first name, last name, classes and id
+        r''' Initializes a user of Teacher type.
 
         Parameters
         ----------
         email: str
-        first name: str
-        last name: str
+        first_name: str
+        last_name: str
         classes: list
-        id: str
+        _id: str
         '''
         super().__init__(
-            email=email, first_name=first_name, last_name=last_name, id=id
+            email=email, first_name=first_name, last_name=last_name, id=_id
         )
         self.classes = classes if classes is not None else list()
 
     def __repr__(self):
-        r""" Represents the Teacher as a string.
-        """
         return f"<Teacher {self.id}>"
 
-    def to_json(self):
-        r""" Returns Teacher information in JSON form
-
-        Return
-        ------
-        json_user: JSON
+    def to_dict(self) -> Dict[str, str]:
+        r"""A representation of the object in a dictionary format.
         """
-        json_user = super().to_json()
-        json_user["classes"] = self.classes
-        return json_user
+        dict_user = super(User, self).to_dict()
+        dict_user["classes"] = self.classes
+        
+        return dict_user
     
     @staticmethod
-    def get_by_id(id: str):
-        r""" Returns the Teacher according to ID
+    def get_by_id(id: str) -> Teacher:
+        r"""Returns a Teacher object with a specified id.
 
         Parameters
         ---------
         id: str
+            ID to look up in the database
 
         Returns
-        ------
-        Teacher: object
+        -------
+        Teacher
         """
-        return Teacher.from_dict(super(Teacher, Teacher).get_by_id(id))
-
-    @staticmethod
-    def get_by_name(first_name: str, last_name: str):
-        r""" Returns Teacher according to first and last name
-        
-        Parameters
-        ---------
-        first_name: str
-        last_name: str
-
-        Returns
-        ------
-        Teacher: object
-        """
-        return Teacher.from_dict(
-            super(Teacher, Teacher).get_by_name("teacher", first_name, last_name)
-        )
+        try:
+            return Teacher.from_dict(db.teachers.find_one({"_id": ObjectId(id)}))
+        except BaseException as e:
+            #TODO: add logger
+            return None
     
     @staticmethod
-    def get_by_email(email: str):
-        r""" Returns Teacher according to email
-
+    def get_by_email(email: str) -> Teacher:
+        r""" Returns Teacher with a specified email.
         Parameters
         ---------
         email: str
 
         Returns
         ------
-        Teacher: object
+        Teacher
         """
-        return Teacher.from_dict(super(Teacher, Teacher).get_by_email(email))
+        try:
+            return Teacher.from_dict(db.teachers.find_one({"email": email}))
+        except BaseException as e:
+            #TODO: add logger
+            return None
 
     @staticmethod
-    def add_student(class_id: str, email: str):
-        r""" Adds a student to a class according to their email
-
-        Parameters
-        ----------
-        class_id: str
-        email: str
-        """
-        student = Student.get_by_email(email)
-        db.classes.update_one(
-            {"_id": ObjectId(class_id)}, {"$push": {"students": ObjectId(student.id)}}
-        )
-
-    @staticmethod
-    def from_dict(dictionary: dict):
-        r""" Creates a Teacher from a dictionary, with email, first name, last name, id and classes
+    def from_dict(dictionary: dict) -> Teacher:
+        r""" Creates a Teacher from a dictionary.
 
         Parameters
         ---------
@@ -113,30 +88,22 @@ class Teacher(User):
 
         Returns
         -------
-        Teacher: object
+        Teacher
         """
-        user = Teacher(
-            email=dictionary["email"],
-            first_name=dictionary["first_name"],
-            last_name=dictionary["last_name"],
-            id=str(dictionary["_id"]) if "_id" in dictionary else None,
-            classes=dictionary["classes"] if "classes" in dictionary else None
-        )
+        return Teacher(**dictionary)
 
-        if "password" in dictionary:
-            user.set_password(dictionary["password"])
-
-        return user
-
-    def get_class_names(self):
-        r""" Returns a list of the Teacher's classes
+    def get_course_names(self) -> List[Tuple[str, str]]:
+        r""" Returns a list of the Teacher's courses
 
         Returns
         ------
-        classes: list
+        List[Tuple[str, str]]
+            A list of a teacher's courses, represented as tuples (course-id, course-name).
         """
-        classes = list()
-        for class_ in self.classes:
-            classes.append((class_, Classes.get_by_id(class_).name))
+        from api.classes import Course  # If put at top, creates a circular import problem
+
+        courses = list()
+        for course_id in self.courses:
+            courses.append((course_id, Course.get_by_id(course_id).name))
         
-        return classes
+        return courses
