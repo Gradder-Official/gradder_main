@@ -25,7 +25,7 @@ const App: FunctionComponent = () => {
     <Router>
       <Switch>
         <Route exact path="/" component={Login} />
-        <Route exact path="/auth/logout" component={Login} />
+        <Route exact path="/auth/logout" component={Login} /> 
         <Route exact path="/dashboard">
           {user.loggedIn ? <Redirect to={'/' + user.userType + '/dashboard'} /> : <Login />}
         </Route>
