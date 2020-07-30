@@ -8,6 +8,7 @@ from .assignment import Assignment
 
 
 class Course:
+    _id : str
     def __init__(
         self,
         department: str,
@@ -59,13 +60,22 @@ class Course:
         self.schedule_days = schedule_days
         self.syllabus = syllabus
         self.assignments = assignments or []
-        self._id = _id
+        if _id is not None:
+            self.id = _id
 
     def __repr__(self):
-        return f"<Course {self._id}>"
+        return f"<Course {self.id}>"
+
+    @property
+    def id(self) -> str:
+        return self._id
+
+    @id.setter
+    def id(self, id: str):
+        self._id = id
 
     def to_dict(self) -> Dict[str, str]:
-        return {
+        dict_course = {
             "department": self.department,
             "number": self.number,
             "name": self.name,
@@ -77,6 +87,14 @@ class Course:
             "syllabus": self.syllabus,
             "assignments": self.assignments,
         }
+
+        try:
+            dict_course["_id"] = self.id
+        except:
+            # The id has not been initialized yet
+            pass
+
+        return dict_course 
 
     @staticmethod
     def from_dict(dictionary: dict) -> Course:
