@@ -3,8 +3,10 @@ from __future__ import annotations
 from typing import Dict, List, Tuple
 
 from api import db
-from api.classes import Submission, User
 from bson import ObjectId
+
+from .submission import Submission
+from .user import User
 
 
 class Student(User):
