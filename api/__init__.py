@@ -14,6 +14,9 @@ login_manager.login_view = "auth.login"
 
 mail = Mail()
 
+db: DB
+root_logger: logger
+
 
 def create_app(config_name):
     app = Flask(__name__)
@@ -23,8 +26,10 @@ def create_app(config_name):
     config[config_name].init_app(app)
 
     # TODO: Add handling of different schools based on the information passed from the React frontend
+    global db
     db = DB(app.config.get("MONGO_CONNECTION_STRING"), "school1")
 
+    global root_logger 
     root_logger = logger[config_name]()  # Creates a logger relevant to the app environment
 
     login_manager.init_app(app)

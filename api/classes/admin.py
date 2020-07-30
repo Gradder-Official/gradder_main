@@ -3,8 +3,9 @@ from typing import Dict, List
 
 from api.classes import User, Course
 
+
 class Admin(User):
-    _type = Admin  # Immutable
+    _type = 'Admin'  # Immutable
     def ___init__(
         self,
         email: str,

@@ -8,3 +8,5 @@ parent = Blueprint(
     __name__,
     url_prefix="/api/parent",
 )
+
+from . import routes

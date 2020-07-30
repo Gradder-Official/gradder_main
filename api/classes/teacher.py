@@ -2,12 +2,12 @@ from __future__ import annotations
 from typing import Dict, List, Tuple
 from bson import ObjectId
 
-from api.classes import User
 from api import db
+from api.classes import User
 
 
 class Teacher(User):
-    _type = Teacher  # Immutable
+    _type = 'Teacher'  # Immutable
 
     def __init__(
         self,
@@ -22,14 +22,14 @@ class Teacher(User):
 
         Parameters
         ----------
-        email: str
-        first_name: str
-        last_name: str
-        classes: list
-        _id: str
+        email : str
+        first_name : str
+        last_name : str
+        classes : list
+        _id : str
         """
         super().__init__(
-            email=email, first_name=first_name, last_name=last_name, id=_id
+            email=email, first_name=first_name, last_name=last_name, _id=_id
         )
         self.classes = classes if classes is not None else list()
 
@@ -50,7 +50,7 @@ class Teacher(User):
 
         Parameters
         ---------
-        id: str
+        id : str
             ID to look up in the database
 
         Returns
@@ -66,9 +66,10 @@ class Teacher(User):
     @staticmethod
     def get_by_email(email: str) -> Teacher:
         r""" Returns Teacher with a specified email.
+        
         Parameters
         ---------
-        email: str
+        email : str
 
         Returns
         ------
@@ -86,7 +87,7 @@ class Teacher(User):
 
         Parameters
         ---------
-        dictionary: dict
+        dictionary : dict
 
         Returns
         -------

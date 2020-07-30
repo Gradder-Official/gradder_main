@@ -8,3 +8,5 @@ teacher = Blueprint(
     __name__,
     url_prefix="/api/teacher",
 )
+
+from . import routes
