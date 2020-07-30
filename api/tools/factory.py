@@ -1,8 +1,6 @@
 from typing import List, Dict
 
-from flask_wtf import FlaskForm
-
-def response(flashes: List[str], forms: Dict[FlaskForm], **kwargs) -> dict:
+def response(flashes: List[str], forms: Dict, **kwargs) -> dict:
     """Response factory for JSON backend
 
     Parameters
