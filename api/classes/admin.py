@@ -1,7 +1,8 @@
 from __future__ import annotations
 from typing import Dict, List
 
-from api.classes import User, Course
+from .user import User
+from .course import Course
 
 class Admin(User):
     _type = Admin  # Immutable

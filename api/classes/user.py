@@ -104,7 +104,7 @@ class User(UserMixin):
     def id(self) -> str:
         return self._id
 
-    @id.setter()
+    @id.setter
     def id(self, id: str):
         r"""Sets the id for the user.
 
