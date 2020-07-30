@@ -31,7 +31,7 @@ class Teacher(User):
         super().__init__(
             email=email, first_name=first_name, last_name=last_name, id=_id
         )
-        self.classes = classes if classes is not None else list()
+        self.classes = classes or []
 
     def __repr__(self):
         return f"<Teacher {self.id}>"

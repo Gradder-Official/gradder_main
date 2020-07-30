@@ -29,7 +29,7 @@ class Admin(User):
             This user's ID, will be empty if not specified
         """
         super().__init__(email=email, first_name=first_name, last_name=last_name, _id=_id)
-        self.courses = courses if courses is not None else list()
+        self.courses = courses or []
     
     def __repr__(self) -> str:
         return f"<Admin { self.id }>"
