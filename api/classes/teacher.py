@@ -1,9 +1,15 @@
 from __future__ import annotations
+
 from typing import Dict, List, Tuple
-from bson import ObjectId
 
 from api import db
+<<<<<<< HEAD
 from api.classes import User
+=======
+from bson import ObjectId
+
+from .user import User
+>>>>>>> ff282143fb0f5ec1223aae11e0f553f66f7c0300
 
 
 class Teacher(User):
@@ -31,7 +37,7 @@ class Teacher(User):
         super().__init__(
             email=email, first_name=first_name, last_name=last_name, _id=_id
         )
-        self.classes = classes if classes is not None else list()
+        self.classes = classes or []
 
     def __repr__(self):
         return f"<Teacher {self.id}>"
