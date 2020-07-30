@@ -20,18 +20,6 @@ def teacher_verification():
     pass
 
 
-@teacher.route("/")
-@teacher.route("/index")
-@teacher.route("/dashboard")
-def index():
-    return render_template("teacher/dashboard.html")
-
-
-@teacher.route("/profile")
-def profile():
-    return render_template("teacher/profile.html")
-
-
 @teacher.route("/add_assignment", methods=["GET", "POST"])
 def add_assignment():
     """Adds new assignment for the class
@@ -64,21 +52,23 @@ def add_assignment():
             filenames=file_list,
             estimated_time=request.form['estimated_time'],
         )
+
         logger.info(f"Assignment {request.form['title']} added")
-        Classes.get_by_id(request.form['assigned_to']).add_assignment(new_assignment)
+        
+        Course.get_by_id(request.form['assigned_to']).add_assignment(new_assignment)
+
         return response(flashes=["Assignment sent!"])
     except KeyError:
         return error("Not all fields satisfied"), 400
 
 
-@teacher.route("/assignments", methods=["GET"])
+@teacher.route("/courses", methods=["GET"])
 def view_assignments():
-    """Collects assignments from all the classes
-
+    """Collects all courses for a specific teatcher.
     Returns
     -------
     dict
-        All the classes and their respective data (id, name, and assignments)
+        All the courses and their respective data (id, name, and assignments)
     """
     for course_id in current_user.courses:
         course = Course.get_by_id(course_id)
