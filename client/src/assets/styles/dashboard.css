@@ -1,10 +1,11 @@
 /* Dashboard content */
 .dash-content {
     position: absolute;
-    right: 0;
-    padding: 30px 50px;
+    left: 230px;
+    padding: 10px 20px;
     height: 100vh;
     width: 84vw;
+    border-radius: 20px 0 0 20px;
     background: whitesmoke;
     z-index: 100;
     overflow-y: scroll;
@@ -12,11 +13,11 @@
 .dash-container {
     border-radius: 20px;
     background: white;
-    margin: 25px;
-    padding: 30px;
+    margin: 20px;
+    padding: 25px;
     flex-grow: 1;
     min-width: 400px;
-    min-height: 150px;
+    min-height: 180px;
 }
 .dash-container h5 {
     font-family: 'Gilroy', sans-serif;
@@ -27,18 +28,47 @@
 #student-overview .student-dash-flex-row {
     display: flex;
     flex-direction: row;
-    flex-grow: inherit;
     justify-content: space-between;
+    min-height: 30vh;
 }
 
 #student-overview .statistics {
     flex-grow: 3;
 }
-
 #student-overview .profile {
+    background-color: rgb(115, 140, 249);
+    max-width: 30vw;
+    height: 10vh;
+    min-height: 165px;
     flex-grow: 2;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
-
+#student-overview .profile-details h2 {
+    margin-top: 3.5vh;
+    margin-left: 5px;
+    font-size: 35px;
+}
+#student-overview .profile-details img {
+    width: 90px;
+    height: 90px;
+    border: 4px solid rgb(83, 107, 216);
+    border-radius: 30%;
+    margin-top: 2vh;
+    margin-left: 20px;
+}
+#student-overview .profile-time {
+    margin-right: 20px;
+}
+#student-overview .profile-time i {
+    font-size: 20px;
+    color: white;
+    float: right;
+    margin-left: 15px;
+    margin-bottom: 10px;
+}
 #student-overview .timetable {
     height: 60vh;
     flex-grow: 1;
@@ -57,4 +87,60 @@
 
 #student-overview .grades {
     flex-grow: 2;
+}
+
+/* Responsiveness */
+@media screen and (max-width: 1000px) {
+    .dash-content {
+        position: absolute;
+        right: 0;
+        left: auto;
+        width: 75vw;
+    }
+    #student-overview .student-dash-flex-row {
+        flex-direction: column-reverse;
+    }
+    #student-overview .dash-container {
+        max-width: none;
+    }
+    #student-overview .profile {
+        margin-bottom: 7vh;
+    }
+}
+@media screen and (max-width: 720px) {
+    .dash-content {
+        position: absolute;
+        right: auto;
+        left: 12vw;
+        width: 88vw;
+    }
+}
+@media screen and (max-width: 500px) {
+    .dash-content {
+        left: 50px;
+        height: fit-content;
+    }
+    #student-overview .dash-container {
+        min-width: auto;
+        height: fit-content;
+        margin: 10px;
+        display: flex;
+        flex-direction: column;
+    }
+    #student-overview .profile {
+        flex-direction: column-reverse;
+    }
+    #student-overview .profile-details {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    #student-overview .profile img {
+        width: 45%;
+        height: 45%;
+    }
+    #student-overview .profile-details h2 {
+        margin-top: 0px;
+        font-size: 30px;
+    }
 }
