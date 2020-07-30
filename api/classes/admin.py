@@ -1,8 +1,10 @@
 from __future__ import annotations
 from typing import Dict, List
+from bson import ObjectId
 
-from .user import User
-from .course import Course
+from api import db
+
+from . import Course, User
 
 
 class Admin(User):
@@ -50,7 +52,7 @@ class Admin(User):
         ----------
         dictionary: dict
         """
-        return Admin(**dictionary)
+        return Admin(**dictionary) if dictionary is not None else None
     
     @staticmethod
     def get_by_id(id: str) -> Admin:
