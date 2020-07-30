@@ -14,8 +14,8 @@ login_manager.login_view = "auth.login"
 
 mail = Mail()
 
-db = None
-root_logger = None
+db : DB = None
+root_logger : logger = None
 
 
 def create_app(config_name):
