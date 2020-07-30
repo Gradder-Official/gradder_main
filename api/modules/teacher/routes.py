@@ -1,22 +1,21 @@
 import uuid
 from datetime import datetime
 
-from flask import flash, redirect, render_template, request, url_for
+from flask import flash, redirect, render_template, request, url_for, request
 from flask_login import current_user
 from werkzeug.utils import secure_filename
 
 from app.decorators import required_access
 from app.google_storage import upload_blob
-from app.logger import logger
+from api import root_logger as logger
 from app.modules._classes import Assignment, Classes
 
 from . import teacher
 from ._teacher import Teacher
-from .forms import EditAssignmentForm, EditClassForm, NewAssignmentForm
 from api.tools.factory import response, error
 
 @teacher.before_request
-@required_access("Teacher")
+@required_access(Teacher)
 def teacher_verification():
     # Required_access decorator already handled it
     pass
@@ -36,19 +35,18 @@ def profile():
 
 @teacher.route("/add_assignment", methods=["GET", "POST"])
 def add_assignment():
-    """Adds new assignment for the class via NewAssignmentForm
+    """Adds new assignment for the class
 
     Returns
     -------
     dict
-        The NewAssignmentForm
+        The view response
     """
-    form = NewAssignmentForm()
-    form.assigned_to.choices = current_user.get_class_names()
+    request.form['assigned_to'].choices = current_user.get_class_names()
 
-    if form.validate_on_submit():
+    try:
         file_list = []
-        files = request.files.getlist(form.files.name)
+        files = request.files.getlist(request.form['files'].name)
         if files[0].filename:
             for file_ in files:
                 filename = file_.filename
@@ -60,18 +58,19 @@ def add_assignment():
         new_assignment = Assignment(
             date_assigned=datetime.utcnow(),
             assigned_by=current_user.ID,
-            assigned_to=form.assigned_to.data,
-            due_by=form.due_by.data,
-            title=form.title.data,
-            content=form.content.data,
+            assigned_to=request.form['assigned_to'],
+            due_by=request.form['due_by'],
+            title=request.form['title'],
+            content=request.form['content'],
             filenames=file_list,
-            estimated_time=form.estimated_time.data,
+            estimated_time=request.form['estimated_time'],
         )
-        logger.info(f"Assignment {form.title.data} added")
-        Classes.get_by_id(form.assigned_to.data).add_assignment(new_assignment)
+        logger.info(f"Assignment {request.form['title']} added")
+        Classes.get_by_id(request.form['assigned_to']).add_assignment(new_assignment)
         return response(flashes=["Assignment sent!"])
+    except KeyError:
+        return error("Not all fields satisfied"), 400
 
-    return response(forms={"new_assignment": form})
 
 @teacher.route("/assignments", methods=["GET"])
 def view_assignments():
@@ -113,7 +112,7 @@ def view_assignment_by_class_id(class_id: str):
 
 @teacher.route("/assignments/<string:class_id>/<string:assignment_id>", methods=["GET", "POST"])
 def edit_assignment(class_id: str, assignment_id: str):
-    """Edits assignment for the class via EditAssignmentForm
+    """Edits assignment for the class
 
     Parameters
     -------
@@ -126,8 +125,6 @@ def edit_assignment(class_id: str, assignment_id: str):
     Returns
     -------
     dict
-        The EditAssignmentForm
-    dict
         Edited assignment data
     """
     # Find assignment in teacher's classes
@@ -138,10 +135,9 @@ def edit_assignment(class_id: str, assignment_id: str):
     if assignment is None:
         return error("Could not find assignment"), 400
     
-    edit_assignment_form = EditAssignmentForm()
-    if edit_assignment_form.validate_on_submit():
+    try:
         file_list = []
-        files = request.files.getlist(edit_assignment_form.files.name)
+        files = request.files.getlist(request.form['files'].name)
         if files[0].filename:
             for file_ in files:
                 filename = file_.filename
@@ -153,28 +149,32 @@ def edit_assignment(class_id: str, assignment_id: str):
         edited_assignment = Assignment(
             date_assigned=assignment.date_assigned,
             assigned_by=assignment.assigned_by,
-            assigned_to=edit_assignment_form.assigned_to.data,
-            due_by=edit_assignment_form.due_by.data,
-            title=edit_assignment_form.title.data,
-            content=edit_assignment_form.content.data,
+            assigned_to=request.form['assigned_to'],
+            due_by=request.form['due_by'],
+            title=request.form['title'],
+            content=request.form['content'],
             filenames=file_list,
-            estimated_time=edit_assignment_form.estimated_time.data,
+            estimated_time=request.form['estimated_time'],
         )
         edited_assignment.ID = assignment.ID
         class_.edit_assignment(edited_assignment)
         # Assign to 'assignment' so form has new details
         assignment = edited_assignment
+
+    except KeyError:
+        return error("Not all fields satisfied"), 400
     
     # Set default values for form.
-    edit_assignment_form.assigned_to.default = assignment.assigned_to
-    edit_assignment_form.due_by.default = assignment.due_by
-    edit_assignment_form.estimated_time.default = assignment.estimated_time
-    edit_assignment_form.title.default = assignment.title
-    edit_assignment_form.content.default = assignment.content
+    request.form['assigned_to'].default = assignment.assigned_to
+    request.form['due_by'].default = assignment.due_by
+    request.form['estimated_time'].default = assignment.estimated_time
+    request.form['title'].default = assignment.title
+    request.form['content'].default = assignment.content
     # TODO: Handle default files
     # edit_assignment_form.files.default = assignment.filenames
 
-    return response(forms={"edit_assignment":edit_assignment_form.get_form_json()}, data={"assignment":assignment.to_json()})
+    return response(data={"assignment":assignment.to_json()})
+
 
 @teacher.route("/class", methods=["GET"])
 def manage_classes():
@@ -189,7 +189,7 @@ def manage_classes():
 
 @teacher.route("/class/<string:class_id>", methods=["GET", "POST"])
 def manage_classes_by_id(class_id: str):
-    """Edits any class data wished via EditClassForm
+    """Updates a specified class's information
 
     Parameters
     -------
@@ -198,31 +198,28 @@ def manage_classes_by_id(class_id: str):
     
     Returns
     -------
-    dict
-        The ClassEditForm
     list
-        Successfully updated flash
+        Successfully updated flash message
     dict
         Class data (id and name)
         Current class description
     """
-    class_edit_form = EditClassForm()
     class_ = Classes.get_by_id(class_id)
 
     syllabus_name = class_.get_syllabus_name()
     if syllabus_name is not None:
         if len(syllabus_name) > 20:
             syllabus_name = syllabus_name[:20] + "..."
-        class_edit_form.syllabus.label.text = (
+        request.form['syllabus'].label.text = (
             f"Update syllabus (current: { syllabus_name })"
         )
     else:
         return error("Could not find syllabus"), 400
 
-    if class_edit_form.validate_on_submit():
+    try:
         syllabus = ()
-        if class_edit_form.syllabus.name is not None:
-            syllabus_file = request.files[class_edit_form.syllabus.name]
+        if request.form['syllabus'].name is not None:
+            syllabus_file = request.files[request.form['syllabus'].name]
             filename = syllabus_file.filename
             blob = upload_blob(
                 uuid.uuid4().hex + "." + syllabus_file.content_type.split("/")[-1],
@@ -233,10 +230,13 @@ def manage_classes_by_id(class_id: str):
             return error("Please specify the syllabus name"), 400
         
         logger.info(f"Syllabus updated")
-        class_.update_description(class_edit_form.description.data)
+        class_.update_description(request.form['description'])
         class_.update_syllabus(syllabus)
 
         return response(flashes=["Class information successfully updated!"])
+
+    except KeyError:
+        return error("Not all fields satisfied"), 400
 
     classes=[]
     for class_id in current_user.classes:
@@ -247,4 +247,4 @@ def manage_classes_by_id(class_id: str):
 
         classes.append(class_data)
 
-    return response(forms={"class_edit":class_edit_form.get_form_json()}, flashes=["Class information successfully updated!"], data={"classes":classes, "current_description":class_.description})
+    return response(flashes=["Class information successfully updated!"], data={"classes":classes, "current_description":class_.description})
