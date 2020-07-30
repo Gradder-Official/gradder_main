@@ -1,6 +1,6 @@
 from functools import wraps
 
-from api.tools.dictionaries import TYPE_DICTIONARY
+from .dictionaries import TYPE_DICTIONARY
 
 
 def required_access(people: list):

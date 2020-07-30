@@ -1,15 +1,10 @@
 from __future__ import annotations
-
 from typing import Dict, List, Tuple
-
-from api import db
-<<<<<<< HEAD
-from api.classes import User
-=======
 from bson import ObjectId
 
+from api import db
+
 from .user import User
->>>>>>> ff282143fb0f5ec1223aae11e0f553f66f7c0300
 
 
 class Teacher(User):
