@@ -7,3 +7,5 @@ parent = Blueprint(
     __name__,
     url_prefix="/parent",
 )
+
+from . import routes
