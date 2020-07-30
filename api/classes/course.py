@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-class Course:
-    pass
-=======
+from __future__ import annotations
 from typing import Dict, List, Tuple
-
 from bson import ObjectId
 
 from api import db, root_logger
@@ -243,4 +239,3 @@ class Course:
             logger.exception(
                 f"Error while updating syllabus {self.syllabus[1]} on class {self._id}"
             )
->>>>>>> ff282143fb0f5ec1223aae11e0f553f66f7c0300

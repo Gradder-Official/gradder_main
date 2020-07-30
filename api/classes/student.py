@@ -1,20 +1,15 @@
-<<<<<<< HEAD
-class Student:
-    pass
-=======
 from __future__ import annotations
-
 from typing import Dict, List, Tuple
+from bson import ObjectId
 
 from api import db
-from bson import ObjectId
 
 from .submission import Submission
 from .user import User
 
 
 class Student(User):
-    _type = Student  # Immutable
+    _type = 'Student'  # Immutable
 
     def __init__(
         self,
@@ -157,4 +152,3 @@ class Student(User):
             {"_id": ObjectId(self._id)},
             {"$push": {"assignments": unique_submission_string}},
         )
->>>>>>> ff282143fb0f5ec1223aae11e0f553f66f7c0300

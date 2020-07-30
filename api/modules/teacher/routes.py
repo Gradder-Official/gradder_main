@@ -5,14 +5,13 @@ from flask import flash, redirect, render_template, request, url_for, request
 from flask_login import current_user
 from werkzeug.utils import secure_filename
 
-from app.decorators import required_access
-from app.google_storage import upload_blob
 from api import root_logger as logger
-from app.modules._classes import Assignment, Classes
+from api.classes import Assignment, Course, Teacher
+from api.tools.factory import response, error
+from api.tools.decorators import required_access
+from api.tools.google_storage import upload_blob
 
 from . import teacher
-from ._teacher import Teacher
-from api.tools.factory import response, error
 
 @teacher.before_request
 @required_access(Teacher)
@@ -81,19 +80,20 @@ def view_assignments():
     dict
         All the classes and their respective data (id, name, and assignments)
     """
-    for class_id in current_user.classes:
-        class_ = Classes.get_by_id(class_id)
-        class_assignments = class_.get_assignments()
-        class_data = {
-            'id': str(class_id),
-            'name': class_.name,
-            'assignments': list(map(lambda a: a.to_json(), class_assignments))
+    for course_id in current_user.courses:
+        course = Course.get_by_id(course_id)
+        course_assignments = course.get_assignments()
+
+        course_data = {
+            'id': str(course_id),
+            'name': course.name,
+            'assignments': list(map(lambda a: a.to_dict(), course_assignments))
         }
     
-    return response(data={"classes": [class_data]})
+    return response(data={"courses": [course_data]})
 
-@teacher.route("/assignments/<string:class_id>", methods=["GET"])
-def view_assignment_by_class_id(class_id: str):
+@teacher.route("/assignments/<string:course_id>", methods=["GET"])
+def view_assignment_by_class_id(course_id: str):
     """Collects assignments from a specific class
 
     Parameters
@@ -106,18 +106,18 @@ def view_assignment_by_class_id(class_id: str):
     dict
         The specified class and its respective data (id, name, and assignments)
     """
-    class_assignments = Classes.get_by_id(class_id).get_assignments()
+    course_assignments = Course.get_by_id(course_id).get_assignments()
 
-    return response(data={"assignments": list(map(lambda a: a.to_json(), class_assignments))})
+    return response(data={"assignments": list(map(lambda a: a.to_dict(), course_assignments))})
 
-@teacher.route("/assignments/<string:class_id>/<string:assignment_id>", methods=["GET", "POST"])
-def edit_assignment(class_id: str, assignment_id: str):
+@teacher.route("/assignments/<string:course_id>/<string:assignment_id>", methods=["GET", "POST"])
+def edit_assignment(course_id: str, assignment_id: str):
     """Edits assignment for the class
 
     Parameters
     -------
-    class_id: str
-        The class ID to look up in the database
+    course_id: str
+        The course ID to look up in the database
     
     assignment_id: str
         The assignment ID to look up in the database
@@ -128,10 +128,11 @@ def edit_assignment(class_id: str, assignment_id: str):
         Edited assignment data
     """
     # Find assignment in teacher's classes
-    class_ = Classes.get_by_id(class_id)
-    assignments = class_.get_assignments()
+    course = Course.get_by_id(course_id)
+    assignments = course.get_assignments()
     # TODO: Create custom error when assignment isn't found
-    assignment: Assignment = list(filter(lambda a: str(a.ID) == assignment_id, assignments))[0]
+    assignment : Assignment = list(filter(lambda a: str(a.id) == assignment_id, assignments))[0]
+
     if assignment is None:
         return error("Could not find assignment"), 400
     
@@ -156,8 +157,8 @@ def edit_assignment(class_id: str, assignment_id: str):
             filenames=file_list,
             estimated_time=request.form['estimated_time'],
         )
-        edited_assignment.ID = assignment.ID
-        class_.edit_assignment(edited_assignment)
+        edited_assignment.id = assignment.id
+        course.edit_assignment(edited_assignment)
         # Assign to 'assignment' so form has new details
         assignment = edited_assignment
 
@@ -178,23 +179,23 @@ def edit_assignment(class_id: str, assignment_id: str):
 
 @teacher.route("/class", methods=["GET"])
 def manage_classes():
-    #print(current_user.get_class_names()[0][0])
+    #print(current_user.get_course_name()[0][0])
     return redirect(
         url_for(
             "teacher.manage_classes_by_id",
-            class_id=current_user.get_class_names()[0][0]
+            course_id=current_user.get_course_names()[0][0]
         )
     )
 
 
-@teacher.route("/class/<string:class_id>", methods=["GET", "POST"])
-def manage_classes_by_id(class_id: str):
-    """Updates a specified class's information
+@teacher.route("/class/<string:course_id>", methods=["GET", "POST"])
+def manage_classes_by_id(course_id: str):
+    """Updates a specified course's information
 
     Parameters
     -------
-    class_id: str
-        The class ID to look up in the database
+    course_id: str
+        The course ID to look up in the database
     
     Returns
     -------
@@ -204,9 +205,9 @@ def manage_classes_by_id(class_id: str):
         Class data (id and name)
         Current class description
     """
-    class_ = Classes.get_by_id(class_id)
+    course = Course.get_by_id(course_id)
 
-    syllabus_name = class_.get_syllabus_name()
+    syllabus_name = course.get_syllabus_name()
     if syllabus_name is not None:
         if len(syllabus_name) > 20:
             syllabus_name = syllabus_name[:20] + "..."
@@ -230,21 +231,21 @@ def manage_classes_by_id(class_id: str):
             return error("Please specify the syllabus name"), 400
         
         logger.info(f"Syllabus updated")
-        class_.update_description(request.form['description'])
-        class_.update_syllabus(syllabus)
+        course.update_description(request.form['description'])
+        course.update_syllabus(syllabus)
 
         return response(flashes=["Class information successfully updated!"])
 
     except KeyError:
         return error("Not all fields satisfied"), 400
 
-    classes=[]
-    for class_id in current_user.classes:
-        class_data = {
+    courses = []
+    for course_id in current_user.courses:
+        course_data = {
             'id': str(class_id),
-            'name': Classes.get_by_id(class_id).name,
+            'name': Course.get_by_id(course_id).name,
         }
 
-        classes.append(class_data)
+        courses.append(course_data)
 
-    return response(flashes=["Class information successfully updated!"], data={"classes":classes, "current_description":class_.description})
+    return response(flashes=["Class information successfully updated!"], data={"courses":courses, "current_description":course.description})
