@@ -135,15 +135,13 @@ class Admin(User):
         except BaseException as e:
             print(f"Error while adding class {course.ID}: {e}")
         
-    def get_class_names(self) -> Classes:
-        r""" Gets all the ObjectId's for the classes collection, along with their names
-
-        Returns a list containing tuples of class_id, and the name of the class
+    def get_class_names(self) -> List[(str, str)]:
+        r""" Returns all course ids and names for a school in a list
         """
-        classes = list()
+        courses = list()
 
-        for class_ in db.classes.find():
-            class_id = class_.get("_id")
-            classes.append((class_id, Classes.get_by_id(class_id).name))
+        for course in db.courses.find():
+            course_id = course.get("_id")
+            courses.append((course_id, Course.get_by_id(course_id).name))
 
-        return classes
+        return courses
