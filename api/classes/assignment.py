@@ -1,7 +1,7 @@
 from datetime import time, datetime
 from typing import List
 
-from api.classes import Submission
+from .submission import Submission
 
 class Assignment:
     _id: str
