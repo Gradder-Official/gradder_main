@@ -8,3 +8,5 @@ auth = Blueprint(
     __name__,
     url_prefix="/api/auth",
 )
+
+from . import routes
