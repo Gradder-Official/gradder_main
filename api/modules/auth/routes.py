@@ -40,7 +40,6 @@ def load_user(id: str) -> Union[Teacher, Student, Parent, Admin]:
 
     return None
 
-
 @auth.route("/login", methods=["POST"])
 def login():
     """Login endpoint. Handles user logins with LoginForm
@@ -162,8 +161,7 @@ def request_password_reset():
     else:
         return response(["An email has been sent to reset your password."]), 200
 
-
-@auth.route("/request-password-reset/<token:string>", methods=["POST"])
+@auth.route("/request-password-reset/<string:token>", methods=["POST"])
 def password_reset(token: str):
     """Resets the password (while not authenticated)
 
