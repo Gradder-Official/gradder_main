@@ -1,0 +1,77 @@
+/* Assignment preview */
+.assignments {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.assignment-card {
+    border: none;
+    margin-bottom: 5vh;
+    border-radius: 20px;
+    padding: 30px;
+    width: 48%;
+    font-family: 'SF UI Text', sans-serif;
+}
+.assignment-card .card-title {
+    font-size: 28px;
+    color: black;
+    font-weight: bold;
+    line-height: 1.5;
+    margin-bottom: 30px;
+    padding-right: 20px;
+}
+.assignment-card .card-badges, .modal-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.assignment-card .subject-badge {
+    font-size: 15px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    width: fit-content;
+    background-color: lightblue;
+    margin-bottom: 0;
+}
+.assignment-card .info-badge {
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    margin-left: 20px;
+}
+.info-badge i {
+    font-size: 40px;
+    color: rgb(93, 118, 232);
+    transition: all .3s ease-in-out;
+}
+.info-badge i:hover {
+    color: rgb(76, 103, 223);
+    transform: translate(0, -5px);
+}
+.assignment-card .card-text {
+    font-size: 18px;
+    color: gray;
+    margin-bottom: 5px;
+}
+
+/* Modal */
+.modal-content {
+    position: absolute;
+    transform: translate(0, 50%);
+    border-radius: 20px;
+    padding: 15px;
+}
+.modal-btn {
+    background-color: rgb(93, 118, 232);
+    color: white;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    width: fit-content;
+    border: none;
+}
+.modal-btn:hover {
+    color: white;
+    background-color: rgb(76, 103, 223);
+}
