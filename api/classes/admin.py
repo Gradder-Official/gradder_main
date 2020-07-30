@@ -1,16 +1,21 @@
-from api.classes.user import User
+from __future__ import annotations
 from typing import Dict, List
+from bson import ObjectId
+
+from api import db
+
+from . import Course, User
+
 
 class Admin(User):
-    USERTYPE = "Admin"
-
+    _type = 'Admin'  # Immutable
     def ___init__(
         self,
         email: str,
         first_name: str,
         last_name: str,
-        classes: list = None,
-        ID: str = None
+        courses: List[str] = None,
+        _id: str = None
     ):
         r"""Creates a user with Admin access
 
@@ -19,58 +24,35 @@ class Admin(User):
 
         Parameters
         ----------
-        email : str
-            Admin's email
-        first_name : str
-            Admin's first name as entered by him/herself
-        last_name : str
-            Admin's last name as entered by him/herself
-        classes : str
-            Holds the user's classes returned by the database
-        ID : str, optional
-            This user's ID, set automatically if not specified
+        email: str
+        first_name: str
+        last_name: str
+        courses: List[str]
+            Holds the user's courses returned by the database
+        _id: str, optional
+            This user's ID, will be empty if not specified
         """
-        super().__init__(email=email, first_name=first_name, last_name=last_name, ID=ID)
-        self.classes = classes if classes is not None else list()
+        super().__init__(email=email, first_name=first_name, last_name=last_name, _id=_id)
+        self.courses = courses or []
     
     def __repr__(self) -> str:
-        r"""Represents a specific class
-
-        Used for representing the admin class
-
-        Returns a string labeled:
-        "Admin {self.ID}"
-        """
-        return f"<Admin {self.ID}>"
+        return f"<Admin { self.id }>"
 
     def to_dict(self) -> Dict:
         r"""
-        Turns the admin class into a dictionary
-
-        To read more about MongoDB go here (https://docs.mongodb.com/guides/server/introduction/)
+        Turns the admin class into a dictionary.
         """
-        return super().to_dict()
+        return super(User, self).to_dict()
 
     @staticmethod
     def from_dict(dictionary: dict) -> Admin:
-        r""" Creates an admin from a dictionary
+        r""" Creates an Admin object from a dictionary.
 
-        Takes in a dictionary then casts the specific parameters as an admin object, and it includes email, first fame, last name, _id, password
         Parameters
         ----------
-        dictionary : dict
-            Containing all information related to creating a specific admin in dictionary format
+        dictionary: dict
         """
-        user = Admin(
-            email=dictionary["email"],
-            first_name=dictionary["first_name"],
-            last_name=dictionary["last_name"],
-            ID=str(dictionary["_id"]) if "_id" in dictionary else None,
-        )
-        if "password" in dictionary:
-            user.set_password(dictionary["password"])
-
-        return user
+        return Admin(**dictionary) if dictionary is not None else None
     
     @staticmethod
     def get_by_id(id: str) -> Admin:
@@ -78,11 +60,10 @@ class Admin(User):
         
         Parameters
         ----------
-        id : str
+        id: str
             ObjectId in the string format. 
         """
-        admin = Admin.from_dict(db.admins.find_one({"_id": ObjectId(id)}))
-        return admin
+        return Admin.from_dict(db.admins.find_one({"_id": ObjectId(id)}))
 
     @staticmethod
     def get_by_email(email: str) -> Admin:
@@ -90,29 +71,10 @@ class Admin(User):
         
         Parameters
         ----------
-        email : str
+        email: str
             String containing the email of the admin
         """
-        admin = Admin.from_dict(db.admins.find_one({"email": email}))
-        return admin
-    
-    @staticmethod
-    def add_student(class_id: str, email: str):
-        r""" Adds a student to a specific class
-
-        Gets a student using their email and adds their id to their appropriate class(school class)
-        
-        Parameters
-        ----------
-        class_id : str
-            The ObjectId of the class(school class) in the string format
-        email: str
-            The email of the student
-        """
-        student = Student.get_by_email(email)
-        db.classes.update_one(
-            {"_id": ObjectId(class_id)}, {"$push": {"students": ObjectId(student.ID)}}
-        )
+        return Admin.from_dict(db.admins.find_one({"email": email}))
     
     @staticmethod
     def add_class(course: Course):

@@ -1,17 +1,16 @@
 from typing import Union
 
-from flask import redirect, current_app, redirect
-from flask_login import login_user, logout_user, login_required, current_user
+from flask import abort, current_app, redirect, request
+from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.urls import url_parse
 
 from api import db, login_manager
-from api.classes import User, Teacher, Student, Admin, Parent
-from api.tools.factory import response, error
-
+from api import root_logger as logger
+from api.classes import Admin, Parent, Student, Teacher, User
 from api.tools.dictionaries import TYPE_DICTIONARY
+from api.tools.factory import error, response
 
 from . import auth
-from .forms import LoginForm, ResetPasswordForm, PasswordChangeForm
 
 
 @login_manager.user_loader
@@ -41,7 +40,6 @@ def load_user(id: str) -> Union[Teacher, Student, Parent, Admin]:
 
     return None
 
-
 @auth.route("/login", methods=["POST"])
 def login():
     """Login endpoint. Handles user logins with LoginForm
@@ -53,24 +51,27 @@ def login():
     """
     
     if current_user.is_authenticated:
-        # TODO: Redirect to dashboard
-        return error("Already authenticated")
+        return error("Already authenticated"), 400
 
-    form = LoginForm()
-    if form.validate_on_submit():
-        # TODO: Get user
-        user = User.get_by_email(form.email.data.lower())
+    try:
+        email = request.form['email'].lower()
+        password = request.form['password']
+        remember_me = request.form.get('remember_me', False)
+
+        user = User.get_by_email(email)
         if user is not None:
             user = TYPE_DICTIONARY[user["usertype"].capitalize()].from_dict(user)
-            if user is not None and user.verify_password(form.password.data):
-                login_user(user, form.remember_me.data)
+            if user is not None and user.verify_password(password):
+                login_user(user, remember_me)
             else:
-                return error("Email or password is incorrect")
-
-            # TODO: Log the authentication
-        return response(["Logged in successfully"])
-
-    return response(forms={"login": form})
+                return error("Email or password is incorrect"), 400
+    except KeyError:
+        return error("Not all fields satisfied"), 400
+    else:
+        logger.info("LOGGED IN: {} {} - ACCESS: {}".format(
+            user.first_name, user.last_name, user.USERTYPE
+        ))
+        return response(flashes=["Log in successful"]), 200
 
 
 @auth.route("/logout")
@@ -83,25 +84,112 @@ def logout():
     dict
         The view response
     """
-    # TODO: Log the de-authentication
+    logger.info(
+        "LOGGED OUT: {} {} - ACCESS: {}".format(
+            current_user.first_name, current_user.last_name, current_user.USERTYPE
+        )
+    )
     logout_user()
-    return response(["You have been logged out"])
+    return response(["You have been logged out"]), 200
 
 
 @auth.route("/change-password", methods=["POST"])
 @login_required
 def change_password():
-    form = PasswordChangeForm()
+    """Changes the user password (while authenticated)
+
+    Returns
+    -------
+    dict
+        The view response
+    """
     user = TYPE_DICTIONARY[
         current_user.USERTYPE.capitalize()].get_by_id(current_user.ID)
     
-    if form.validate_on_submit():
-        pass
+    try:
+        new_password = request.form['new_password']
+        current_user.password = new_password
+
+        if not current_user.add():
+            return error("Unknown error while changing the password."), 500
+    except KeyError:
+        return error("Not all fields satisfied"), 400
+    else:
+        return response(["Password changed"]), 200
+
+
+def send_reset_email(user):
+    """Send a reset email
+
+    Parameters
+    ----------
+    user: :obj:`User`
+        The user to send the reset email to
+    """
+
+    token = user.get_reset_token()
+    app = current_app._get_current_object()
+    msg = Message(
+        app.config["MAIL_SUBJECT_PREFIX"] + " " + "Password Reset Link",
+        sender=app.config["MAIL_SENDER"],
+        recipients=[user.email],
+    )
+    msg.body = f"""Here is your password reset link:
+{ url_for('auth.reset_password', token=token, _external=True) }
+If you did not make this reset password request, please change your password immediately through your accounts. If you need any further assistance, please contact team@gradder.io.
+"""
+    mail.send(msg)
+
 
 @auth.route("/request-password-reset", methods=["POST"])
 def request_password_reset():
-    pass
+    """Request a password reset (while not authenticated)
 
-@auth.route("/request-password-reset/<token:string>", methods=["POST"])
+    Returns
+    -------
+    dict
+        The view response
+    """
+    if current_user.is_authenticated:
+        return error(f"Wrong route, use {url_for('auth.change_password')}."), 303
+    
+    try:
+        email = request.form['email'].lower()
+        send_reset_email(User.from_dict(User.get_by_email(email)))
+    except KeyError:
+        return error("Not all fields satisfied"), 400
+    else:
+        return response(["An email has been sent to reset your password."]), 200
+
+@auth.route("/request-password-reset/<string:token>", methods=["POST"])
 def password_reset(token: str):
-    pass
+    """Resets the password (while not authenticated)
+
+    Parameters
+    ----------
+    token : str
+        The reset token
+
+    Returns
+    -------
+    dict
+        The view response
+    """
+    if current_user.is_authenticated:
+        return error(f"Wrong route, use {url_for('auth.change_password')}."), 303
+    
+    user = User.verify_reset_token(token)
+    if user is None:
+        return error("That is an expired or incorrect link."), 410
+    
+    user = User.from_dict(user)
+    try:
+        new_password = request.form['new_password']
+        user.password = new_password
+
+        if not user.add():
+            return error("Unknown error while changing the password."), 500
+    except KeyError:
+        return error("Not all fields satisfied"), 400
+    else:
+        return response(["Password changed"]), 200

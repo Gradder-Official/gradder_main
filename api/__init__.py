@@ -1,15 +1,21 @@
+from flask import Flask
 from flask_login import LoginManager
-
-from api.tools.db import DB
-from config import config
 from flask_mail import Mail
+
+from config import config
+
 from .tools.encoder import JSONImproved
+from .tools.db import DB
+from .tools.logger import logger
 
 
 login_manager = LoginManager()
 login_manager.login_view = "auth.login"
 
 mail = Mail()
+
+db : DB = None
+root_logger : logger = None
 
 
 def create_app(config_name):
@@ -20,7 +26,11 @@ def create_app(config_name):
     config[config_name].init_app(app)
 
     # TODO: Add handling of different schools based on the information passed from the React frontend
-    db = DB("school1")  
+    global db
+    db = DB(app.config.get("MONGO_CONNECTION_STRING"), "school1")
+
+    global root_logger 
+    root_logger = logger[config_name]()  # Creates a logger relevant to the app environment
 
     login_manager.init_app(app)
     mail.init_app(app)
