@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { NavLink } from "react-router-dom";
-import WhiteLogo from "../assets/images/White Logo.png"
+import WhiteLogo from "../assets/images/white-logo.png"
 import "../assets/styles/sidebar.css"
 
 const StudentSidebar: FunctionComponent = () => {
