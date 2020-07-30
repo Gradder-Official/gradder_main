@@ -7,3 +7,5 @@ admin = Blueprint(
     __name__,
     url_prefix="/admin",
 )
+
+from . import routes
