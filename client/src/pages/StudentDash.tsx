@@ -48,8 +48,8 @@ const StudentDash:FunctionComponent<student> = ({ userName }) => {
             <h5>Timetable</h5>
           </div>
           <div className="student-dash-flex-col">
-            <div className="dash-container homework">
-              <h5>Homework</h5>
+            <div className="dash-container assignments">
+              <h5>Assignments</h5>
             </div>
             <div className="dash-container grades">
               <h5>Grades</h5>
