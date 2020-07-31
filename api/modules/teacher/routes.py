@@ -13,6 +13,22 @@ from api.tools.google_storage import upload_blob
 
 from . import teacher
 
+@staticmethod
+def get_existing_assignment_files():
+    """ Helper function to get existing assignment files
+    """
+    file_list = []
+    files = request.files.getlist(request.form['files'].name)
+    if files[0].filename:
+        for file_ in files:
+            filename = file_.filename
+            blob = upload_blob(
+                uuid.uuid4().hex + "." + file_.content_type.split("/")[-1], file_
+            )
+            file_list.append((blob.name, filename))
+    
+    return file_list
+
 @teacher.before_request
 @required_access(Teacher)
 def teacher_verification():
@@ -32,15 +48,7 @@ def add_assignment():
     request.form['assigned_to'].choices = current_user.get_class_names()
 
     try:
-        file_list = []
-        files = request.files.getlist(request.form['files'].name)
-        if files[0].filename:
-            for file_ in files:
-                filename = file_.filename
-                blob = upload_blob(
-                    uuid.uuid4().hex + "." + file_.content_type.split("/")[-1], file_
-                )
-                file_list.append((blob.name, filename))
+        file_list = get_existing_assignment_files()
 
         new_assignment = Assignment(
             date_assigned=datetime.utcnow(),
@@ -53,11 +61,11 @@ def add_assignment():
             estimated_time=request.form['estimated_time'],
         )
 
-        logger.info(f"Assignment {request.form['title']} added")
-        
         Course.get_by_id(request.form['assigned_to']).add_assignment(new_assignment)
 
+        logger.info(f"Assignment {request.form['title']} added")
         return response(flashes=["Assignment sent!"])
+
     except KeyError:
         return error("Not all fields satisfied"), 400
 
@@ -65,20 +73,23 @@ def add_assignment():
 @teacher.route("/courses", methods=["GET"])
 def view_assignments():
     """Collects all courses for a specific teatcher.
+
     Returns
     -------
     dict
         All the courses and their respective data (id, name, and assignments)
     """
+    
+    courses = []
     for course_id in current_user.courses:
         course = Course.get_by_id(course_id)
         course_assignments = course.get_assignments()
-
         course_data = {
             'id': str(course_id),
             'name': course.name,
             'assignments': list(map(lambda a: a.to_dict(), course_assignments))
         }
+        courses.append(course_data)
     
     return response(data={"courses": [course_data]})
 
@@ -117,26 +128,18 @@ def edit_assignment(course_id: str, assignment_id: str):
     dict
         Edited assignment data
     """
-    # Find assignment in teacher's classes
+    
     course = Course.get_by_id(course_id)
     assignments = course.get_assignments()
-    # TODO: Create custom error when assignment isn't found
+
     assignment : Assignment = list(filter(lambda a: str(a.id) == assignment_id, assignments))[0]
 
     if assignment is None:
         return error("Could not find assignment"), 400
     
     try:
-        file_list = []
-        files = request.files.getlist(request.form['files'].name)
-        if files[0].filename:
-            for file_ in files:
-                filename = file_.filename
-                blob = upload_blob(
-                    uuid.uuid4().hex + "." + file_.content_type.split("/")[-1], file_
-                )
-                file_list.append((blob.name, filename))
-        # TODO: Edit assignment data
+        file_list = get_existing_assignment_files()
+
         edited_assignment = Assignment(
             date_assigned=assignment.date_assigned,
             assigned_by=assignment.assigned_by,
@@ -147,6 +150,7 @@ def edit_assignment(course_id: str, assignment_id: str):
             filenames=file_list,
             estimated_time=request.form['estimated_time'],
         )
+
         edited_assignment.id = assignment.id
         course.edit_assignment(edited_assignment)
         # Assign to 'assignment' so form has new details
@@ -161,22 +165,9 @@ def edit_assignment(course_id: str, assignment_id: str):
     request.form['estimated_time'].default = assignment.estimated_time
     request.form['title'].default = assignment.title
     request.form['content'].default = assignment.content
-    # TODO: Handle default files
-    # edit_assignment_form.files.default = assignment.filenames
+    request.files.default = assignment.filenames
 
     return response(data={"assignment":assignment.to_json()})
-
-
-@teacher.route("/class", methods=["GET"])
-def manage_classes():
-    #print(current_user.get_course_name()[0][0])
-    return redirect(
-        url_for(
-            "teacher.manage_classes_by_id",
-            course_id=current_user.get_course_names()[0][0]
-        )
-    )
-
 
 @teacher.route("/class/<string:course_id>", methods=["GET", "POST"])
 def manage_classes_by_id(course_id: str):
@@ -189,21 +180,22 @@ def manage_classes_by_id(course_id: str):
     
     Returns
     -------
-    list
-        Successfully updated flash message
     dict
         Class data (id and name)
         Current class description
     """
     course = Course.get_by_id(course_id)
-
     syllabus_name = course.get_syllabus_name()
+
     if syllabus_name is not None:
+
         if len(syllabus_name) > 20:
             syllabus_name = syllabus_name[:20] + "..."
+
         request.form['syllabus'].label.text = (
-            f"Update syllabus (current: { syllabus_name })"
+            f"Update current syllabus: { syllabus_name })"
         )
+
     else:
         return error("Could not find syllabus"), 400
 
@@ -220,10 +212,10 @@ def manage_classes_by_id(course_id: str):
         else:
             return error("Please specify the syllabus name"), 400
         
-        logger.info(f"Syllabus updated")
         course.update_description(request.form['description'])
         course.update_syllabus(syllabus)
 
+        logger.info(f"Syllabus updated")
         return response(flashes=["Class information successfully updated!"])
 
     except KeyError:
@@ -232,10 +224,12 @@ def manage_classes_by_id(course_id: str):
     courses = []
     for course_id in current_user.courses:
         course_data = {
-            'id': str(class_id),
+            'id': str(course_id),
             'name': Course.get_by_id(course_id).name,
         }
-
         courses.append(course_data)
 
-    return response(flashes=["Class information successfully updated!"], data={"courses":courses, "current_description":course.description})
+    return response(
+        flashes=["Class information successfully updated!"], 
+        data={"courses":courses, "current_description":course.description}
+    )
