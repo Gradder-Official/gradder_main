@@ -7,7 +7,7 @@ from flask_login import current_user
 
 from api import db
 from api import root_logger as logger
-from api.classes import Student, Submission, User
+from api.classes import Student, Submission, User, Course, Assignment
 from api.tools.decorators import required_access
 from api.tools.factory import error, response
 from api.tools.google_storage import download_blob, get_signed_url, upload_blob
@@ -83,8 +83,9 @@ def assignments():
     dict
         The view response
     """
-    pass
-
+    #print(list(map(lambda x: x.to_json(), current_user.get_assignments())))  
+    logger.info(f"Accessed all assignments")
+    return response(data={'assignments': list(map(lambda x: x.to_json(), current_user.get_assignments()))})
 
 @student.route("/assignments/<string:class_id>/", methods=["GET"])
 def assignments_by_class(class_id: str):
@@ -100,8 +101,13 @@ def assignments_by_class(class_id: str):
     dict
         The view response
     """
-    pass
 
+    course_assignments = Course.get_by_id(course_id).get_assignments()
+    logger.info(f"All assignments from {class_id}.")
+    return response(data={"assignments": list(map(lambda a: a.to_json(), course_assignments))})
+    #return response(data={"assignments": list(map(lambda a: a.to_json(), course_assignments))})
+
+    
 
 # This could possibly instead just use /assignments/<string:assignment_id>/
 # and then we could search through classes to find the assignment 
@@ -121,4 +127,9 @@ def assignment_by_id(class_id: str, assignment_id: str):
     dict
         The view response
     """
-    pass
+    assignments = Course.get_by_id(class_id).get_assignments()
+    assignment = list(filter(lambda a: str(a.ID) == assignment_id, assignments))[0]
+    logger.info(f"All assignments from {class_id} with assignment id {assignment_id}.")
+    return response(data={"assignment": assignment.to_json()})
+
+    
