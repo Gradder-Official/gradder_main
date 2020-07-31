@@ -1,4 +1,12 @@
-from .user import User
+from typing import Dict, List, Tuple
+
+from bson import ObjectId
+
+from api import db
+from api import root_logger as logger
+
+from . import User, Student
+
 
 class Parent(User):
     _type = 'Parent'  # Immutable
@@ -38,12 +46,12 @@ class Parent(User):
                     user = Student.get_by_name(
                         first_name=child["first_name"], last_name=child["last_name"]
                     )
-                    self.children.append(user.ID)
+                    self.children.append(user._id)
                 except BaseException:
-                    raise NoUserError
+                    pass
 
     def __repr__(self):
-        return f"<Parent {self.ID}>"
+        return f"<Parent {self._id}>"
 
     def to_dict(self) -> Dict[str, str]:
         r"""A representation of the object in a dictionary format.
@@ -85,7 +93,7 @@ class Parent(User):
         try:
             return Parent.from_dict(db.parents.find_one({"_id": ObjectId(id)}))
         except:
-            logger.info(f"Error when returning Parent by id {id}")
+            logger.exception(f"Error when returning Parent by id {id}")
 
     @staticmethod
     def get_by_email(email: str) -> Parent:
@@ -102,4 +110,4 @@ class Parent(User):
         try:
             return Parent.from_dict(db.parents.find_one({"email": email}))
         except:
-            logger.info(f"Error when returning Parent by email {email}")
+            logger.exception(f"Error when returning Parent by email {email}")
