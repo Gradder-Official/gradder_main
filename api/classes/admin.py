@@ -42,10 +42,10 @@ class Admin(User):
         r"""
         Turns the admin class into a dictionary.
         """
-        return super(User, self).to_dict()
+        return super().to_dict()
 
     @staticmethod
-    def from_dict(dictionary: dict) -> Admin:
+    def from_dict(dictionary: dict) -> 'Admin':
         r""" Creates an Admin object from a dictionary.
 
         Parameters
@@ -55,7 +55,7 @@ class Admin(User):
         return Admin(**dictionary) if dictionary is not None else None
     
     @staticmethod
-    def get_by_id(id: str) -> Admin:
+    def get_by_id(id: str) -> 'Admin':
         r""" Returns the admin object based on id
         
         Parameters
@@ -66,7 +66,7 @@ class Admin(User):
         return Admin.from_dict(db.admins.find_one({"_id": ObjectId(id)}))
 
     @staticmethod
-    def get_by_email(email: str) -> Admin:
+    def get_by_email(email: str) -> 'Admin':
         r"""Returns the admin object based on email
         
         Parameters
@@ -93,7 +93,7 @@ class Admin(User):
             dictionary["students"] = list()
             dictionary["assignments"] = list()
             dictionary["syllabus"] = list()
-            db.classes.insert_one(dictionary)
+            db.courses.insert_one(dictionary)
         except BaseException as e:
             print(f"Error while adding class {course.ID}: {e}")
         

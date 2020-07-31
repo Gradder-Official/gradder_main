@@ -1,11 +1,12 @@
 from __future__ import annotations
+
 from typing import Dict, List, Tuple
+
 from bson import ObjectId
 
 from api import db
 
-from .submission import Submission
-from .user import User
+from . import Assignment, Course, Submission
 
 
 class Student(User):
@@ -57,8 +58,8 @@ class Student(User):
         """
         return {
             **super().to_dict(),
-            classes: self.classes,
-            assignments: self.assignments
+            'classes': self.classes,
+            'assignments': self.assignments
         }
     
     @staticmethod
@@ -92,7 +93,6 @@ class Student(User):
         Student
         """
         try:
-            return 
             Student.from_dict(db.students.find_one({"email": email}))
         except BaseException as e:
             # TODO: add logger
@@ -117,7 +117,7 @@ class Student(User):
         """
         assignments = list()
         for class_ref in self.classes:
-            assignments.extend(Classes.get_by_id(class_ref).get_assignments())
+            assignments.extend(Course.get_by_id(class_ref).get_assignments())
 
         return assignments
 
@@ -141,7 +141,7 @@ class Student(User):
         dictionary = submission.to_dict()
         dictionary["student_id"] = self._id
         dictionary["_id"] = ObjectId()
-        db.classes.find_one_and_update(
+        db.courses.find_one_and_update(
             {"_id": ObjectId(class_id), "assignments._id": ObjectId(assignment_id)},
             {"$push": {"assignments.$.submissions": dictionary}},
         )
