@@ -23,6 +23,15 @@
     font-family: 'Gilroy', sans-serif;
     font-weight: bold;
 }
+.dash-header {
+    margin: 10px;
+    padding: 20px 30px;
+    border-bottom: 5px solid rgb(121, 141, 228);
+}
+.dash-header h1 {
+    font-family: "Gilroy", sans-serif;
+    font-weight: bold;
+}
 
 /* Student dashboard */
 #student-overview .student-dash-flex-row {
@@ -119,6 +128,7 @@
     .dash-content {
         left: 50px;
         height: fit-content;
+        min-height: 100vh;
     }
     #student-overview .dash-container {
         min-width: auto;
@@ -142,5 +152,10 @@
     #student-overview .profile-details h2 {
         margin-top: 0px;
         font-size: 30px;
+    }
+}
+@media screen and (max-height: 670px) {
+    .dash-content {
+        min-height: 105vh;
     }
 }

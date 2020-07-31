@@ -5,6 +5,7 @@ import { Switch, BrowserRouter as Router, Route, Redirect } from 'react-router-d
 // Components
 import Login from './pages/Login';
 import StudentDash from './pages/StudentDash';
+import StudentAssignments from './pages/StudentAssignments'
 
 // Types and interfaces
 import { student } from "./components/Interfaces";
@@ -31,6 +32,9 @@ const App: FunctionComponent = () => {
         </Route>
         <Route exact path="/student/dashboard" render={(props) => (
           <StudentDash {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn}/> 
+        )}/>
+        <Route exact path="/student/assignments" render={(props) => (
+          <StudentAssignments {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn}/> 
         )}/>
       </Switch>
     </Router>
