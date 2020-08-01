@@ -83,9 +83,8 @@ def assignments():
     dict
         The view response
     """
-    #print(list(map(lambda x: x.to_json(), current_user.get_assignments())))  
     logger.info(f"Accessed all assignments")
-    return response(data={'assignments': list(map(lambda x: x.to_json(), current_user.get_assignments()))})
+    return response(data={'assignments': current_user.get_assignments()})
 
 @student.route("/assignments/<string:class_id>/", methods=["GET"])
 def assignments_by_class(class_id: str):
@@ -104,7 +103,7 @@ def assignments_by_class(class_id: str):
 
     course_assignments = Course.get_by_id(course_id).get_assignments()
     logger.info(f"All assignments from {class_id}.")
-    return response(data={"assignments": list(map(lambda a: a.to_json(), course_assignments))})
+    return response(data={"assignments": course_assignments})
     #return response(data={"assignments": list(map(lambda a: a.to_json(), course_assignments))})
 
     
@@ -130,6 +129,6 @@ def assignment_by_id(class_id: str, assignment_id: str):
     assignments = Course.get_by_id(class_id).get_assignments()
     assignment = list(filter(lambda a: str(a.ID) == assignment_id, assignments))[0]
     logger.info(f"All assignments from {class_id} with assignment id {assignment_id}.")
-    return response(data={"assignment": assignment.to_json()})
+    return response(data={"assignment": assignment})
 
     
