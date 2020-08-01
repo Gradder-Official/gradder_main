@@ -56,7 +56,7 @@ class User(UserMixin):
         self.password = password if password is not None else ''
 
     def __repr__(self):
-        return f"<User {self.ID}>"
+        return f"<User {self._id}>"
 
     @property
     def password(self) -> str:
@@ -123,7 +123,7 @@ class User(UserMixin):
         }
 
     @staticmethod
-    def from_dict(dictionary: dict) -> User:
+    def from_dict(dictionary: dict) -> 'User':
         r"""Creates a new User object from the dictionary.
         """
         return User(**dictionary)

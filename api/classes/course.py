@@ -97,7 +97,7 @@ class Course:
         return dict_course 
 
     @staticmethod
-    def from_dict(dictionary: dict) -> Course:
+    def from_dict(dictionary: dict) -> 'Course':
         return Course(
             dictionary["department"],
             dictionary["number"],
@@ -212,7 +212,7 @@ class Course:
             )
 
     @staticmethod
-    def get_by_id(_id: str) -> Course:
+    def get_by_id(_id: str) -> 'Course':
         """Get a course by its ID
 
         Parameters

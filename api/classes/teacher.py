@@ -47,7 +47,7 @@ class Teacher(User):
         return dict_user
 
     @staticmethod
-    def from_dict(dictionary: dict) -> Teacher:
+    def from_dict(dictionary: dict) -> 'Teacher':
         r"""Creates a Teacher from a dictionary.
 
         Parameters
@@ -61,7 +61,7 @@ class Teacher(User):
         return Teacher(**dictionary)
 
     @staticmethod
-    def get_by_id(id: str) -> Teacher:
+    def get_by_id(id: str) -> 'Teacher':
         r"""Returns a Teacher object with a specified id.
 
         Parameters
@@ -79,7 +79,7 @@ class Teacher(User):
             logger.info(f"Error when returning Teacher by id {id}")
 
     @staticmethod
-    def get_by_email(email: str) -> Teacher:
+    def get_by_email(email: str) -> 'Teacher':
         r""" Returns Teacher with a specified email.
         
         Parameters
