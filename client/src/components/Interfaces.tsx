@@ -3,3 +3,16 @@ export interface student {
     userType: string;
     loggedIn: boolean;
 }
+
+export interface assignment {
+    title: string,
+    date_assigned?: string,
+    assigned_by?: number,
+    assigned_to: string,
+    due_by: string,
+    content?: [string]
+    filenames?: [string],
+    estimated_time?: number,
+    submissions?: [string],
+    _id?: string
+}

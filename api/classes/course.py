@@ -2,7 +2,11 @@ from __future__ import annotations
 from typing import Dict, List, Tuple
 from bson import ObjectId
 
+<<<<<<< HEAD
 from api import db, root_logger
+=======
+from api import db, root_logger as logger
+>>>>>>> da43301f54ed74a192ba5f225b576bcce0197a57
 
 from .assignment import Assignment
 
@@ -172,7 +176,27 @@ class Course:
             )
         except:
             logger.exception(
-                f"Error while adding assignment {assignment._id} to course {_id}")
+                f"Error while adding assignment {assignment._id} to course {self._id}")
+
+    def edit_assignment(self, assignment: Assignment):
+        """ Edits an assignment in this course
+
+        Parameters
+        ----------
+        assigment : Assigment
+            The assignment to edit
+        """
+        try:
+            dictionary = assignment.to_dict()
+            dictionary['_id'] = ObjectId(assignment.ID)
+            db.classes.update_one(
+                {"_id": self.ID, "assignments._id": dictionary['_id']},
+                {"$set": { "assignments.$": dictionary }}
+            )
+        except:
+            logger.exception(
+                f"Error while updating assignment {assignment._id} from course {self._id}"
+            )
 
     def delete_assignment(self, assignment_id: str):
         """Delete an assignment from this course

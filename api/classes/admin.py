@@ -42,7 +42,7 @@ class Admin(User):
         r"""
         Turns the admin class into a dictionary.
         """
-        return super(User, self).to_dict()
+        return super().to_dict()
 
     @staticmethod
     def from_dict(dictionary: dict) -> Admin:
@@ -91,3 +91,24 @@ class Admin(User):
             courses.append((course_id, Course.get_by_id(course_id).name))
 
         return courses
+
+    @staticmethod
+    def add_class(course: Course):
+        r""" Adds a new class to the course collection
+
+        Adds a course to the course collection with empty students, assignments, and syllabus lists
+        
+        Parameters
+        ----------
+        courses : Course
+            Course object
+        """
+        try:
+            dictionary = course.to_dict()
+            dictionary["_id"] = ObjectId()
+            dictionary["students"] = list()
+            dictionary["assignments"] = list()
+            dictionary["syllabus"] = list()
+            db.courses.insert_one(dictionary)
+        except BaseException as e:
+            print(f"Error while adding class {course.ID}: {e}")
