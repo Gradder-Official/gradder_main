@@ -3,6 +3,7 @@ from typing import Dict, List, Tuple
 from bson import ObjectId
 
 from api import db
+from api import root_logger as logger
 
 from .user import User
 
@@ -15,7 +16,7 @@ class Teacher(User):
         email: str,
         first_name: str,
         last_name: str,
-        classes: list = None,
+        courses: list = None,
         _id: str = None,
     ):
 
@@ -32,7 +33,7 @@ class Teacher(User):
         super().__init__(
             email=email, first_name=first_name, last_name=last_name, _id=_id
         )
-        self.classes = classes or []
+        self.courses = courses or []
 
     def __repr__(self):
         return f"<Teacher {self.id}>"
@@ -40,10 +41,24 @@ class Teacher(User):
     def to_dict(self) -> Dict[str, str]:
         r"""A representation of the object in a dictionary format.
         """
-        dict_user = super(User, self).to_dict()
-        dict_user["classes"] = self.classes
+        dict_user = super().to_dict()
+        dict_user["courses"] = self.courses
 
         return dict_user
+
+    @staticmethod
+    def from_dict(dictionary: dict) -> Teacher:
+        r"""Creates a Teacher from a dictionary.
+
+        Parameters
+        ---------
+        dictionary : dict
+
+        Returns
+        -------
+        Teacher
+        """
+        return Teacher(**dictionary)
 
     @staticmethod
     def get_by_id(id: str) -> Teacher:
@@ -60,9 +75,8 @@ class Teacher(User):
         """
         try:
             return Teacher.from_dict(db.teachers.find_one({"_id": ObjectId(id)}))
-        except BaseException as e:
-            # TODO: add logger
-            return None
+        except:
+            logger.info(f"Error when returning Teacher by id {id}")
 
     @staticmethod
     def get_by_email(email: str) -> Teacher:
@@ -78,23 +92,8 @@ class Teacher(User):
         """
         try:
             return Teacher.from_dict(db.teachers.find_one({"email": email}))
-        except BaseException as e:
-            # TODO: add logger
-            return None
-
-    @staticmethod
-    def from_dict(dictionary: dict) -> Teacher:
-        r"""Creates a Teacher from a dictionary.
-
-        Parameters
-        ---------
-        dictionary : dict
-
-        Returns
-        -------
-        Teacher
-        """
-        return Teacher(**dictionary)
+        except:
+            logger.info(f"Error when returning Teacher by email {email}")
 
     def get_course_names(self) -> List[Tuple[str, str]]:
         r"""Returns a list of the Teacher's courses

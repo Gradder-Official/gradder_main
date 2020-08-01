@@ -14,6 +14,7 @@
 **venv
 **Pipfile
 **Pipfile.lock
+gradder_env/
 
 # JSON tokens
 gradder_cred.json

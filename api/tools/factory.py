@@ -1,6 +1,6 @@
 from typing import List, Dict
 
-def response(flashes: List[str], forms: Dict, **kwargs) -> dict:
+def response(flashes: List[str] = [], forms: Dict = {}, **kwargs) -> dict:
     """Response factory for JSON backend
 
     Parameters
