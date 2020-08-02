@@ -1,13 +1,11 @@
 from __future__ import annotations
-
 from typing import Dict, List, Tuple
-
 from bson import ObjectId
 
 from api import db
-
-from . import Assignment, Course, Submission
-
+from .submission import Submission
+from .user import User
+from . import Assignment, Course
 
 class Student(User):
     _type = 'Student'  # Immutable
@@ -93,7 +91,7 @@ class Student(User):
         Student
         """
         try:
-            Student.from_dict(db.students.find_one({"email": email}))
+            return Student.from_dict(db.students.find_one({"email": email}))
         except BaseException as e:
             # TODO: add logger
             return None

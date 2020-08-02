@@ -13,7 +13,6 @@ from api.tools.google_storage import upload_blob
 
 from . import teacher
 
-@staticmethod
 def get_existing_assignment_files():
     """ Helper function to get existing assignment files
     """
@@ -73,7 +72,6 @@ def add_assignment():
 @teacher.route("/courses", methods=["GET"])
 def view_assignments():
     """Collects all courses for a specific teatcher.
-
     Returns
     -------
     dict
@@ -150,7 +148,6 @@ def edit_assignment(course_id: str, assignment_id: str):
             filenames=file_list,
             estimated_time=request.form['estimated_time'],
         )
-
         edited_assignment.id = assignment.id
         course.edit_assignment(edited_assignment)
         # Assign to 'assignment' so form has new details

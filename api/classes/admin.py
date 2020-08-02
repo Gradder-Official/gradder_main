@@ -4,8 +4,8 @@ from bson import ObjectId
 
 from api import db
 
-from . import Course, User
-
+from .user import User
+from .course import Course
 
 class Admin(User):
     _type = 'Admin'  # Immutable
@@ -45,7 +45,7 @@ class Admin(User):
         return super().to_dict()
 
     @staticmethod
-    def from_dict(dictionary: dict) -> 'Admin':
+    def from_dict(dictionary: dict) -> Admin:
         r""" Creates an Admin object from a dictionary.
 
         Parameters
@@ -55,7 +55,7 @@ class Admin(User):
         return Admin(**dictionary) if dictionary is not None else None
     
     @staticmethod
-    def get_by_id(id: str) -> 'Admin':
+    def get_by_id(id: str) -> Admin:
         r""" Returns the admin object based on id
         
         Parameters
@@ -66,7 +66,7 @@ class Admin(User):
         return Admin.from_dict(db.admins.find_one({"_id": ObjectId(id)}))
 
     @staticmethod
-    def get_by_email(email: str) -> 'Admin':
+    def get_by_email(email: str) -> Admin:
         r"""Returns the admin object based on email
         
         Parameters
@@ -76,6 +76,22 @@ class Admin(User):
         """
         return Admin.from_dict(db.admins.find_one({"email": email}))
     
+    def get_course_names(self) -> Course:
+        r"""Returns a list of the Teacher's courses
+
+        Returns
+        ------
+        List[Tuple[str, str]]
+            A list of a teacher's courses, represented as tuples (course-id, course-name).
+        """
+        courses = list()
+
+        for course_id in db.courses.find():
+            course_id = course_id.get("_id")
+            courses.append((course_id, Course.get_by_id(course_id).name))
+
+        return courses
+
     @staticmethod
     def add_class(course: Course):
         r""" Adds a new class to the course collection
@@ -96,14 +112,3 @@ class Admin(User):
             db.courses.insert_one(dictionary)
         except BaseException as e:
             print(f"Error while adding class {course.ID}: {e}")
-        
-    def get_class_names(self) -> List[(str, str)]:
-        r""" Returns all course ids and names for a school in a list
-        """
-        courses = list()
-
-        for course in db.courses.find():
-            course_id = course.get("_id")
-            courses.append((course_id, Course.get_by_id(course_id).name))
-
-        return courses
