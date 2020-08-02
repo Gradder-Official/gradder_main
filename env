@@ -1,5 +1,0 @@
-MAIL_USERNAME="team@gradder.io"
-MAIL_PASSWORD="#Muffinswithraisins2020!"
-FLASK_ENV='development'
-GOOGLE_APPLICATION_CREDENTIALS="/home/alex/Projects/CREDENTIALS/gradder_cred.json"
-MONGO_CONNECTION_STRING="mongodb+srv://shreygupta04:mgdl1UshaQqM4jGE@gradder-rle5k.gcp.mongodb.net/gradder-storage?retryWrites=true&w=majority"
