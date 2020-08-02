@@ -56,7 +56,7 @@ class User(UserMixin):
         self.password = password if password is not None else ''
 
     def __repr__(self):
-        return f"<User {self.ID}>"
+        return f"<User {self._id}>"
 
     @property
     def password(self) -> str:

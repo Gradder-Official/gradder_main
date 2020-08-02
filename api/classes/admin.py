@@ -4,8 +4,8 @@ from bson import ObjectId
 
 from api import db
 
-from . import Course, User
-
+from .user import User
+from .course import Course
 
 class Admin(User):
     _type = 'Admin'  # Immutable

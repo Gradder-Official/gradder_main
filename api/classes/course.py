@@ -2,11 +2,7 @@ from __future__ import annotations
 from typing import Dict, List, Tuple
 from bson import ObjectId
 
-<<<<<<< HEAD
-from api import db, root_logger
-=======
 from api import db, root_logger as logger
->>>>>>> da43301f54ed74a192ba5f225b576bcce0197a57
 
 from .assignment import Assignment
 

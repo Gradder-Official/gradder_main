@@ -4,9 +4,7 @@ from bson import ObjectId
 
 from api import db
 from api import root_logger as logger
-
 from .user import User
-
 
 class Teacher(User):
     _type = 'Teacher'  # Immutable
