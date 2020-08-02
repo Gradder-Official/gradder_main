@@ -1,0 +1,150 @@
+/* Dashboard content */
+.dash-content {
+    position: absolute;
+    left: 230px;
+    padding: 10px 20px;
+    height: 100vh;
+    width: 84vw;
+    border-radius: 20px 0 0 20px;
+    background: whitesmoke;
+    z-index: 100;
+    overflow-y: scroll;
+}
+.dash-container {
+    border-radius: 20px;
+    background: white;
+    margin: 20px;
+    padding: 25px;
+    flex-grow: 1;
+    min-width: 400px;
+    min-height: 180px;
+}
+.dash-container h5 {
+    font-family: 'Gilroy', sans-serif;
+    font-weight: bold;
+}
+.dash-container-small {
+    border-radius: 20px;
+    background: white;
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 25px;
+    flex-grow: 1;
+    max-width: 30vw;
+    min-height: 22vh;
+}
+.dash-container-small h5 {
+    font-family: 'Gilroy', sans-serif;
+    font-weight: bold;
+}
+.dash-container-small p {
+    margin-top: 2vh;
+}
+.dash-header {
+    margin: 10px;
+    padding: 20px 30px;
+    border-bottom: 5px solid rgb(121, 141, 228);
+}
+.dash-header h1 {
+    font-family: "Gilroy", sans-serif;
+    font-weight: bold;
+}
+
+/* Student dashboard */
+#student-overview .student-dash-flex-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    min-height: 30vh;
+}
+
+#student-overview .statistics {
+    flex-grow: 3;
+}
+#student-overview .profile {
+    background-color: rgb(115, 140, 249);
+    max-width: 60vw;
+    height: 10vh;
+    min-height: 165px;
+    flex-grow: 2;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+#student-overview .profile-details h2 {
+    margin-top: 5vh;
+    margin-left: 5px;
+    font-size: 35px;
+}
+#student-overview img {
+    width: 20vw;
+    height: 20vw;
+    border-radius: 5%;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+#student-overview .profile-time {
+    margin-right: 20px;
+    text-align: right;
+}
+#student-overview .profile-time i {
+    font-size: 20px;
+    color: white;
+    float: right;
+    margin-left: 15px;
+    margin-bottom: 10px;
+}
+#student-overview .timetable {
+    height: 60vh;
+    flex-grow: 1;
+}
+
+#student-overview .student-dash-flex-col {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 4;
+}
+
+#student-overview .assignments {
+    flex-grow: 3;
+}
+
+
+#student-overview .grades {
+    flex-grow: 2;
+}
+
+/* Responsiveness */
+@media screen and (max-width: 1000px) {
+    .dash-content {
+        position: absolute;
+        right: 0;
+        left: auto;
+        width: 75vw;
+    }
+    #student-overview .student-dash-flex-row {
+        flex-direction: column-reverse;
+    }
+    #student-overview .dash-container {
+        max-width: none;
+    }
+    #student-overview .profile {
+        margin-bottom: 7vh;
+    }
+}
+
+@media (min-width: 576px) {
+    .student-dash-flex-row{
+        display:none;
+    }
+}
+
+
+@media (min-width: 768px) {
+    .student-dash-flex-row{
+        display:none;
+    }
+}
+

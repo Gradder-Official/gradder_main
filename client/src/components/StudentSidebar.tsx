@@ -29,7 +29,7 @@ const StudentSidebar: FunctionComponent = () => {
                     <span className="material-icons-outlined">pie_chart</span>   
                     Analytics
                 </NavLink>
-                <NavLink to="/profile" className="nav-link" activeClassName="active">
+                <NavLink to="/student/profile" className="nav-link" activeClassName="active">
                     <span className="material-icons-outlined">settings</span>
                     Settings
                 </NavLink>
