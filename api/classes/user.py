@@ -123,7 +123,7 @@ class User(UserMixin):
         }
 
     @staticmethod
-    def from_dict(dictionary: dict) -> 'User':
+    def from_dict(dictionary: dict) -> User:
         r"""Creates a new User object from the dictionary.
         """
         return User(**dictionary)

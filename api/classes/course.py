@@ -2,7 +2,11 @@ from __future__ import annotations
 from typing import Dict, List, Tuple
 from bson import ObjectId
 
+<<<<<<< HEAD
+from api import db, root_logger
+=======
 from api import db, root_logger as logger
+>>>>>>> da43301f54ed74a192ba5f225b576bcce0197a57
 
 from .assignment import Assignment
 
@@ -97,7 +101,7 @@ class Course:
         return dict_course 
 
     @staticmethod
-    def from_dict(dictionary: dict) -> 'Course':
+    def from_dict(dictionary: dict) -> Course:
         return Course(
             dictionary["department"],
             dictionary["number"],
@@ -212,7 +216,7 @@ class Course:
             )
 
     @staticmethod
-    def get_by_id(_id: str) -> 'Course':
+    def get_by_id(_id: str) -> Course:
         """Get a course by its ID
 
         Parameters
