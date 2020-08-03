@@ -3,6 +3,8 @@ from typing import Dict, List, Tuple
 from bson import ObjectId
 
 from api import db
+from api import root_logger as logger
+
 from .submission import Submission
 from .user import User
 from . import Assignment, Course
@@ -37,7 +39,7 @@ class Student(User):
             The ID of the user, by default None
         """
         super().__init__(
-            email=email, first_name=first_name, last_name=last_name, id=_id
+            email=email, first_name=first_name, last_name=last_name, _id=_id
         )
 
         self.classes = classes or []
@@ -109,6 +111,18 @@ class Student(User):
         Student
         """
         return Student(**dictionary)
+
+    def add(self) -> bool:
+        r"""Adds the student to the DB.
+        """
+
+        try:
+            self.id = db.students.insert_one(self.to_dict()).inserted_id
+        except Exception as e:
+            logger.exception(f"Error while adding Student {self.id}: {e}")
+            return False
+        else:
+            return True
 
     def get_assignments(self) -> List[Assignment]:
         """Gets a list of assignments from the database for this student
