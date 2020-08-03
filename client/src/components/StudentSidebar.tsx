@@ -17,7 +17,7 @@ const StudentSidebar: FunctionComponent = () => {
                     <span className="material-icons-outlined">home</span>
                     Overview
                 </NavLink>
-                <NavLink to="/dashboard" className="nav-link" activeClassName="active">
+                <NavLink to="/student/timetable" className="nav-link" activeClassName="active">
                     <span className="material-icons-outlined">calendar_today</span>
                     Timetable
                 </NavLink>

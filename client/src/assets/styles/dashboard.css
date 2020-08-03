@@ -9,6 +9,7 @@
     background: whitesmoke;
     z-index: 100;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 .dash-container {
     border-radius: 20px;

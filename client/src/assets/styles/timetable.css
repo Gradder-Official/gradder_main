@@ -1,0 +1,51 @@
+#student-timetable {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.month-calendar {
+    flex: 1;
+    margin: 20px;
+}
+.month-calendar h1 {
+    font-weight: bold;
+    padding: 2vh;
+    border-bottom: 4px solid rgb(68, 92, 198);
+    margin-bottom: 4vh;
+}
+.time-grid-calendar {
+    flex: 1;
+    margin: 20px;
+}
+.fc {
+    background-color: white;
+    border-radius: 20px;
+    padding: 30px;
+}
+.fc .fc-button{
+    background-color: rgb(121, 141, 228);
+    border: none;
+}
+.fc .fc-button:hover, 
+.fc .fc-button-primary:not(:disabled):active, 
+.fc .fc-button-primary:not(:disabled).fc-button-active {
+    background-color: rgb(68, 92, 198);
+}
+.fc .fc-button-primary:focus {
+    box-shadow: none;
+}
+.fc .fc-daygrid-day.fc-day-today, .fc .fc-timegrid-col.fc-day-today {
+    background-color: aliceblue;
+}
+
+/* RESPONSIVE */
+@media screen and (max-width: 1200px) {
+    #student-timetable {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+    .month-calendar, .time-grid-calendar {
+        width: 90%;
+    }
+}

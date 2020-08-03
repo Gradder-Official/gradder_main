@@ -21,6 +21,7 @@ const AssignmentPreview: FunctionComponent = () => {
     /* const dummy_assignment = [
         {title:"Assignment 1", assigned_to:"History", due_by:"Fri, 02 Feb 1996 03:04:05 GMT"}
     ]
+    // eslint-disable-next-line
     useEffect(() => {
         setAssignments(dummy_assignment)
     }) */
