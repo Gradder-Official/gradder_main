@@ -14,10 +14,10 @@
 **venv
 **Pipfile
 **Pipfile.lock
-gradder_env/
+**gradder_env/
 
 # JSON tokens
-gradder_cred.json
+**gradder_cred.json
 
 # Logs
 **.log
@@ -25,6 +25,7 @@ gradder_cred.json
 # Other
 **.env
 **.coverage
+**env
 
 # dependencies
 **/node_modules
