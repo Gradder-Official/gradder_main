@@ -4,8 +4,10 @@ from flask import current_app
 from api import create_app
 
 
-class APIStudentTestCase(unittest.TestCase):
-    
+class APIStudentDatabaseOperationsTestCase(unittest.TestCase):
+    r"""A testcase on all the custom database operations that can be performed with Student class.
+    On `setUp`, adds a test student account to the database, which is destroyed on `tearDown`
+    """
     def setUp(self):
         self.app = create_app("testing")
         self.app_context = self.app.app_context()
@@ -13,21 +15,10 @@ class APIStudentTestCase(unittest.TestCase):
 
         # Imports have to be after app creation
         from api import root_logger as logger
+        from api.classes import Student
+
 
         self.logger = logger
-        self.logger.info(self.log_message("Application set up"))
-
-
-    def tearDown(self):
-        self.app_context.pop()
-
-        self.logger.info(self.log_message("Application teared down"))
-
-    def log_message(self, message: str) -> str:
-        return f"{message}"
-    
-    def basic_student(self) -> 'Student':
-        from api.classes import Student
 
         dictionary = {
             "email": "teststudent@example.com", 
@@ -35,21 +26,24 @@ class APIStudentTestCase(unittest.TestCase):
             "last_name": "Test",
         }
 
-        return Student.from_dict(dictionary)
-    
-    def test_create_student_from_dict(self):
+        self.student = Student.from_dict(dictionary)
+        if self.student.add():
+            self.logger.info(f"Successfully created a student {self.student.id}")
+
+    def tearDown(self):
+        if self.student.remove():
+            self.logger.info(f"Successfully removed a student ")
+
+        self.app_context.pop()
+
+    def log_message(self, message: str) -> str:
+        return f"{message}"
+
+    def test_get_student_by_id(self):
         from api.classes import Student
 
-        student = self.basic_student()
+        self.assertIsNone(Student.get_by_id("InvalidId"))
+        self.logger.info("Returned None on invalid ID")
 
-        self.assertTrue(type(student).__name__ == 'Student')
-        self.logger.info("Basic student created")
-
-    def test_add_basic_student_to_the_database(self):
-        from api.classes import Student
-
-        student = self.basic_student()
-        
-        self.assertTrue(student.add())
-        self.logger.info("Successfully added a student to the database")
-
+        self.assertTrue(type(Student.get_by_id(self.student.id)).__name__ == 'Student')
+        self.logger.info("Successfully retrieved a student from the database")
