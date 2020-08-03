@@ -128,7 +128,7 @@ class Student(User):
         """
 
         try:
-            db.students.delete_one({'_id': self.id})
+            db.students.delete_one({'_id': ObjectId(self.id)})
         except Exception as e:
             logger.exception(f"Error while removing Student {self.id}: {e}")
             return False
