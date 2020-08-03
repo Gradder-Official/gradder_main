@@ -91,7 +91,7 @@ def register_courses():
     try:
         if Course.get_by_number(request.form['number']):
             course = Course(
-                request.form['deparment'],
+                request.form['department'],
                 request.form['number'],
                 request.form['teacher'] if request.form['teacher'] else None,
                 request.form['name'],
