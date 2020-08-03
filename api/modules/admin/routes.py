@@ -1,7 +1,12 @@
 from flask import request
+
+from api import root_logger
 from api.classes import Admin, Teacher, Student, Course
 from api.tools.factory import response, error
-from api import root_logger
+from api.tools.decorators import required_access
+
+
+from . import admin
 
 
 @admin.before_request
