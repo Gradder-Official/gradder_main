@@ -17,7 +17,8 @@ class Student(User):
         email: str,
         first_name: str,
         last_name: str,
-        classes: List[str] = None,
+        password: str = None,
+        courses: List[str] = None,
         assignments: List[str] = None,
         _id: str = None
     ):
@@ -26,23 +27,21 @@ class Student(User):
         Parameters
         ----------
         email : str
-            The user's email
         first_name : str
-            The user's first name
         last_name : str
-            The user's last name
-        classes : List[str], optional
-            The classes the user is part of, by default None
+        password : str
+        courses : List[str], optional
+            The courses the student is in, by default None
         assignments : List[str], optional
             The assignments the user has, by default None
         _id : str, optional
             The ID of the user, by default None
         """
         super().__init__(
-            email=email, first_name=first_name, last_name=last_name, _id=_id
+            email=email, first_name=first_name, last_name=last_name, _id=_id, password=password
         )
 
-        self.classes = classes or []
+        self.courses = courses or []
         self.assignments = assignments or []
     
     def __repr__(self):
@@ -58,7 +57,7 @@ class Student(User):
         """
         return {
             **super().to_dict(),
-            'classes': self.classes,
+            'courses': self.courses,
             'assignments': self.assignments
         }
     
@@ -78,7 +77,7 @@ class Student(User):
         try:
             return Student.from_dict(db.students.find_one({"_id": ObjectId(id)}))
         except BaseException as e:
-            # TODO: add logger
+            logger.exception(f"Error while getting a student by id {id}: {e}")
             return None
 
     @staticmethod
@@ -124,18 +123,32 @@ class Student(User):
         else:
             return True
 
+    def remove(self) -> bool:
+        r"""Removes this student from the database.
+        """
+
+        try:
+            db.students.delete_one({'_id': self.id})
+        except Exception as e:
+            logger.exception(f"Error while removing Student {self.id}: {e}")
+            return False
+        else:
+            return True
+
     def get_assignments(self) -> List[Assignment]:
         """Gets a list of assignments from the database for this student
         """
         assignments = list()
-        for class_ref in self.classes:
-            assignments.extend(Course.get_by_id(class_ref).get_assignments())
+        for course_id in self.courses:
+            assignments.extend(Course.get_by_id(course_id).get_assignments())
+
+        #TODO: add logger
 
         return assignments
 
     def add_submission(
         self,
-        class_id: str,
+        course_id: str,
         assignment_id: str,
         submission: Submission
     ):
@@ -143,24 +156,32 @@ class Student(User):
 
         Parameters
         ----------
-        class_id : str
-            The ID of the class this submission is for
+        course_id : str
+            The ID of the course this submission is for
         assignment_id : str
             The ID of the assignment this submission is for
         submission : Submission
             The submission
         """
-        dictionary = submission.to_dict()
-        dictionary["student_id"] = self._id
-        dictionary["_id"] = ObjectId()
+        submission.id = str(ObjectId())
+
+        dictionary = {
+            **submission.to_dict(),
+            "student_id" : self.id,
+        }
+
         db.courses.find_one_and_update(
-            {"_id": ObjectId(class_id), "assignments._id": ObjectId(assignment_id)},
+            {"_id": ObjectId(course_id), "assignments._id": ObjectId(assignment_id)},
             {"$push": {"assignments.$.submissions": dictionary}},
         )
-        unique_submission_string = (
-            class_id + "_" + assignment_id + "_" + str(dictionary["_id"])
-        )
+
+        #TODO: add logger
+
+        unique_submission_string = course_id + "_" + assignment_id + "_" + submission.id
+
         db.students.find_one_and_update(
-            {"_id": ObjectId(self._id)},
+            {"_id": ObjectId(self.id)},
             {"$push": {"assignments": unique_submission_string}},
         )
+
+        #TODO: add logger
