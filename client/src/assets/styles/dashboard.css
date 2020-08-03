@@ -80,7 +80,7 @@
     margin-bottom: 10px;
 }
 #student-overview .timetable {
-    height: 60vh;
+    height: 70vh;
     flex-grow: 1;
 }
 
@@ -92,8 +92,10 @@
 
 #student-overview .assignments {
     flex-grow: 3;
+    display: flex;
+    max-height: 35vh;
+    flex-direction: column;
 }
-
 
 #student-overview .grades {
     flex-grow: 2;
