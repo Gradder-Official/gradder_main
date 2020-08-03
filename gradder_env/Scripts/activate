@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Michael Data\swe projects\gradder_main\gradder_env"
+VIRTUAL_ENV="C:\Michael Data\code\internships\gradder\gradder_main\gradder_env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

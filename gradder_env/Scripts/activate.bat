@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Michael Data\swe projects\gradder_main\gradder_env
+set VIRTUAL_ENV=C:\Michael Data\code\internships\gradder\gradder_main\gradder_env
 
 if not defined PROMPT set PROMPT=$P$G
 

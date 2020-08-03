@@ -9,20 +9,21 @@ const AssignmentPreview: FunctionComponent = () => {
 
     // TODO: get assignments by user ID
     useEffect(() => {
-        fetch('/api/assignments').then(response => 
-            response.json().then(data => {
-                setAssignments(data)
+        fetch('/api/assignments').then(response =>
+            response.json().then(info => {
+                setAssignments(info.data)
             })
+
         )
     }, [])
 
     // DUMMY ASSIGNMENT
-    const dummy_assignment = [
+    /* const dummy_assignment = [
         {title:"Assignment 1", assigned_to:"History", due_by:"Fri, 02 Feb 1996 03:04:05 GMT"}
     ]
     useEffect(() => {
         setAssignments(dummy_assignment)
-    })
+    }) */
 
     return (
         <div className="dash-content">
