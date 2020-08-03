@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import Dict, List
 from bson import ObjectId
 
-from api import db
+from api import db, root_logger
 
 from .user import User
 from .course import Course
@@ -93,8 +93,8 @@ class Admin(User):
         return courses
 
     @staticmethod
-    def add_class(course: Course):
-        r""" Adds a new class to the course collection
+    def add_course(course: Course):
+        r""" Adds a new course to the course collection
 
         Adds a course to the course collection with empty students, assignments, and syllabus lists
         
@@ -110,5 +110,52 @@ class Admin(User):
             dictionary["assignments"] = list()
             dictionary["syllabus"] = list()
             db.courses.insert_one(dictionary)
+            return True
         except BaseException as e:
-            print(f"Error while adding class {course.ID}: {e}")
+            root_logger.exception(f"Error while adding class {course.ID}: {e}")
+            return False
+
+    @staticmethod
+    def add_student(class_id: str, email: str):
+        r""" Adds a student to a course
+        Gets a student from their email and adds the student's _id to the specific course's student ids' field
+        
+        Parameters
+        ----------
+        class_id : str
+            The ObjectId of the specific course in string format.
+        email: str
+            The email of the student
+        """
+        student = Student.get_by_email(email)
+        db.courses.update_one(
+            {"_id": ObjectId(class_id)}, {"$push": {"students": ObjectId(student.ID)}}
+        )
+
+    @staticmethod
+    def add_teacher(class_id: str, email: str):
+        r""" Adds a teacher to a course
+        Gets a teacher from their email and adds the teacher's _id to the specific course's teacher id field
+        
+        Parameters
+        ----------
+        class_id : str
+            The ObjectId of the specific course.
+        email: str
+            The email of the teacher
+        """
+        teacher = Teacher.get_by_email(email)
+        db.courses.update_one(
+            {"_id": ObjectId(class_id)}, {"$set": {"teacher": ObjectId(teacher.ID)}}
+        )
+
+    def get_course_names(self) -> List[(str, str)]:
+        r""" Returns all course ids and names for a school in a list
+        """
+        courses = list()
+
+        for course in db.courses.find():
+            course_id = course.get("_id")
+            courses.append((course_id, Course.get_by_id(course_id).name))
+
+        return courses
