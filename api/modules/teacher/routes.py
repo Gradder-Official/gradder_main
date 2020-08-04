@@ -166,7 +166,7 @@ def edit_assignment(course_id: str, assignment_id: str):
 
     return response(data={"assignment":assignment.to_json()})
 
-@teacher.route("/class/<string:course_id>", methods=["GET", "POST"])
+@teacher.route("/course/<string:course_id>", methods=["GET", "POST"])
 def manage_classes_by_id(course_id: str):
     """Updates a specified course's information
 
@@ -213,7 +213,7 @@ def manage_classes_by_id(course_id: str):
         course.update_syllabus(syllabus)
 
         logger.info(f"Syllabus updated")
-        return response(flashes=["Class information successfully updated!"])
+        return response(flashes=["Course information successfully updated!"])
 
     except KeyError:
         return error("Not all fields satisfied"), 400
@@ -227,6 +227,6 @@ def manage_classes_by_id(course_id: str):
         courses.append(course_data)
 
     return response(
-        flashes=["Class information successfully updated!"], 
-        data={"courses":courses, "current_description":course.description}
+        flashes=["Course information successfully updated!"], 
+        data={"courses": courses, "current_description": course.description}
     )
