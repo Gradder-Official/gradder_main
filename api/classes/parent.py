@@ -1,5 +1,5 @@
+from __future__ import annotations
 from typing import Dict, List, Tuple
-
 from bson import ObjectId
 
 from api import db
@@ -65,7 +65,7 @@ class Parent(User):
         return dict_user
     
     @staticmethod
-    def from_dict(dictionary: dict) -> 'Parent':
+    def from_dict(dictionary: dict) -> Parent:
         r"""Creates a Parent from a dictionary.
 
         Parameters
@@ -79,7 +79,7 @@ class Parent(User):
         return Parent(**dictionary)
 
     @staticmethod
-    def get_by_id(id: str) -> 'Parent':
+    def get_by_id(id: str) -> Parent:
         r"""Returns a Parent object with a specified id.
         Parameters
         ---------
@@ -96,7 +96,7 @@ class Parent(User):
             logger.exception(f"Error when returning Parent by id {id}")
 
     @staticmethod
-    def get_by_email(email: str) -> 'Parent':
+    def get_by_email(email: str) -> Parent:
         r""" Returns Parent with a specified email.
         
         Parameters

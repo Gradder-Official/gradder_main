@@ -52,7 +52,7 @@ class User(UserMixin):
         self.email = email  # TODO: add validation (property)
         self.first_name = first_name  # TODO: add validation (property)
         self.last_name = last_name  # TODO: add validation (property)
-        self._id = _id
+        self.id = _id if _id is not None else ''
         self.password = password if password is not None else ''
 
     def __repr__(self):
@@ -75,12 +75,20 @@ class User(UserMixin):
         """
 
         # If a password is already a valid hash
-        if re.match(r"^\$2[ayb]\$.{56}$", password):
-            password = password.encode("utf-8")
+        if re.match(r"^\$2[ayb]\$.{56}$", str(password)):
+            password = password if type(password) is bytes else password.encode("utf-8")
             self._password = password
         else:
-            password = password.encode("utf-8")
+            password = password if type(password) is bytes else password.encode("utf-8")
             self._password = hashpw(password, gensalt())
+
+    @property
+    def id(self) -> str:
+        return self._id
+
+    @id.setter
+    def id(self, id: str):
+        self._id = id
 
     def validate_password(self, password: str) -> bool:
         r"""Validates a password against the previously set hash.
