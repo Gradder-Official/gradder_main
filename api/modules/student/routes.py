@@ -151,3 +151,17 @@ def activate_account(token: str):
     else:
         db.students.update({"id": ObjectId(student.id)}, {"$set": {"activated": True}})
         return response(["Account activated!"]), 200
+
+
+@student.route("/schedule", methods=["GET"])
+def get_assignments_timetable():
+    assignments = current_user.get_assignments()
+    events = []
+    for assignment in assignments:
+        assignment_data = {
+            'title': assignment.title,
+            'date': assignment.due_by
+        }
+        events.append(assignment_data)
+    
+    return response(data={"events": events})
