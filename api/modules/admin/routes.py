@@ -5,7 +5,6 @@ from api.classes import Admin, Teacher, Student, Course
 from api.tools.factory import response, error
 from api.tools.decorators import required_access
 
-
 from . import admin
 
 
@@ -48,7 +47,7 @@ def add_teacher():
 
 @admin.route("/add-student", methods=["GET", "POST"])
 def add_student():
-    """Adds a student account to the system.
+    """Adds a student account to the system and sends an activation email.
     Returns
     -------
     dict
@@ -71,6 +70,18 @@ def add_student():
     if student.add():
         flashes.append("Student added!")
         root_logger.info(f"Student {student.email} added")
+        token = student.get_activation_token()
+        app = current_app._get_current_object()
+        msg = Message(
+            app.config["MAIL_SUBJECT_PREFIX"] + " " + "Account Activation Link",
+            sender=app.config["MAIL_SENDER"],
+            recipients=[user.email],
+        )
+        msg.body = f"""Here is your account activation link:
+            { url_for('student.activate_account', token=token, _external=True) }
+            If you did not register for this account, you can ignore this email. If you need any further assistance, please contact team@gradder.io.
+            """
+        mail.send(msg)        
         return response(flashes), 200
     else:
         root_logger.info(f"Error adding Student {student.email}")

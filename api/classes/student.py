@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import Dict, List, Tuple
 from bson import ObjectId
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 from api import db
 from api import root_logger as logger
@@ -20,7 +21,9 @@ class Student(User):
         password: str = None,
         courses: List[str] = None,
         assignments: List[str] = None,
-        _id: str = None
+        _id: str = None,
+        activated: bool = False
+
     ):
         """Initialises a user of Student type
 
@@ -36,6 +39,8 @@ class Student(User):
             The assignments the user has, by default None
         _id : str, optional
             The ID of the user, by default None
+        activated : bool
+            The activation status of the user, by default False
         """
         super().__init__(
             email=email, first_name=first_name, last_name=last_name, _id=_id, password=password
@@ -185,3 +190,38 @@ class Student(User):
         )
 
         #TODO: add logger
+
+    def get_activation_token(self, expires_sec=1800):
+        """Gets an activation token for a student
+
+        Parameters
+        ----------
+        expires_sec : int
+            Seconds before token expires, default to 1800
+
+        Returns 
+        ---------
+        token : str 
+            Token for activation
+        """
+        s = Serializer(current_app.config["SECRET_KEY"], expires_sec)
+        return s.dumps({"student_id": self.ID}).decode("utf-8")
+
+    @staticmethod
+    def verify_activation_token(token):
+        """Verifies the activation token for a student
+
+        Parameters
+        ----------
+        token
+
+        Returns 
+        ---------
+        Student
+        """
+        s = Serializer(current_app.config["SECRET_KEY"])
+        try:
+            user_id = s.loads(token)["student_id"]
+        except:
+            return None
+        return Student.get_by_id(student_id)

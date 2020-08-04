@@ -131,4 +131,31 @@ def assignment_by_id(class_id: str, assignment_id: str):
     logger.info(f"All assignments from {class_id} with assignment id {assignment_id}.")
     return response(data={"assignment": assignment})
 
+@student.route("/activate_account/<string:token>", methods=["POST"])
+def activate_account(token: str):
+    """Activates the account (while not authenticated)
+
+    Parameters
+    ----------
+    token : str
+        The activation token
+
+    Returns
+    -------
+    dict
+        The view response
+    """
+    user = User.verify_activation_token(token)
+    if user is None:
+        return error("That is an expired or incorrect link."), 410
     
+    user = User.from_dict(user)
+    try:
+        user.activated = True
+
+        if not user.add():
+            return error("Unknown error while activating account."), 500
+    except KeyError:
+        return error("Not all fields satisfied"), 400
+    else:
+        return response(["Account activated"]), 200
