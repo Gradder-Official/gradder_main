@@ -208,12 +208,12 @@ class Student(User):
         return s.dumps({"student_id": self.ID}).decode("utf-8")
 
     @staticmethod
-    def verify_activation_token(token):
+    def verify_activation_token(token:str):
         """Verifies the activation token for a student
 
         Parameters
         ----------
-        token
+        token : str
 
         Returns 
         ---------
@@ -224,4 +224,4 @@ class Student(User):
             user_id = s.loads(token)["student_id"]
         except:
             return None
-        return Student.get_by_id(student_id)
+        return Student.get_by_id(user_id)

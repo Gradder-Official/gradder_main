@@ -145,17 +145,8 @@ def activate_account(token: str):
     dict
         The view response
     """
-    user = User.verify_activation_token(token)
-    if user is None:
-        return error("That is an expired or incorrect link."), 410
-    
-    user = User.from_dict(user)
-    try:
-        user.activated = True
-
-        if not user.add():
-            return error("Unknown error while activating account."), 500
-    except KeyError:
-        return error("Not all fields satisfied"), 400
+    student = Student.verify_activation_token(token)
+    if student is None:
+        return error("That is an expired or incorrect link."), 400
     else:
-        return response(["Account activated"]), 200
+        return response(["Account activated!"]), 200
