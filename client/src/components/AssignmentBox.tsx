@@ -18,8 +18,8 @@ const AssignmentBox: FunctionComponent<assignment> = ({ title, assigned_to, due_
             <Link to={assignmentLink} className="assignment-card">
                 <h4 className="card-title">{title}</h4>
                 <div className="assignment-info">
-                    <p className="subject-badge">{assigned_to}</p>
                     <p className="assignment-deadline">Due {date}, {timestamp}</p>
+                    <p className="subject-badge">{assigned_to}</p>
                 </div>
             </Link>
         </React.Fragment>
