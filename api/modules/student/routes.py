@@ -131,4 +131,17 @@ def assignment_by_id(class_id: str, assignment_id: str):
     logger.info(f"All assignments from {class_id} with assignment id {assignment_id}.")
     return response(data={"assignment": assignment})
 
+
+
+@student.route("/schedule", methods=["GET"])
+def get_assignments_timetable():
+    assignments = current_user.get_assignments()
+    events = []
+    for assignment in assignments:
+        assignment_data = {
+            'title': assignment.title,
+            'date': assignment.due_by
+        }
+        events.append(assignment_data)
     
+    return response(data={"events": events})
