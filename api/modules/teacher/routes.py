@@ -230,3 +230,24 @@ def manage_classes_by_id(course_id: str):
         flashes=["Course information successfully updated!"], 
         data={"courses": courses, "current_description": course.description}
     )
+
+@teacher.route("/activate_account/<string:token>", methods=["POST"])
+def activate_account(token: str):
+    """Activates the account (while not authenticated)
+
+    Parameters
+    ----------
+    token : str
+        The activation token
+
+    Returns
+    -------
+    dict
+        The view response
+    """
+    teacher = Teacher.verify_activation_token(token)
+    if teacher is None: 
+        return error("That is an expired or incorrect link."), 400
+    else:
+        db.teachers.update({"id": teacher.id}, {$set: {"activated": True}})
+        return response(["Account activated!"]), 200 

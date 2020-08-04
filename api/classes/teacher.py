@@ -16,6 +16,7 @@ class Teacher(User):
         last_name: str,
         courses: list = None,
         _id: str = None,
+        activated: bool = False
     ):
 
         r""" Initializes a user of Teacher type.
@@ -27,6 +28,8 @@ class Teacher(User):
         last_name : str
         classes : list
         _id : str
+        activated : bool
+            The activation status of the user, by default False
         """
         super().__init__(
             email=email, first_name=first_name, last_name=last_name, _id=_id

@@ -38,6 +38,18 @@ def add_teacher():
     if teacher.add():
         flashes.append("Teacher added!")
         root_logger.info(f"Teacher {teacher.email} added")
+        token = user.get_activation_token()
+        app = current_app._get_current_object()
+        msg = Message(
+            app.config["MAIL_SUBJECT_PREFIX"] + " " + "Account Activation Link",
+            sender=app.config["MAIL_SENDER"],
+            recipients=[teacher.email],
+        )
+        msg.body = f"""Here is your account activation link:
+            { url_for('teacher.activate_account', token=token, _external=True) }
+            If you did not register for this account, you can ignore this email. If you need any further assistance, please contact team@gradder.io.
+            """
+        mail.send(msg)        
         return response(flashes), 200
     else:
         root_logger.info(f"Error adding teacher {teacher.email}")
@@ -70,12 +82,12 @@ def add_student():
     if student.add():
         flashes.append("Student added!")
         root_logger.info(f"Student {student.email} added")
-        token = student.get_activation_token()
+        token = user.get_activation_token()
         app = current_app._get_current_object()
         msg = Message(
             app.config["MAIL_SUBJECT_PREFIX"] + " " + "Account Activation Link",
             sender=app.config["MAIL_SENDER"],
-            recipients=[user.email],
+            recipients=[student.email]
         )
         msg.body = f"""Here is your account activation link:
             { url_for('student.activate_account', token=token, _external=True) }

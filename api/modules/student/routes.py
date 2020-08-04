@@ -149,4 +149,5 @@ def activate_account(token: str):
     if student is None:
         return error("That is an expired or incorrect link."), 400
     else:
+        db.students.update({"id": student.id}, {$set: {"activated": True}})
         return response(["Account activated!"]), 200

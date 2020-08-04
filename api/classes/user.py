@@ -135,3 +135,38 @@ class User(UserMixin):
         r"""Creates a new User object from the dictionary.
         """
         return User(**dictionary)
+
+    def get_activation_token(self, expires_sec=1800):
+        """Gets an activation token for a user
+
+        Parameters
+        ----------
+        expires_sec : int
+            Seconds before token expires, default to 1800
+
+        Returns 
+        ---------
+        token : str 
+            Token for activation
+        """
+        s = Serializer(current_app.config["SECRET_KEY"], expires_sec)
+        return s.dumps({"user_id": self.ID}).decode("utf-8")
+
+    @staticmethod
+    def verify_activation_token(token:str):
+        """Verifies the activation token for a user
+
+        Parameters
+        ----------
+        token : str
+
+        Returns 
+        ---------
+        User
+        """
+        s = Serializer(current_app.config["SECRET_KEY"])
+        try:
+            user_id = s.loads(token)["user_id"]
+        except:
+            return None
+        return User.get_by_id(user_id)
