@@ -145,3 +145,19 @@ def get_assignments_timetable():
         events.append(assignment_data)
     
     return response(data={"events": events})
+
+
+@student.route("/class-schedule", methods=["GET"])
+def get_schedule_classes():
+    student_course_ids = current_user.get_course_ids()
+    class_schedule = list()
+    for student_course in student_course_ids:
+        data = Course.get_by_id(student_course)
+        course_data = {
+            'name': data.name,
+            'days': data.schedule_days,
+            'times': data.schedule_time
+        }
+        class_schedule.append(course_data)
+    
+    return response(data={"class_schedule": class_schedule})

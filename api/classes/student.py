@@ -118,6 +118,21 @@ class Student(User):
             assignments.extend(Course.get_by_id(class_ref).get_assignments())
 
         return assignments
+    
+    def get_course_ids(self) -> List[Course]:
+        r"""Returns a list of the Teacher's courses
+
+        Returns
+        ------
+        List[Tuple[str, str]]
+            A list of a teacher's courses, represented as tuples (course-id, course-name).
+        """
+
+        course_ids = list()
+        for course_id in self.courses:
+            course_ids.append(course_id)
+
+        return course_ids
 
     def add_submission(
         self,
