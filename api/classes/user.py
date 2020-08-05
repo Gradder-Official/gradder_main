@@ -52,7 +52,7 @@ class User(UserMixin):
         self.email = email  # TODO: add validation (property)
         self.first_name = first_name  # TODO: add validation (property)
         self.last_name = last_name  # TODO: add validation (property)
-        self._id = _id
+        self.id = _id if _id is not None else ''
         self.password = password if password is not None else ''
 
     def __repr__(self):
@@ -75,12 +75,20 @@ class User(UserMixin):
         """
 
         # If a password is already a valid hash
-        if re.match(r"^\$2[ayb]\$.{56}$", password):
-            password = password.encode("utf-8")
+        if re.match(r"^\$2[ayb]\$.{56}$", str(password)):
+            password = password if type(password) is bytes else password.encode("utf-8")
             self._password = password
         else:
-            password = password.encode("utf-8")
+            password = password if type(password) is bytes else password.encode("utf-8")
             self._password = hashpw(password, gensalt())
+
+    @property
+    def id(self) -> str:
+        return self._id
+
+    @id.setter
+    def id(self, id: str):
+        self._id = id
 
     def validate_password(self, password: str) -> bool:
         r"""Validates a password against the previously set hash.
@@ -127,3 +135,38 @@ class User(UserMixin):
         r"""Creates a new User object from the dictionary.
         """
         return User(**dictionary)
+
+    def get_activation_token(self, expires_sec=1800):
+        """Gets an activation token for a user
+
+        Parameters
+        ----------
+        expires_sec : int
+            Seconds before token expires, default to 1800
+
+        Returns 
+        ---------
+        token : str 
+            Token for activation
+        """
+        s = Serializer(current_app.config["SECRET_KEY"], expires_sec)
+        return s.dumps({"user_id": self.ID}).decode("utf-8")
+
+    @staticmethod
+    def verify_activation_token(token:str):
+        """Verifies the activation token for a user
+
+        Parameters
+        ----------
+        token : str
+
+        Returns 
+        ---------
+        User
+        """
+        s = Serializer(current_app.config["SECRET_KEY"])
+        try:
+            user_id = s.loads(token)["user_id"]
+        except:
+            return None
+        return User.get_by_id(user_id)

@@ -166,7 +166,7 @@ def edit_assignment(course_id: str, assignment_id: str):
 
     return response(data={"assignment":assignment.to_json()})
 
-@teacher.route("/class/<string:course_id>", methods=["GET", "POST"])
+@teacher.route("/course/<string:course_id>", methods=["GET", "POST"])
 def manage_classes_by_id(course_id: str):
     """Updates a specified course's information
 
@@ -213,7 +213,7 @@ def manage_classes_by_id(course_id: str):
         course.update_syllabus(syllabus)
 
         logger.info(f"Syllabus updated")
-        return response(flashes=["Class information successfully updated!"])
+        return response(flashes=["Course information successfully updated!"])
 
     except KeyError:
         return error("Not all fields satisfied"), 400
@@ -227,6 +227,27 @@ def manage_classes_by_id(course_id: str):
         courses.append(course_data)
 
     return response(
-        flashes=["Class information successfully updated!"], 
-        data={"courses":courses, "current_description":course.description}
+        flashes=["Course information successfully updated!"], 
+        data={"courses": courses, "current_description": course.description}
     )
+
+@teacher.route("/activate_account/<string:token>", methods=["POST"])
+def activate_account(token: str):
+    """Activates the account (while not authenticated)
+
+    Parameters
+    ----------
+    token : str
+        The activation token
+
+    Returns
+    -------
+    dict
+        The view response
+    """
+    teacher = Teacher.verify_activation_token(token)
+    if teacher is None: 
+        return error("That is an expired or incorrect link."), 400
+    else:
+        db.teachers.update({"id": teacher.id}, {$set: {"activated": True}})
+        return response(["Account activated!"]), 200 

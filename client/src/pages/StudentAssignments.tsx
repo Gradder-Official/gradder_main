@@ -4,12 +4,17 @@ import StudentSidebar from '../components/StudentSidebar';
 import "../assets/styles/assignments.css"
 import AssignmentPreview from '../components/AssignmentPreview';
 
-const StudentAssignments: FunctionComponent<student> = ({ userName }) => {
+const StudentAssignments: FunctionComponent<student> = ({ userName, userType }) => {
 
     return (
         <React.Fragment>
             <StudentSidebar />
-            <AssignmentPreview />
+            <div className="dash-content">
+                <div className="dash-header">
+                    <h1>Your assignments</h1>
+                </div>
+                <AssignmentPreview />
+            </div>
         </React.Fragment>
     )
 }

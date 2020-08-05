@@ -33,7 +33,7 @@ const StudentTimetable: FunctionComponent<student> = ({ userName }) => {
                         nowIndicator={true}
                         slotMinTime="07:00:00"
                         // Get events from JSON
-                        events='/api/classtimes'
+                        events={[{ title: 'event 1', date:'2020-08-02'}]}
                     />
                 </div>
             </div>

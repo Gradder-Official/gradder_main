@@ -227,6 +227,22 @@ class Course:
         """
         return Course.from_dict(db.courses.find_one({"_id": ObjectId(_id)}))
 
+    @staticmethod
+    def get_by_number(number: int) -> 'Course':
+        """Get a course by its ID
+
+        Parameters
+        ----------
+        number : int
+            The course number to search for
+
+        Returns
+        -------
+        Course
+            The course that was found
+        """
+        return Course.from_dict(db.courses.find_one({"number": number}))
+
     def get_full_name(self) -> str:
         r"""Returns name in the format "SOС310 U.S. History"
         """

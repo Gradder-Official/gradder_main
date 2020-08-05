@@ -22,13 +22,13 @@ def student_verification():
     pass
 
 
-@student.route("/submit/<string:class_id>/<string:assignment_id>", methods=["POST"])
-def submit(class_id: str, assignment_id: str):
+@student.route("/submit/<string:course_id>/<string:assignment_id>", methods=["POST"])
+def submit(course_id: str, assignment_id: str):
     """Submit work for an assignment
 
     Parameters
     ----------
-    class_id : str
+    course_id : str
         The ID of the class for which the assignment was set
     assignment_id : str
         The ID of the assignment
@@ -62,7 +62,7 @@ def submit(class_id: str, assignment_id: str):
             )
             
             current_user.add_submission(
-                current_user.id, class_id, assignment_id, submission=submission
+                current_user.id, course_id, assignment_id, submission=submission
             )
         except KeyError:
             return error("Not all fields satisfied"), 400
@@ -86,13 +86,13 @@ def assignments():
     logger.info(f"Accessed all assignments")
     return response(data={'assignments': current_user.get_assignments()})
 
-@student.route("/assignments/<string:class_id>/", methods=["GET"])
-def assignments_by_class(class_id: str):
+@student.route("/assignments/<string:course_id>/", methods=["GET"])
+def assignments_by_class(course_id: str):
     """Get assignments for a specific class
 
     Parameters
     ----------
-    class_id : str
+    course_id : str
         The ID of the class
 
     Returns
@@ -102,7 +102,7 @@ def assignments_by_class(class_id: str):
     """
 
     course_assignments = Course.get_by_id(course_id).get_assignments()
-    logger.info(f"All assignments from {class_id}.")
+    logger.info(f"All assignments from {course_id}.")
     return response(data={"assignments": course_assignments})
     #return response(data={"assignments": list(map(lambda a: a.to_json(), course_assignments))})
 
@@ -110,13 +110,13 @@ def assignments_by_class(class_id: str):
 
 # This could possibly instead just use /assignments/<string:assignment_id>/
 # and then we could search through classes to find the assignment 
-@student.route("/assignments/<string:class_id>/<string:assignment_id>/", methods=["GET"])
-def assignment_by_id(class_id: str, assignment_id: str):
+@student.route("/assignments/<string:course_id>/<string:assignment_id>/", methods=["GET"])
+def assignment_by_id(course_id: str, assignment_id: str):
     """Get an assignment by its ID
 
     Parameters
     ----------
-    class_id : str
+    course_id : str
         The ID of the class
     assignment_id : str
         The ID of the assignment
@@ -126,12 +126,10 @@ def assignment_by_id(class_id: str, assignment_id: str):
     dict
         The view response
     """
-    assignments = Course.get_by_id(class_id).get_assignments()
+    assignments = Course.get_by_id(course_id).get_assignments()
     assignment = list(filter(lambda a: str(a.ID) == assignment_id, assignments))[0]
-    logger.info(f"All assignments from {class_id} with assignment id {assignment_id}.")
+    logger.info(f"All assignments from {course_id} with assignment id {assignment_id}.")
     return response(data={"assignment": assignment})
-
-
 
 @student.route("/schedule", methods=["GET"])
 def get_assignments_timetable():
@@ -145,7 +143,6 @@ def get_assignments_timetable():
         events.append(assignment_data)
     
     return response(data={"events": events})
-
 
 @student.route("/class-schedule", methods=["GET"])
 def get_schedule_classes():
@@ -161,3 +158,24 @@ def get_schedule_classes():
         class_schedule.append(course_data)
     
     return response(data={"class_schedule": class_schedule})
+
+@student.route("/activate_account/<string:token>", methods=["POST"])
+def activate_account(token: str):
+    """Activates the account (while not authenticated)
+
+    Parameters
+    ----------
+    token : str
+        The activation token
+
+    Returns
+    -------
+    dict
+        The view response
+    """
+    student = Student.verify_activation_token(token)
+    if student is None:
+        return error("That is an expired or incorrect link."), 400
+    else:
+        db.students.update({"id": ObjectId(student._id)}, {"$set": {"activated": True}})
+        return response(["Account activated!"]), 200
