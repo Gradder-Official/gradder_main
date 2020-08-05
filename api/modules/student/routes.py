@@ -131,8 +131,15 @@ def assignment_by_id(course_id: str, assignment_id: str):
     logger.info(f"All assignments from {course_id} with assignment id {assignment_id}.")
     return response(data={"assignment": assignment})
 
-@student.route("/schedule", methods=["GET"])
-def get_assignments_timetable():
+@student.route("/assignment-schedule", methods=["GET"])
+def get_schedule_assignments():
+    """Gets name and dates for assignments
+
+    Returns
+    -------
+    dict
+        The view response
+    """
     assignments = current_user.get_assignments()
     events = []
     for assignment in assignments:
@@ -146,6 +153,13 @@ def get_assignments_timetable():
 
 @student.route("/class-schedule", methods=["GET"])
 def get_schedule_classes():
+    """Gets name, dates, and times for classes
+
+    Returns
+    -------
+    dict
+        The view response
+    """
     student_course_ids = current_user.get_course_ids()
     class_schedule = list()
     for student_course in student_course_ids:
