@@ -4,7 +4,13 @@ import "../assets/styles/assignments.css";
 import AssignmentBox from "../components/AssignmentBox";
 
 const AssignmentPreview: FunctionComponent = () => {
-  const [assignments, setAssignments] = useState<Array<assignment>>([]);
+  const [assignments, setAssignments] = useState<Array<assignment>>([
+    {
+      title: "",
+      assigned_to: "",
+      due_by: "",
+    }
+  ]);
 
   // TODO: get assignments by user ID
   useEffect(() => {
