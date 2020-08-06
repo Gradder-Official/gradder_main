@@ -123,25 +123,6 @@ def assignment_by_id(course_id: str, assignment_id: str):
     logger.info(f"All assignments from {course_id} with assignment id {assignment_id}.")
     return response(data={"assignment": assignment})
 
-@student.route("/activate_account/<string:token>", methods=["POST"])
-def activate_account(token: str):
-    """Activates the account (while not authenticated)
-    Parameters
-    ----------
-    token : str
-        The activation token
-    Returns
-    -------
-    dict
-        The view response
-    """
-    student = Student.verify_activation_token(token)
-    if student is None:
-        return error("That is an expired or incorrect link."), 400
-    else:
-        db.students.update({"id": ObjectId(student.id)}, {"$set": {"activated": True}})
-        return response(["Account activated!"]), 200
-
 @student.route("/assignment-schedule", methods=["GET"])
 def get_schedule_assignments():
     """Gets name and dates for assignments
@@ -168,27 +149,7 @@ def get_schedule_assignments():
         }]
         events.append(dummy_data)
 
-    if current_user.is_authenticated:
-        assignments = current_user.get_assignments()
-        events = []
-        for assignment in assignments:
-            assignment_data = {
-                'title': assignment.title,
-                'date': assignment.due_by
-            }
-            events.append(assignment_data)
-        
-        # Dummy event for testing
-        dummy_data = [{
-            "title": "Test assignment",
-            "date": "2020-08-09",
-        }]
-        events.append(dummy_data)
-
-        return response(data={"events": events})
-    
-    else:
-        return error("You are not logged in."), 400
+    return response(data={"events": events})
 
 @student.route("/api/class-schedule", methods=["GET"])
 def get_schedule_classes():
@@ -212,3 +173,25 @@ def get_schedule_classes():
         class_schedule.append(course_data)
         
     return response(data={"class_schedule": class_schedule})
+
+
+@student.route("/activate_account/<string:token>", methods=["POST"])
+def activate_account(token: str):
+    """Activates the account (while not authenticated)
+
+    Parameters
+    ----------
+    token : str
+        The activation token
+
+    Returns
+    -------
+    dict
+        The view response
+    """
+    student = Student.verify_activation_token(token)
+    if student is None:
+        return error("That is an expired or incorrect link."), 400
+    else:
+        db.students.update({"id": ObjectId(student._id)}, {"$set": {"activated": True}})
+        return response(["Account activated!"]), 200
