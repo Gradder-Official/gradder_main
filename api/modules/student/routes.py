@@ -168,7 +168,27 @@ def get_schedule_assignments():
         }]
         events.append(dummy_data)
 
-    return response(data={"events": events})
+    if current_user.is_authenticated:
+        assignments = current_user.get_assignments()
+        events = []
+        for assignment in assignments:
+            assignment_data = {
+                'title': assignment.title,
+                'date': assignment.due_by
+            }
+            events.append(assignment_data)
+        
+        # Dummy event for testing
+        dummy_data = [{
+            "title": "Test assignment",
+            "date": "2020-08-09",
+        }]
+        events.append(dummy_data)
+
+        return response(data={"events": events})
+    
+    else:
+        return error("You are not logged in."), 400
 
 @student.route("/api/class-schedule", methods=["GET"])
 def get_schedule_classes():
