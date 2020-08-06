@@ -13,6 +13,7 @@ from api.tools.factory import error, response
 from api.tools.google_storage import download_blob, get_signed_url, upload_blob
 
 from . import student
+from flask import Flask, jsonify
 
 
 @student.before_request
@@ -131,7 +132,7 @@ def assignment_by_id(course_id: str, assignment_id: str):
     logger.info(f"All assignments from {course_id} with assignment id {assignment_id}.")
     return response(data={"assignment": assignment})
 
-@student.route("/assignment-schedule", methods=["GET"])
+@student.route("api/assignment-schedule", methods=["GET"])
 def get_schedule_assignments():
     """Gets name and dates for assignments
 
@@ -149,9 +150,16 @@ def get_schedule_assignments():
         }
         events.append(assignment_data)
     
+    # Dummy event for testing
+    dummy_data = [{
+        "title": "Test assignment",
+        "date": "2020-08-09",
+    }]
+    events.append(dummy_data)
+
     return response(data={"events": events})
 
-@student.route("/class-schedule", methods=["GET"])
+@student.route("/api/class-schedule", methods=["GET"])
 def get_schedule_classes():
     """Gets name, dates, and times for classes
 

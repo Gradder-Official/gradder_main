@@ -37,10 +37,10 @@ const App: FunctionComponent = () => {
           <StudentDash {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob}/> 
         )}/>
         <Route exact path="/student/timetable" render={(props) => (
-          <StudentTimetable {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob}/> 
+          <StudentTimetable /> 
         )}/>
         <Route exact path="/student/assignments" render={(props) => (
-          <StudentAssignments {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob}/> 
+          <StudentAssignments/> 
         )}/>
         <Route exact path="/student/profile" render={(props) => (
           <StudentProfile {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob} />
