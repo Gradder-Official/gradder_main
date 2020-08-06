@@ -17,3 +17,8 @@ export interface assignment {
     submissions?: [string],
     _id?: string
 }
+
+export interface LoginFormInputs {
+    email: string,
+    password: string,
+};
