@@ -141,23 +141,28 @@ def get_schedule_assignments():
     dict
         The view response
     """
-    assignments = current_user.get_assignments()
-    events = []
-    for assignment in assignments:
-        assignment_data = {
-            'title': assignment.title,
-            'date': assignment.due_by
-        }
-        events.append(assignment_data)
-    
-    # Dummy event for testing
-    dummy_data = [{
-        "title": "Test assignment",
-        "date": "2020-08-09",
-    }]
-    events.append(dummy_data)
 
-    return response(data={"events": events})
+    if current_user.is_authenticated:
+        assignments = current_user.get_assignments()
+        events = []
+        for assignment in assignments:
+            assignment_data = {
+                'title': assignment.title,
+                'date': assignment.due_by
+            }
+            events.append(assignment_data)
+        
+        # Dummy event for testing
+        dummy_data = [{
+            "title": "Test assignment",
+            "date": "2020-08-09",
+        }]
+        events.append(dummy_data)
+
+        return response(data={"events": events})
+    
+    else:
+        return error("You are not logged in."), 400
 
 @student.route("/api/class-schedule", methods=["GET"])
 def get_schedule_classes():
@@ -168,18 +173,23 @@ def get_schedule_classes():
     dict
         The view response
     """
-    student_course_ids = current_user.get_course_ids()
-    class_schedule = list()
-    for student_course in student_course_ids:
-        data = Course.get_by_id(student_course)
-        course_data = {
-            'name': data.name,
-            'days': data.schedule_days,
-            'times': data.schedule_time
-        }
-        class_schedule.append(course_data)
     
-    return response(data={"class_schedule": class_schedule})
+    if current_user.is_authenticated:
+        student_course_ids = current_user.get_course_ids()
+        class_schedule = list()
+        for student_course in student_course_ids:
+            data = Course.get_by_id(student_course)
+            course_data = {
+                'name': data.name,
+                'days': data.schedule_days,
+                'times': data.schedule_time
+            }
+            class_schedule.append(course_data)
+        
+        return response(data={"class_schedule": class_schedule})
+
+    else:
+        return error("You are not logged in."), 400
 
 @student.route("/activate_account/<string:token>", methods=["POST"])
 def activate_account(token: str):
