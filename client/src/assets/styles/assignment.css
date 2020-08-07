@@ -1,6 +1,6 @@
 /* Override default quill.js font */
-.ql-editor {
-  font-family: "SF UI Text", sans-serif;
+.quill > * {
+  font-family: "SF UI Text", sans-serif !important;
 }
 
 .ql-editor > h1,
@@ -10,4 +10,21 @@
 .ql-editor > h5,
 .ql-editor > h6 {
     padding-bottom: 0.5em;
+}
+
+.dash-container {
+  height: calc(100% - 50px - 20px);
+}
+
+.quill {
+  flex-grow: 1;
+}
+
+.ql-container {
+  height: calc(100% - 40px);
+}
+
+.ql-editor {
+  /* Bump up font size very slightly to be more readable */
+  font-size: 115%;
 }

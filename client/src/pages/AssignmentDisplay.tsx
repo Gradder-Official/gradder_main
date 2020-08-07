@@ -68,8 +68,8 @@ const AssignmentDisplay: FunctionComponent<assignment> = ({ title, date_assigned
             
             <div className="dash-content" id="assignment-display">
                 <div className="dash-container">
-                    <Row>
-                        <Col className="col-12 col-md-6">
+                    <Row className="h-100">
+                        <Col className="col-12 col-md-5">
                             {/* Overview */}
                             <h3>{title}</h3>
                             <div className="assignment-meta-details">
@@ -82,12 +82,13 @@ const AssignmentDisplay: FunctionComponent<assignment> = ({ title, date_assigned
                                 <ReactQuill theme="bubble" value={content} readOnly/>
                             </div>
                         </Col>
-                        <Col className="col-12 col-md-6">
+                        <Col className="col-12 col-md-7 d-flex flex-column">
                             {/* Submission Form */}
-                            <form action="{assignmentLink}/submit" method="post">
-                                <div className="form-group">
-                                    <h4>Submission</h4>
+                            <h4>Submission</h4>
+                            <form action="{assignmentLink}/submit" method="post" className="pt-1 d-flex flex-column flex-grow-1">
+                                <div className="d-flex flex-column flex-grow-1 form-group">
                                     <ReactQuill theme="snow" value={cached} onChange={setCached}/>
+                                    <input type="text" name="content" value={cached} hidden/>
                                     <small className="form-text text-muted">
                                         We automatically save your work to your 
                                         browser when you type - but don't worry,
@@ -98,7 +99,7 @@ const AssignmentDisplay: FunctionComponent<assignment> = ({ title, date_assigned
                                     <label htmlFor="files">File attachments</label>
                                     <input name="files" type="file" className="form-control-file" id="files"></input>
                                 </div>
-                                <button className="btn w-100" type="submit"></button>
+                                <button type="submit" className="btn btn-primary w-100">Submit</button>
                             </form>
                         </Col>
                     </Row>
