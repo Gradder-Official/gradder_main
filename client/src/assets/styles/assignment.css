@@ -1,0 +1,13 @@
+/* Override default quill.js font */
+.ql-editor {
+  font-family: "SF UI Text", sans-serif;
+}
+
+.ql-editor > h1,
+.ql-editor > h2,
+.ql-editor > h3,
+.ql-editor > h4,
+.ql-editor > h5,
+.ql-editor > h6 {
+    padding-bottom: 0.5em;
+}
