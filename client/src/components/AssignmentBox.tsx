@@ -11,7 +11,7 @@ const AssignmentBox: FunctionComponent<assignment> = ({ title, assigned_to, due_
     const timestamp = deadline.toLocaleTimeString()
 
     // TODO: actually link the assignment
-    const assignmentLink = "/assignments/" + title
+    const assignmentLink = "/student/assignments/" + title
 
     return (
         <React.Fragment>

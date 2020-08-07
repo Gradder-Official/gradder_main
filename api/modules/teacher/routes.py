@@ -249,5 +249,5 @@ def activate_account(token: str):
     if teacher is None: 
         return error("That is an expired or incorrect link."), 400
     else:
-        db.teachers.update({"id": teacher.id}, {$set: {"activated": True}})
+        db.teachers.update({"id": teacher.id}, {"$set": {"activated": True}})
         return response(["Account activated!"]), 200 
