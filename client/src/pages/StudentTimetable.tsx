@@ -21,7 +21,7 @@ const StudentTimetable: FunctionComponent = () => {
     // Fetches from mock APIs but not from /assignment-schedule
     // Returns HTTP instead?
     useEffect(() => {
-        fetch('/api/assignment-schedule').
+        fetch('/api/student/assignment-schedule').
         then(res => res.json()).then(data => {
             setEventList(data.events);
             console.log(data.events)

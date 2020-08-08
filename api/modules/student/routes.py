@@ -149,6 +149,7 @@ def get_schedule_assignments():
         }]
         events.append(dummy_data)
 
+    print(events)
     return response(data={"events": events})
 
 @student.route("/api/class-schedule", methods=["GET"])
