@@ -22,6 +22,11 @@ def student_verification():
     pass
 
 
+@student.route("/authorized", methods=["GET"])
+def authorized():
+    return True
+
+
 @student.route("/submit/<string:course_id>/<string:assignment_id>", methods=["POST"])
 def submit(course_id: str, assignment_id: str):
     """Submit work for an assignment

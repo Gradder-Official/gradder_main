@@ -14,6 +14,12 @@ def admin_verification():
     # Required_access decorator already handled it
     pass
 
+
+@admin.route("/authorized", methods=["GET"])
+def authorized():
+    return True
+
+
 @admin.route("/add-teacher", methods=["GET", "POST"])
 def add_teacher():
     """Adds a teacher account to the system.
