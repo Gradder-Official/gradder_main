@@ -29,3 +29,10 @@
   /* Bump up font size very slightly to be more readable */
   font-size: 115%;
 }
+
+.material-icons {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
