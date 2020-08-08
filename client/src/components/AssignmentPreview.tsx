@@ -23,7 +23,7 @@ const AssignmentPreview: FunctionComponent = () => {
       due_by: "Fri, 02 Feb 1996 03:04:05 GMT",
       id: "fcb1f1bcd4cde0c0b34a80bc21ffda68"
     },
-  ];
+  ]);
   // eslint-disable-next-line
   useEffect(() => {
     setAssignments(dummy_assignment);
