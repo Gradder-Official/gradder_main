@@ -39,7 +39,7 @@ class Submission:
 
     @id.setter
     def id(self, id: str):
-        self.id = _id
+        self.id = id
 
     def to_dict(self) -> dict:
         return {

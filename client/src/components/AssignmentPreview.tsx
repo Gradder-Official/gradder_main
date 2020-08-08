@@ -4,24 +4,30 @@ import "../assets/styles/assignments.css";
 import AssignmentBox from "../components/AssignmentBox";
 
 const AssignmentPreview: FunctionComponent = () => {
-<<<<<<< HEAD
-=======
-  const [assignments, setAssignments] = useState<Array<assignment>>([
-    {
-      title: "",
-      assigned_to: "",
-      due_by: "",
-    }
-  ]);
->>>>>>> b2e902edf28d949455a32921eb70a7f3c1d368e0
+
+  const [assignments, setAssignments] = useState<Array<assignment>>([]);
+
+  // TODO: get assignments by user ID
+  useEffect(() => {
+    fetch("/api/student/assignments").then((response) =>
+      response.json().then((info) => {
+        setAssignments(info.data);
+      })
+    );
+  }, []);
 
   const [assignments, setAssignments] = useState<Array<assignment>>([
     {
       title: "Dummy Assignment",
       assigned_to: "History",
       due_by: "Fri, 02 Feb 1996 03:04:05 GMT",
-    }
-  ]);
+      id: "fcb1f1bcd4cde0c0b34a80bc21ffda68"
+    },
+  ];
+  // eslint-disable-next-line
+  useEffect(() => {
+    setAssignments(dummy_assignment);
+  });
 
   useEffect(() => {
     fetch('/api/student/assignments').
@@ -38,6 +44,7 @@ const AssignmentPreview: FunctionComponent = () => {
           title={assignment.title}
           assigned_to={assignment.assigned_to}
           due_by={assignment.due_by}
+          id={assignment.id}
         />
       ))}
     </div>

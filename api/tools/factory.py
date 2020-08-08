@@ -40,5 +40,5 @@ def error(message: str, flash: bool = True) -> dict:
     flashes = []
     if flash:
         flashes.append(message)
-    return response(flashes, error=message)
 
+    return response(flashes, error=message)
