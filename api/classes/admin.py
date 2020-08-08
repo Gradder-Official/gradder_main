@@ -52,7 +52,38 @@ class Admin(User):
         ----------
         dictionary: dict
         """
-        return Admin(**dictionary) if dictionary is not None else None
+        if dictionary is None:
+            return None
+            
+        try:
+            return Admin(**dictionary)
+        except Exception as e:
+            logger.exception(f"Error while generating an Admin from dictionary {dictionary}: {e}")
+            return None
+    
+    def add(self) -> bool:
+        r"""Adds the admin to the DB.
+        """
+
+        try:
+            self.id = db.admins.insert_one(self.to_dict()).inserted_id
+        except Exception as e:
+            logger.exception(f"Error while adding Admin {self.id}: {e}")
+            return False
+        else:
+            return True
+
+    def remove(self) -> bool:
+        r"""Removes this admin from the database.
+        """
+
+        try:
+            db.admins.delete_one({'_id': ObjectId(self.id)})
+        except Exception as e:
+            logger.exception(f"Error while removing Admin {self.id}: {e}")
+            return False
+        else:
+            return True
     
     @staticmethod
     def get_by_id(id: str) -> Admin:

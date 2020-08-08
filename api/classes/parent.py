@@ -76,7 +76,14 @@ class Parent(User):
         -------
         Parent
         """
-        return Parent(**dictionary)
+        if dictionary is None:
+            return None
+            
+        try:
+            return Parent(**dictionary)
+        except Exception as e:
+            logger.exception(f"Error while generating a Parent from dictionary {dictionary}: {e}")
+            return None
 
     @staticmethod
     def get_by_id(id: str) -> Parent:
@@ -94,6 +101,7 @@ class Parent(User):
             return Parent.from_dict(db.parents.find_one({"_id": ObjectId(id)}))
         except:
             logger.exception(f"Error when returning Parent by id {id}")
+            return None
 
     @staticmethod
     def get_by_email(email: str) -> Parent:
@@ -111,3 +119,4 @@ class Parent(User):
             return Parent.from_dict(db.parents.find_one({"email": email}))
         except:
             logger.exception(f"Error when returning Parent by email {email}")
+            return None
