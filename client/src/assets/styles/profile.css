@@ -1,28 +1,3 @@
-/* Dashboard content */
-.dash-content {
-    position: absolute;
-    left: 230px;
-    padding: 10px 20px;
-    height: 100vh;
-    width: 84vw;
-    border-radius: 20px 0 0 20px;
-    background: whitesmoke;
-    z-index: 100;
-    overflow-y: scroll;
-}
-.dash-container {
-    border-radius: 20px;
-    background: white;
-    margin: 20px;
-    padding: 25px;
-    flex-grow: 1;
-    min-width: 400px;
-    min-height: 180px;
-}
-.dash-container h5 {
-    font-family: 'Gilroy', sans-serif;
-    font-weight: bold;
-}
 .dash-container-small {
     border-radius: 20px;
     background: white;
@@ -50,17 +25,8 @@
     font-family: "Gilroy", sans-serif;
     font-weight: bold;
 }
-
-/* Student dashboard */
-#student-overview .student-dash-flex-row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    min-height: 30vh;
-}
-
-#student-overview .statistics {
-    flex-grow: 3;
+.mobile-profile {
+    display: none !important;
 }
 #student-overview .profile {
     background-color: rgb(115, 140, 249);
@@ -72,11 +38,6 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-}
-#student-overview .profile-details h2 {
-    margin-top: 5vh;
-    margin-left: 5px;
-    font-size: 35px;
 }
 #student-overview img {
     width: 20vw;
@@ -96,24 +57,10 @@
     margin-left: 15px;
     margin-bottom: 10px;
 }
-#student-overview .timetable {
-    height: 60vh;
-    flex-grow: 1;
-}
-
 #student-overview .student-dash-flex-col {
     display: flex;
     flex-direction: column;
     flex-grow: 4;
-}
-
-#student-overview .assignments {
-    flex-grow: 3;
-}
-
-
-#student-overview .grades {
-    flex-grow: 2;
 }
 
 /* Responsiveness */
@@ -135,16 +82,22 @@
     }
 }
 
-@media (min-width: 576px) {
-    .student-dash-flex-row{
+@media (max-width: 576px) {
+    .desktop-profile {
         display:none;
+    }
+    .mobile-profile {
+        display: flex;
     }
 }
 
 
-@media (min-width: 768px) {
-    .student-dash-flex-row{
-        display:none;
+@media (max-width: 768px) {
+    .desktop-profile {
+        display:none !important;
+    }
+    .mobile-profile {
+        display: flex !important;
     }
 }
 

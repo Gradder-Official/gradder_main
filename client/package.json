@@ -2,6 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8080",
   "dependencies": {
     "@fullcalendar/bootstrap": "^5.2.0",
     "@fullcalendar/core": "^5.2.1",

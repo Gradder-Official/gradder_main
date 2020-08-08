@@ -1,16 +1,16 @@
 import React, { FunctionComponent, useState } from 'react';
+import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Form, Button } from 'react-bootstrap';
 import { LoginFormInputs } from '../components/Interfaces'
 import BlueLogo from '../assets/images/blue-logo.png'
 import "../assets/styles/login.css"
-import { Redirect } from 'react-router-dom';
 
 const LoginBox: FunctionComponent = () => {
 
     const { register, handleSubmit, errors } = useForm<LoginFormInputs>();
-
     const [requestErrors, setRequestErrors] = useState<string>();
+    let history = useHistory();
 
     const onSubmit = (data: LoginFormInputs) => {
 
@@ -27,7 +27,7 @@ const LoginBox: FunctionComponent = () => {
                 const error = (res && res.message) || response.status;
                 return Promise.reject(error);
             } else {
-                return <Redirect to="/dashboard"/>
+                history.push("/dashboard");
             }
         })
         .catch(error => {

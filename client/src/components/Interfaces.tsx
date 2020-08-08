@@ -22,3 +22,9 @@ export interface LoginFormInputs {
     email: string,
     password: string,
 };
+
+export interface course {
+    name: string
+    daysOfWeek: string
+    startTime: string
+}

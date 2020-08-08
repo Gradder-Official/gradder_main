@@ -40,7 +40,7 @@ def load_user(id: str) -> Union[Teacher, Student, Parent, Admin]:
 
     return None
 
-@auth.route("/login", methods=["POST"])
+@auth.route("/login", methods=["GET", "POST"])
 def login():
     """Login endpoint. Handles user logins with LoginForm
 
@@ -49,6 +49,8 @@ def login():
     dict
         The view response
     """
+    # TESTING PURPOSES ONLY
+    return response(flashes=["Log in successful"]), 200
     
     if current_user.is_authenticated:
         logger.info(f"The user {current_user.id} is already authenticated.")
@@ -79,7 +81,7 @@ def login():
         logger.info("Not all fields satisfied")
         return error("Not all fields satisfied"), 400
 
-@auth.route("/logout")
+@auth.route("/logout", methods=["GET"])
 @login_required
 def logout():
     """Logout the user

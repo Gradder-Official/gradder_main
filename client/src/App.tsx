@@ -24,13 +24,34 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 
 const App: FunctionComponent = () => {
-  // Fetch user type from API. Below is a dummy.
-  const [user] = useState<student>({
-    userName: "Bob Jones",
-    userType: "student",
-    loggedIn: true,
-    dob: "2003-01-08",
+
+  const [user, setUser] = useState<student>({
+    userName: '',
+    userType: '',
+    loggedIn: false,
+    dob: '',
   });
+
+  // Pre-filled dummy info
+  const dummyUser: student = {
+    userName: 'Bob Jones',
+    userType: 'student',
+    loggedIn: true,
+    dob: '2003-01-08',
+  }
+
+  // TODO: set logged in status to true
+  useEffect(() => {
+    fetch('/api/auth/login').
+      then(res => res.json()).then(response => {
+        if (response['user_info']) {
+          setUser(response['user_info']);
+        }
+        setUser(dummyUser);
+      }
+    )
+    console.log(user);
+  }, []);
 
   return (
     <Router>
@@ -44,69 +65,6 @@ const App: FunctionComponent = () => {
             <Login />
           )}
         </Route>
-<<<<<<< HEAD
-        <Route
-          exact
-          path="/student/dashboard"
-          render={(props) => (
-            <StudentDash
-              {...props}
-              userName={user.userName}
-              userType={user.userType}
-              loggedIn={user.loggedIn}
-              dob={user.dob}
-            />
-          )}
-        />
-        <Route
-          exact
-          path="/student/timetable"
-          render={(props) => (
-            <StudentTimetable
-              {...props}
-              userName={user.userName}
-              userType={user.userType}
-              loggedIn={user.loggedIn}
-              dob={user.dob}
-            />
-          )}
-        />
-        <Route
-          exact
-          path="/student/assignments"
-          render={(props) => (
-            <StudentAssignments
-              {...props}
-              userName={user.userName}
-              userType={user.userType}
-              loggedIn={user.loggedIn}
-              dob={user.dob}
-            />
-          )}
-        />
-        <Route
-          exact
-          path="/student/profile"
-          render={(props) => (
-            <StudentProfile
-              {...props}
-              userName={user.userName}
-              userType={user.userType}
-              loggedIn={user.loggedIn}
-              dob={user.dob}
-            />
-          )}
-        />
-        <Route
-          exact
-          path="/student/assignment/:id"
-          render={(props) => (
-            <AssignmentDisplay
-              {...props}
-            />
-          )}
-        />
-=======
         <ProtectedRoute user={user} scope="student" exact path="/student/dashboard" render={(props: any) => (
           <StudentDash {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob}/> 
         )}/>
@@ -122,7 +80,6 @@ const App: FunctionComponent = () => {
         <Route exact path="/unauthorized" render={(props: any) => (
           <Unauthorized {...props}/>
         )}/>
->>>>>>> new-app-structure
       </Switch>
     </Router>
   );

@@ -4,6 +4,7 @@ import "../assets/styles/assignments.css";
 import AssignmentBox from "../components/AssignmentBox";
 
 const AssignmentPreview: FunctionComponent = () => {
+
   const [assignments, setAssignments] = useState<Array<assignment>>([]);
 
   // TODO: get assignments by user ID
@@ -15,10 +16,9 @@ const AssignmentPreview: FunctionComponent = () => {
     );
   }, []);
 
-  // DUMMY ASSIGNMENT
-  const dummy_assignment = [
+  const [assignments, setAssignments] = useState<Array<assignment>>([
     {
-      title: "Assignment 1",
+      title: "Dummy Assignment",
       assigned_to: "History",
       due_by: "Fri, 02 Feb 1996 03:04:05 GMT",
       id: "fcb1f1bcd4cde0c0b34a80bc21ffda68"
@@ -29,6 +29,14 @@ const AssignmentPreview: FunctionComponent = () => {
     setAssignments(dummy_assignment);
   });
 
+  useEffect(() => {
+    fetch('/api/student/assignments').
+      then(res => res.json()).then(response => {
+        setAssignments(response['data']['assignments']);
+      }
+    )
+  }, []);
+  
   return (
     <div className="assignments-preview">
       {assignments.map((assignment) => (

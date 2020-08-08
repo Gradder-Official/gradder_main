@@ -5,6 +5,7 @@ from flask import flash, redirect, render_template, request, url_for, request
 from flask_login import current_user
 from werkzeug.utils import secure_filename
 
+from api import db
 from api import root_logger as logger
 from api.classes import Assignment, Course, Teacher
 from api.tools.factory import response, error

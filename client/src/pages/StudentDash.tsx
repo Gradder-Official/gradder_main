@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { Link } from "react-router-dom";
 import { student } from "../components/Interfaces";
 import StudentSidebar from "../components/StudentSidebar";
@@ -6,8 +6,19 @@ import "../assets/styles/dashboard.css";
 import "../assets/styles/assignments.css";
 import AssignmentPreview from "../components/AssignmentPreview";
 
-
 const StudentDash: FunctionComponent<student> = ({ userName }) => {
+
+  const [logoutMessage, setLogoutMessage] = useState<string>();
+
+  const logout = () => {
+
+    fetch('/api/auth/logout').
+      then(res => res.json()).then(response => {
+        setLogoutMessage(response['flashes']);
+        console.log(logoutMessage)
+      })
+  }
+
   // Get current time in hours:minutes
   const [hour, minute] = new Date().toLocaleTimeString().slice(0, 7).split(":");
   const curTime = hour + ":" + minute;
@@ -35,7 +46,7 @@ const StudentDash: FunctionComponent<student> = ({ userName }) => {
               />
             </div>
             <div className="profile-time">
-              <Link to="/">
+              <Link to="/" onClick={logout}>
                 <i className="material-icons-outlined">exit_to_app</i>
               </Link>
               <Link to="/dashboard">
