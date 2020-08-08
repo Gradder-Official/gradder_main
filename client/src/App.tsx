@@ -1,56 +1,84 @@
 // NPM Imports
-import React, { useState, FunctionComponent } from 'react';
-import { Switch, BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import React, { useState, FunctionComponent } from "react";
+import {
+  Switch,
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+} from "react-router-dom";
 
 // Components
-import Lander from './pages/Lander';
 import Login from './pages/Login';
-import Register from './pages/Register';
-import StudentDash from './pages/student/StudentDash';
-import TeacherDash from './pages/teacher/TeacherDash';
-import AdminDash from './pages/admin/AdminDash';
-import ParentDash from './pages/parent/ParentDash';
-import Profile from "./pages/Profile";
+import StudentDash from './pages/StudentDash';
+import StudentAssignments from './pages/StudentAssignments';
+import StudentTimetable from './pages/StudentTimetable';
+import StudentProfile from './pages/StudentProfile';
+import Unauthorized from './pages/Unauthorized';
+import ProtectedRoute from './components/ProtectedRoute'
 
 // Types and interfaces
-import { student } from "./components/ProfileContent";
+import { student } from "./components/Interfaces";
 
 // Stylesheets
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+
 
 const App: FunctionComponent = () => {
-  
-  // Fetch user type from API. Below is a dummy.
-  const [user] = useState<student>({
-    userName: 'Bob',
+
+  const [user, setUser] = useState<student>({
+    userName: '',
+    userType: '',
+    loggedIn: false,
+    dob: '',
+  });
+
+  // Pre-filled dummy info
+  const dummyUser: student = {
+    userName: 'Bob Jones',
     userType: 'student',
     loggedIn: true,
-  });
+    dob: '2003-01-08',
+  }
+
+  // TODO: set logged in status to true
+  useEffect(() => {
+    fetch('/api/auth/login').
+      then(res => res.json()).then(response => {
+        if (response['user_info']) {
+          setUser(response['user_info']);
+        }
+        setUser(dummyUser);
+      }
+    )
+    console.log(user);
+  }, []);
 
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={Lander} />
-        <Route exact path="/auth/login" component={Login} />
+        <Route exact path="/" component={Login} />
         <Route exact path="/auth/logout" component={Login} />
-        <Route exact path="/auth/register" component={Register} />
         <Route exact path="/dashboard">
-          {user.loggedIn ? <Redirect to={'/' + user.userType + '/dashboard'} /> : <Login />}
+          {user.loggedIn ? (
+            <Redirect to={"/" + user.userType + "/dashboard"} />
+          ) : (
+            <Login />
+          )}
         </Route>
-        <Route exact path="/student/dashboard" render={(props) => (
-          <StudentDash {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn}/> 
+        <ProtectedRoute user={user} scope="student" exact path="/student/dashboard" render={(props: any) => (
+          <StudentDash {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob}/> 
         )}/>
-        <Route exact path="/teacher/dashboard" render={(props) => (
-          <TeacherDash {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn}/> 
+        <ProtectedRoute user={user} scope="student" exact path="/student/timetable" render={(props: any) => (
+          <StudentTimetable {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob}/> 
         )}/>
-        <Route exact path="/parent/dashboard" render={(props) => (
-          <ParentDash {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn}/> 
+        <ProtectedRoute user={user} scope="student" exact path="/student/assignments" render={(props: any) => (
+          <StudentAssignments {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob}/> 
         )}/>
-        <Route exact path="/admin/dashboard" render={(props) => (
-          <AdminDash {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn}/> 
+        <ProtectedRoute user={user} scope="student" exact path="/student/profile" render={(props: any) => (
+          <StudentProfile {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob} />
         )}/>
-        <Route exact path="/profile" render={(props) => (
-          <Profile {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn}/> 
+        <Route exact path="/unauthorized" render={(props: any) => (
+          <Unauthorized {...props}/>
         )}/>
       </Switch>
     </Router>

@@ -1,78 +1,107 @@
 /* Assignment preview */
 .assignments {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 .assignment-card {
-  border: none;
-  margin-bottom: 5vh;
-  border-radius: 20px;
-  padding: 30px;
-  width: 48%;
-  font-family: 'SF UI Text', sans-serif;
+    border: none;
+    border-radius: 20px;
+    padding: 30px;
+    font-family: 'SF UI Text', sans-serif;
+    background: white;
+    margin: 20px;
+    text-decoration: none;
+    color: black;
+}
+.assignment-card:hover {
+    text-decoration: none;
+    color: black;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.3);
 }
 .assignment-card .card-title {
-  font-size: 28px;
-  color: black;
-  font-weight: bold;
-  line-height: 1.5;
-  margin-bottom: 30px;
-  padding-right: 20px;
+    font-size: 28px;
+    color: black;
+    font-weight: bold;
+    line-height: 1.5;
+    padding-right: 20px;
 }
-.assignment-card .card-badges,
-.modal-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+.assignment-card .assignment-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 20px;
 }
 .assignment-card .subject-badge {
-  font-size: 15px;
-  padding: 8px 12px;
-  border-radius: 10px;
-  width: fit-content;
-  background-color: lightblue;
-  margin-bottom: 0;
+    font-size: 15px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    justify-content: flex-end;
+    align-items: flex-end;
+    width: fit-content;
+    height: fit-content;
+    background-color: rgb(115, 140, 249);
+    margin-bottom: 0;
+    color: white;
 }
-.assignment-card .info-badge {
-  width: 40px;
-  height: 40px;
-  background-color: transparent;
-  margin-left: 20px;
-}
-.info-badge i {
-  font-size: 40px;
-  color: rgb(93, 118, 232);
-  transition: all 0.3s ease-in-out;
-}
-.info-badge i:hover {
-  color: rgb(76, 103, 223);
-  transform: translate(0, -5px);
-}
-.assignment-card .card-text {
-  font-size: 18px;
-  color: gray;
-  margin-bottom: 5px;
+.assignment-card .assignment-deadline {
+    text-align: left;
+    width: 50%;
+    height: min-content;
+    margin-bottom: 0;
 }
 
-/* Modal */
-.modal-content {
-  position: absolute;
-  transform: translate(0, 50%);
-  border-radius: 20px;
-  padding: 15px;
+/* Preview on dashboard */
+.assignments-preview {
+    display: flex;
+    flex-direction: row;
 }
-.modal-btn {
-  background-color: rgb(93, 118, 232);
-  color: white;
-  font-size: 14px;
-  padding: 5px 10px;
-  border-radius: 10px;
-  width: fit-content;
-  border: none;
+#student-overview .assignments-preview {
+    max-height: 19vh;
 }
-.modal-btn:hover {
-  color: white;
-  background-color: rgb(76, 103, 223);
+#student-overview .assignments-preview .assignment-card {
+    margin: 0;
+    margin-right: 15px;
+    padding: 15px 20px;
+    max-height: 150px;
+    background: rgb(244, 244, 244);
+}
+#student-overview .assignments-preview .assignment-card .assignment-info {
+    flex-direction: column;
+    margin-top: 15px;
+}
+#student-overview .assignments-preview .assignment-card .assignment-info p {
+    font-size: 12px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+#student-overview .assignments-preview .assignment-card .assignment-info .subject-badge {
+    width: fit-content;
+}
+#student-overview .assignments-preview .assignment-card .assignment-deadline {
+    justify-content: flex-end;
+    align-items: flex-end;
+    text-align: left;
+}
+#student-overview .assignments-preview .assignment-card .card-title {
+    font-size: 15px;
+}
+/* Responsive */
+@media screen and (max-width: 1000px) {
+}
+@media screen and (max-width: 720px) {
+}
+@media screen and (max-width: 500px) {
+    .assignment-card .card-title {
+        font-size: 20px;
+    }
+    .assignment-card .assignment-info {
+        flex-direction: column;
+    }
+    .assignment-card .assignment-deadline {
+        width: 100%;
+        text-align: left;
+        margin-top: 20px;
+    }
 }

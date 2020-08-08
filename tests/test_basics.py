@@ -1,28 +1,32 @@
 import unittest
-import os
 from flask import current_app
-from app import create_app
-from app.modules.student._student import Student
-from app.modules._classes.user import User
-from app.modules._classes.submission import Submission
-from app import db
-from datetime import datetime
+from api import create_app
 
-# Write Tests for everything you can think of 
-# Todo: Add Parents Tests?
 
 class BasicsTestCase(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        print("Setup")
-        cls.app = create_app("testing")
-        cls.app_context = cls.app.app_context()
-        cls.app_context.push()
+    
+    def setUp(self):
+        self.app = create_app("testing")
+        self.app_context = self.app.app_context()
+        self.app_context.push()
 
-    @classmethod
-    def tearDownClass(cls):
-        print("Teardown")
-        cls.app_context.pop()
+        from api import root_logger as logger
+        self.logger = logger
+
+        self.name = "BasicsTestCase"
+        
+        self.logger.info(self.log_message("Application set up"))
+
+
+    def tearDown(self):
+        self.app_context.pop()
+
+        self.logger.info(self.log_message("Application teared down"))
+    
+    def log_message(self, message: str) -> str:
+        r"""Useful if we need to display specific information for all tests.
+        """
+        return f"{message}"
 
     def test_app_exists(self):
         self.assertFalse(current_app is None)

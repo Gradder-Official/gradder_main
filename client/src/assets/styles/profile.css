@@ -1,43 +1,103 @@
-#profile-jumbo h4 {
-  margin-top: 10px;
-  margin-bottom: 0;
+.dash-container-small {
+    border-radius: 20px;
+    background: white;
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 25px;
+    flex-grow: 1;
+    max-width: 30vw;
+    min-height: 22vh;
 }
-#profile-jumbo {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+.dash-container-small h5 {
+    font-family: 'Gilroy', sans-serif;
+    font-weight: bold;
 }
-.welcome-top-right {
-  display: flex;
-  flex-direction: row;
+.dash-container-small p {
+    margin-top: 2vh;
 }
-#welcome-profile-pic {
-  width: 150px;
-  height: 150px;
-  border: 3px solid rgb(93, 118, 232);
-  margin-right: 20px;
+.dash-header {
+    margin: 10px;
+    padding: 20px 30px;
+    border-bottom: 5px solid rgb(121, 141, 228);
 }
-.welcome-buttons {
-  display: flex;
-  flex-direction: column;
-  width: 100px;
-  justify-content: space-between;
+.dash-header h1 {
+    font-family: "Gilroy", sans-serif;
+    font-weight: bold;
 }
-.welcome-buttons button {
-  font-family: 'SF UI Text', sans-serif;
-  font-size: 14px;
-  border-radius: 12px;
-  background: rgb(102, 130, 252);
+.mobile-profile {
+    display: none !important;
 }
-.welcome-buttons button:hover,
-.welcome-buttons button:active {
-  background: rgb(93, 118, 232);
+#student-overview .profile {
+    background-color: rgb(115, 140, 249);
+    max-width: 60vw;
+    height: 10vh;
+    min-height: 165px;
+    flex-grow: 2;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
-.welcome-buttons a {
-  color: white;
-  text-decoration: none;
+#student-overview img {
+    width: 20vw;
+    height: 20vw;
+    border-radius: 5%;
+    margin-top: 20px;
+    margin-left: 20px;
 }
-.welcome-buttons a:hover {
-  color: white;
-  text-decoration: none;
+#student-overview .profile-time {
+    margin-right: 20px;
+    text-align: right;
 }
+#student-overview .profile-time i {
+    font-size: 20px;
+    color: white;
+    float: right;
+    margin-left: 15px;
+    margin-bottom: 10px;
+}
+#student-overview .student-dash-flex-col {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 4;
+}
+
+/* Responsiveness */
+@media screen and (max-width: 1000px) {
+    .dash-content {
+        position: absolute;
+        right: 0;
+        left: auto;
+        width: 75vw;
+    }
+    #student-overview .student-dash-flex-row {
+        flex-direction: column-reverse;
+    }
+    #student-overview .dash-container {
+        max-width: none;
+    }
+    #student-overview .profile {
+        margin-bottom: 7vh;
+    }
+}
+
+@media (max-width: 576px) {
+    .desktop-profile {
+        display:none;
+    }
+    .mobile-profile {
+        display: flex;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .desktop-profile {
+        display:none !important;
+    }
+    .mobile-profile {
+        display: flex !important;
+    }
+}
+

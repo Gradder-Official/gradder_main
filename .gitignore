@@ -1,51 +1,50 @@
 # Editor/OS-specific files
-.vscode/
-.idea
-.DS_Store
+**.vscode/
+**.idea
 
 # Cache files
 **/__pycache__
-.pytest_cache
+**.pytest_cache
 **.pyc
 
 # Scripts
-.sh
+**.sh
 
 # Virtual environments
-venv
-Pipfile
-Pipfile.lock
+**venv
+**Pipfile
+**Pipfile.lock
+**gradder_env/
 
 # JSON tokens
-gradder_cred.json
+**gradder_cred.json
 
 # Logs
-app/logs/user_actions.log
-app/logs/forms.log
 **.log
 
 # Other
-.env
-.coverage
+**.env
+**.coverage
+**env
 
 # dependencies
-node_modules
-/.pnp
-.pnp.js
+**/node_modules
+**/.pnp
+**.pnp.js
 
 # testing
-/coverage
+**/coverage
 
 # production
-/build
+**/build
 
 # misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+**.DS_Store
+**.env.local
+**.env.development.local
+**.env.test.local
+**.env.production.local
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+**npm-debug.log*
+**yarn-debug.log*
+**yarn-error.log*
