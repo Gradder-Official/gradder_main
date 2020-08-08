@@ -1,5 +1,5 @@
 // NPM Imports
-import React, { useState, FunctionComponent } from "react";
+import React, { useState, useEffect, FunctionComponent } from "react";
 import {
   Switch,
   BrowserRouter as Router,
@@ -42,8 +42,8 @@ const App: FunctionComponent = () => {
 
   // TODO: set logged in status to true
   useEffect(() => {
-    fetch('/api/auth/login').
-      then(res => res.json()).then(response => {
+    fetch('/api/auth/login')
+      .then(res => res.json()).then(response => {
         if (response['user_info']) {
           setUser(response['user_info']);
         }
