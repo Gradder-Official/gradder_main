@@ -35,11 +35,6 @@ def teacher_verification():
     pass
 
 
-@teacher.route("/authorized", methods=["GET"])
-def authorized():
-    return True
-
-
 @teacher.route("/add_assignment", methods=["GET", "POST"])
 def add_assignment():
     """Adds new assignment for the class
