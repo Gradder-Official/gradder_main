@@ -49,19 +49,33 @@ function useLocalStorage(key: string, initialValue: any) {
     return [storedValue, setValue];
 }
 
-const AssignmentDisplay: FunctionComponent<assignment> = ({ title, date_assigned, assigned_to, assigned_by, due_by, content, filenames, estimated_time, submissions, _id}: assignment) => {
+const AssignmentDisplay = (props: any) => {
+    // TODO: Get assignment
+    let id = props.match.params.id;
+    let a: assignment = {
+        title: "Assignment Title",
+        date_assigned: "Fri Aug 07 2020 13:41:27 GMT+0100",
+        assigned_to: "assigned_to",
+        assigned_by: "assigned_by",
+        due_by: "Fri Aug 09 2020 13:41:27 GMT+0100",
+        content: "<h1>This is an assignment</h1>Have fun!",
+        filenames: ["doctor.png"],
+        estimated_time: "30",
+        submissions: new Array<string>(),
+        id: id,
+    }
 
     // Formatting time
-    const deadline = new Date(due_by);
+    const deadline = new Date(a.due_by);
     const options = { weekday: 'long', month: 'long', day: 'numeric' };
     const date = deadline.toLocaleDateString(undefined, options);
     const timestamp = deadline.toLocaleTimeString();
 
     // TODO: actually link the assignment
-    const assignmentLink = "/assignments/" + title;
-    const estimation = estimated_time === undefined ? "no estimated time" : `around ${estimated_time} minutes`;
+    const assignmentLink = "/assignments/" + a.title;
+    const estimation = a.estimated_time === undefined ? "no estimated time" : `around ${a.estimated_time} minutes`;
     
-    let [cached, setCached] = useLocalStorage(_id!, "Your assignment goes here");
+    let [cached, setCached] = useLocalStorage(a.id!, "Your assignment goes here");
     return (
         <React.Fragment>
             <StudentSidebar/>
@@ -71,15 +85,15 @@ const AssignmentDisplay: FunctionComponent<assignment> = ({ title, date_assigned
                     <Row className="h-100">
                         <Col className="col-12 col-md-5">
                             {/* Overview */}
-                            <h3>{title}</h3>
+                            <h3>{a.title}</h3>
                             <div className="assignment-meta-details">
-                                <p>{assigned_by} &bull; <span className="subject-badge">{assigned_to}</span></p>
+                                <p>{a.assigned_by} &bull; <span className="subject-badge">{a.assigned_to}</span></p>
                                 <p className="assignment-deadline">Due {date}, {timestamp} &bull; {estimation}</p>
                             </div>
                             <hr/>
                             <div>
                                 {/* Replace w/ Quill.js */}
-                                <ReactQuill theme="bubble" value={content} readOnly/>
+                                <ReactQuill theme="bubble" value={a.content} readOnly/>
                             </div>
                         </Col>
                         <Col className="col-12 col-md-7 d-flex flex-column">
@@ -103,6 +117,11 @@ const AssignmentDisplay: FunctionComponent<assignment> = ({ title, date_assigned
                             </form>
                         </Col>
                     </Row>
+                    <p className="text-right">
+                        <small>
+                            <code>ID: {a.id}</code>
+                        </small>
+                    </p>
                 </div>
             </div>
         </React.Fragment>

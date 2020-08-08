@@ -97,20 +97,10 @@ const App: FunctionComponent = () => {
         />
         <Route
           exact
-          path="/student/assignment"
+          path="/student/assignment/:id"
           render={(props) => (
             <AssignmentDisplay
               {...props}
-              title="Assignment Title"
-              date_assigned="Fri Aug 07 2020 13:41:27 GMT+0100"
-              assigned_to="assigned_to"
-              assigned_by="assigned_by"
-              due_by="Fri Aug 09 2020 13:41:27 GMT+0100"
-              content="<h1>This is an assignment</h1>Have fun!"
-              filenames={["doctor.png"]}
-              estimated_time="30"
-              submissions={new Array<string>()}
-              _id="aaa"
             />
           )}
         />

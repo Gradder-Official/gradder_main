@@ -15,7 +15,7 @@ export interface assignment {
     filenames?: string[],
     estimated_time?: string,
     submissions?: string[],
-    _id?: string
+    id?: string
 }
 
 export interface LoginFormInputs {
