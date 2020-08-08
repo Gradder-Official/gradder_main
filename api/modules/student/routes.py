@@ -38,12 +38,15 @@ def submit(course_id: str, assignment_id: str):
     dict
         The view response
     """
+    
     assignment = db.courses.find_one(
         {"assignments._id": ObjectId(assignment_id)},
         {"_id": 0, "assignments": {"$elemMatch": {"_id": ObjectId(assignment_id)}}},
     )["assignments"][0]
+
     
-    if assignment is not None:
+    
+    if assignment is not None and course_id in current_user.courses:
         try:
             file_list = []
             files = request.files.getlist('files')

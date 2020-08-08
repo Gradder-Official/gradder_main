@@ -8,7 +8,7 @@ const AssignmentPreview: FunctionComponent = () => {
 
   // TODO: get assignments by user ID
   useEffect(() => {
-    fetch("/api/assignments").then((response) =>
+    fetch("/api/student/assignments").then((response) =>
       response.json().then((info) => {
         setAssignments(info.data);
       })
