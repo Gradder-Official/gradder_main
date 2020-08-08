@@ -18,7 +18,7 @@
 .assignment-card:hover {
     text-decoration: none;
     color: black;
-    background-color: rgb(191, 199, 235);
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.3);
 }
 .assignment-card .card-title {
     font-size: 28px;
@@ -41,11 +41,12 @@
     align-items: flex-end;
     width: fit-content;
     height: fit-content;
-    background-color: rgb(158, 171, 230);
+    background-color: rgb(115, 140, 249);
     margin-bottom: 0;
+    color: white;
 }
 .assignment-card .assignment-deadline {
-    text-align: right;
+    text-align: left;
     width: 50%;
     height: min-content;
     margin-bottom: 0;
@@ -55,32 +56,35 @@
 .assignments-preview {
     display: flex;
     flex-direction: row;
-    background: rgb(232, 232, 232);
-    border-radius: 20px;
-    margin-top: 10px;
 }
-.assignments-preview .assignment-card {
-    max-width: 30%;
-    margin: 15px;
-    padding: 20px;
+#student-overview .assignments-preview {
+    max-height: 19vh;
+}
+#student-overview .assignments-preview .assignment-card {
+    margin: 0;
+    margin-right: 15px;
+    padding: 15px 20px;
     max-height: 150px;
+    background: rgb(244, 244, 244);
 }
-.assignments-preview .assignment-card .assignment-info {
+#student-overview .assignments-preview .assignment-card .assignment-info {
     flex-direction: column;
+    margin-top: 15px;
 }
-.assignments-preview .assignment-card .assignment-info p {
+#student-overview .assignments-preview .assignment-card .assignment-info p {
     font-size: 12px;
     width: 100%;
+    margin-bottom: 10px;
 }
-.assignments-preview .assignment-card .assignment-info .subject-badge {
-    width: 50%;
+#student-overview .assignments-preview .assignment-card .assignment-info .subject-badge {
+    width: fit-content;
 }
-.assignments-preview .assignment-card .assignment-deadline {
+#student-overview .assignments-preview .assignment-card .assignment-deadline {
     justify-content: flex-end;
     align-items: flex-end;
     text-align: left;
 }
-.assignments-preview .assignment-card .card-title {
+#student-overview .assignments-preview .assignment-card .card-title {
     font-size: 15px;
 }
 /* Responsive */

@@ -17,7 +17,7 @@ def response(flashes: List[str] = [], forms: Dict = {}, **kwargs) -> dict:
     """
     return {
         'flashes': flashes,
-        forms: forms,
+        'forms': forms,
         **kwargs
     }
 

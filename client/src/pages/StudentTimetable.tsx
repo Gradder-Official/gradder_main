@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { student } from "../components/Interfaces";
+import { assignment, course } from "../components/Interfaces";
 import StudentSidebar from '../components/StudentSidebar';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -9,23 +9,28 @@ import "../assets/styles/timetable.css";
 
 const StudentTimetable: FunctionComponent = () => {
 
-    interface Events {
-        title: string
-        date: string
-    }
-
-    const [eventList, setEventList] = useState<Array<Events>>([
-        {title: "Example", date: "2020-08-08"}
+    const [assignmentList, setAssignmentList] = useState<Array<assignment>>([
+        {title: "", assigned_to: "", due_by: ""}
     ]);
 
-    // Fetches from mock APIs but not from /assignment-schedule
-    // Returns HTTP instead?
+    const [classList, setClassList] = useState<Array<course>>([
+        {name: "", daysOfWeek: "", startTime: ""}
+    ]);
+
     useEffect(() => {
+
         fetch('/api/student/assignment-schedule').
-        then(res => res.json()).then(data => {
-            setEventList(data.events);
-            console.log(data.events)
+        then(res => res.json()).then(response => {
+            setAssignmentList(response['data']['events']);
+            console.log(response['data']['events'])
         })
+
+        fetch('/api/student/class-schedule').
+        then(res => res.json()).then(response => {
+            setClassList(response['data']['class_schedule']);
+            console.log(response['data']['class_schedule'])
+        })
+
     }, []);
 
     return (
@@ -40,7 +45,7 @@ const StudentTimetable: FunctionComponent = () => {
                         plugins={[dayGridPlugin]}
                         initialView="dayGridMonth"
                         height="75vh"
-                        events={eventList}
+                        events={assignmentList}
                     />
                 </div>
                 <div className="time-grid-calendar">
@@ -51,7 +56,7 @@ const StudentTimetable: FunctionComponent = () => {
                         height="90vh"
                         nowIndicator={true}
                         slotMinTime="07:00:00"
-                        events={eventList}
+                        events={classList}
                     />
                 </div>
             </div>

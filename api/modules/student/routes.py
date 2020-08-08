@@ -16,8 +16,8 @@ from . import student
 from flask import Flask, jsonify
 
 
-@student.before_request
-@required_access(Student)
+# @student.before_request
+# @required_access(Student)
 def student_verification():
     # Required_access decorator already handled it
     pass
@@ -42,8 +42,6 @@ def submit(course_id: str, assignment_id: str):
         {"_id": 0, "assignments": {"$elemMatch": {"_id": ObjectId(assignment_id)}}},
     )["assignments"][0]
 
-    
-    
     if assignment is not None and course_id in current_user.courses:
         try:
             file_list = []
@@ -141,18 +139,17 @@ def get_schedule_assignments():
             'date': assignment.due_by
         }
         events.append(assignment_data)
-        
-        # Dummy event for testing
-        dummy_data = [{
-            "title": "Test assignment",
-            "date": "2020-08-09",
-        }]
-        events.append(dummy_data)
 
-    print(events)
+    # Dummy event for testing
+    dummy_data = [{
+        "title": "Test assignment",
+        "date": "2020-08-09",
+    }]
+    events.append(dummy_data)
+
     return response(data={"events": events})
 
-@student.route("/api/class-schedule", methods=["GET"])
+@student.route("/class-schedule", methods=["GET"])
 def get_schedule_classes():
     """Gets name, dates, and times for classes
 
@@ -168,8 +165,8 @@ def get_schedule_classes():
         data = Course.get_by_id(student_course)
         course_data = {
             'name': data.name,
-            'days': data.schedule_days,
-            'times': data.schedule_time
+            'daysOfWeek': data.schedule_days,
+            'startTime': data.schedule_time
         }
         class_schedule.append(course_data)
         

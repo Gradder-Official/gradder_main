@@ -29,7 +29,7 @@ const StudentProfile: FunctionComponent<student> = ({ userName, dob }) => {
             {/*This is the mobile approach using React-Boostrap*/}
             <div className="dash-content" id="student-overview">
                 <Container>
-                    <Row className="justify-content-md-center">
+                    <Row className="justify-content-md-center mobile-profile">
                         <Col className="profileDetails" xs={12} sm={8}>
                             <div className="dash-container profile">
                                 <div className="profile-details">
@@ -75,8 +75,8 @@ const StudentProfile: FunctionComponent<student> = ({ userName, dob }) => {
                 {/*This is the desktop/large screen version*/}
 
                 
-                {/*
-                <div className="student-dash-flex-row">
+                
+                <div className="student-dash-flex-row desktop-profile">
                     <div className="student-dash-flex-col">
                         <div className="dash-container profile">
                             <div className="profile-details">
@@ -111,7 +111,7 @@ const StudentProfile: FunctionComponent<student> = ({ userName, dob }) => {
                         </div>
                     </div>
                 </div>
-                */}
+                
 
             </div>
 

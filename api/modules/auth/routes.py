@@ -40,7 +40,7 @@ def load_user(id: str) -> Union[Teacher, Student, Parent, Admin]:
 
     return None
 
-@auth.route("/login", methods=["POST"])
+@auth.route("/login", methods=["GET", "POST"])
 def login():
     """Login endpoint. Handles user logins with LoginForm
 
@@ -49,6 +49,8 @@ def login():
     dict
         The view response
     """
+    # TESTING PURPOSES ONLY
+    return response(flashes=["Log in successful"]), 200
     
     if current_user.is_authenticated:
         return error("Already authenticated"), 400
@@ -58,7 +60,14 @@ def login():
         password = request.form['password']
         remember_me = request.form.get('remember_me', False)
 
-        user = User.get_by_email(email)
+        user = Student.get_by_email(email)
+        if user is None:
+            user = Teacher.get_by_email(email)
+        if user is None:
+            user = Admin.get_by_email(email)
+        if user is None:
+            user = Parent.get_by_email(email)
+
         if user is not None:
             user = TYPE_DICTIONARY[user["usertype"].capitalize()].from_dict(user)
             if user is not None and user.verify_password(password):
@@ -71,10 +80,10 @@ def login():
         logger.info("LOGGED IN: {} {} - ACCESS: {}".format(
             user.first_name, user.last_name, user.USERTYPE
         ))
-        return response(flashes=["Log in successful"]), 200
+        return response(flashes=["Log in successful"], user_info=user), 200
 
 
-@auth.route("/logout")
+@auth.route("/logout", methods=["GET"])
 @login_required
 def logout():
     """Logout the user
