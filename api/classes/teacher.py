@@ -59,7 +59,38 @@ class Teacher(User):
         -------
         Teacher
         """
-        return Teacher(**dictionary)
+        if dictionary is None:
+            return None
+            
+        try:
+            return Teacher(**dictionary)
+        except Exception as e:
+            logger.exception(f"Error while generating a Teacher from dictionary {dictionary}: {e}")
+            return None
+
+    def add(self) -> bool:
+        r"""Adds the teacher to the DB.
+        """
+
+        try:
+            self.id = db.teachers.insert_one(self.to_dict()).inserted_id
+        except Exception as e:
+            logger.exception(f"Error while adding Teacher {self.id}: {e}")
+            return False
+        else:
+            return True
+
+    def remove(self) -> bool:
+        r"""Removes this teacher from the database.
+        """
+
+        try:
+            db.teachers.delete_one({'_id': ObjectId(self.id)})
+        except Exception as e:
+            logger.exception(f"Error while removing Teacher {self.id}: {e}")
+            return False
+        else:
+            return True
 
     @staticmethod
     def get_by_id(id: str) -> Teacher:

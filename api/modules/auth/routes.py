@@ -51,6 +51,7 @@ def login():
     """
     
     if current_user.is_authenticated:
+        logger.info(f"The user {current_user.id} is already authenticated.")
         return error("Already authenticated"), 400
 
     try:
@@ -58,21 +59,25 @@ def login():
         password = request.form['password']
         remember_me = request.form.get('remember_me', False)
 
-        user = User.get_by_email(email)
-        if user is not None:
-            user = TYPE_DICTIONARY[user["usertype"].capitalize()].from_dict(user)
-            if user is not None and user.verify_password(password):
-                login_user(user, remember_me)
-            else:
-                return error("Email or password is incorrect"), 400
-    except KeyError:
-        return error("Not all fields satisfied"), 400
-    else:
-        logger.info("LOGGED IN: {} {} - ACCESS: {}".format(
-            user.first_name, user.last_name, user.USERTYPE
-        ))
-        return response(flashes=["Log in successful"]), 200
+        for scope in [Teacher, Student, Admin, Parent]:
+            logger.info(f"Trying to find {type(scope).__name__} with email {email}...")
+            user = scope.get_by_email(email)
+            if user is not None:
+                if user.validate_password(password):
+                    login_user(user, remember_me)
+                    logger.info(f"LOGGED IN: {user.first_name} {user.last_name} - ACCESS: {user._type}")
 
+                    return response(flashes=["Log in successful"]), 200
+            
+                logger.info(f"Failed to validate the password for the {type(scope).__name__} with email {email}")
+            
+            logger.info(f"Could not find {type(scope).__name__} with email {email}")
+        
+        logger.info(f"Could not login user with email {email}")
+        return error("Invalid email or password."), 400 
+    except KeyError:
+        logger.info("Not all fields satisfied")
+        return error("Not all fields satisfied"), 400
 
 @auth.route("/logout")
 @login_required

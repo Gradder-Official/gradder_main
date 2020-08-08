@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import { Link } from 'react-router-dom'
 import { assignment } from './Interfaces'
 
-const AssignmentBox: FunctionComponent<assignment> = ({ title, assigned_to, due_by }) => {
+const AssignmentBox: FunctionComponent<assignment> = ({ id, title, assigned_to, due_by }) => {
 
     // Formatting time
     const deadline = new Date(due_by)
@@ -11,7 +11,7 @@ const AssignmentBox: FunctionComponent<assignment> = ({ title, assigned_to, due_
     const timestamp = deadline.toLocaleTimeString()
 
     // TODO: actually link the assignment
-    const assignmentLink = "/student/assignments/" + title
+    const assignmentLink = "/student/assignment/" + id;
 
     return (
         <React.Fragment>

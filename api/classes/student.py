@@ -114,7 +114,14 @@ class Student(User):
         -------
         Student
         """
-        return Student(**dictionary)
+        if dictionary is None:
+            return None
+            
+        try:
+            return Student(**dictionary)
+        except Exception as e:
+            logger.exception(f"Error while generating a Student from dictionary {dictionary}: {e}")
+            return None
 
     def add(self) -> bool:
         r"""Adds the student to the DB.
