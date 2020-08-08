@@ -4,6 +4,16 @@ import "../assets/styles/assignments.css";
 import AssignmentBox from "../components/AssignmentBox";
 
 const AssignmentPreview: FunctionComponent = () => {
+<<<<<<< HEAD
+=======
+  const [assignments, setAssignments] = useState<Array<assignment>>([
+    {
+      title: "",
+      assigned_to: "",
+      due_by: "",
+    }
+  ]);
+>>>>>>> b2e902edf28d949455a32921eb70a7f3c1d368e0
 
   const [assignments, setAssignments] = useState<Array<assignment>>([
     {
