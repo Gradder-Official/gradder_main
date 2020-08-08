@@ -31,14 +31,14 @@ class Submission:
         self.date_submitted = date_submitted
         self.content = content
         self.filenames = filenames
-        self.id = _id if _id is not None else ''
+        self._id = _id if _id is not None else ''
 
     @property
     def id(self) -> str:
         return self._id
 
     @id.setter
-    def id(self, id: str):
+    def id(self, _id: str):
         self.id = _id
 
     def to_dict(self) -> dict:
