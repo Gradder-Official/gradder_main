@@ -8,6 +8,8 @@ import StudentDash from './pages/StudentDash';
 import StudentAssignments from './pages/StudentAssignments';
 import StudentTimetable from './pages/StudentTimetable';
 import StudentProfile from './pages/StudentProfile';
+import Unauthorized from './pages/Unauthorized';
+import ProtectedRoute from './components/ProtectedRoute'
 
 // Types and interfaces
 import { student } from "./components/Interfaces";
@@ -33,17 +35,20 @@ const App: FunctionComponent = () => {
         <Route exact path="/dashboard">
           {user.loggedIn ? <Redirect to={'/' + user.userType + '/dashboard'} /> : <Login />}
         </Route>
-        <Route exact path="/student/dashboard" render={(props) => (
+        <ProtectedRoute user={user} scope="student" exact path="/student/dashboard" render={(props: any) => (
           <StudentDash {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob}/> 
         )}/>
-        <Route exact path="/student/timetable" render={(props) => (
+        <ProtectedRoute user={user} scope="student" exact path="/student/timetable" render={(props: any) => (
           <StudentTimetable {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob}/> 
         )}/>
-        <Route exact path="/student/assignments" render={(props) => (
+        <ProtectedRoute user={user} scope="student" exact path="/student/assignments" render={(props: any) => (
           <StudentAssignments {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob}/> 
         )}/>
-        <Route exact path="/student/profile" render={(props) => (
+        <ProtectedRoute user={user} scope="student" exact path="/student/profile" render={(props: any) => (
           <StudentProfile {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob} />
+        )}/>
+        <Route exact path="/unauthorized" render={(props: any) => (
+          <Unauthorized {...props}/>
         )}/>
       </Switch>
     </Router>
