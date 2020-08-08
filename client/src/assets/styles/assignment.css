@@ -13,7 +13,8 @@
 }
 
 .dash-container {
-  height: calc(100% - 50px - 20px);
+  min-height: calc(100% - 50px - 20px);
+  max-height: max-content;
 }
 
 .quill {
