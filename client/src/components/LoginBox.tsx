@@ -15,7 +15,7 @@ const LoginBox: FunctionComponent = () => {
     const onSubmit = (data: LoginFormInputs) => {
 
         // Send form data to API
-        fetch('/api/login', {
+        fetch('/api/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
