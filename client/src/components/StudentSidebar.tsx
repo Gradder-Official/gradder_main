@@ -9,8 +9,8 @@ const StudentSidebar: FunctionComponent = () => {
 
     const logout = () => {
 
-        fetch('/api/auth/logout').
-            then(res => res.json()).then(response => {
+        fetch('/api/auth/logout')
+            .then(res => res.json()).then(response => {
                 setLogoutMessage(response['flashes']);
                 console.log(logoutMessage)
             }
