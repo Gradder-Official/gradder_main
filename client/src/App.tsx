@@ -9,10 +9,11 @@ import {
 
 // Components
 import Login from './pages/Login';
-import StudentDash from './pages/StudentDash';
-import StudentAssignments from './pages/StudentAssignments';
-import StudentTimetable from './pages/StudentTimetable';
-import StudentProfile from './pages/StudentProfile';
+import StudentDash from './pages/Student/Dash';
+import StudentAssignments from './pages/Student/Assignments';
+import AssignmentDisplay from './pages/Student/AssignmentDisplay';
+import StudentTimetable from './pages/Student/Timetable';
+import StudentProfile from './pages/Student/Profile';
 import Unauthorized from './pages/Unauthorized';
 import ProtectedRoute from './components/ProtectedRoute'
 
@@ -77,6 +78,15 @@ const App: FunctionComponent = () => {
         <ProtectedRoute user={user} scope="student" exact path="/student/profile" render={(props: any) => (
           <StudentProfile {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob} />
         )}/>
+        <Route
+          exact
+          path="/student/assignment/:id"
+          render={(props) => (
+            <AssignmentDisplay
+              {...props}
+            />
+          )}
+        />
         <Route exact path="/unauthorized" render={(props: any) => (
           <Unauthorized {...props}/>
         )}/>

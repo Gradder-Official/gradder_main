@@ -1,11 +1,11 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { assignment, course, student } from "../components/Interfaces";
-import StudentSidebar from '../components/StudentSidebar';
+import { assignment, course, student } from "../../components/Interfaces";
+import StudentSidebar from '../../components/StudentSidebar';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import "../assets/styles/dashboard.css";
-import "../assets/styles/timetable.css";
+import "../../assets/styles/dashboard.css";
+import "../../assets/styles/timetable.css";
 
 const StudentTimetable: FunctionComponent = () => {
 

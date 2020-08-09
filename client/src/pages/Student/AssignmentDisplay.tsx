@@ -1,8 +1,10 @@
-import React, { FunctionComponent, useState } from 'react';
-import { assignment } from '../components/Interfaces';
-import StudentSidebar from '../components/StudentSidebar';
+import React, { FunctionComponent, useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
+import { assignment } from '../../components/Interfaces';
+import StudentSidebar from '../../components/StudentSidebar';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Alert from 'react-bootstrap/Alert';
 
 // Quill.js
 import ReactQuill from 'react-quill';
@@ -10,7 +12,7 @@ import 'react-quill/dist/quill.bubble.css';
 import 'react-quill/dist/quill.snow.css';
 
 // Custom styles
-import "../assets/styles/assignment.css";
+import "../../assets/styles/assignment.css";
 
 // Hook (credit: https://usehooks.com/useLocalStorage/)
 function useLocalStorage(key: string, initialValue: any) {
@@ -52,48 +54,75 @@ function useLocalStorage(key: string, initialValue: any) {
 const AssignmentDisplay = (props: any) => {
     // TODO: Get assignment
     let id = props.match.params.id;
-    let a: assignment = {
+    let [assignment, setAssignment] = useState<assignment>({
         title: "Assignment Title",
         date_assigned: "Fri Aug 07 2020 13:41:27 GMT+0100",
-        assigned_to: "assigned_to",
-        assigned_by: "assigned_by",
+        assigned_to: "Your class",
+        assigned_by: "Your teacher",
         due_by: "Fri Aug 09 2020 13:41:27 GMT+0100",
-        content: "<h1>This is an assignment</h1>Have fun!",
+        content: "<p>The assignment is loading... hang in there!</p>",
         filenames: ["doctor.png"],
         estimated_time: "30",
         submissions: new Array<string>(),
         id: id,
-    }
+    });
+    let [status, setStatus] = useState<any>(<div />);
+    let [ready, setReady] = useState<boolean>(false);
+
+    useEffect(() => {
+        setStatus(
+            <Alert key="err" variant="info">
+                We're loading your assignment... hang tight!
+            </Alert>
+        );
+
+        fetch('/api/student/assignment/' + id)
+            .then(res => res.json()).then(data => {
+                setAssignment(data.data.assignment);
+                setReady(true);
+            })
+            .catch(reason => {
+                setStatus(
+                    <Alert key="err" variant="danger">
+                        Woah well that's strange... this assignment doesn't exist.
+                        Try viewing <Link to="/student/assignments">assignments</Link> directly.
+                    </Alert>
+                );
+                console.error(reason);
+            })
+    }, []);
+
 
     // Formatting time
-    const deadline = new Date(a.due_by);
+    const deadline = new Date(assignment.due_by);
     const options = { weekday: 'long', month: 'long', day: 'numeric' };
     const date = deadline.toLocaleDateString(undefined, options);
     const timestamp = deadline.toLocaleTimeString();
 
     // TODO: actually link the assignment
-    const assignmentLink = "/assignments/" + a.title;
-    const estimation = a.estimated_time === undefined ? "no estimated time" : `around ${a.estimated_time} minutes`;
+    const assignmentLink = "/assignments/" + assignment.title;
+    const estimation = assignment.estimated_time === undefined ? "no estimated time" : `around ${assignment.estimated_time} minutes`;
     
-    let [cached, setCached] = useLocalStorage(a.id!, "Your assignment goes here");
+    let [cached, setCached] = useLocalStorage(assignment.id!, "Your assignment goes here");
     return (
         <React.Fragment>
             <StudentSidebar/>
             
             <div className="dash-content" id="assignment-display">
                 <div className="dash-container">
-                    <Row className="h-100">
+                    {status}
+                    <Row className={`h-100 ${ready ? 'd-inline' : 'd-none'}`}>
                         <Col className="col-12 col-md-5">
                             {/* Overview */}
-                            <h3>{a.title}</h3>
+                            <h3>{assignment.title}</h3>
                             <div className="assignment-meta-details">
-                                <p>{a.assigned_by} &bull; <span className="subject-badge">{a.assigned_to}</span></p>
+                                <p>{assignment.assigned_by} &bull; <span className="subject-badge">{assignment.assigned_to}</span></p>
                                 <p className="assignment-deadline">Due {date}, {timestamp} &bull; {estimation}</p>
                             </div>
                             <hr/>
                             <div>
                                 {/* Replace w/ Quill.js */}
-                                <ReactQuill theme="bubble" value={a.content} readOnly/>
+                                <ReactQuill theme="bubble" value={assignment.content} readOnly/>
                             </div>
                         </Col>
                         <Col className="col-12 col-md-7 d-flex flex-column">
@@ -119,7 +148,7 @@ const AssignmentDisplay = (props: any) => {
                     </Row>
                     <p className="text-right">
                         <small>
-                            <code>ID: {a.id}</code>
+                            <code>Assignment ID: {assignment.id}</code>
                         </small>
                     </p>
                 </div>

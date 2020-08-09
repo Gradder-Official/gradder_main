@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useState } from "react";
 import { Link } from "react-router-dom";
-import { student } from "../components/Interfaces";
-import StudentSidebar from "../components/StudentSidebar";
-import "../assets/styles/dashboard.css";
-import "../assets/styles/assignments.css";
-import AssignmentPreview from "../components/AssignmentPreview";
+import { student } from "../../components/Interfaces";
+import StudentSidebar from "../../components/StudentSidebar";
+import "../../assets/styles/dashboard.css";
+import "../../assets/styles/assignments.css";
+import AssignmentPreview from "../../components/AssignmentPreview";
 
 const StudentDash: FunctionComponent<student> = ({ userName }) => {
 

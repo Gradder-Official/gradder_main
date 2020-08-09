@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { Link } from "react-router-dom";
-import { student } from "../components/Interfaces";
-import StudentSidebar from '../components/StudentSidebar';
-import "../assets/styles/profile.css";
+import { student } from "../../components/Interfaces";
+import StudentSidebar from '../../components/StudentSidebar';
+import "../../assets/styles/profile.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
