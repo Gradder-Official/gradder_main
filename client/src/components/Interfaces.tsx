@@ -21,6 +21,7 @@ export interface assignment {
 export interface LoginFormInputs {
     email: string,
     password: string,
+    remember_me: boolean
 };
 
 export interface course {
