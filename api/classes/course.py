@@ -3,10 +3,22 @@ from typing import Dict, List, Tuple, Optional
 from bson import ObjectId
 
 from api import db, root_logger as logger
+from api.tools.exceptions = InvalidTypeException, InvalidFormatException
 
 
 class Course:
     _id : str
+    _department : str
+    _number : int
+    _name : str
+    _teacher : str,
+    _students : List[str]
+    _description : str
+    _schedule_time : str
+    _schedule_days : str
+    _syllabus : Tuple[str, str]
+    _assignments : List[Assignment]
+
     def __init__(
         self,
         department: str,
@@ -32,7 +44,7 @@ class Course:
         number : int
             The course number
             Format: numerical characters, number between 0 and 100000 (ex.: 101, 002, 20005)
-            Regex: "/[0-9]{1, 6}/"
+            Regex: "/[0-9]{1, 5}/"
         name : str
             The name of the course
             Format: alpha characters, space, and '.' allowed, length between 1 and 50 (ex. "AP U.S. History", "The Foundations of the Universe")
@@ -41,12 +53,12 @@ class Course:
             The teacher giving the course, by default None
             Format: should be a valid `bson.ObjectId`, the teacher should exist in the database, teacher's department must match course's department
         students : List[str], optional
-            The students in the course, by default None
+            The list of IDs of all the students in this course, by default None
             Format: should be a list of strings, each of which is a valid `bson.ObjectId`, and all students must be existent in the database
         description : str, optional
             The description of the course, by default "Description"
             Format: alphanumeric characters, space, brackets, and delimeters; length between 1 and 500 symbols
-            Regex: "/[\w \.\+-\'\"\?\!\(\)\[\]\{\};:\/><]{1, 500}/"
+            Regex: "/[\w \.\+\(\)\[\]\{\}\?\*\&\^\%\$\#\/\'"~<>,:;!-_=@]{1, 500}/"
         schedule_time : str, optional
             The scheduled time for the course, by default None
             Format: a string, convertible to datetime.time in format `%H:%M-%H:%M` (24-hour format), in UTC
@@ -86,7 +98,163 @@ class Course:
 
     @id.setter
     def id(self, id: str):
+        if id is not str:
+            raise InvalidTypeException(f"The id provided is not a str (type provided is {type(id)}).")
+
+        try:
+            ObjectId(id)
+        except Exception as e:
+            raise InvalidFormatException(f"Cannot convert provided id to bson.ObjectId: {e}")
+
         self._id = id
+
+    @property
+    def department(self, department: str) -> str:
+        return self._department
+
+    @department.setter(self, department: str):
+        if department is not str:
+            raise InvalidTypeException(f"The department provided is not a string (type provided is {type(department)}).")
+
+        
+        self._department = department
+
+    @property
+    def number(self) -> int:
+        return self._number
+    
+    @number.setter
+    def number(self, number: int):
+        if number is not int:
+            raise InvalidTypeException(f"The course number provided is not an int (type provided is {type(name)}).")
+            
+        if not 0 < number < 100000:
+            raise InvalidFormatException(f"The format for course number doesn't match. Expected 0 < number < 100000, got {number}")
+    
+        self._number = number
+
+    @property
+    def name(self) -> str:
+        return self._name
+
+    @name.setter(self, name: str):
+        if name is not str:
+            raise InvalidTypeException(f"The name provided is not a str (type provided is {type(name)}).")
+            
+        if not 0 < len(name) <= 50:
+            raise InvalidFormatException(f"The length of the name should not exceed 50 characters (currently: {len(name)})")
+
+        if not re.match('[\w]{1, 50}', name, flags=re.UNICODE):
+            raise InvalidFormatException(f"The format for the name doesn't match. Expected only alpha characters, got {name}")
+
+    @property
+    def teacher(self, teacher_id: str):
+        from api.classes import Teacher
+
+        if teacher_id is not str:
+            raise InvalidTypeException(f"The teacher_id provided is not a str (type provided is {type(teacher)}).")
+        
+        try:
+            ObjectId(teacher_id)
+        except Exception as e:
+            logger.exception(f"Error while validating teacher id {teacher_id}: {e}")
+            raise e
+
+        try:
+            if Teacher.get_by_id(teacher_id) is None:
+                raise Exception(f"The teacher with id {teacher_id} does not exist.")
+        except Exception as e:
+            logger.exception(f"Error while validating the existence of teacher {teacher_id}: {e}")
+            raise e
+
+        self._teacher = teacher_id
+
+    @property
+    def students(self) -> List[Student]:
+        return self._students
+    
+    @students.setter
+    def students(self, students: List[str]):
+        from api.classes import Student
+
+        if students is not List[str]:
+            raise InvalidTypeException(f"The parameter 'students' provided is not a List[str] (type provided is {type(students)}).")
+
+        for student_id in students:
+            try:
+                ObjectId(student_id)
+            except Exception as e:
+                logger.exception(f"Error while validating student id {student_id}: {e}")
+                raise e
+
+            try:
+                if Student.get_by_id(student_id) is None:
+                    raise Exception(f"The student with id {student_id} does not exist.")
+            except Exception as e:
+                logger.exception(f"Error while validating the existence of student {student_id}: {e}")
+                raise e
+        
+        self._students = students
+
+    @property
+    def description(self) -> str:
+        return self._description
+
+    @description.setter
+    def description(self, description: str):
+        if description is not str:
+            raise InvalidTypeException(f"The description provided is not a str (type provided is {type(description)})")
+
+        if not 0 < len(description) <= 500:
+            raise InvalidFormatException(f"The string provided is too long. The description should not exceed 500 characters. (currently: {len(description)})")
+
+        if not re.match('[\w \.\+\(\)\[\]\{\}\?\*\&\^\%\$\#\/\'"~<>,:;!-_=@]{1, 500}', department, flags=re.UNICODE):
+            raise InvalidFormatException("The format for department doesn't match. Expected '[\w \.\+\(\)\[\]\{\}\?\*\&\^\%\$\#\/\'\"~<>,:;!-_=@]{1, 500}', got {department}".format(department=department))
+
+        self._description = description
+
+    @property
+    def schedule_time(self) -> str:
+        return self._schedule_time
+    
+    @schedule_time.setter
+    def schedule_time(self, schedule_time: str):
+        if schedule_time is not str:
+            raise InvalidTypeException(f"The schedule_time provided is not a str (type provided is {type(schedule_time)}")
+            
+        if not re.match('([0-1][0-9] | 2[0-4]):[0-5][0-9]-([0-1][0-9] | 2[0-4]):[0-5][0-9]'):
+            raise InvalidFormatException(f"The format for time_schedule doesn't match. Expected '([0-1][0-9] | 2[0-4]):[0-5][0-9]-([0-1][0-9] | 2[0-4]):[0-5][0-9]', got {schedule_time}")
+
+        start_time, finish_time = schedule_time.split('-')
+        start_time_h, start_time_m = list(map(int, start_time.split(':')))
+        finish_time_h, finish_time_m = list(map(int, finish_time.split(':')))
+        if (start_time_h*60 + start_time_m >= finish_time_h*60 + finish_time_m) and not (start_time_h == 23 and finish_time_h == 0):
+            raise InvalidFormatException(f"The start time for time_schedule must be earlier than the finish time (got {schedule_time})")
+
+        self._schedule_time = schedule_time
+    
+    @property
+    def schedule_days(self) -> str:
+        return self._schedule_days
+    
+    @schedule_days.setter
+    def schedule_days(self, schedule_days: str):
+        # TODO: make schedule days a list of weekdays abbreviated as ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
+        # TODO: check for type and re match
+        self._schedule_days = schedule_days
+
+    @property
+    def syllabus(self) -> Tuple[str, str]:
+        return self._syllabus
+    
+    @syllabus.setter
+    def syllabus(self, syllabus: Tuple[str, str])
+        if syllabus is not Tuple[str, str]:
+            raise InvalidTypeException(f"The syllabus provided is not Tuple[str, str] (type provided is {type(syllabus)})")
+
+        # TODO: add check for a valid syllabus
+
+        self._syllabus = syllabus
 
     def to_dict(self) -> dict:
         dict_course = {
@@ -411,8 +579,10 @@ class Course:
                 raise Exception(f"The course with id {self.id} does not exist.")
         except AttributeError:
             logger.exception(f"The property `id` does not exist for this course")
+            return False
         except Exception as e:
             logger.exception(f"Error while updating a course: {e}")
+            return False
     
         PARAMETER_TO_METHOD = {
             'department': self.update_department,
