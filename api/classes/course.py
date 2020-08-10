@@ -137,10 +137,193 @@ class Course:
             logger.exception(f"Error while deleting course {_id}: {e}")
             return False
 
-    def get_assignments(self) -> List[Assignment]:
-        """Get the assignments for this course
+    def update_department(self, department: str) -> bool:
+        try:
+            self.department = department
+            db.courses.find_one_and_update(
+                {"_id": self.id, "$set": {"department": self.department}}
+            )
 
-        This automatically adds the attribute 'course_name' to them
+            return True
+        except Exception as e:
+            logger.exception(
+                f"Error while updating department {department} in class {self.id}: {e}"
+            )
+
+            return False
+
+    def update_number(self, number: int) -> bool:
+        try:
+            self.number = number
+            db.courses.find_one_and_update(
+                {"_id": self.id}, {"$set": {"number": self.number}}
+            )
+
+            return True
+        except Exception as e:
+            logger.exception(
+                f"Error while updating number {number} in class {self.id}: {e}"
+            )
+
+            return False
+
+    def update_name(self, name: str) -> bool:
+        try:
+            self.name = name
+            db.courses.find_one_and_update(
+                {"_id": self.id}, {"$set": {"name": self.name}}
+            )
+
+            return True
+        except Exception as e:
+            logger.exception(
+                f"Error while updating name {name} in class {self.id}: {e}"
+            )
+
+            return False
+
+    def update_teacher(self, teacher_id: str) -> bool:
+        try:
+            self.teacher = teacher_id
+            db.courses.find_one_and_update(
+                {"_id": self.id}, {"$set": {"teacher": ObjectId(self.teacher)}}
+            )
+
+            return True
+        except Exception as e:
+            logger.exception(
+                f"Error while updating teacher {teacher_id} in class {self.id}: {e}"
+            )
+
+            return False
+
+    def update_description(self, description: str) -> bool:
+        try:
+            self.description = description
+            db.courses.find_one_and_update(
+                {"_id": self.id}, {"$set": {"description": self.description}}
+            )
+
+            return True
+        except Exception as e:
+            logger.exception(
+                f"Error while updating description {description} in class {self.id}: {e}"
+            )
+
+            return False
+
+    def update_schedule_time(self, schedule_time: str) -> bool:
+        try:
+            self.schedule_time = schedule_time
+            db.courses.find_one_and_update(
+                {"_id": self.id}, {"$set": {"schedule_time": self.schedule_time}}
+            )
+
+            return True
+        except Exception as e:
+            logger.exception(
+                f"Error while updating schedule_time {schedule_time} in class {self.id}: {e}"
+            )
+
+            return False
+
+    def update_schedule_days(self, schedule_days: str) -> bool:
+        try:
+            self.schedule_days = schedule_days
+            db.courses.find_one_and_update(
+                {"_id": self.id}, {"$set": {"schedule_days": self.schedule_days}}
+            )
+
+            return True
+        except Exception as e:
+            logger.exception(
+                f"Error while updating schedule_days {schedule_days} in class {self.id}: {e}"
+            )
+
+            return False
+
+    def update_syllabus(self, syllabus: Tuple[str, str]) -> bool:
+        """Update the syllabus for this course
+
+        Parameters
+        ----------
+        syllabus : tuple
+            The syllabus in the format (id, filename)
+        """
+        try:
+            self.syllabus = syllabus
+
+            db.courses.find_one_and_update(
+                {"_id": self._id}, {"$set": {"syllabus": self.syllabus}}
+            )
+
+            return True
+        except:
+            logger.exception(
+                f"Error while updating syllabus {syllabus} in class {self.id}: {e}"
+            )
+
+            return False
+
+    def update(self, department: Optional[str] = None, number: Optional[int] = None, name: Optional[str] = None, teacher: Optional[str] = None, description: Optional[str] = None, schedule_time: Optional[str] = None, schedule_days: Optional[str] = None, syllabus : Optional[Tuple[str, str]] = None) -> bool:
+        r"""Updates the course's data.
+
+        Parameters
+        ----------
+        department : str, optional 
+        number : str, optional
+        name : str, optional
+        teacher : str, optional
+        description : str, optional
+        schedule_time : str, optional
+        schedule_days : str, optional
+        syllabus : Tuple[str, str], optional
+
+        Notes
+        -----
+        For all the data formats please refer to `Course.__init__` docstrings.
+
+        **Important**: to avoid confusion, we suggest to avoid using positional parameters when calling this method.
+
+        Returns
+        -------
+        bool
+            `True` if all update operations were successful, `False` otherwise
+        """
+        parameters = locals()  # Must be first line here, do not remove
+
+        try:
+            if Course.get_by_id(self.id) is None:
+                raise Exception(f"The course with id {self.id} does not exist.")
+        except AttributeError:
+            logger.exception(f"The property `id` does not exist for this course")
+        except Exception as e:
+            logger.exception(f"Error while updating a course: {e}")
+    
+        PARAMETER_TO_METHOD = {
+            'department': self.update_department,
+            'number': self.update_number,
+            'name': self.update_name,
+            'teacher': self.update_teacher,
+            'description': self.update_description,
+            'schedule_time': self.update_schedule_time,
+            'schedule_days': self.update_schedule_days,
+            'syllabus': self.update_syllabus 
+        }
+
+        # Go through all the parameters that are None
+        for parameter, value in parameters.items() if parameter != "self" and value is not None:
+            response = PARAMETER_TO_METHOD[parameter](value)
+            if not response:
+                logger.exception(f"Error while updating course:{self.id} attribute:{parameter} value:{value}")
+                return False
+        
+        return True
+
+    def get_assignments(self) -> List[Assignment]:
+        """Get the assignments for this course.
+
+        This automatically adds the attribute 'course_name' to them.
 
         Returns
         -------
@@ -251,19 +434,6 @@ class Course:
         """
         return self.department + str(self.number) + " " + self.name
 
-    def update_description(self, description: str):
-        try:
-            if len(description) > 0:
-                self.description = description
-
-                db.courses.find_one_and_update(
-                    {"_id": self._id}, {"$set": {"description": self.description}}
-                )
-        except:
-            logger.exception(
-                f"Error while updating description {description} on class {self._id}"
-            )
-
     def get_syllabus_name(self) -> str:
         """Get the name of the syllabus for this course
 
@@ -276,23 +446,3 @@ class Course:
             return self.syllabus[1]
         except IndexError:
             return None
-
-    def update_syllabus(self, syllabus: Tuple[str, str]):
-        """Update the syllabus for this course
-
-        Parameters
-        ----------
-        syllabus : tuple
-            The syllabus in the format (id, filename)
-        """
-        try:
-            if syllabus[1] != "":
-                self.syllabus = syllabus
-
-                db.courses.find_one_and_update(
-                    {"_id": self._id}, {"$set": {"syllabus": self.syllabus}}
-                )
-        except:
-            logger.exception(
-                f"Error while updating syllabus {self.syllabus[1]} on class {self._id}"
-            )
