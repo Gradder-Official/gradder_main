@@ -1,10 +1,8 @@
 from __future__ import annotations
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
 from bson import ObjectId
 
 from api import db, root_logger as logger
-
-from .assignment import Assignment
 
 
 class Course:
@@ -14,13 +12,13 @@ class Course:
         department: str,
         number: int,
         name: str,
-        teacher: str = None,
-        students: List[str] = None,
-        description: str = "Description",
-        schedule_time: str = None,
-        schedule_days: str = None,
-        syllabus: Tuple[str, str] = None,
-        assignments: List[Assignment] = None,
+        teacher: Optional[str] = None,
+        students: Optional[List[str]] = None,
+        description: Optional[str] = "Description",
+        schedule_time: Optional[str] = None,
+        schedule_days: Optional[str] = None,
+        syllabus: Optional[Tuple[str, str]] = None,
+        assignments: Optional[List[Assignment]] = None,
         _id: str = None,
     ):
         """Initialises the Course object
@@ -53,12 +51,12 @@ class Course:
         self.department = department
         self.number = number
         self.name = name
-        self.teacher = teacher
+        self.teacher = teacher if teacher is not None else ""
         self.students = students or []
         self.description = description
-        self.schedule_time = schedule_time
-        self.schedule_days = schedule_days
-        self.syllabus = syllabus
+        self.schedule_time = schedule_time if schedule_time is not None else ""
+        self.schedule_days = schedule_days if schedule_days is not None else ""
+        self.syllabus = syllabus if syllabus is not None else ()
         self.assignments = assignments or []
         if _id is not None:
             self.id = _id
@@ -74,12 +72,12 @@ class Course:
     def id(self, id: str):
         self._id = id
 
-    def to_dict(self) -> Dict[str, str]:
+    def to_dict(self) -> dict:
         dict_course = {
             "department": self.department,
             "number": self.number,
             "name": self.name,
-            "teacher": self.teacher,
+            "teacher": ObjectId(self.teacher),
             "students": self.students,
             "description": self.description,
             "schedule_time": self.schedule_time,
@@ -89,7 +87,7 @@ class Course:
         }
 
         try:
-            dict_course["_id"] = self.id
+            dict_course["_id"] = ObjectId(self.id)
         except:
             # The id has not been initialized yet
             pass
@@ -98,16 +96,19 @@ class Course:
 
     @staticmethod
     def from_dict(dictionary: dict) -> Course:
+        from . import Assignment, Student
         return Course(
             dictionary["department"],
             dictionary["number"],
             dictionary["name"],
-            dictionary["teacher"],
-            dictionary["students"],
-            dictionary["description"],
-            dictionary["schedule_time"],
-            dictionary["schedule_days"],
-            dictionary["syllabus"],
+            dictionary["teacher"] if "teacher" in dictionary else None,
+            list(
+                map(lambda x: Student.from_dict(x), list(dictionary["students"]))
+            ) if "students" in dictionary else None,
+            dictionary["description"] if "description" in dictionary else "Description",
+            dictionary["schedule_time"] if "schedule_time" in dictionary else None,
+            dictionary["schedule_days"] if "schedule_days" in dictionary else None,
+            dictionary["syllabus"] if "syllabus" in dictionary else None,
             list(
                 map(lambda x: Assignment.from_dict(x),
                     list(dictionary["assignments"]))
@@ -117,24 +118,24 @@ class Course:
             _id=dictionary["_id"],
         )
 
-    def add(self):
+    def add(self) -> bool:
         """Add this course to the database
         """
-        db.courses.insert_one(self.to_dict())
-
-    @staticmethod
-    def delete(_id: str):
-        """Delete this course from the database
-
-        Parameters
-        ----------
-        _id : str
-            The ID of the course
-        """
         try:
-            db.courses.remove({"_id": _id})
-        except:
-            logger.exception(f"Error while deleting course {_id}")
+            self.id = db.courses.insert_one(self.to_dict()).inserted_id
+            return True
+        except Exception as e:
+            logger.exception(f"Error while adding course {self.to_dict()}: {e}")
+            return False
+
+    def remove(self) -> bool:
+        """Remove this course from the database"""
+        try:
+            db.courses.remove({"_id": self.id})
+            return True
+        except Exception as e:
+            logger.exception(f"Error while deleting course {_id}: {e}")
+            return False
 
     def get_assignments(self) -> List[Assignment]:
         """Get the assignments for this course
@@ -179,7 +180,7 @@ class Course:
 
         Parameters
         ----------
-        assigment : Assigment
+        assignment : Assignment
             The assignment to edit
         """
         try:
@@ -228,11 +229,13 @@ class Course:
         return Course.from_dict(db.courses.find_one({"_id": ObjectId(_id)}))
 
     @staticmethod
-    def get_by_number(number: int) -> 'Course':
+    def get_by_department_number(department: str, number: int) -> Course:
         """Get a course by its ID
 
         Parameters
         ----------
+        department : str
+            The course's department to look up in
         number : int
             The course number to search for
 
@@ -241,7 +244,7 @@ class Course:
         Course
             The course that was found
         """
-        return Course.from_dict(db.courses.find_one({"number": number}))
+        return Course.from_dict(db.courses.find_one({"department": department, "number": number}))
 
     def get_full_name(self) -> str:
         r"""Returns name in the format "SOС310 U.S. History"

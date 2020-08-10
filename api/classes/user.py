@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Union, Dict
+from typing import Union, Dict, Optional
 from bcrypt import hashpw, gensalt, checkpw
 
 import re
@@ -34,8 +34,8 @@ class User(UserMixin):
         email: str,
         first_name: str,
         last_name: str,
-        _id: str = None,
-        password: str = None,
+        _id: Optional[str] = None,
+        password: Optional[Union[str, bytes]] = None,
     ):
         r"""Init function for a generic User class.
 
@@ -88,7 +88,7 @@ class User(UserMixin):
 
     @id.setter
     def id(self, id: str):
-        self._id = id
+        self._id = str(id)
 
     def validate_password(self, password: str) -> bool:
         r"""Validates a password against the previously set hash.
