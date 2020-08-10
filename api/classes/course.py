@@ -3,7 +3,7 @@ from typing import Dict, List, Tuple, Optional
 from bson import ObjectId
 
 from api import db, root_logger as logger
-from api.tools.exceptions = InvalidTypeException, InvalidFormatException
+from api.tools.exceptions import InvalidTypeException, InvalidFormatException
 
 
 class Course:
@@ -11,7 +11,7 @@ class Course:
     _department : str
     _number : int
     _name : str
-    _teacher : str,
+    _teacher : str
     _students : List[str]
     _description : str
     _schedule_time : str
@@ -109,14 +109,14 @@ class Course:
         self._id = id
 
     @property
-    def department(self, department: str) -> str:
+    def department(self) -> str:
         return self._department
 
-    @department.setter(self, department: str):
+    @department.setter
+    def department(self, department: str):
         if department is not str:
             raise InvalidTypeException(f"The department provided is not a string (type provided is {type(department)}).")
 
-        
         self._department = department
 
     @property
@@ -137,7 +137,8 @@ class Course:
     def name(self) -> str:
         return self._name
 
-    @name.setter(self, name: str):
+    @name.setter
+    def name(self, name: str):
         if name is not str:
             raise InvalidTypeException(f"The name provided is not a str (type provided is {type(name)}).")
             
@@ -248,7 +249,7 @@ class Course:
         return self._syllabus
     
     @syllabus.setter
-    def syllabus(self, syllabus: Tuple[str, str])
+    def syllabus(self, syllabus: Tuple[str, str]):
         if syllabus is not Tuple[str, str]:
             raise InvalidTypeException(f"The syllabus provided is not Tuple[str, str] (type provided is {type(syllabus)})")
 
@@ -596,11 +597,12 @@ class Course:
         }
 
         # Go through all the parameters that are None
-        for parameter, value in parameters.items() if parameter != "self" and value is not None:
-            response = PARAMETER_TO_METHOD[parameter](value)
-            if not response:
-                logger.exception(f"Error while updating course:{self.id} attribute:{parameter} value:{value}")
-                return False
+        for parameter, value in parameters.items():
+            if parameter != "self" and value is not None:
+                response = PARAMETER_TO_METHOD[parameter](value)
+                if not response:
+                    logger.exception(f"Error while updating course:{self.id} attribute:{parameter} value:{value}")
+                    return False
         
         return True
 
