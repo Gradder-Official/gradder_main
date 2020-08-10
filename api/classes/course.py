@@ -27,26 +27,42 @@ class Course:
         ----------
         department : str
             The department this course is under
+            Format: capital alpha characters, length between 1 and 20 (ex.: "MAT", "S", "SCIENCE")
+            Regex: "/[\w]{1, 20}/"
         number : int
             The course number
+            Format: numerical characters, number between 0 and 100000 (ex.: 101, 002, 20005)
+            Regex: "/[0-9]{1, 6}/"
         name : str
             The name of the course
+            Format: alpha characters, space, and '.' allowed, length between 1 and 50 (ex. "AP U.S. History", "The Foundations of the Universe")
+            Regex: "/[\w \.]{1, 100}/"
         teacher : str, optional
             The teacher giving the course, by default None
+            Format: should be a valid `bson.ObjectId`, the teacher should exist in the database, teacher's department must match course's department
         students : List[str], optional
             The students in the course, by default None
+            Format: should be a list of strings, each of which is a valid `bson.ObjectId`, and all students must be existent in the database
         description : str, optional
             The description of the course, by default "Description"
+            Format: alphanumeric characters, space, brackets, and delimeters; length between 1 and 500 symbols
+            Regex: "/[\w \.\+-\'\"\?\!\(\)\[\]\{\};:\/><]{1, 500}/"
         schedule_time : str, optional
             The scheduled time for the course, by default None
+            Format: a string, convertible to datetime.time in format `%H:%M-%H:%M` (24-hour format), in UTC
+            Regex: "/[0-9]{2}:[0-9]{2}-[0-9]{2}:[0-9]{2}/"
         schedule_days : str, optional
             The scheduled days for the course, by default None
+            Format: week day abbreviations from ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'] as a string.
         syllabus : Tuple[str, str], optional
             The syllabus for this course, by default None
+            Format: (syllabus_id, syllabus_filename)
         assignments : List[Assignment], optional
             The assignments under this course, by default None
+            Format: the list of valid `api.classes.Assignment` instances
         _id : str, optional
             The ID of the course, by default None
+            Format: string which can be converted to `bson.objectId`
         """
         self.department = department
         self.number = number
@@ -138,6 +154,19 @@ class Course:
             return False
 
     def update_department(self, department: str) -> bool:
+        r"""Updates the department of this course.
+
+        Method should only be called on the courses that are already initialized and pushed to the DB.
+
+        Parameters
+        ----------
+        department : str
+
+        Returns
+        -------
+        bool
+            `True` if the update operation was successful, `False` otherwise
+        """
         try:
             self.department = department
             db.courses.find_one_and_update(
@@ -153,6 +182,19 @@ class Course:
             return False
 
     def update_number(self, number: int) -> bool:
+        r"""Updates the course number of this course.
+
+        Method should only be called on the courses that are already initialized and pushed to the DB.
+
+        Parameters
+        ----------
+        number : int
+
+        Returns
+        -------
+        bool
+            `True` if the update operation was successful, `False` otherwise
+        """
         try:
             self.number = number
             db.courses.find_one_and_update(
@@ -168,6 +210,19 @@ class Course:
             return False
 
     def update_name(self, name: str) -> bool:
+        r"""Updates the name of this course.
+
+        Method should only be called on the courses that are already initialized and pushed to the DB.
+
+        Parameters
+        ----------
+        name : str
+
+        Returns
+        -------
+        bool
+            `True` if the update operation was successful, `False` otherwise
+        """
         try:
             self.name = name
             db.courses.find_one_and_update(
@@ -183,6 +238,19 @@ class Course:
             return False
 
     def update_teacher(self, teacher_id: str) -> bool:
+        r"""Updates the teacher for this course.
+
+        Method should only be called on the courses that are already initialized and pushed to the DB.
+
+        Parameters
+        ----------
+        teacher_id : str
+
+        Returns
+        -------
+        bool
+            `True` if the update operation was successful, `False` otherwise
+        """
         try:
             self.teacher = teacher_id
             db.courses.find_one_and_update(
@@ -198,6 +266,19 @@ class Course:
             return False
 
     def update_description(self, description: str) -> bool:
+        r"""Updates the description for this course.
+
+        Method should only be called on the courses that are already initialized and pushed to the DB.
+
+        Parameters
+        ----------
+        description : str
+
+        Returns
+        -------
+        bool
+            `True` if the update operation was successful, `False` otherwise
+        """
         try:
             self.description = description
             db.courses.find_one_and_update(
@@ -213,6 +294,19 @@ class Course:
             return False
 
     def update_schedule_time(self, schedule_time: str) -> bool:
+        r"""Updates the schedule time for this course.
+
+        Method should only be called on the courses that are already initialized and pushed to the DB.
+
+        Parameters
+        ----------
+        schedule_time : str
+
+        Returns
+        -------
+        bool
+            `True` if the update operation was successful, `False` otherwise
+        """
         try:
             self.schedule_time = schedule_time
             db.courses.find_one_and_update(
@@ -228,6 +322,19 @@ class Course:
             return False
 
     def update_schedule_days(self, schedule_days: str) -> bool:
+        r"""Updates the schedule days for this course.
+
+        Method should only be called on the courses that are already initialized and pushed to the DB.
+
+        Parameters
+        ----------
+        schedule_days : str
+
+        Returns
+        -------
+        bool
+            `True` if the update operation was successful, `False` otherwise
+        """
         try:
             self.schedule_days = schedule_days
             db.courses.find_one_and_update(
@@ -243,12 +350,19 @@ class Course:
             return False
 
     def update_syllabus(self, syllabus: Tuple[str, str]) -> bool:
-        """Update the syllabus for this course
+        r"""Updates the syllabus for this course.
+
+        Method should only be called on the courses that are already initialized and pushed to the DB.
 
         Parameters
         ----------
-        syllabus : tuple
-            The syllabus in the format (id, filename)
+        syllabus : Tuple[str, str]
+            The syllabus in the format (syllabus_id, syllabus_filename)
+
+        Returns
+        -------
+        bool
+            `True` if the update operation was successful, `False` otherwise
         """
         try:
             self.syllabus = syllabus
@@ -279,16 +393,16 @@ class Course:
         schedule_days : str, optional
         syllabus : Tuple[str, str], optional
 
+        Returns
+        -------
+        bool
+            `True` if all update operations were successful, `False` otherwise
+
         Notes
         -----
         For all the data formats please refer to `Course.__init__` docstrings.
 
         **Important**: to avoid confusion, we suggest to avoid using positional parameters when calling this method.
-
-        Returns
-        -------
-        bool
-            `True` if all update operations were successful, `False` otherwise
         """
         parameters = locals()  # Must be first line here, do not remove
 
