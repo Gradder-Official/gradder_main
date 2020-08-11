@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { assignment, course, student } from "../../components/Interfaces";
 import StudentSidebar from '../../components/StudentSidebar';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';

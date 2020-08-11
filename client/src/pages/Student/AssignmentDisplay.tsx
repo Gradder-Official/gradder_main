@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { assignment } from '../../components/Interfaces';
 import StudentSidebar from '../../components/StudentSidebar';

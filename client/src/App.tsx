@@ -33,22 +33,11 @@ const App: FunctionComponent = () => {
     dob: '',
   });
 
-  // Pre-filled dummy info
-  const dummyUser: student = {
-    userName: 'Bob Jones',
-    userType: 'student',
-    loggedIn: true,
-    dob: '2003-01-08',
-  }
-
   // TODO: set logged in status to true
   useEffect(() => {
     fetch('/api/auth/login')
       .then(res => res.json()).then(response => {
-        if (response['user_info']) {
-          setUser(response['user_info']);
-        }
-        setUser(dummyUser);
+        setUser(response['user_info']);
       }
     )
     console.log(user);

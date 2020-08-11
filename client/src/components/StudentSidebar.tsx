@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react'
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import WhiteLogo from "../assets/images/white-logo.png"
 import "../assets/styles/sidebar.css"
 
