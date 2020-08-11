@@ -252,3 +252,31 @@ def activate_account(token: str):
     else:
         db.teachers.update({"id": teacher.id}, {"$set": {"activated": True}})
         return response(["Account activated!"]), 200 
+
+@teacher.route("/course/<string:course_id>/assignments/<string:assignment_id>/submissions", methods=["GET"])
+def view_assignment_by_class_id(course_id: str, assignment_id: str):
+    """Collects all submissions for a specific assignment of a class
+
+    Parameters
+    -------
+    course_id: str
+        The course ID to look up in the database
+    
+    assignment_id: str
+        The assignment ID to look up in the database
+
+    Returns
+    -------
+    dict
+        Assignment submissions
+    """
+    course = Course.get_by_id(course_id)
+    assignments = course.get_assignments()
+
+    assignment : Assignment = list(filter(lambda a: str(a.id) == assignment_id, assignments))[0]
+
+    if assignment is None:
+        return error("Could not find assignment"), 400
+
+    else:
+        return response(data={"submissions": assignment.submissions})
