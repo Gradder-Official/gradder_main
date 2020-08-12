@@ -1,6 +1,19 @@
+import { ReactNode } from "react";
+
+export interface Props {
+    children: ReactNode;
+}
+
 export interface student {
     userName: string,
     userType: string;
+    loggedIn: boolean;
+    dob: string;
+}
+
+export interface teacher {
+    userName: string,
+    userType: string,
     loggedIn: boolean;
     dob: string;
 }

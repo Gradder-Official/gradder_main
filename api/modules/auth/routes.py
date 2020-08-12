@@ -60,36 +60,46 @@ def login():
             "loggedIn": True,
             "dob": ""
         }
+        print(current_user_info)
         return response(user_info=current_user_info), 200
 
     try:
         req_data = request.get_json()
-        email = req_data['email'].lower()
-        password = req_data['password']
-        remember_me = req_data['remember_me']
-        logger.info(f"Received {email}, {password} and {remember_me}")
+        if req_data:
+            email = req_data['email'].lower()
+            password = req_data['password']
+            remember_me = req_data['remember_me']
+            logger.info(f"Received {email}, {password} and {remember_me}")
 
-        for scope in [Student, Teacher, Admin, Parent]:
-            logger.info(
-                f"Trying to find {type(scope).__name__} with email {email}...")
-            user = scope.get_by_email(email)
-            if user is not None:
-                logger.info(f"User: {user.first_name}")
-                if user.validate_password(password):
-                    login_user(user, remember_me)
+            for scope in [Student, Teacher, Admin, Parent]:
+                logger.info(
+                    f"Trying to find {type(scope).__name__} with email {email}...")
+                user = scope.get_by_email(email)
+                if user is not None:
+                    logger.info(f"User: {user.first_name}")
+                    if user.validate_password(password):
+                        login_user(user, remember_me)
+                        logger.info(
+                            f"LOGGED IN: {user.first_name} {user.last_name} - ACCESS: {user._type}")
+
+                        return response(flashes=["Log in successful"]), 200
+
                     logger.info(
-                        f"LOGGED IN: {user.first_name} {user.last_name} - ACCESS: {user._type}")
-
-                    return response(flashes=["Log in successful"]), 200
+                        f"Failed to validate the password for the {type(scope).__name__} with email {email}")
 
                 logger.info(
-                    f"Failed to validate the password for the {type(scope).__name__} with email {email}")
+                    f"Could not find {type(scope).__name__} with email {email}")
 
-            logger.info(
-                f"Could not find {type(scope).__name__} with email {email}")
+            logger.info(f"Could not login user with email {email}")
+            return error("Invalid email or password."), 400
 
-        logger.info(f"Could not login user with email {email}")
-        return error("Invalid email or password."), 400
+        return response(user_info={
+            "userName": "",
+            "userType": "",
+            "loggedIn": False,
+            "dob": ""}
+        ), 200
+
     except KeyError:
         logger.info("Not all fields satisfied")
         return error("Not all fields satisfied"), 400
