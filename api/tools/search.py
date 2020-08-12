@@ -2,7 +2,7 @@ from operator import attrgetter
 
 
 def get(iterable, **kwargs: dict):
-    r"""Find an element of ``iterable`` with the attributes
+    """Find an element of ``iterable`` with the attributes
     specified in kwargs. For example:
 
         get(assignments, id='an id here') # >>> <Assignment...>
