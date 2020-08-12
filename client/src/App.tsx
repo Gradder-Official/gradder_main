@@ -18,22 +18,23 @@ import Unauthorized from './pages/Unauthorized';
 import ProtectedRoute from './components/ProtectedRoute'
 
 // Types and interfaces
-import { student } from "./components/Interfaces";
+import { student, teacher } from "./components/Interfaces";
 
 // Stylesheets
 import "bootstrap/dist/css/bootstrap.min.css";
+import TeacherDash from "./pages/Teacher/Dash";
 
 
 const App: FunctionComponent = () => {
 
-  const blankUser: student = {
+  const blankUser: student | teacher = {
     userName: '',
     userType: '',
     loggedIn: true,
     dob: '',
   }
 
-  const [user, setUser] = useState<student>(blankUser);
+  const [user, setUser] = useState<student | teacher>(blankUser);
 
   useEffect(() => {
     fetch('/api/auth/login')
@@ -43,7 +44,7 @@ const App: FunctionComponent = () => {
     )
     // Cleanup and reset
     return function cleanup() {
-      setUser(blankUser)
+      setUser(blankUser);
     };
   }, []);
 
@@ -51,6 +52,7 @@ const App: FunctionComponent = () => {
 
   function logOutUser() {
     setUser(blankUser);
+    console.log(user);
   }
 
   return (
@@ -58,8 +60,8 @@ const App: FunctionComponent = () => {
       <Switch>
         <Route exact path="/" component={Login} />
         <Route exact path="/auth/logout" render={() => {
-                logOutUser();
-                return <Login />;
+              logOutUser();
+              return <Login />;
             }
         }/>
         <Route exact path="/dashboard">
@@ -80,6 +82,9 @@ const App: FunctionComponent = () => {
         )}/>
         <ProtectedRoute user={user} scope="Student" exact path="/student/profile" render={(props: any) => (
           <StudentProfile {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob} />
+        )}/>
+        <ProtectedRoute user={user} scope="Teacher" exact path="/teacher/dashboard" render={(props: any) => (
+          <TeacherDash {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob}/> 
         )}/>
         <Route
           exact

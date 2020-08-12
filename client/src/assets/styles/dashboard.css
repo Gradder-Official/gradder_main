@@ -35,59 +35,32 @@
 }
 
 /* Student dashboard */
-#student-overview .student-dash-flex-row {
+.dash-flex-row {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     min-height: 30vh;
 }
-
-#student-overview .statistics {
+.dash-content .statistics {
     flex-grow: 3;
 }
-#student-overview .profile {
-    background-color: rgb(115, 140, 249);
-    max-width: 30vw;
-    height: 10vh;
-    min-height: 165px;
-    flex-grow: 2;
-    color: white;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-#student-overview .profile-details h2 {
-    margin-top: 3.5vh;
-    margin-left: 5px;
-    font-size: 35px;
-}
-#student-overview .profile-details img {
-    width: 90px;
-    height: 90px;
-    border: 4px solid rgb(83, 107, 216);
-    border-radius: 30%;
-    margin-top: 2vh;
-    margin-left: 20px;
-}
-#student-overview .timetable {
+
+.dash-content .timetable {
     height: 70vh;
     flex-grow: 1;
 }
-
-#student-overview .student-dash-flex-col {
+.dash-flex-col {
     display: flex;
     flex-direction: column;
     flex-grow: 4;
 }
-
-#student-overview .assignments {
+.dash-content .assignments {
     flex-grow: 3;
     display: flex;
     max-height: 30vh;
     flex-direction: column;
 }
-
-#student-overview .grades {
+.dash-content .grades {
     flex-grow: 2;
 }
 
@@ -99,13 +72,13 @@
         left: auto;
         width: 75vw;
     }
-    #student-overview .student-dash-flex-row {
+    .dash-content .dash-flex-row {
         flex-direction: column-reverse;
     }
-    #student-overview .dash-container {
+    .dash-content .dash-container {
         max-width: none;
     }
-    #student-overview .profile {
+    .dash-content .profile {
         margin-bottom: 7vh;
     }
 }
@@ -123,26 +96,26 @@
         height: fit-content;
         min-height: 100vh;
     }
-    #student-overview .dash-container {
+    .dash-content .dash-container {
         min-width: auto;
         height: fit-content;
         margin: 10px;
         display: flex;
         flex-direction: column;
     }
-    #student-overview .profile {
+    .dash-content .profile {
         flex-direction: column-reverse;
     }
-    #student-overview .profile-details {
+    .dash-content .profile-details {
         display: flex;
         flex-direction: row;
         align-items: center;
     }
-    #student-overview .profile img {
+    .dash-content .profile img {
         width: 45%;
         height: 45%;
     }
-    #student-overview .profile-details h2 {
+    .dash-content .profile-details h2 {
         margin-top: 0px;
         font-size: 30px;
     }

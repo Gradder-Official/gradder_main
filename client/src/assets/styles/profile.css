@@ -28,7 +28,7 @@
 .mobile-profile {
     display: none !important;
 }
-#student-overview .profile {
+.dash-content .profile {
     background-color: rgb(115, 140, 249);
     max-width: 60vw;
     height: 10vh;
@@ -39,28 +39,29 @@
     flex-direction: row;
     justify-content: space-between;
 }
-#student-overview img {
-    width: 20vw;
-    height: 20vw;
-    border-radius: 5%;
-    margin-top: 20px;
+.dash-content .profile-details h2 {
+    margin-top: 3.5vh;
+    margin-left: 5px;
+    font-size: 35px;
+}
+.profile-details img {
+    width: 90px;
+    height: 90px;
+    border: 4px solid rgb(83, 107, 216);
+    border-radius: 30%;
+    margin-top: 2vh;
     margin-left: 20px;
 }
-#student-overview .profile-time {
+.dash-content .profile-time {
     margin-right: 20px;
     text-align: right;
 }
-#student-overview .profile-time i {
+.dash-content .profile-time i {
     font-size: 20px;
     color: white;
     float: right;
     margin-left: 15px;
     margin-bottom: 10px;
-}
-#student-overview .student-dash-flex-col {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 4;
 }
 
 /* Responsiveness */
