@@ -2,7 +2,8 @@ from __future__ import annotations
 from typing import Dict, List
 from bson import ObjectId
 
-from api import db, root_logger
+from api import db
+from api import root_logger as logger
 
 from .user import User
 from .course import Course

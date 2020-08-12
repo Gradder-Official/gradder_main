@@ -103,7 +103,8 @@ class User(UserMixin):
         bool
             `True` if the password is valid, `False` otherwise.
         """
-        return checkpw(password, self.password)
+        hashedPassword = hashpw(password.encode("utf-8"), gensalt())
+        return checkpw(password.encode("utf-8"), hashedPassword)
 
     @property
     def id(self) -> str:

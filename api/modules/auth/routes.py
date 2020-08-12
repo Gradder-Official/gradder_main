@@ -36,7 +36,7 @@ def load_user(id: str) -> Union[Teacher, Student, Parent, Admin]:
             break
 
     if user is not None:
-        return TYPE_DICTIONARY[user["usertype"]].from_dict(user)
+        return TYPE_DICTIONARY[user._type].from_dict(user.to_dict())
 
     return None
 
@@ -51,11 +51,16 @@ def login():
         The view response
     """
 
-    # Validating log in
     if current_user.is_authenticated:
         logger.info(
             f"The user {current_user.id} is already authenticated.")
-        return error("Already authenticated"), 400
+        current_user_info = {
+            "userName": current_user.first_name + " " + current_user.last_name,
+            "userType": current_user._type,
+            "loggedIn": True,
+            "dob": ""
+        }
+        return response(user_info=current_user_info), 200
 
     try:
         req_data = request.get_json()
@@ -102,7 +107,7 @@ def logout():
     """
     logger.info(
         "LOGGED OUT: {} {} - ACCESS: {}".format(
-            current_user.first_name, current_user.last_name, current_user.USERTYPE
+            current_user.first_name, current_user.last_name, current_user._type
         )
     )
     logout_user()
