@@ -254,7 +254,7 @@ def activate_account(token: str):
         return response(["Account activated!"]), 200 
 
 @teacher.route("/course/<string:course_id>/assignments/<string:assignment_id>/submissions", methods=["GET"])
-def view_submissions_by_assignment_id(course_id: str, assignment_id: str):
+def view_submissions_by_assignment(course_id: str, assignment_id: str):
     """Collects all submissions for a specific assignment of a class
 
     Parameters
