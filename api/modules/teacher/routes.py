@@ -1,18 +1,20 @@
 import uuid
 from datetime import datetime
 
-from flask import flash, redirect, render_template, request, url_for, request
+from flask import flash, redirect, render_template, request, url_for
 from flask_login import current_user
 from werkzeug.utils import secure_filename
 
 from api import db
 from api import root_logger as logger
-from api.classes import Assignment, Course, Teacher
-from api.tools.factory import response, error
+from api.classes import Assignment, Course, Submission, Teacher
 from api.tools.decorators import required_access
+from api.tools.factory import error, response
 from api.tools.google_storage import upload_blob
+from api.tools.search import get
 
 from . import teacher
+
 
 def get_existing_assignment_files():
     """ Helper function to get existing assignment files
@@ -276,10 +278,18 @@ def view_submissions_by_assignment(course_id: str, assignment_id: str):
     course = Course.get_by_id(course_id)
     assignments = course.get_assignments()
 
-    assignment : Assignment = list(filter(lambda a: str(a.id) == assignment_id, assignments))[0]
+    assignment: Assignment = list(filter(lambda a: str(a.id) == assignment_id, assignments))[0]
 
     if assignment is None:
         return error("Could not find assignment"), 400
 
     else:
         return response(data={"submissions": assignment.submissions})
+
+@teacher.route("/course/<string:course_id>/assignments/<string:assignment_id>/submissions/<string:submission_id>", methods=["POST"])
+def mark_submission(course_id: str, assignment_id: str, submission_id: str):
+    course = Course.get_by_id(course_id)
+    assignments = course.get_assignments()
+    assignment: Assignment = get(assignments, id=assignment_id)
+    submission: Submission = get(assignment.submissions, id=submission_id)
+    submission.grade = request.form['grade']
