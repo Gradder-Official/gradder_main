@@ -59,6 +59,7 @@ def add_assignment():
             content=request.form['content'],
             filenames=file_list,
             estimated_time=request.form['estimated_time'],
+            weight=request.form['weight']
         )
 
         Course.get_by_id(request.form['assigned_to']).add_assignment(new_assignment)
@@ -148,6 +149,7 @@ def edit_assignment(course_id: str, assignment_id: str):
             content=request.form['content'],
             filenames=file_list,
             estimated_time=request.form['estimated_time'],
+            weight=request.form['weight']
         )
         edited_assignment.id = assignment.id
         course.edit_assignment(edited_assignment)
@@ -163,6 +165,7 @@ def edit_assignment(course_id: str, assignment_id: str):
     request.form['estimated_time'].default = assignment.estimated_time
     request.form['title'].default = assignment.title
     request.form['content'].default = assignment.content
+    request.form['weight'].default = assignment.weight
     request.files.default = assignment.filenames
 
     return response(data={"assignment":assignment.to_json()})

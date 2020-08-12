@@ -1,9 +1,13 @@
 from __future__ import annotations
-from typing import Dict, List, Tuple, Optional
+
+import re
+from typing import Dict, List, Optional, Tuple
+
 from bson import ObjectId
 
-from api import db, root_logger as logger
-from api.tools.exceptions import InvalidTypeException, InvalidFormatException
+from api import db
+from api import root_logger as logger
+from api.tools.exceptions import InvalidFormatException, InvalidTypeException
 
 
 class Course:
@@ -209,8 +213,8 @@ class Course:
         if not 0 < len(description) <= 500:
             raise InvalidFormatException(f"The string provided is too long. The description should not exceed 500 characters. (currently: {len(description)})")
 
-        if not re.match('[\w \.\+\(\)\[\]\{\}\?\*\&\^\%\$\#\/\'"~<>,:;!-_=@]{1, 500}', department, flags=re.UNICODE):
-            raise InvalidFormatException("The format for department doesn't match. Expected '[\w \.\+\(\)\[\]\{\}\?\*\&\^\%\$\#\/\'\"~<>,:;!-_=@]{1, 500}', got {department}".format(department=department))
+        if not re.match(r'[\w \.\+\(\)\[\]\{\}\?\*\&\^\%\$\#\/\'"~<>,:;!-_=@]{1, 500}', department, flags=re.UNICODE):
+            raise InvalidFormatException(r"The format for department doesn't match. Expected '[\w \.\+\(\)\[\]\{\}\?\*\&\^\%\$\#\/\'\"~<>,:;!-_=@]{1, 500}', got {department}".format(department=department))
 
         self._description = description
 
