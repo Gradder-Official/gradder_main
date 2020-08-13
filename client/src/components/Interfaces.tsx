@@ -15,6 +15,7 @@ export interface assignment {
     filenames?: string[],
     estimated_time?: string,
     submissions?: string[],
+    weight?: number,
     id?: string
 }
 
