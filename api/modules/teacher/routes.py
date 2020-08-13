@@ -293,3 +293,41 @@ def mark_submission(course_id: str, assignment_id: str, submission_id: str):
     assignment: Assignment = get(assignments, id=assignment_id)
     submission: Submission = get(assignment.submissions, id=submission_id)
     submission.grade = request.form['grade']
+
+@teacher.route("/enter_info", methods=["POST"])
+def enter_info():
+    """Enters description, date of birth and profile picture for teacher
+
+    Returns 
+    -------
+    dict
+        Flashes, teacher data from the form
+    """
+
+    flashes = list()
+
+    if request.form.get('description'):
+        current_user.description = request.form["description"]
+        flashes.append("Description updated")
+
+    if request.form.get('date_of_birth'):
+        current_user.date_of_birth = request.form["date_of_birth"]
+        flashes.append("Date of birth updated")
+
+    try:       
+        profile_picture_file = request.files['profile_picture']
+        filename = profile_picture_file.filename
+        blob = upload_blob(
+            uuid.uuid4().hex + "." +  profile_picture_file.content_type.split("/")[-1],
+             profile_picture_file,
+        )
+        profile_picture = (blob.name, filename)
+
+    except KeyError:
+            return error("Not all fields satisfied"), 400    
+
+    current_user.profile_picture = profile_picture
+    flashes.append("Profile picture updated")
+
+    logger.info(f"User info {current_user.id} updated")
+    return response(flashes), 200
