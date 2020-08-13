@@ -29,8 +29,8 @@ def get_existing_assignment_files():
     
     return file_list
 
-@teacher.before_request
-@required_access(Teacher)
+#@teacher.before_request
+#@required_access(Teacher)
 def teacher_verification():
     # Required_access decorator already handled it
     pass
@@ -87,7 +87,12 @@ def view_assignments():
         course_data = {
             'id': str(course_id),
             'name': course.name,
-            'assignments': list(map(lambda a: a.to_dict(), course_assignments))
+            'assignments': list(map(lambda a: a.to_dict(), course_assignments)),
+            'students': course.students,
+            'description': course.description,
+            'schedule_time': course.schedule_time,
+            'schedule_days': course.schedule_days,
+            '_syllabus': course._syllabus
         }
         courses.append(course_data)
     

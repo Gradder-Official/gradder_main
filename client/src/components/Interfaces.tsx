@@ -38,7 +38,12 @@ export interface LoginFormInputs {
 };
 
 export interface course {
-    name: string
-    daysOfWeek: string
-    startTime: string
+    id: string,
+    name: string,
+    assignments: {},
+    students: [string],
+    description: string,
+    schedule_time: string,
+    schedule_days: string,
+    syllabus: [string]
 }
