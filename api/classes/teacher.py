@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Union, Optional
 from bson import ObjectId
 
 from api import db
@@ -14,9 +14,10 @@ class Teacher(User):
         email: str,
         first_name: str,
         last_name: str,
-        courses: list = None,
-        _id: str = None,
-        activated: bool = False
+        password: Optional[Union[bytes, str]] = None,
+        courses: Optional[list] = None,
+        _id: Optional[str] = None,
+        activated: Optional[bool] = False
     ):
 
         r""" Initializes a user of Teacher type.
@@ -32,7 +33,7 @@ class Teacher(User):
             The activation status of the user, by default False
         """
         super().__init__(
-            email=email, first_name=first_name, last_name=last_name, _id=_id
+            email=email, first_name=first_name, last_name=last_name, _id=_id, password=password
         )
         self.courses = courses or []
 

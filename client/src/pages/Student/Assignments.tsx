@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import { student } from "../../components/Interfaces";
 import StudentSidebar from '../../components/StudentSidebar';
 import "../../assets/styles/assignments.css"
 import AssignmentPreview from '../../components/AssignmentPreview';

@@ -21,6 +21,7 @@ const LoginBox: FunctionComponent = () => {
             body: JSON.stringify(data),
         })
         .then(async response => {
+            console.log(JSON.stringify(data))
             const res = await response.json();
             // Check for error response
             if (!response.ok) {
@@ -68,7 +69,13 @@ const LoginBox: FunctionComponent = () => {
                     )}
                 </Form.Group>
                 <Form.Group controlId="formBasicCheckbox">
-                    <Form.Check name="remember_me" type="checkbox" label="Remember me?" defaultChecked />
+                    <Form.Check 
+                        name="remember_me" 
+                        type="checkbox" 
+                        label="Remember me?" 
+                        defaultChecked 
+                        ref={register}
+                    />
                 </Form.Group>
                 <Button variant="primary" type="submit">
                     Submit

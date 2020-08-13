@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { assignment, student } from "../components/Interfaces";
+import { assignment } from "../components/Interfaces";
 import "../assets/styles/assignments.css";
 import AssignmentBox from "../components/AssignmentBox";
 
@@ -12,15 +12,6 @@ const AssignmentPreview: FunctionComponent = () => {
       due_by: "",
     }
   ]);
-
-  // TODO: get assignments by user ID
-  useEffect(() => {
-    fetch("/api/student/assignments").then((response) =>
-      response.json().then((info) => {
-        setAssignments(info.data);
-      })
-    );
-  }, []);
 
   useEffect(() => {
     fetch('/api/student/assignments')

@@ -99,7 +99,7 @@ class Student(User):
         try:
             return Student.from_dict(db.students.find_one({"email": email}))
         except BaseException as e:
-            # TODO: add logger
+            logger.exception(f"Error while getting a student by email {id}: {e}")
             return None
 
     @staticmethod
@@ -193,8 +193,7 @@ class Student(User):
         submission.id = str(ObjectId())
 
         dictionary = {
-            **submission.to_dict(),
-            "student_id" : self.id,
+            **submission.to_dict()
         }
 
         db.courses.find_one_and_update(

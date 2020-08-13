@@ -10,8 +10,7 @@ import Col from 'react-bootstrap/Col';
 
 
 const StudentProfile: FunctionComponent<student> = ({ userName, dob }) => {
-    var ageCalculator = require('age-calculator');
-    let { AgeFromDateString, AgeFromDate } = require('age-calculator');
+    let { AgeFromDateString } = require('age-calculator');
     let ageFromString = new AgeFromDateString(dob).age;
     // Get current time in hours:minutes
     const [hour, minute] = new Date().toLocaleTimeString().slice(0, 7).split(":")

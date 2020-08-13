@@ -15,6 +15,7 @@ export interface assignment {
     filenames?: string[],
     estimated_time?: string,
     submissions?: string[],
+    weight?: number,
     id?: string
 }
 
@@ -28,4 +29,13 @@ export interface course {
     name: string
     daysOfWeek: string
     startTime: string
+}
+
+export interface Submission {
+    date_submitted: string,
+    content: string,
+    filenames: string[],
+    student_id: string,
+    grade?: number,
+    id?: string,
 }

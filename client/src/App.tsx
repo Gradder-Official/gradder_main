@@ -26,39 +26,42 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const App: FunctionComponent = () => {
 
-  const [user, setUser] = useState<student>({
+  const blankUser: student = {
     userName: '',
     userType: '',
-    loggedIn: false,
-    dob: '',
-  });
-
-  // Pre-filled dummy info
-  const dummyUser: student = {
-    userName: 'Bob Jones',
-    userType: 'student',
     loggedIn: true,
-    dob: '2003-01-08',
+    dob: '',
   }
 
-  // TODO: set logged in status to true
+  const [user, setUser] = useState<student>(blankUser);
+
   useEffect(() => {
     fetch('/api/auth/login')
       .then(res => res.json()).then(response => {
-        if (response['user_info']) {
-          setUser(response['user_info']);
-        }
-        setUser(dummyUser);
+        setUser(response['user_info']);
       }
     )
-    console.log(user);
+    // Cleanup and reset
+    return function cleanup() {
+      setUser(blankUser)
+    };
   }, []);
+
+  console.log(user);
+
+  function logOutUser() {
+    setUser(blankUser);
+  }
 
   return (
     <Router>
       <Switch>
         <Route exact path="/" component={Login} />
-        <Route exact path="/auth/logout" component={Login} />
+        <Route exact path="/auth/logout" render={() => {
+                logOutUser();
+                return <Login />;
+            }
+        }/>
         <Route exact path="/dashboard">
           {user.loggedIn ? (
             <Redirect to={"/" + user.userType + "/dashboard"} />
@@ -66,16 +69,16 @@ const App: FunctionComponent = () => {
             <Login />
           )}
         </Route>
-        <ProtectedRoute user={user} scope="student" exact path="/student/dashboard" render={(props: any) => (
+        <ProtectedRoute user={user} scope="Student" exact path="/student/dashboard" render={(props: any) => (
           <StudentDash {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob}/> 
         )}/>
-        <ProtectedRoute user={user} scope="student" exact path="/student/timetable" render={(props: any) => (
+        <ProtectedRoute user={user} scope="Student" exact path="/student/timetable" render={(props: any) => (
           <StudentTimetable {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob}/> 
         )}/>
-        <ProtectedRoute user={user} scope="student" exact path="/student/assignments" render={(props: any) => (
+        <ProtectedRoute user={user} scope="Student" exact path="/student/assignments" render={(props: any) => (
           <StudentAssignments {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob}/> 
         )}/>
-        <ProtectedRoute user={user} scope="student" exact path="/student/profile" render={(props: any) => (
+        <ProtectedRoute user={user} scope="Student" exact path="/student/profile" render={(props: any) => (
           <StudentProfile {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob} />
         )}/>
         <Route
