@@ -11,7 +11,7 @@ from api.classes import Student, Submission, User, Course, Assignment
 from api.tools.decorators import required_access
 from api.tools.factory import error, response
 from api.tools.google_storage import download_blob, get_signed_url, upload_blob
-
+from api.tools.search import get, get_all
 from . import student
 from flask import Flask, jsonify
 
@@ -121,6 +121,35 @@ def assignment_by_id(course_id: str, assignment_id: str):
     assignment = list(filter(lambda a: str(a.ID) == assignment_id, assignments))[0]
     logger.info(f"All assignments from {course_id} with assignment id {assignment_id}.")
     return response(data={"assignment": assignment})
+
+@student.route("/assignments/<string:assignment_id>/", methods=["GET"])
+def assignment_by_id(course_id: str, assignment_id: str):
+    """Get an assignment by its ID
+    Parameters
+    ----------
+    course_id : str
+        The ID of the class
+    assignment_id : str
+        The ID of the assignment
+    Returns
+    -------
+    dict
+        The view response
+    """
+    assignments = current_user.get_assignments()
+    assignment = get(assignments, id=assignment_id)
+    logger.info(f"All assignments from {course_id} with assignment id {assignment_id}.")
+    return response(data={"assignment": assignment})
+
+
+@student.route("/assignments/<string:assignment_id>/submissions")
+def submissions_by_assignment_id(assignment_id: str):
+    assignments = current_user.get_assignments()
+    assignment = get(assignments, id=assignment_id)
+    submissions = get_all(assignment.submissions, student_id=current_user.id)
+
+    return response(data={"submissions": submissions})
+
 
 @student.route("/assignments/<string:course_id>/<string:assignment_id>/", methods=["GET"])
 def assignment_by_id(course_id: str, assignment_id: str):
