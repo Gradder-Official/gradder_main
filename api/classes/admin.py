@@ -6,6 +6,7 @@ from api import db, root_logger
 
 from .user import User
 from .course import Course
+from . import Student, Teacher, Parent
 
 class Admin(User):
     _type = 'Admin'  # Immutable
@@ -190,3 +191,29 @@ class Admin(User):
             courses.append((course_id, Course.get_by_id(course_id).name))
 
         return courses
+
+    def get_student_names(self) -> List[(str, str)]:
+        r"""
+        Returns a list of all ObjectId's and Names of Students
+        """
+
+        students = list()
+
+        for student in db.students.find():
+            student_id = student.get("_id")
+            students.append((student_id, Student.get_by_id(student_id).name))
+        
+        return students
+    
+    def get_teacher_names(self) -> List[(str, str)]:
+        r"""
+        Returns all Teacher names, and ObjectId's of Students
+        """
+
+        teachers = list()
+
+        for teacher in db.teachers.find():
+            teacher_id = teacher.get("_id")
+            teachers.append((teacher_id, Teacher.get_by_id(teacher_id).name))
+        
+        return teachers
