@@ -30,3 +30,12 @@ export interface course {
     daysOfWeek: string
     startTime: string
 }
+
+export interface Submission {
+    date_submitted: string,
+    content: string,
+    filenames: string[],
+    student_id: string,
+    grade?: number,
+    id?: string,
+}

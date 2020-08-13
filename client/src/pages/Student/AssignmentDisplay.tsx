@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
-import { assignment } from '../../components/Interfaces';
+import { assignment, Submission } from '../../components/Interfaces';
 import StudentSidebar from '../../components/StudentSidebar';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -66,6 +66,22 @@ const AssignmentDisplay = (props: any) => {
         submissions: new Array<string>(),
         id: id,
     });
+    let [submissions, setSubmissions] = useState<Submission[]>([
+        {
+            date_submitted: "Fri Aug 07 2020 12:04:20 GMT+0100",
+            content: "<p>Submission loading?</p><p>Submission loading?</p><p>Submission loading?</p><p>Submission loading?</p><p>Submission loading?</p><p>Submission loading?</p><p>Submission loading?</p>",
+            filenames: [],
+            student_id: id, // TODO: Get student ID
+            id: id, // TODO: Get submission ID from fetch
+        },
+        {
+            date_submitted: "Fri Aug 07 2020 12:04:20 GMT+0100",
+            content: "<p>Submission loading?</p><p>Submission loading?</p><p>Submission loading?</p><p>Submission loading?</p><p>Submission loading?</p><p>Submission loading?</p><p>Submission loading?</p>",
+            filenames: [],
+            student_id: id, // TODO: Get student ID
+            id: id, // TODO: Get submission ID from fetch
+        }
+    ])
     let [status, setStatus] = useState<any>(<div />);
     let [ready, setReady] = useState<boolean>(false);
 
@@ -111,7 +127,7 @@ const AssignmentDisplay = (props: any) => {
             <div className="dash-content" id="assignment-display">
                 <div className="dash-container">
                     {status}
-                    <Row className={`h-100 ${ready ? 'd-inline' : 'd-none'}`}>
+                    <Row className={`h-100 ${ready ? '' : 'd-none'}`}>
                         <Col className="col-12 col-md-5">
                             {/* Overview */}
                             <h3>{assignment.title}</h3>
@@ -123,6 +139,29 @@ const AssignmentDisplay = (props: any) => {
                             <div>
                                 {/* Replace w/ Quill.js */}
                                 <ReactQuill theme="bubble" value={assignment.content} readOnly/>
+                            </div>
+                            <div id="submissions" className="pt-5">
+                                <h4>Previous submissions</h4>
+                                <p className="text-muted">
+                                    Here you'll find a list of previous submissions.
+                                    You are always able to resubmit.
+                                </p>
+                                <ul className="list-group">
+                                {submissions.map((submission, i) => {
+                                    const submission_date = new Date(submission.date_submitted);
+                                    const options = { weekday: 'long', month: 'long', day: 'numeric' };
+                                    const formatted_date = submission_date.toLocaleDateString(undefined, options);
+                                    return (
+                                        <div className="list-group-item">
+                                            <p className="mb-1"><strong>Submitted on {formatted_date}:</strong></p>
+                                            <div className="submission-content">
+                                                <ReactQuill theme="bubble" value={submission.content} readOnly/>
+                                            </div>
+                                        </div>
+                                    )
+                                })}
+
+                                </ul>
                             </div>
                         </Col>
                         <Col className="col-12 col-md-7 d-flex flex-column">
