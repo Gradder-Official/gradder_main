@@ -254,13 +254,14 @@ def enter_info():
     """
 
     flashes = list()
+    user = Student.get_by_id(current_user.id)
 
     if request.form.get('description'):
-        current_user.description = request.form["description"]
+        user.description = request.form["description"]
         flashes.append("Description updated")
 
     if request.form.get('date_of_birth'):
-        current_user.date_of_birth = request.form["date_of_birth"]
+        user.date_of_birth = request.form["date_of_birth"]
         flashes.append("Date of birth updated")
 
     try:       
@@ -275,8 +276,8 @@ def enter_info():
     except KeyError:
             return error("Not all fields satisfied"), 400    
 
-    current_user.profile_picture = profile_picture
+    user.profile_picture = profile_picture
     flashes.append("Profile picture updated")
 
-    logger.info(f"User info {current_user.id} updated")
+    logger.info(f"User info {user.id} updated")
     return response(flashes), 200
