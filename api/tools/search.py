@@ -38,3 +38,21 @@ def get(iterable, **kwargs: dict):
     
     # Oops, nothing was found :c
     return None
+
+def get_all(iterable, **kwargs: dict):
+    """Like :func:`get`, but to get all instances, not just the first.
+
+    Parameters
+    ----------
+    iterable : any
+        An iterable to search through
+    """
+    results = []
+    copy = iterable[:]
+    current = get(copy, **kwargs)
+    while current is not None:
+        copy.remove(current)
+        results.append(current)
+        current = get(copy, **kwargs)
+    
+    return results
