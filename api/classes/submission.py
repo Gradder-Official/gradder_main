@@ -10,6 +10,7 @@ class Submission:
         date_submitted: time,
         content: str,
         filenames: list,
+        student_id: str,
         grade: int = None,
         _id: str = None
     ):
@@ -31,6 +32,7 @@ class Submission:
         self.date_submitted = date_submitted
         self.content = content
         self.filenames = filenames
+        self.student_id = student_id
         self.grade = grade
         self._id = _id if _id is not None else ''
 
@@ -47,7 +49,9 @@ class Submission:
             "date_submitted": str(self.date_submitted),
             "content": str(self.content),
             "filenames": self.filenames,
-            "grade": self.grade
+            "student_id": self.student_id,
+            "grade": self.grade,
+            "id": self.id,
         }
     
     @classmethod

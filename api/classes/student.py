@@ -193,8 +193,7 @@ class Student(User):
         submission.id = str(ObjectId())
 
         dictionary = {
-            **submission.to_dict(),
-            "student_id" : self.id,
+            **submission.to_dict()
         }
 
         db.courses.find_one_and_update(
