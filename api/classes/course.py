@@ -19,7 +19,7 @@ class Course:
     _description : str
     _schedule_time : str
     _schedule_days : str
-    _syllabus : Tuple[str, str]
+    _syllabus : List[str, str]
     _assignments : List[Assignment]
     _grade_range : Tuple[int, int]
 
@@ -33,7 +33,7 @@ class Course:
         description: Optional[str] = "Description",
         schedule_time: Optional[str] = None,
         schedule_days: Optional[str] = None,
-        syllabus: Optional[Tuple[str, str]] = None,
+        syllabus: Optional[List[str, str]] = None,
         assignments: Optional[List[Assignment]] = None,
         grade_range: Optional[Tuple[int, int]] = None,
         _id: str = None,
@@ -71,7 +71,7 @@ class Course:
         schedule_days : str, optional
             The scheduled days for the course, by default None
             Format: week day abbreviations from ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'] as a string.
-        syllabus : Tuple[str, str], optional
+        syllabus : List[str, str], optional
             The syllabus for this course, by default None
             Format: (syllabus_id, syllabus_filename)
         assignments : List[Assignment], optional
@@ -105,9 +105,13 @@ class Course:
         return self._id
 
     @id.setter
-    def id(self, id: Union[ObjectId, str]):
-        if not isinstance(id, (ObjectId, str)):
-            raise InvalidTypeException(f"The id provided is not a str or bson.objectid.ObjectId (type provided is {type(id)}).")
+    def id(self, id: str):
+        # Type error: id is ObjectId
+        id = str(id)
+        # Using isinstance to avoid class vs. type errors
+        if not isinstance(id, str):
+            raise InvalidTypeException(
+                f"The id provided is not a str (type provided is {type(id)}).")
 
         try:
             if isinstance(id, str):
@@ -115,7 +119,8 @@ class Course:
             else:
                 id = str(id)
         except Exception as e:
-            raise InvalidFormatException(f"Cannot convert provided id to bson.ObjectId: {e}")
+            raise InvalidFormatException(
+                f"Cannot convert provided id to bson.ObjectId: {e}")
 
         self._id = id
 
@@ -126,22 +131,25 @@ class Course:
     @department.setter
     def department(self, department: str):
         if not isinstance(department, str):
-            raise InvalidTypeException(f"The department provided is not a string (type provided is {type(department)}).")
+            raise InvalidTypeException(
+                f"The department provided is not a string (type provided is {type(department)}).")
 
         self._department = department
 
     @property
     def number(self) -> int:
         return self._number
-    
+
     @number.setter
     def number(self, number: int):
         if not isinstance(number, int):
-            raise InvalidTypeException(f"The course number provided is not an int (type provided is {type(name)}).")
-            
+            raise InvalidTypeException(
+                f"The course number provided is not an int (type provided is {type(number)}).")
+
         if not 0 < number < 100000:
-            raise InvalidFormatException(f"The format for course number doesn't match. Expected 0 < number < 100000, got {number}")
-    
+            raise InvalidFormatException(
+                f"The format for course number doesn't match. Expected 0 < number < 100000, got {number}")
+
         self._number = number
 
     @property
@@ -151,13 +159,16 @@ class Course:
     @name.setter
     def name(self, name: str):
         if not isinstance(name, str):
-            raise InvalidTypeException(f"The name provided is not a str (type provided is {type(name)}).")
-            
-        if not 0 < len(name) <= 50:
-            raise InvalidFormatException(f"The length of the name should not exceed 50 characters (currently: {len(name)})")
+            raise InvalidTypeException(
+                f"The name provided is not a str (type provided is {type(name)}).")
 
-        if not re.match('[\w \.]{1,50}', name, flags=re.UNICODE):
-            raise InvalidFormatException(f"The format for the name doesn't match. Expected only alpha characters, space, or dot, got {name}")
+        if not 0 < len(name) <= 50:
+            raise InvalidFormatException(
+                f"The length of the name should not exceed 50 characters (currently: {len(name)})")
+
+        if not re.match('[\w+]', name, flags=re.UNICODE):
+            raise InvalidFormatException(
+                f"The format for the name doesn't match. Expected only alpha characters, got {name}")
 
         self._name = name
 
@@ -166,51 +177,43 @@ class Course:
         return self._teacher
 
     @teacher.setter
-    def teacher(self, teacher_id: Union[str, ObjectId]):
+    def teacher(self, teacher_id: str):
         from api.classes import Teacher
-
-        if isinstance(teacher_id, ObjectId):
-            teacher_id = str(teacher_id)
+        teacher_id = str(teacher_id)
 
         if not isinstance(teacher_id, str):
-            raise InvalidTypeException(f"The teacher_id provided is not a str (type provided is {type(teacher)}).")
-        
-        if teacher_id == "":
-            self._teacher = teacher_id
-            return
+            raise InvalidTypeException(
+                f"The teacher_id provided is not a str (type provided is {type(teacher_id)}).")
 
         try:
             ObjectId(teacher_id)
         except Exception as e:
-            logger.exception(f"Error while validating teacher id {teacher_id}: {e}")
+            logger.exception(
+                f"Error while validating teacher id {teacher_id}: {e}")
             raise e
 
         try:
             if Teacher.get_by_id(teacher_id) is None:
-                raise Exception(f"The teacher with id {teacher_id} does not exist.")
+                raise Exception(
+                    f"The teacher with id {teacher_id} does not exist.")
         except Exception as e:
-            logger.exception(f"Error while validating the existence of teacher {teacher_id}: {e}")
+            logger.exception(
+                f"Error while validating the existence of teacher {teacher_id}: {e}")
             raise e
 
         self._teacher = teacher_id
 
     @property
-    def students(self) -> List[Student]:
+    def students(self) -> List[str]:
         return self._students
-    
+
     @students.setter
     def students(self, students: List[Union[str, ObjectId]]):
         from api.classes import Student
 
-        if not isinstance(students, list):
-            raise InvalidTypeException(f"The parameter 'students' provided is not a list (type provided is {type(students)}).")
-
-        if students == [] or students == [None]:
-            self._students = list()
-            return
-            
-        if isinstance(students[0], ObjectId):
-            students = [str(student_id) for student_id in students]
+        if not isinstance(students, list) and all(isinstance(student, str) for student in students):
+            raise InvalidTypeException(
+                f"The parameter 'students' provided is not a List[str] (type provided is {type(students)}).")
 
         for student_id in students:
             if not isinstance(student_id, str):
@@ -219,14 +222,17 @@ class Course:
             try:
                 ObjectId(student_id)
             except Exception as e:
-                logger.exception(f"Error while validating student id {student_id}: {e}")
+                logger.exception(
+                    f"Error while validating student id {student_id}: {e}")
                 raise e
 
             try:
                 if Student.get_by_id(student_id) is None:
-                    raise Exception(f"The student with id {student_id} does not exist.")
+                    raise Exception(
+                        f"The student with id {student_id} does not exist.")
             except Exception as e:
-                logger.exception(f"Error while validating the existence of student {student_id}: {e}")
+                logger.exception(
+                    f"Error while validating the existence of student {student_id}: {e}")
                 raise e
         
         self._students = students
@@ -238,44 +244,46 @@ class Course:
     @description.setter
     def description(self, description: str):
         if not isinstance(description, str):
-            raise InvalidTypeException(f"The description provided is not a str (type provided is {type(description)})")
+            raise InvalidTypeException(
+                f"The description provided is not a str (type provided is {type(description)})")
 
         if not 0 < len(description) <= 500:
-            raise InvalidFormatException(f"The string provided is too long. The description should not exceed 500 characters. (currently: {len(description)})")
+            raise InvalidFormatException(
+                f"The string provided is too long. The description should not exceed 500 characters. (currently: {len(description)})")
 
-        if not re.match(r'[\w \.\+\(\)\[\]\{\}\?\*\&\^\%\$\#\/\'"~<>,:;!-_=@]{1,500}', description, flags=re.UNICODE):
-            raise InvalidFormatException(r"The format for description doesn't match. Expected '[\w \.\+\(\)\[\]\{\}\?\*\&\^\%\$\#\/\'\"~<>,:;!-_=@]{1, 500}', got {description}".format(description=description))
+        if not re.match('[\w+\W+]', description, flags=re.UNICODE):
+            raise InvalidFormatException(
+                r"The format for department doesn't match. Expected '[\w+\W+]', got {department}".format(department=description))
 
         self._description = description
 
     @property
     def schedule_time(self) -> str:
         return self._schedule_time
-    
+
     @schedule_time.setter
     def schedule_time(self, schedule_time: str):
         if not isinstance(schedule_time, str):
-            raise InvalidTypeException(f"The schedule_time provided is not a str (type provided is {type(schedule_time)}")
-            
-        if schedule_time == "":
-            self._schedule_time = ""
-            return
+            raise InvalidTypeException(
+                f"The schedule_time provided is not a str (type provided is {type(schedule_time)}")
 
-        if not re.match(r'([0-1][0-9]|2[0-4]):[0-5][0-9]-([0-1][0-9]|2[0-4]):[0-5][0-9]', schedule_time):
-            raise InvalidFormatException(f"The format for schedule_time doesn't match. Expected '([0-1][0-9] | 2[0-4]):[0-5][0-9]-([0-1][0-9] | 2[0-4]):[0-5][0-9]', got {schedule_time}")
+        if not re.match('(0?[1-9]|1[0-2]):[0-5][0-9]|-(0?[1-9]|1[0-2]):[0-5][0-9]', schedule_time):
+            raise InvalidFormatException(
+                f"The format for time_schedule doesn't match. Expected '(0?[1-9]|1[0-2]):[0-5][0-9]|-(0?[1-9]|1[0-2]):[0-5][0-9]', got {schedule_time}")
 
         start_time, finish_time = schedule_time.split('-')
         start_time_h, start_time_m = list(map(int, start_time.split(':')))
         finish_time_h, finish_time_m = list(map(int, finish_time.split(':')))
         if (start_time_h*60 + start_time_m >= finish_time_h*60 + finish_time_m) and not (start_time_h == 23 and finish_time_h == 0):
-            raise InvalidFormatException(f"The start time for schedule_time must be earlier than the finish time (got {schedule_time})")
+            raise InvalidFormatException(
+                f"The start time for time_schedule must be earlier than the finish time (got {schedule_time})")
 
         self._schedule_time = schedule_time
     
     @property
     def schedule_days(self) -> str:
         return self._schedule_days
-    
+
     @schedule_days.setter
     def schedule_days(self, schedule_days: str):
         # TODO: make schedule days a list of weekdays abbreviated as ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
@@ -283,14 +291,15 @@ class Course:
         self._schedule_days = schedule_days
 
     @property
-    def syllabus(self) -> Tuple[str, str]:
+    def syllabus(self) -> list[str, str]:
         return self._syllabus
-    
+
     @syllabus.setter
-    def syllabus(self, syllabus: Tuple[str, str]):
-        if not isinstance(syllabus, tuple):
-            # TODO: logger
-            raise InvalidTypeException(f"The syllabus provided is not a tuple (type provided is {type(syllabus)})")
+    def syllabus(self, syllabus: list[str, str]):
+        # note: database does not support tuples
+        if not isinstance(syllabus, list):
+            raise InvalidTypeException(
+                f"The syllabus provided is not List[str, str] (type provided is {type(syllabus)})")
 
         if syllabus == ():
             self._syllabus = syllabus
@@ -341,19 +350,23 @@ class Course:
 
         return dict_course 
 
-    @classmethod
-    def from_dict(cls, dictionary: dict) -> Course:
-        return cls(
-            department=dictionary["department"],
-            number=dictionary["number"],
-            name=dictionary["name"],
-            teacher=dictionary["teacher"] if "teacher" in dictionary else None,
-            students=dictionary["students"] if "students" in dictionary else None,
-            description=dictionary["description"] if "description" in dictionary else None,
-            schedule_time=dictionary["schedule_time"] if "schedule_time" in dictionary else None,
-            schedule_days=dictionary["schedule_days"] if "schedule_days" in dictionary else None,
-            syllabus=dictionary["syllabus"] if "syllabus" in dictionary else None,
-            assignments=list(
+    @staticmethod
+    def from_dict(dictionary: dict) -> Course:
+        from . import Assignment, Student
+        return Course(
+            dictionary["department"],
+            dictionary["number"],
+            dictionary["name"],
+            dictionary["teacher"] if "teacher" in dictionary else None,
+            list(
+                map(lambda x: Student.from_dict(x),
+                    list(dictionary["students"]))
+            ) if "students" in dictionary else None,
+            dictionary["description"] if "description" in dictionary else "Description",
+            dictionary["schedule_time"] if "schedule_time" in dictionary else None,
+            dictionary["schedule_days"] if "schedule_days" in dictionary else None,
+            dictionary["syllabus"] if "syllabus" in dictionary else None,
+            list(
                 map(lambda x: Assignment.from_dict(x),
                     list(dictionary["assignments"]))
             )
@@ -370,7 +383,8 @@ class Course:
             self.id = db.courses.insert_one(self.to_dict()).inserted_id
             return True
         except Exception as e:
-            logger.exception(f"Error while adding course {self.to_dict()}: {e}")
+            logger.exception(
+                f"Error while adding course {self.to_dict()}: {e}")
             return False
 
     def remove(self) -> bool:
@@ -379,7 +393,7 @@ class Course:
             db.courses.remove({"_id": self.id})
             return True
         except Exception as e:
-            logger.exception(f"Error while deleting course {_id}: {e}")
+            logger.exception(f"Error while deleting course {self.id}: {e}")
             return False
 
     def update_department(self, department: str) -> bool:
@@ -664,14 +678,16 @@ class Course:
         """
         try:
             if Course.get_by_id(self.id) is None:
-                raise Exception(f"The course with id {self.id} does not exist.")
+                raise Exception(
+                    f"The course with id {self.id} does not exist.")
         except AttributeError:
-            logger.exception(f"The property `id` does not exist for this course")
+            logger.exception(
+                f"The property `id` does not exist for this course")
             return False
         except Exception as e:
             logger.exception(f"Error while updating a course")
             return False
-    
+
         PARAMETER_TO_METHOD = {
             'department': self.update_department,
             'number': self.update_number,

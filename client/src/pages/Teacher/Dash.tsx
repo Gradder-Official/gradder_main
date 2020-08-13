@@ -1,11 +1,8 @@
 import React, { FunctionComponent, useState } from "react";
 import { teacher } from "../../components/Interfaces";
-import StudentSidebar from "../../components/StudentSidebar";
 import "../../assets/styles/dashboard.css";
 import "../../assets/styles/assignments.css";
-import AssignmentPreview from "../../components/AssignmentPreview";
 import DashProfile from "../../components/DashProfile";
-import StudentDash from "../Student/Dash";
 import TeacherSidebar from "../../components/TeacherSidebar";
 
 const TeacherDash: FunctionComponent<teacher> = ({ userName, userType, loggedIn, dob }) => {
