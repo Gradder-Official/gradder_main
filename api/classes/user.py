@@ -34,6 +34,9 @@ class User(UserMixin):
         email: str,
         first_name: str,
         last_name: str,
+        description: Optional[str] = None,
+        date_of_birth: Optional[str] = None,
+        profile_picture: Optional[str] = None,
         _id: Optional[str] = None,
         password: Optional[Union[str, bytes]] = None,
     ):
@@ -44,6 +47,11 @@ class User(UserMixin):
         email : str
         first_name : str
         last_name : str
+        description : str, optional
+        date_of_birth : str, optional
+            The user's date of birth (dd-mm-yyyy), defaults to None if unspecified.
+        profile_picture : str, optional
+            Link to user's profile picture, defaults to None if unspecified.
         _id : str, optional
             The user's ID number, defaults to None if unspecified.
         password : str, optional
@@ -136,6 +144,35 @@ class User(UserMixin):
         r"""Creates a new User object from the dictionary.
         """
         return User(**dictionary)
+
+    @property
+    def description(self) -> str:
+        return self.description
+
+    @description.setter
+    def description(self, description: str):
+        db.users.update({"id": self.id()}, {"$set": {"description": description}})
+
+    @property
+    def date_of_birth(self) -> str:
+        return self.date_of_birth
+
+    @date_of_birth.setter
+    def date_of_birth(self, date_of_birth: str):
+        date_format = '%d-%m-%Y'
+        try:
+            date_obj = datetime.datetime.strptime(date_string, date_format)
+            db.users.update({"id": self.id()}, {"$set": {"date_of_birth": date_of_birth}})
+        except ValueError:
+            raise InvalidFormatException("Incorrect data format, should be DD-MM-YYYY")
+
+    @property
+    def profile_picture(self) -> str:
+        return self.profile_picture
+    
+    @profile_picture.setter
+    def profile_picture(self, profile_picture: str):
+        return self.profile_picture
 
     def get_activation_token(self, expires_sec=1800):
         """Gets an activation token for a user

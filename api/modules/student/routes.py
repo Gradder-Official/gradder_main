@@ -193,3 +193,41 @@ def activate_account(token: str):
     else:
         db.students.update({"id": ObjectId(student._id)}, {"$set": {"activated": True}})
         return response(["Account activated!"]), 200
+
+@student.route("/enter_info", methods=["POST"])
+def enter_info():
+    """Enters description, date of birth and profile picture for student
+
+    Returns 
+    -------
+    dict
+        Flashes, student data from the form
+    """
+
+    flashes = list()
+
+    if request.form.get('description'):
+        current_user.description = request.form["description"]
+        flashes.append("Description updated")
+
+    if request.form.get('date_of_birth'):
+        current_user.date_of_birth = request.form["date_of_birth"]
+        flashes.append("Date of birth updated")
+
+    try:       
+        profile_picture_file = request.files['profile_picture']
+        filename = profile_picture_file.filename
+        blob = upload_blob(
+            uuid.uuid4().hex + "." +  profile_picture_file.content_type.split("/")[-1],
+             profile_picture_file,
+        )
+        profile_picture = (blob.name, filename)
+
+    except KeyError:
+            return error("Not all fields satisfied"), 400    
+
+    current_user.profile_picture = profile_picture
+    flashes.append("Profile picture updated")
+
+    logger.info(f"User info {current_user.id} updated")
+    return response(flashes), 200
