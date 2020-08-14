@@ -250,8 +250,15 @@ def activate_account(token: str):
     if teacher is None: 
         return error("That is an expired or incorrect link."), 400
     else:
-        db.teachers.update({"id": teacher.id}, {"$set": {"activated": True}})
-        return response(["Account activated!"]), 200 
+        if request.form['password_confirmation'] == request.form['password']:
+            db.teachers.update({"_id": teacher.id}, {"$set": {"activated": True}})
+
+            teacher.password = request.form['password']
+            db.teachers.update({"_id": teacher.id}, {"$set": {"password": teacher.password}})
+            return response(["Account activated!", "Password set!"]), 200
+        else:
+            return response(["Passwords don't match!"]), 400
+        
 
 @teacher.route("/course/<string:course_id>/assignments/<string:assignment_id>/submissions", methods=["GET"])
 def view_assignment_by_class_id(course_id: str, assignment_id: str):

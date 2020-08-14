@@ -434,6 +434,34 @@ class Course:
 
             return False
 
+    def update_students(self, student_ids: List) -> bool:
+        r"""Updates the students for this course.
+
+        Method should only be called on the courses that are already initialized and pushed to the DB.
+
+        Parameters
+        ----------
+        student_ids : List
+
+        Returns
+        -------
+        bool
+            `True` if the update operation was successful, `False` otherwise
+        """
+        
+        for _id in student_ids:
+            try:
+                db.students.find_one({"_id": ObjectId(_id)}, {"$push": {"courses": self.id}})
+                db.courses.find_one({"_id": self.id}, {"$push": {"students": ObjectId(_id)}})
+
+            except Exception as e:
+                logger.exception(
+                    f"Error while updating student {_id} in class {self.id}: {e}"
+                )
+
+                return False
+        return True
+
     def update_description(self, description: str) -> bool:
         r"""Updates the description for this course.
 

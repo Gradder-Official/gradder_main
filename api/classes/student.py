@@ -63,7 +63,8 @@ class Student(User):
         return {
             **super().to_dict(),
             'courses': self.courses,
-            'assignments': self.assignments
+            'assignments': self.assignments,
+            'activated': self.activated
         }
     
     @staticmethod

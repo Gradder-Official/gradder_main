@@ -1,11 +1,11 @@
 from flask import current_app, request
-
+from api import db
 from api import root_logger
 from api.classes import Admin, Course, Student, Teacher
 from api.tools.decorators import required_access
 from api.tools.factory import error, response
-
 from . import admin
+from bson import ObjectId
 
 
 @admin.before_request
@@ -101,7 +101,7 @@ def add_student():
         flashes.append("There was a problem adding this account"), 400
         return response(flashes), 400
 
-@admin.route("/register-courses", methods=["GET", "POST"])
+@admin.route("/register-courses", methods=["POST"])
 def register_courses():
     """Adds a course to the system.
     Returns
@@ -113,16 +113,14 @@ def register_courses():
     flashes = list()
 
     try:
-        if Course.get_by_number(request.form['number']):
+        if Course.get_by_number(request.form['number']) == None:
             course = Course(
                 request.form['department'],
                 request.form['number'],
-                request.form['teacher'] if request.form['teacher'] else None,
-                request.form['name'],
-                request.form['description'],
-                request.form['schedule_time'],
-                request.form['schedule_days']
+                request.form['name']
             )
+        else:
+            return error("Course already exists"), 400
     except KeyError:
         return error("Not all fields satisfied."), 400
 
@@ -133,6 +131,29 @@ def register_courses():
     else:
         flashes.append("There was a problem adding your course")
         return response(flashes), 400
+
+@admin.route("/get-info-for-new-course", methods=["GET"])
+def get_info_for_new_course():
+    """Gets department and teacher info for adding a new course to the database.
+    Returns
+    -------
+    dict
+        Flashes, department and teacher data from the database
+    """
+
+    flashes = list()
+
+    try: 
+        departments = db.courses.find({}, {"department": 1, "_id": 0})
+        teachers = db.courses.find({}, {"name": 1, "email": 1, "department": 1, "_id": 0})
+    except:
+        return error("Unknown error while getting info for departments and teachers"), 400
+
+    return response(flashes, {
+        "departments": departments,
+        "teachers": teachers
+    }), 200
+    
     
 @admin.route("/add-student-to-course", methods=["GET", "POST"])
 def add_student_to_course():
@@ -186,7 +207,7 @@ def manage_courses():
     """
     return response({"courses": Admin.get_course_names()}), 200
 
-@admin.route("/course/<string:course_id>", methods=["GET", "POST"])
+@admin.route("/course/<string:course_id>", methods=["POST"])
 def manage_courses_by_id(course_id: str):
     """Provides options to edit the course.
     Returns
@@ -212,7 +233,37 @@ def manage_courses_by_id(course_id: str):
             logger.info(f"Course {course._id} updated")
         if request.form.get('description'):
             course.update_description(request.form.get('description'))
+        if request.form.get('name'):
+            course.update_name(request.form.get('name'))
+        if request.form.get('number'):
+            course.update_number(request.form.get('number'))
+        if request.form.get('department'):
+            course.update_department(request.form.get('department'))
+        if request.form.get('teacher'):
+            course.update_teacher(request.form.get('teacher'))
+        if request.form.get('students'):
+            course.update_students(request.form.get('students'))
         flashes.append("Course information successfully updated!")
         return response(flashes), 200
     else:
         return error("Course does not exist"), 404
+
+@admin.route("/get-course-info/<course_id:str>", methods=["GET"])
+def get_course_info(course_id:str):
+    """Gets all info for course.
+    Returns
+    -------
+    dict
+        Flashes, all course info
+    """
+
+    flashes = list()
+
+    try: 
+        course_info = db.courses.find({"_id": ObjectId(course_id)})
+    except:
+        return error("Unknown error while getting course info"), 400
+
+    return response(flashes, {
+        "course_info": course_info
+    }), 200

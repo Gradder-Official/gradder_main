@@ -45,7 +45,7 @@ class Teacher(User):
         """
         dict_user = super().to_dict()
         dict_user["courses"] = self.courses
-
+        dict_user["activated"] = self.activated
         return dict_user
 
     @staticmethod
