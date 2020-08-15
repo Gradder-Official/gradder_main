@@ -41,9 +41,18 @@ export interface course {
     id: string,
     name: string,
     assignments: {},
-    students: [string],
+    students: [studentInfo],
     description: string,
     schedule_time: string,
     schedule_days: string,
     syllabus: [string]
+}
+
+export interface studentInfo {
+    email: string,
+    first_name: string,
+    last_name: string,
+    password: string,
+    courses: [],
+    assignments: []
 }

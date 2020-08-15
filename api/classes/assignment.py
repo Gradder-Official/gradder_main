@@ -78,7 +78,7 @@ class Assignment:
         }
 
     @classmethod
-    def from_dict(cls, assignment: dict) -> Assignment:
+    def from_dict(cls, assignment: dict) -> object:
         return cls(**assignment)
 
     @property

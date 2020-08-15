@@ -13,7 +13,7 @@ from api.tools.factory import error, response
 from api.tools.google_storage import download_blob, get_signed_url, upload_blob
 
 from . import student
-from flask import Flask, jsonify
+from flask import Flask
 
 
 # @student.before_request

@@ -209,21 +209,22 @@ class Course:
                 f"The parameter 'students' provided is not a List[str] (type provided is {type(students)}).")
 
         for student_id in students:
-            try:
-                ObjectId(student_id)
-            except Exception as e:
-                logger.exception(
-                    f"Error while validating student id {student_id}: {e}")
-                raise e
+            if student_id is not None:
+                try:
+                    ObjectId(student_id)
+                except Exception as e:
+                    logger.exception(
+                        f"Error while validating student id {student_id}: {e}")
+                    raise e
 
-            try:
-                if Student.get_by_id(student_id) is None:
-                    raise Exception(
-                        f"The student with id {student_id} does not exist.")
-            except Exception as e:
-                logger.exception(
-                    f"Error while validating the existence of student {student_id}: {e}")
-                raise e
+                try:
+                    if Student.get_by_id(student_id) is None:
+                        raise Exception(
+                            f"The student with id {student_id} does not exist.")
+                except Exception as e:
+                    logger.exception(
+                        f"Error while validating the existence of student {student_id}: {e}")
+                    raise e
         
         self._students = students
 
@@ -325,10 +326,7 @@ class Course:
             dictionary["number"],
             dictionary["name"],
             dictionary["teacher"] if "teacher" in dictionary else None,
-            list(
-                map(lambda x: Student.from_dict(x),
-                    list(dictionary["students"]))
-            ) if "students" in dictionary else None,
+            dictionary["students"] if "students" in dictionary else None,
             dictionary["description"] if "description" in dictionary else "Description",
             dictionary["schedule_time"] if "schedule_time" in dictionary else None,
             dictionary["schedule_days"] if "schedule_days" in dictionary else None,
