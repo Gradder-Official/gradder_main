@@ -153,7 +153,7 @@ class User(UserMixin):
 
     @description.setter
     def description(self, description: str):
-        db.users.update({"id": self.id}, {"$set": {"_description": description}})
+        self._description = description
 
     @property
     def date_of_birth(self) -> str:
@@ -164,17 +164,17 @@ class User(UserMixin):
         date_format = '%d-%m-%Y'
         try:
             date_obj = datetime.datetime.strptime(date_string, date_format)
-            db.users.update({"id": self.id}, {"$set": {"_date_of_birth": date_of_birth}})
+            self.date_of_birth = date_of_birth
         except ValueError:
             raise InvalidFormatException("Incorrect data format, should be DD-MM-YYYY")
 
     @property
     def profile_picture(self) -> str:
-        db.users.update({"id": self.id}, {"$set": {"_profile_picture": profile_picture}})
+        return self._profile_picture
     
     @profile_picture.setter
     def profile_picture(self, profile_picture: str):
-        return self._profile_picture
+        self.profile_picture = profile_picture
 
     def get_activation_token(self, expires_sec=1800):
         """Gets an activation token for a user
