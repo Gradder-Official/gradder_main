@@ -62,6 +62,7 @@ class Student(User):
         """
         return {
             **super().to_dict(),
+            'password': '',
             'courses': self.courses,
             'assignments': self.assignments
         }

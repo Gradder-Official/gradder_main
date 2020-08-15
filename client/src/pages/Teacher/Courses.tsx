@@ -2,7 +2,7 @@ import React, { FunctionComponent, useState, useEffect } from "react";
 import { teacher, course } from "../../components/Interfaces";
 import { useForm } from "react-hook-form";
 import "../../assets/styles/dashboard.css";
-import "../../assets/styles/assignments.css";
+import "../../assets/styles/manage-courses.css";
 import TeacherSidebar from "../../components/TeacherSidebar";
 import { Form, ButtonGroup, Button } from "react-bootstrap";
 
@@ -12,7 +12,14 @@ const TeacherCourses: FunctionComponent<teacher> = ({ userName, userType, logged
         "id": "",
         "name": "",
         "assignments": {},
-        "students": [""],
+        "students": [{
+            "email": "",
+            "first_name": "",
+            "last_name": "",
+            "password": "",
+            "courses": [],
+            "assignments": []
+        }],
         "description": "",
         "schedule_time": "",
         "schedule_days": "",
@@ -42,26 +49,27 @@ const TeacherCourses: FunctionComponent<teacher> = ({ userName, userType, logged
             "schedule_days": chosenCourse.schedule_days,
             "syllabus": chosenCourse.syllabus
         })
-
-        console.log(chosenCourse, displayCourse)
     }
 
     return (
         <React.Fragment>
             <TeacherSidebar />
 
-            <div className="dash-content">
+            <div className="dash-content dash-flex-col">
 
-                <ButtonGroup className="class-navbar">
-                    {courses.map((course) => (
-                        <Button onClick={() => showCourseInfo(course)}>{course.name}</Button>
-                    ))}
-                </ButtonGroup>
+                <div className="class-navbar">
+                    <h1>Courses</h1>
+                    <ButtonGroup>
+                        {courses.map((course) => (
+                            <Button onClick={() => showCourseInfo(course)}>{course.name}</Button>
+                        ))}
+                    </ButtonGroup>
+                </div>
 
-                <div className="container row" id="classes-container">
-                    <div className="jumbotron container" id="students-container">
+                <div className="dash-flex-row" id="classes-container">
+                    <div className="dash-container" id="students-container">
                         <h3>Students</h3>
-                        <table id="students-table" className="hover">
+                        <table className="students-table">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -69,23 +77,23 @@ const TeacherCourses: FunctionComponent<teacher> = ({ userName, userType, logged
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Student name</td>
-                                </tr>
+                                {displayCourse.students.map((student) => (
+                                    <tr>
+                                        <td>{student.first_name} {student.last_name}</td>
+                                        <td><a href="mailto:">{student.email}</a></td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>
-                    <div className="jumbotron container" id="className-info-container">
+                    <div className="dash-container" id="courses-container">
                         <h3>Class Info</h3>
-                        <p><b>Name:</b>{displayCourse.name}</p>
-                        <p><b>ID:</b>{displayCourse.id}</p>
-                        <p><b>Schedule days:</b>{displayCourse.schedule_days}</p>
-                        <p><b>Schedule time:</b>{displayCourse.schedule_time}</p>
-                        <Form>
-                            Current syllabus: {displayCourse.syllabus}
-                            Upload new syllabus
-                            Submit
-                        </Form>
+                        <p><b>Course Name: </b>{displayCourse.name}</p>
+                        <p><b>ID: </b>{displayCourse.id}</p>
+                        <p><b>Schedule days: </b>{displayCourse.schedule_days}</p>
+                        <p><b>Schedule time: </b>{displayCourse.schedule_time}</p>
+                        <p>Current syllabus: {displayCourse.syllabus}</p>
+                        <Button className="update-syllabus-btn">Update Syllabus</Button>
                     </div>
                 </div>
             </div>

@@ -7,7 +7,8 @@ from werkzeug.utils import secure_filename
 
 from api import db
 from api import root_logger as logger
-from api.classes import Assignment, Course, Submission, Teacher
+from api.classes import Assignment, Course, Teacher, Student
+from api.tools.factory import response, error
 from api.tools.decorators import required_access
 from api.tools.factory import error, response
 from api.tools.google_storage import upload_blob
@@ -90,7 +91,7 @@ def view_assignments():
             'id': str(course_id),
             'name': course.name,
             'assignments': list(map(lambda a: a.to_dict(), course_assignments)),
-            'students': course.students,
+            'students': list(map(lambda s: Student.get_by_id(s).to_dict(), course.students)),
             'description': course.description,
             'schedule_time': course.schedule_time,
             'schedule_days': course.schedule_days,
@@ -98,7 +99,7 @@ def view_assignments():
         }
         courses.append(course_data)
     
-    return response(data={"courses": [course_data]})
+    return response(data={"courses": courses})
 
 @teacher.route("/assignments/<string:course_id>", methods=["GET"])
 def view_assignment_by_class_id(course_id: str):

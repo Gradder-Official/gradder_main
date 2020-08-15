@@ -358,10 +358,7 @@ class Course:
             dictionary["number"],
             dictionary["name"],
             dictionary["teacher"] if "teacher" in dictionary else None,
-            list(
-                map(lambda x: Student.from_dict(x),
-                    list(dictionary["students"]))
-            ) if "students" in dictionary else None,
+            dictionary["students"] if "students" in dictionary else None,
             dictionary["description"] if "description" in dictionary else "Description",
             dictionary["schedule_time"] if "schedule_time" in dictionary else None,
             dictionary["schedule_days"] if "schedule_days" in dictionary else None,

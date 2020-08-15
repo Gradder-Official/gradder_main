@@ -1,0 +1,57 @@
+.class-navbar {
+    margin: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.class-navbar h1 {
+    font-family: "Gilroy", sans-serif;
+    font-weight: bold;
+    margin-right: 20px;
+}
+.class-navbar .btn {
+    max-width: 250px;
+    height: 40px;
+    padding: 0 30px;
+    margin: 0 20px;
+    border-radius: 20px;
+    background: rgb(81, 153, 240);
+    border: none;
+}
+.class-navbar .btn:hover {
+    background: rgb(44, 112, 196);
+    color: white;
+}
+#students-container {
+    flex: 3;
+    min-width: 230px;
+}
+#courses-container {
+    flex: 2;
+}
+#students-table thead tr {
+    border-bottom: 2px solid rgb(81, 153, 240);
+}
+.students-table th, .students-table td {
+    padding: 10px 0;
+    min-width: 200px;
+}
+
+.update-syllabus-btn {
+    border-radius: 20px;
+    background: rgb(81, 153, 240);
+    border: none;
+    padding: 8px 15px;
+    font-size: 14px;
+}
+
+/* My student */
+.student-dash-info {
+    background: aliceblue;
+    border-radius: 20px;
+    padding: 20px;
+    margin-top: 5%;
+}
+.student-dash-info .student-name {
+    font-size: 20px;
+}

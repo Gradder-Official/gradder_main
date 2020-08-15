@@ -1,11 +1,40 @@
-import React, { FunctionComponent, useState } from "react";
-import { teacher } from "../../components/Interfaces";
+import React, { FunctionComponent, useState, useEffect } from "react";
+import { teacher, studentInfo, student } from "../../components/Interfaces";
 import "../../assets/styles/dashboard.css";
 import "../../assets/styles/assignments.css";
 import DashProfile from "../../components/DashProfile";
 import TeacherSidebar from "../../components/TeacherSidebar";
+import MyStudent from "../../components/myStudent";
+import { Dictionary } from "@fullcalendar/react";
 
 const TeacherDash: FunctionComponent<teacher> = ({ userName, userType, loggedIn, dob }) => {
+
+  const [myStudents, setMyStudents] = useState<Array<studentInfo>>([
+    {
+      "email": "",
+      "first_name": "",
+      "last_name": "",
+      "password": "",
+      "courses": [],
+      "assignments": []
+    }
+  ]);
+
+  useEffect(() => {
+    fetch('/api/teacher/courses')
+      .then(res => res.json()).then(response => {
+        let studentInfoList: Array<studentInfo> = []
+        response['data']['courses'].map((course: Dictionary) => {
+          course.students.map((student: studentInfo) => {
+            studentInfoList.push(student)
+          })
+        })
+        setMyStudents(studentInfoList)
+      }
+      )
+  }, []);
+
+  console.log(myStudents)
 
   return (
     <React.Fragment>
@@ -23,6 +52,15 @@ const TeacherDash: FunctionComponent<teacher> = ({ userName, userType, loggedIn,
         <div className="dash-flex-row">
           <div className="dash-container timetable">
             <h5>Students</h5>
+            {myStudents.map((student) => (
+              <MyStudent 
+                email={student.email} 
+                first_name={student.first_name}
+                last_name={student.last_name}
+                password={student.password}
+                courses={student.courses}
+                assignments={student.assignments}/>
+            ))}
           </div>
           <div className="dash-flex-col">
             <div className="dash-container assignments">
