@@ -13,6 +13,7 @@ import StudentDash from './pages/Student/Dash';
 import StudentAssignments from './pages/Student/Assignments';
 import AssignmentDisplay from './pages/Student/AssignmentDisplay';
 import StudentTimetable from './pages/Student/Timetable';
+import TeacherTimetable from "./pages/Teacher/Timetable"
 import StudentProfile from './pages/Student/Profile';
 import Unauthorized from './pages/Unauthorized';
 import ProtectedRoute from './components/ProtectedRoute'
@@ -96,6 +97,10 @@ const App: FunctionComponent = () => {
         <ProtectedRoute user={user} scope="Teacher" exact path="/teacher/classes" render={(props: any) => (
           <TeacherCourses {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob} />
         )} />
+        <ProtectedRoute user={user} scope="Teacher" exact path="/teacher/timetable" render={(props: any) => (
+          <TeacherTimetable {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob} />
+        )} />
+        
         <Route
           exact
           path="/student/assignment/:id"

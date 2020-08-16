@@ -34,6 +34,10 @@ const TeacherSidebar: FunctionComponent = () => {
                     <span className="material-icons-outlined">calendar_today</span>
                     Classes
                 </NavLink>
+                <NavLink to="/teacher/timetable" className="nav-link" activeClassName="active">
+                    <span className="material-icons-outlined">calendar_today</span>
+                    Timetable
+                </NavLink>
                 <NavLink to="/teacher/assignments" className="nav-link" activeClassName="active">
                     <span className="material-icons-outlined">check_box</span>
                     Assignments
