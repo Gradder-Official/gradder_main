@@ -244,3 +244,36 @@ class SchoolConfig:
         )
         
         self._grading = grading
+
+    def to_dict(self) -> dict:
+        dict_school = {
+            "school_name": self.school_name,
+            "school_address": self.school_address,
+            "phone_number": self.phone_number,
+            "school_email": self.school_email,
+            "principal": self.principal,
+            "principal_email": self.principal_email,
+            "departments": self.departments,
+            "department_description": self.department_description,
+            "grade_weights": self.grade_weights,
+            "grading": self.grading,
+        }
+
+        return dict_school
+
+    def from_dict(cls, dictionaru: dict) -> SchoolConfig:
+        return SchoolConfig(
+           school_name=dictionary["school_name"],
+           school_address=dictionary["school_address"],
+           phone_number=dictionary["phone_number"],
+           school_email=dictionary["school_email"],
+           principal=dictionary["principal"],
+           principal_email=dictionary["principal_email"], 
+           departments=dictionary["departments"],
+           department_description=dictionary["department_description"],
+           grade_weights=dictionary["grade_weights"],
+           grading=dictionary["grading"]
+        )
+
+
+    
