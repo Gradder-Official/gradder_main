@@ -19,7 +19,7 @@ class SchoolConfig:
         principal_email: str,
         departments: List[str],
         department_description: List[str],
-        grade_weights: List[bool],
+        grade_weights: bool,
         grading: List[str]
     ):
         """
@@ -51,8 +51,8 @@ class SchoolConfig:
         department_description: List[str]
             List of descriptions for each department in the school
         
-        grade_weights: List[bool],
-            For each class in the school, decides if there is a weight or not(True == Weight, False == No Weight)
+        grade_weights: bool,
+            For the school, decides if there is a weight or not(True == Weight, False == No Weight)
         
         grading: List[str],
             Grading System for the school(Can be Letter Grades(A-F))
