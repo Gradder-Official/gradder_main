@@ -1,5 +1,5 @@
 // NPM Imports
-import React, { useState, useEffect, FunctionComponent } from "react";
+import React, { useState, useEffect, FunctionComponent, useReducer } from "react";
 import {
   Switch,
   BrowserRouter as Router,
@@ -25,6 +25,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 
 const App: FunctionComponent = () => {
+  const [requestErrors, setRequestErrors] = useState<string>();
 
   const blankUser: student = {
     userName: '',
@@ -40,7 +41,7 @@ const App: FunctionComponent = () => {
       .then(res => res.json()).then(response => {
         setUser(response['user_info']);
       }
-    )
+    );
     // Cleanup and reset
     return function cleanup() {
       setUser(blankUser)
@@ -50,23 +51,40 @@ const App: FunctionComponent = () => {
   console.log(user);
 
   function logOutUser() {
-    setUser(blankUser);
+    fetch('/api/auth/logout')
+    .then(res => res.json()).then(response => {
+      setUser(blankUser);
+    })
+    .catch(error => {
+      // Return errors
+      console.error('There was an error!', error);
+      setRequestErrors("Sorry, there was a problem logging out.")
+    });
   }
 
+  // TODO: add the "home page" for the multiple schools and the school urls/subdomains
   return (
     <Router>
       <Switch>
         <Route exact path="/" component={Login} />
-        <Route exact path="/auth/logout" render={() => {
-                logOutUser();
-                return <Login />;
-            }
+        <Route exact path="/auth/login">
+          {user.loggedIn ? (
+            <Redirect to={"/" + user.userType + "/dashboard"} />
+          ) : (
+            <Redirect to="/auth/login" />
+          )}
+        </Route>
+        <Route exact path="/auth/logout" render={
+          () => {
+            logOutUser();
+            return <Redirect to="/auth/login" />
+          }
         }/>
         <Route exact path="/dashboard">
           {user.loggedIn ? (
             <Redirect to={"/" + user.userType + "/dashboard"} />
           ) : (
-            <Login />
+            <Redirect to="/auth/login" />
           )}
         </Route>
         <ProtectedRoute user={user} scope="Student" exact path="/student/dashboard" render={(props: any) => (
@@ -81,10 +99,11 @@ const App: FunctionComponent = () => {
         <ProtectedRoute user={user} scope="Student" exact path="/student/profile" render={(props: any) => (
           <StudentProfile {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob} />
         )}/>
-        <Route
+        <ProtectedRoute 
+          user={user} scope="Student"
           exact
           path="/student/assignment/:id"
-          render={(props) => (
+          render={(props: any) => (
             <AssignmentDisplay
               {...props}
             />
