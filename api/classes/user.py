@@ -156,6 +156,7 @@ class User(UserMixin):
 
         # The password's length is limited to 50 in the endpoint, so if it is larger and matches regex, it is a hash
         # If any of the conditions are not met, this as a new password, so we encode and hash it
+        # TODO: add password length check before here or find some other way to check for hash
         if not all((
             isinstance(password, bytes),
             len(password) > 50,
