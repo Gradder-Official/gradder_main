@@ -98,16 +98,20 @@ class User(UserMixin):
     @property
     def email(self) -> str:
         return self._email
-    
+
     @email.setter
     def email(self, email: str):
         if not isinstance(email, str):
             raise InvalidTypeException(
                 f"The email provided is not a str (type provided is {type(email)})."
             )
-        
-        if not re.match(r'^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$', email):
-            raise InvalidFormatException(f"The email given is not in a valid email format (got {email})")
+
+        if not re.match(
+            r"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", email
+        ):
+            raise InvalidFormatException(
+                f"The email given is not in a valid email format (got {email})"
+            )
 
         self._email = email
 
@@ -145,13 +149,22 @@ class User(UserMixin):
             The new password. If the password is a valid hash, will set it to this value (otherwise, will set it to the hash of the new password).
         """
 
-        # If a password is already a valid hash
-        if re.match(r"^\$2[ayb]\$.{56}$", str(password)):
-            password = password if type(password) is bytes else password.encode("utf-8")
-            self._password = password
-        else:
-            password = password if type(password) is bytes else password.encode("utf-8")
-            self._password = hashpw(password, gensalt())
+        if not isinstance(password, (str, bytes)):
+            raise InvalidTypeException(
+                f"Password should be in str or bytes format, got {type(password)}"
+            )
+
+        # The password's length is limited to 50 in the endpoint, so if it is larger and matches regex, it is a hash
+        # If any of the conditions are not met, this as a new password, so we encode and hash it
+        
+        # The hashed password should never begin with $2a$ or $2y$, but better to be safe
+        # than sorry :D
+        if not (isinstance(password, bytes) and \
+                password.startswith((b'$2a$', b'$2b$', b'$2y$')) and \
+                len(password) == 60):
+            password = hashpw(password.encode("utf-8"), gensalt(prefix=b"2b"))
+
+        self._password = password
 
     @property
     def id(self) -> str:
@@ -243,7 +256,9 @@ class User(UserMixin):
         try:
             date_obj = datetime.datetime.strptime(date_of_birth, date_format)
         except ValueError:
-            raise InvalidFormatException(f"Incorrect data format, should be DD-MM-YYYY (got {date_of_birth})")
+            raise InvalidFormatException(
+                f"Incorrect data format, should be DD-MM-YYYY (got {date_of_birth})"
+            )
 
         # TODO: check so the date is not in the future
 

@@ -21,7 +21,6 @@ const LoginBox: FunctionComponent = () => {
             body: JSON.stringify(data),
         })
         .then(async response => {
-            console.log(JSON.stringify(data))
             const res = await response.json();
             // Check for error response
             if (!response.ok) {
