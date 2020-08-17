@@ -161,7 +161,7 @@ class User(UserMixin):
         # than sorry :D
         if not (isinstance(password, bytes) and \
                 password.startswith((b'$2a$', b'$2b$', b'$2y$')) and \
-                len(password) > 50):
+                len(password) == 60):
             password = hashpw(password.encode("utf-8"), gensalt(prefix=b"2b"))
 
         self._password = password
