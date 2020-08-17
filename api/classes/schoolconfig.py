@@ -275,5 +275,253 @@ class SchoolConfig:
            grading=dictionary["grading"] if "grading" in dictionary else None
         )
 
+    def update_school_name(self, school_name: str) -> bool:
+        r"""Updates the school's name.
 
+        Parameters
+        ----------
+        school_name : str
+
+        Returns
+        -------
+        bool
+            `True` if the update operation was successful, `False` otherwise
+        """
+        try:
+            self.school_name = school_name
+            db.general_info["school_name"] = self.school_name
+
+            return True
+
+        except Exception as e:
+            logger.exception(
+                f"Error while updating school name {school_name}: {e}"
+            )
+
+            return False
+
+    def update_school_address(self, school_address: str) -> bool:
+        r"""Updates the school's adress.
+
+        Parameters
+        ----------
+        school_address : str
+
+        Returns
+        -------
+        bool
+            `True` if the update operation was successful, `False` otherwise
+        """
+        try:
+            self.school_address = school_address
+            db.general_info["school_address"] = self.school_address
+
+            return True
+
+        except Exception as e:
+            logger.exception(
+                f"Error while updating school adresss {school_address}: {e}"
+            )
+
+            return False
+
+    def update_phone_number(self, phone_number: str) -> bool:
+        r"""Updates the school's adress.
+
+        Parameters
+        ----------
+        phone_number : str
+
+        Returns
+        -------
+        bool
+            `True` if the update operation was successful, `False` otherwise
+        """
+        try:
+            self.phone_number = phone_number
+            db.general_info["phone_number"] = self.phone_number
+
+            return True
+
+        except Exception as e:
+            logger.exception(
+                f"Error while updating school adresss {phone_number}: {e}"
+            )
+
+            return False
+
+    def update_school_email(self, school_email: str) -> bool:
+        r"""Updates the principal's email.
+
+        Parameters
+        ----------
+        school_email : str
+
+        Returns
+        -------
+        bool
+            `True` if the update operation was successful, `False` otherwise
+        """
+        try:
+            self.school_email = school_email
+            db.general_info["school_email"] = self.school_email
+
+            return True
+
+        except Exception as e:
+            logger.exception(
+                f"Error while updating principal's email {school_email}: {e}"
+            )
+
+            return False
+
+    def update_principal(self, principal: str) -> bool:
+        r"""Updates the principal's name.
+
+        Parameters
+        ----------
+        principal : str
+
+        Returns
+        -------
+        bool
+            `True` if the update operation was successful, `False` otherwise
+        """
+        try:
+            self.principal = principal
+            db.general_info["principal"] = self.principal
+
+            return True
+
+        except Exception as e:
+            logger.exception(
+                f"Error while updating school's name {principal}: {e}"
+            )
+
+            return False
+
+    def update_principal_email(self, principal_email: str) -> bool:
+        r"""Updates the principal's email.
+
+        Parameters
+        ----------
+        principal_email : str
+
+        Returns
+        -------
+        bool
+            `True` if the update operation was successful, `False` otherwise
+        """
+        try:
+            self.principal_email = principal_email
+            db.general_info["principal_email"] = self.principal_email
+
+            return True
+
+        except Exception as e:
+            logger.exception(
+                f"Error while updating principal's email {principal_email}: {e}"
+            )
+
+            return False
+
+    def update_departments(self, departments: list) -> bool:
+        r"""Updates the departments.
+
+        Parameters
+        ----------
+        departments : list
+
+        Returns
+        -------
+        bool
+            `True` if the update operation was successful, `False` otherwise
+        """
+        try:
+            self.departments = departments
+            db.general_info["departments"] = self.departments
+
+            return True
+
+        except Exception as e:
+            logger.exception(
+                f"Error while updating departments {departments}: {e}"
+            )
+
+            return False
+
+    def update_department_description(self, department_description: list) -> bool:
+        r"""Updates the department descriptions.
+
+        Parameters
+        ----------
+        department_description : list
+
+        Returns
+        -------
+        bool
+            `True` if the update operation was successful, `False` otherwise
+        """
+        try:
+            self.department_description = department_description
+            db.general_info["department_description"] = self.department_description
+
+            return True
+
+        except Exception as e:
+            logger.exception(
+                f"Error while updating department descriptions {department_description}: {e}"
+            )
+
+            return False
+
+    def update_grade_weights(self, grade_weights: bool) -> bool:
+        r"""Updates the grade weights.
+
+        Parameters
+        ----------
+        grade_weights : bool
+
+        Returns
+        -------
+        bool
+            `True` if the update operation was successful, `False` otherwise
+        """
+        try:
+            self.grade_weights = grade_weights
+            db.general_info["grade_weights"] = self.grade_weights
+
+            return True
+
+        except Exception as e:
+            logger.exception(
+                f"Error while updating grade weights {grade_weights}: {e}"
+            )
+
+            return False
+
+    def update_grading(self, grading: list) -> bool:
+        r"""Updates the grading system.
+
+        Parameters
+        ----------
+        grading : list
+
+        Returns
+        -------
+        bool
+            `True` if the update operation was successful, `False` otherwise
+        """
+        try:
+            self.grading = grading
+            db.general_info["grading"] = self.grading
+
+            return True
+
+        except Exception as e:
+            logger.exception(
+                f"Error while updating grading system {grading}: {e}"
+            )
+
+            return False
     
