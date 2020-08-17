@@ -13,61 +13,61 @@ class SchoolConfig:
     # Add attributes and methods to edit db.general_info
     def __init__(
         self,
-        school_name: str,
-        school_address: str,
-        phone_number: str,
-        school_email: str,
-        principal: str,
-        principal_email: str,
-        departments: List[str],
-        department_description: List[str],
-        grade_weights: bool,
-        grading: List[str]
+        school_name: Optional[str] = None,
+        school_address: Optional[str] = None,
+        phone_number: Optional[str] = None,
+        school_email: Optional[str] = None,
+        principal: Optional[str] = None,
+        principal_email: Optional[str] = None,
+        departments: Optional[list] = None,
+        department_description: Optional[list] = None,
+        grade_weights: Optional[bool] = None,
+        grading: Optional[list] = None,
     ):
         """
         Helps with SchoolConfig
 
         Parameters
         ------------
-        school_name: str
+        school_name: str, optional
             Updating the name of the school
 
-        school_address: str
+        school_address: str, optional
             Address of the school
 
-        phone_number: str,
+        phone_number: str, optional
             Phone Number of the school
 
-        school_email: str,
+        school_email: str, optional
             Email address of the school
 
-        principal: str,
+        principal: str, optional
             The Current principal at the school
 
-        principal_email: str,
+        principal_email: str, optional
             Email of the current principal of the school
         
-        departments: List[str],
+        departments: List[str], optional
             A List of 3-letter abbreivations of the departments at the school
         
-        department_description: List[str]
+        department_description: List[str], optional
             List of descriptions for each department in the school
         
-        grade_weights: bool,
+        grade_weights: bool, optional
             For the school, decides if there is a weight or not(True == Weight, False == No Weight)
         
-        grading: List[str],
+        grading: List[str], optional
             Grading System for the school(Can be Letter Grades(A-F))
         """
-    self._school_name = school_name
-    self._school_address = school_address
-    self._phone_number = phone_number
-    self._school_email = school_email
-    self._principal = principal
-    self._departments = departments 
-    self._department_description = department_description
+    self._school_name = school_name or ""
+    self._school_address = school_address or ""
+    self._phone_number = phone_number or ""
+    self._school_email = school_email or ""
+    self._principal = principal or ""
+    self._departments = departments or List()
+    self._department_description = department_description or List()
     self._grade_weights = grade_weights 
-    self._grading = grading 
+    self._grading = grading or List()
 
     @property
     def school_name(self) -> str:
@@ -261,18 +261,18 @@ class SchoolConfig:
 
         return dict_school
 
-    def from_dict(cls, dictionaru: dict) -> SchoolConfig:
+    def from_dict(cls, dictionary: dict) -> SchoolConfig:
         return SchoolConfig(
-           school_name=dictionary["school_name"],
-           school_address=dictionary["school_address"],
-           phone_number=dictionary["phone_number"],
-           school_email=dictionary["school_email"],
-           principal=dictionary["principal"],
-           principal_email=dictionary["principal_email"], 
-           departments=dictionary["departments"],
-           department_description=dictionary["department_description"],
-           grade_weights=dictionary["grade_weights"],
-           grading=dictionary["grading"]
+           school_name=dictionary["school_name"] if "school_name" in dictionary else None,
+           school_address=dictionary["school_address"] if "school_address" in dictionary else None,
+           phone_number=dictionary["phone_number"] if "phone_number" in dictionary else None,
+           school_email=dictionary["school_email"] if "school_email" in dictionary else None,
+           principal=dictionary["principal"] if "principal" in dictionary else None,
+           principal_email=dictionary["principal_email"] if "principal_email" in dictionary else None, 
+           departments=dictionary["departments"] if "departments" in dictionary else None,
+           department_description=dictionary["department_description"] if "department_description" in dictionary else None,
+           grade_weights=dictionary["grade_weights"] if "grade_weights" in dictionary else None,
+           grading=dictionary["grading"] if "grading" in dictionary else None
         )
 
 
