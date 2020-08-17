@@ -67,11 +67,10 @@ def login():
         email = req_data['email'].lower()
         password = req_data['password']
         remember_me = req_data['remember_me']
-        logger.info(f"Received {email}, {password} and {remember_me}")
 
         for scope in [Student, Teacher, Admin, Parent]:
             logger.info(
-                f"Trying to find {type(scope).__name__} with email {email}...")
+                f"Trying to find {str(scope)} with email {email}...")
             user = scope.get_by_email(email)
             if user is not None:
                 logger.info(f"User: {user.first_name}")
@@ -84,12 +83,13 @@ def login():
 
                 logger.info(
                     f"Failed to validate the password for the {type(scope).__name__} with email {email}")
+                return error("Invalid password,"), 400
 
             logger.info(
                 f"Could not find {type(scope).__name__} with email {email}")
 
-        logger.info(f"Could not login user with email {email}")
-        return error("Invalid email or password."), 400
+        logger.info(f"Could not find user with email {email}")
+        return error("The user with this email does not exist."), 400
     except KeyError:
         logger.info("Not all fields satisfied")
         return error("Not all fields satisfied"), 400

@@ -1,10 +1,12 @@
 from __future__ import annotations
 from typing import Union, Dict, Optional
 from bcrypt import hashpw, gensalt, checkpw
-
+from flask_login import UserMixin
+from bson import ObjectId
+import datetime
 import re
 
-from flask_login import UserMixin
+from api.tools.exceptions import InvalidTypeException, InvalidFormatException
 
 
 class User(UserMixin):
@@ -63,7 +65,7 @@ class User(UserMixin):
         self.password = password or ""
         self.bio = bio or ""
         self.date_of_birth = date_of_birth or ""
-        self.profile_picture = profile_picture or tuple()
+        self.profile_picture = profile_picture or ""
         if _id is not None:
             self.id = _id
 
@@ -234,10 +236,14 @@ class User(UserMixin):
                 f"The date of birth provided is not a str (type provided is {type(name)})."
             )
 
+        if date_of_birth == "":
+            self._date_of_birth = "14-03-1879"  # Einstein birthdate
+            return
+
         try:
-            date_obj = datetime.datetime.strptime(date_string, date_format)
+            date_obj = datetime.datetime.strptime(date_of_birth, date_format)
         except ValueError:
-            raise InvalidFormatException("Incorrect data format, should be DD-MM-YYYY")
+            raise InvalidFormatException(f"Incorrect data format, should be DD-MM-YYYY (got {date_of_birth})")
 
         # TODO: check so the date is not in the future
 
@@ -251,7 +257,7 @@ class User(UserMixin):
     def profile_picture(self, profile_picture: str):
         if not isinstance(profile_picture, str):
             raise InvalidTypeException(
-                f"The link to profile picture provided is not a str (type provided is {type(name)})."
+                f"The link to profile picture provided is not a str (type provided is {type(profile_picture)})."
             )
 
         # TODO: add link validation from google cloud
