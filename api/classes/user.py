@@ -34,9 +34,9 @@ class User(UserMixin):
         email: str,
         first_name: str,
         last_name: str,
-        _description: Optional[str] = None,
-        _date_of_birth: Optional[str] = None,
-        _profile_picture: Optional[str] = None,
+        description: Optional[str] = None,
+        date_of_birth: Optional[str] = None,
+        profile_picture: Optional[tuple] = None,
         _id: Optional[str] = None,
         password: Optional[Union[str, bytes]] = None,
     ):
@@ -50,8 +50,8 @@ class User(UserMixin):
         _description : str, optional
         _date_of_birth : str, optional
             The user's date of birth (dd-mm-yyyy), defaults to None if unspecified.
-        _profile_picture : str, optional
-            Link to user's profile picture, defaults to None if unspecified.
+        _profile_picture : tuple, optional
+            Link to user's profile picture, defaults to empty tuple if unspecified.
         _id : str, optional
             The user's ID number, defaults to None if unspecified.
         password : str, optional
@@ -62,8 +62,9 @@ class User(UserMixin):
         self.last_name = last_name  # TODO: add validation (property)
         self.id = _id if _id is not None else ''
         self.password = password if password is not None else ''
-        self.description = _description if _description is not None else ''
-        self.date_of_birth = _date_of_birth if _date_of_birth is not None else ''
+        self._description = description if description is not None else ''
+        self._date_of_birth = date_of_birth if date_of_birth is not None else ''
+        self._profile_picture = profile_picture if profile_picture is not None else ()
 
     def __repr__(self):
         return f"<User {self._id}>"
@@ -153,6 +154,15 @@ class User(UserMixin):
 
     @description.setter
     def description(self, description: str):
+        if not isinstance(description, str):
+            raise InvalidTypeException(f"The description provided is not a str (type provided is {type(name)}).")
+        
+        if not 0 < len(description) <= 500:
+            raise InvalidFormatException(f"The string provided is too long. The description should not exceed 500 characters. (currently: {len(description)})")
+
+        if not re.match(r'[\w \.\+\(\)\[\]\{\}\?\*\&\^\%\$\#\/\'"~<>,:;!-_=@]{1,500}', description, flags=re.UNICODE):
+            raise InvalidFormatException(r"The format for description doesn't match. Expected '[\w \.\+\(\)\[\]\{\}\?\*\&\^\%\$\#\/\'\"~<>,:;!-_=@]{1, 500}', got {description}".format(description=description))
+
         self._description = description
 
     @property
@@ -162,19 +172,26 @@ class User(UserMixin):
     @date_of_birth.setter
     def date_of_birth(self, date_of_birth: str):
         date_format = '%d-%m-%Y'
+        if not isinstance(date_of_birth, str):
+            raise InvalidTypeException(f"The date of birth provided is not a str (type provided is {type(name)}).")
+
         try:
             date_obj = datetime.datetime.strptime(date_string, date_format)
-            self.date_of_birth = date_of_birth
         except ValueError:
             raise InvalidFormatException("Incorrect data format, should be DD-MM-YYYY")
+
+        self._date_of_birth = date_of_birth
 
     @property
     def profile_picture(self) -> str:
         return self._profile_picture
     
     @profile_picture.setter
-    def profile_picture(self, profile_picture: str):
-        self.profile_picture = profile_picture
+    def profile_picture(self, profile_picture: tuple):
+        if not isinstance(profile_picture, tuple):
+            raise InvalidTypeException(f"The link to profile picture provided is not a str (type provided is {type(name)}).")
+
+        self._profile_picture = profile_picture
 
     def get_activation_token(self, expires_sec=1800):
         """Gets an activation token for a user
