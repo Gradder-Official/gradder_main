@@ -89,7 +89,7 @@ def login():
 
         logger.info(f"Could not find user with email {email}")
         return error("The user with this email does not exist."), 400
-    except KeyError:
+    except (KeyError, TypeError):
         logger.info("Not all fields satisfied")
         return error("Not all fields satisfied"), 400
 
