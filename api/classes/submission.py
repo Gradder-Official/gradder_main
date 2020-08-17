@@ -33,7 +33,8 @@ class Submission:
         self.content = content
         self.filenames = filenames
         self.student_id = student_id
-        self.grade = grade
+        self.assignment_id = assignment_id
+        self._grade = grade
         self._id = _id if _id is not None else ''
 
     @property
@@ -50,6 +51,7 @@ class Submission:
             "content": str(self.content),
             "filenames": self.filenames,
             "student_id": self.student_id,
+            "assignment_id": self.assignment_id,
             "grade": self.grade,
             "id": self.id,
         }

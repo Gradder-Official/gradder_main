@@ -176,7 +176,6 @@ class Student(User):
     def add_submission(
         self,
         course_id: str,
-        assignment_id: str,
         submission: Submission
     ):
         """Add a submission as this student
@@ -197,13 +196,13 @@ class Student(User):
         }
 
         db.courses.find_one_and_update(
-            {"_id": ObjectId(course_id), "assignments._id": ObjectId(assignment_id)},
+            {"_id": ObjectId(course_id), "assignments._id": ObjectId(submission.assignment_id)},
             {"$push": {"assignments.$.submissions": dictionary}},
         )
 
         #TODO: add logger
 
-        unique_submission_string = course_id + "_" + assignment_id + "_" + submission.id
+        unique_submission_string = course_id + "_" + submission.assignment_id + "_" + submission.id
 
         db.students.find_one_and_update(
             {"_id": ObjectId(self.id)},

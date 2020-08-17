@@ -58,11 +58,12 @@ def submit(course_id: str, assignment_id: str):
                 date_submitted=datetime.utcnow(),
                 content=request.form['content'],
                 filenames=file_list,
-                student_id=current_user.id
+                student_id=current_user.id,
+                assignment_id=assignment_id
             )
             
             current_user.add_submission(
-                current_user.id, course_id, assignment_id, submission=submission
+                current_user.id, course_id, submission=submission
             )
         except KeyError:
             return error("Not all fields satisfied"), 400
