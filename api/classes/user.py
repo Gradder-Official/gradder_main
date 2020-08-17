@@ -156,13 +156,13 @@ class User(UserMixin):
 
         # The password's length is limited to 50 in the endpoint, so if it is larger and matches regex, it is a hash
         # If any of the conditions are not met, this as a new password, so we encode and hash it
-        # TODO: add password length check before here or find some other way to check for hash
-        if not all((
-            isinstance(password, bytes),
-            len(password) > 50,
-            re.match(r"^\$2[ayb]\$.{56}$", password.decode("utf-8")),
-        )):
-            password = hashpw(password.encode("utf-8"), gensalt())
+        
+        # The hashed password should never begin with $2a$ or $2y$, but better to be safe
+        # than sorry :D
+        if not (isinstance(password, bytes) and \
+                password.startswith((b'$2a$', b'$2b$', b'$2y$')) and \
+                len(password) > 50):
+            password = hashpw(password.encode("utf-8"), gensalt(prefix=b"2b"))
 
         self._password = password
 
