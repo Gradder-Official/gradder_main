@@ -51,9 +51,13 @@
   margin-right: 20px;
 }
 #sidebar-nav .active,
-#sidebar-nav .nav-link:hover {
+#sidebar-nav .nav-link:hover,
+#sidebar-nav #sidebar-logout:hover {
   background: rgb(93, 118, 232);
   border-radius: 0 50px 50px 0;
+}
+#sidebar-nav #sidebar-logout {
+  background: transparent;
 }
 
 /* Responsiveness */

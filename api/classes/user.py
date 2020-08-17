@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Union, Dict
+from typing import Union, Dict, Optional
 from bcrypt import hashpw, gensalt, checkpw
 
 import re
@@ -34,8 +34,11 @@ class User(UserMixin):
         email: str,
         first_name: str,
         last_name: str,
-        _id: str = None,
-        password: str = None,
+        _description: Optional[str] = None,
+        _date_of_birth: Optional[str] = None,
+        _profile_picture: Optional[str] = None,
+        _id: Optional[str] = None,
+        password: Optional[Union[str, bytes]] = None,
     ):
         r"""Init function for a generic User class.
 
@@ -44,6 +47,11 @@ class User(UserMixin):
         email : str
         first_name : str
         last_name : str
+        _description : str, optional
+        _date_of_birth : str, optional
+            The user's date of birth (dd-mm-yyyy), defaults to None if unspecified.
+        _profile_picture : str, optional
+            Link to user's profile picture, defaults to None if unspecified.
         _id : str, optional
             The user's ID number, defaults to None if unspecified.
         password : str, optional
@@ -54,6 +62,8 @@ class User(UserMixin):
         self.last_name = last_name  # TODO: add validation (property)
         self.id = _id if _id is not None else ''
         self.password = password if password is not None else ''
+        self.description = _description if _description is not None else ''
+        self.date_of_birth = _date_of_birth if _date_of_birth is not None else ''
 
     def __repr__(self):
         return f"<User {self._id}>"
@@ -88,7 +98,7 @@ class User(UserMixin):
 
     @id.setter
     def id(self, id: str):
-        self._id = id
+        self._id = str(id)
 
     def validate_password(self, password: str) -> bool:
         r"""Validates a password against the previously set hash.
@@ -103,7 +113,8 @@ class User(UserMixin):
         bool
             `True` if the password is valid, `False` otherwise.
         """
-        return checkpw(password, self.password)
+        hashedPassword = hashpw(password.encode("utf-8"), gensalt())
+        return checkpw(password.encode("utf-8"), hashedPassword)
 
     @property
     def id(self) -> str:
@@ -135,6 +146,35 @@ class User(UserMixin):
         r"""Creates a new User object from the dictionary.
         """
         return User(**dictionary)
+
+    @property
+    def description(self) -> str:
+        return self._description
+
+    @description.setter
+    def description(self, description: str):
+        db.users.update({"id": self.id}, {"$set": {"_description": description}})
+
+    @property
+    def date_of_birth(self) -> str:
+        return self._date_of_birth
+
+    @date_of_birth.setter
+    def date_of_birth(self, date_of_birth: str):
+        date_format = '%d-%m-%Y'
+        try:
+            date_obj = datetime.datetime.strptime(date_string, date_format)
+            db.users.update({"id": self.id}, {"$set": {"_date_of_birth": date_of_birth}})
+        except ValueError:
+            raise InvalidFormatException("Incorrect data format, should be DD-MM-YYYY")
+
+    @property
+    def profile_picture(self) -> str:
+        db.users.update({"id": self.id}, {"$set": {"_profile_picture": profile_picture}})
+    
+    @profile_picture.setter
+    def profile_picture(self, profile_picture: str):
+        return self._profile_picture
 
     def get_activation_token(self, expires_sec=1800):
         """Gets an activation token for a user

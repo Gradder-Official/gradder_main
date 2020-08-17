@@ -1,10 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import { student } from "../components/Interfaces";
-import StudentSidebar from '../components/StudentSidebar';
-import "../assets/styles/assignments.css"
-import AssignmentPreview from '../components/AssignmentPreview';
+import StudentSidebar from '../../components/StudentSidebar';
+import "../../assets/styles/assignments.css"
+import AssignmentPreview from '../../components/AssignmentPreview';
 
-const StudentAssignments: FunctionComponent<student> = ({ userName, userType }) => {
+const StudentAssignments: FunctionComponent = () => {
 
     return (
         <React.Fragment>

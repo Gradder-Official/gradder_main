@@ -1,16 +1,16 @@
 import React, { FunctionComponent, useState } from 'react';
+import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Form, Button } from 'react-bootstrap';
 import { LoginFormInputs } from '../components/Interfaces'
 import BlueLogo from '../assets/images/blue-logo.png'
 import "../assets/styles/login.css"
-import { Redirect } from 'react-router-dom';
 
 const LoginBox: FunctionComponent = () => {
 
     const { register, handleSubmit, errors } = useForm<LoginFormInputs>();
-
     const [requestErrors, setRequestErrors] = useState<string>();
+    let history = useHistory();
 
     const onSubmit = (data: LoginFormInputs) => {
 
@@ -21,13 +21,14 @@ const LoginBox: FunctionComponent = () => {
             body: JSON.stringify(data),
         })
         .then(async response => {
+            console.log(JSON.stringify(data))
             const res = await response.json();
             // Check for error response
             if (!response.ok) {
                 const error = (res && res.message) || response.status;
                 return Promise.reject(error);
             } else {
-                return <Redirect to="/dashboard"/>
+                history.push("/dashboard");
             }
         })
         .catch(error => {
@@ -66,6 +67,15 @@ const LoginBox: FunctionComponent = () => {
                     {errors.password && errors.password.type === "required" && (
                         <div className="error">Please enter your password.</div>
                     )}
+                </Form.Group>
+                <Form.Group controlId="formBasicCheckbox">
+                    <Form.Check 
+                        name="remember_me" 
+                        type="checkbox" 
+                        label="Remember me?" 
+                        defaultChecked 
+                        ref={register}
+                    />
                 </Form.Group>
                 <Button variant="primary" type="submit">
                     Submit

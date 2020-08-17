@@ -6,31 +6,34 @@ from api import db
 
 class Submission:
     def __init__(
-        self, date_submitted: time, content: str, filenames: list, _id: str = None
+        self,
+        date_submitted: time,
+        content: str,
+        filenames: list,
+        student_id: str,
+        grade: int = None,
+        _id: str = None
     ):
-        r"""Initializes the Assignment object
+        r"""Initializes the Submission object
+        
         Parameters
         ----------
-        date_assigned : datetime.datetime
-            A utc time signature that specifies when this assignment was posted by a Teacher.
-        assigned_by : int
-            Teacher id that specifies who assigned this assignment.
-        assigned_to : int
-            A class ID it was assigned to. 
-        due_by : datetime.datetime
-            A utc time signature that specifies when this assignment is due.
-        subject : str
-            The subject.
-        content : HTML string
-            An HTML string that is the content of this assignment (may include links to the files on the server).
-        estimated_time : int
-            Estimated time in minutes that this assignment should take to complete (set by the teacher).
+        date_submitted : datetime.datetime
+            A utc time signature that specifies when this submission was submitted.
+        content : str
+            Content (as Quill deltas) of the submission.
+        filenames : list
+            Any associated files.
+        grade : int, optional
+            The grade received, defaults to None
         _id : str, optional
             Specifies the assignment _id, defaults to None
         """
         self.date_submitted = date_submitted
         self.content = content
         self.filenames = filenames
+        self.student_id = student_id
+        self.grade = grade
         self._id = _id if _id is not None else ''
 
     @property
@@ -38,18 +41,21 @@ class Submission:
         return self._id
 
     @id.setter
-    def id(self, _id: str):
-        self.id = _id
+    def id(self, id: str):
+        self.id = id
 
     def to_dict(self) -> dict:
         return {
             "date_submitted": str(self.date_submitted),
             "content": str(self.content),
             "filenames": self.filenames,
+            "student_id": self.student_id,
+            "grade": self.grade,
+            "id": self.id,
         }
     
-    @staticmethod
-    def from_dict(dictionary: dict) -> Submission:
+    @classmethod
+    def from_dict(cls, dictionary: dict) -> Submission:
         r"""Generates a Submission object from a dictionary.
 
         Parameters
@@ -58,4 +64,4 @@ class Submission:
             Dictionary with proper Submission parameters
         """
 
-        return Submission(**dictionary)
+        return cls(**dictionary)

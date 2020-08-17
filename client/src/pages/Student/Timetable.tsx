@@ -1,13 +1,31 @@
-import React, { FunctionComponent } from 'react';
-import { student } from "../components/Interfaces";
-import StudentSidebar from '../components/StudentSidebar';
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import StudentSidebar from '../../components/StudentSidebar';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import "../assets/styles/dashboard.css";
-import "../assets/styles/timetable.css";
+import "../../assets/styles/dashboard.css";
+import "../../assets/styles/timetable.css";
 
-const StudentTimetable: FunctionComponent<student> = ({ userName }) => {
+const StudentTimetable: FunctionComponent = () => {
+
+    interface Events {
+        title: string
+        date: string
+    }
+
+    const [eventList, setEventList] = useState<Array<Events>>([
+        {title: "Example", date: "2020-08-08"}
+    ]);
+
+    // Fetches from mock APIs but not from /assignment-schedule
+    // Returns HTTP instead?
+    useEffect(() => {
+        fetch('/api/assignment-schedule')
+        .then(res => res.json()).then(data => {
+            setEventList(data.events);
+            console.log(data.events)
+        })
+    }, []);
 
     return (
         <React.Fragment>
@@ -21,6 +39,7 @@ const StudentTimetable: FunctionComponent<student> = ({ userName }) => {
                         plugins={[dayGridPlugin]}
                         initialView="dayGridMonth"
                         height="75vh"
+                        events={eventList}
                     />
                 </div>
                 <div className="time-grid-calendar">
@@ -29,11 +48,9 @@ const StudentTimetable: FunctionComponent<student> = ({ userName }) => {
                         initialView='timeGrid'
                         dayCount={3}
                         height="90vh"
-                        allDaySlot={false}
                         nowIndicator={true}
                         slotMinTime="07:00:00"
-                        // Get events from JSON
-                        events={[{ title: 'event 1', date:'2020-08-02'}]}
+                        events={eventList}
                     />
                 </div>
             </div>

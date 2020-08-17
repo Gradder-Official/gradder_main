@@ -1,8 +1,10 @@
-import React, { FunctionComponent, useState } from 'react';
-import { assignment } from '../components/Interfaces';
-import StudentSidebar from '../components/StudentSidebar';
+import React, { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
+import { assignment, Submission } from '../../components/Interfaces';
+import StudentSidebar from '../../components/StudentSidebar';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Alert from 'react-bootstrap/Alert';
 
 // Quill.js
 import ReactQuill from 'react-quill';
@@ -13,7 +15,7 @@ import 'react-quill/dist/quill.snow.css';
 import {useDropzone} from 'react-dropzone';
 
 // Custom styles
-import "../assets/styles/assignment.css";
+import "../../assets/styles/assignment.css";
 
 // Hook (credit: https://usehooks.com/useLocalStorage/)
 function useLocalStorage(key: string, initialValue: any) {

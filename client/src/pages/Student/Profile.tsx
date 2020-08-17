@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { Link } from "react-router-dom";
-import { student } from "../components/Interfaces";
-import StudentSidebar from '../components/StudentSidebar';
-import "../assets/styles/profile.css";
+import { student } from "../../components/Interfaces";
+import StudentSidebar from '../../components/StudentSidebar';
+import "../../assets/styles/profile.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -10,8 +10,7 @@ import Col from 'react-bootstrap/Col';
 
 
 const StudentProfile: FunctionComponent<student> = ({ userName, dob }) => {
-    var ageCalculator = require('age-calculator');
-    let { AgeFromDateString, AgeFromDate } = require('age-calculator');
+    let { AgeFromDateString } = require('age-calculator');
     let ageFromString = new AgeFromDateString(dob).age;
     // Get current time in hours:minutes
     const [hour, minute] = new Date().toLocaleTimeString().slice(0, 7).split(":")
@@ -29,7 +28,7 @@ const StudentProfile: FunctionComponent<student> = ({ userName, dob }) => {
             {/*This is the mobile approach using React-Boostrap*/}
             <div className="dash-content" id="student-overview">
                 <Container>
-                    <Row className="justify-content-md-center">
+                    <Row className="justify-content-md-center mobile-profile">
                         <Col className="profileDetails" xs={12} sm={8}>
                             <div className="dash-container profile">
                                 <div className="profile-details">
@@ -75,8 +74,8 @@ const StudentProfile: FunctionComponent<student> = ({ userName, dob }) => {
                 {/*This is the desktop/large screen version*/}
 
                 
-                {/*
-                <div className="student-dash-flex-row">
+                
+                <div className="student-dash-flex-row desktop-profile">
                     <div className="student-dash-flex-col">
                         <div className="dash-container profile">
                             <div className="profile-details">
@@ -111,7 +110,7 @@ const StudentProfile: FunctionComponent<student> = ({ userName, dob }) => {
                         </div>
                     </div>
                 </div>
-                */}
+                
 
             </div>
 

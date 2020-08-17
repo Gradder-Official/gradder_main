@@ -99,7 +99,7 @@ class Student(User):
         try:
             return Student.from_dict(db.students.find_one({"email": email}))
         except BaseException as e:
-            # TODO: add logger
+            logger.exception(f"Error while getting a student by email {id}: {e}")
             return None
 
     @staticmethod
@@ -157,6 +157,21 @@ class Student(User):
         #TODO: add logger
 
         return assignments
+    
+    def get_course_ids(self) -> List[Course]:
+        r"""Returns a list of the Teacher's courses
+
+        Returns
+        ------
+        List[Tuple[str, str]]
+            A list of a teacher's courses, represented as tuples (course-id, course-name).
+        """
+
+        course_ids = list()
+        for course_id in self.courses:
+            course_ids.append(course_id)
+
+        return course_ids
 
     def add_submission(
         self,
@@ -178,8 +193,7 @@ class Student(User):
         submission.id = str(ObjectId())
 
         dictionary = {
-            **submission.to_dict(),
-            "student_id" : self.id,
+            **submission.to_dict()
         }
 
         db.courses.find_one_and_update(

@@ -69,16 +69,6 @@
     margin-top: 2vh;
     margin-left: 20px;
 }
-#student-overview .profile-time {
-    margin-right: 20px;
-}
-#student-overview .profile-time i {
-    font-size: 20px;
-    color: white;
-    float: right;
-    margin-left: 15px;
-    margin-bottom: 10px;
-}
 #student-overview .timetable {
     height: 70vh;
     flex-grow: 1;
@@ -93,7 +83,7 @@
 #student-overview .assignments {
     flex-grow: 3;
     display: flex;
-    max-height: 35vh;
+    max-height: 30vh;
     flex-direction: column;
 }
 

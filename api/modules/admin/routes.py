@@ -1,9 +1,9 @@
-from flask import request
+from flask import current_app, request
 
 from api import root_logger
-from api.classes import Admin, Teacher, Student, Course
-from api.tools.factory import response, error
+from api.classes import Admin, Course, Student, Teacher
 from api.tools.decorators import required_access
+from api.tools.factory import error, response
 
 from . import admin
 
@@ -39,7 +39,7 @@ def add_teacher():
     if teacher.add():
         flashes.append("Teacher added!")
         root_logger.info(f"Teacher {teacher.email} added")
-        token = user.get_activation_token()
+        token = teacher.get_activation_token()
         app = current_app._get_current_object()
         msg = Message(
             app.config["MAIL_SUBJECT_PREFIX"] + " " + "Account Activation Link",
