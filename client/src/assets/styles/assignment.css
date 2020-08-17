@@ -30,6 +30,12 @@
   font-size: 115%;
 }
 
+.material-icons {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
 .submission-content .ql-editor {
   max-height: 75px;
   overflow: hidden;
