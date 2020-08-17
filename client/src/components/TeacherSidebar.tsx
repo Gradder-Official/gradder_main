@@ -42,7 +42,7 @@ const TeacherSidebar: FunctionComponent = () => {
                     <span className="material-icons-outlined">check_box</span>
                     Assignments
                 </NavLink>
-                <NavLink to="/dashboard" className="nav-link" activeClassName="active">
+                <NavLink to="/teacher/analytics" className="nav-link" activeClassName="active">
                     <span className="material-icons-outlined">pie_chart</span>
                     Analytics
                 </NavLink>

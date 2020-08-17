@@ -70,7 +70,6 @@
         position: absolute;
         right: 0;
         left: auto;
-        width: 75vw;
     }
     .dash-content .dash-flex-row {
         flex-direction: column-reverse;

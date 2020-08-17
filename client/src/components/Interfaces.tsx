@@ -56,3 +56,10 @@ export interface studentInfo {
     courses: [],
     assignments: []
 }
+
+export interface AssignmentChart {
+    "assignment_history": {
+        "assignment_name": string,
+        "assignment_scores": { "student": string, "score": number }[]
+    }[]
+}

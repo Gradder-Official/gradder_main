@@ -25,6 +25,7 @@ import { student, teacher } from "./components/Interfaces";
 import "bootstrap/dist/css/bootstrap.min.css";
 import TeacherDash from "./pages/Teacher/Dash";
 import TeacherCourses from "./pages/Teacher/Courses";
+import TeacherAnalytics from "./pages/Teacher/Analytics";
 
 
 const App: FunctionComponent = () => {
@@ -99,6 +100,9 @@ const App: FunctionComponent = () => {
         )} />
         <ProtectedRoute user={user} scope="Teacher" exact path="/teacher/timetable" render={(props: any) => (
           <TeacherTimetable {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob} />
+        )} />
+        <ProtectedRoute user={user} scope="Teacher" exact path="/teacher/analytics" render={(props: any) => (
+          <TeacherAnalytics {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob} />
         )} />
         
         <Route
