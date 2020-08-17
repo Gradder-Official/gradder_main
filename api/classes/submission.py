@@ -2,7 +2,7 @@ from __future__ import annotations
 from datetime import time, datetime
 
 from api import db
-
+from bson import ObjectId
 
 class Submission:
     def __init__(
@@ -11,6 +11,7 @@ class Submission:
         content: str,
         filenames: list,
         student_id: str,
+        assignment_id: str,
         grade: int = None,
         _id: str = None
     ):
@@ -67,3 +68,16 @@ class Submission:
         """
 
         return cls(**dictionary)
+
+    @property
+    def grade(self):
+        return self._grade
+        
+    @grade.setter
+    def grade(self, grade: int):
+        self._grade = grade
+
+        db.courses.find_one_and_update(
+            {"assignments._id": self.assignment_id, "assignments.submissions._id": self.id},
+            {"$set": {"assignments.$.submissions.$.grade": self.grade}}
+        )
