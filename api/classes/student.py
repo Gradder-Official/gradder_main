@@ -22,7 +22,8 @@ class Student(User):
         courses: List[str] = None,
         assignments: List[str] = None,
         _id: str = None,
-        activated: bool = False
+        activated: bool = False,
+        calendar: Optional[List[CalendarEvent]] = None
 
     ):
         """Initialises a user of Student type
@@ -43,7 +44,7 @@ class Student(User):
             The activation status of the user, by default False
         """
         super().__init__(
-            email=email, first_name=first_name, last_name=last_name, _id=_id, password=password
+            email=email, first_name=first_name, last_name=last_name, _id=_id, password=password, calendar=calendar
         )
 
         self.courses = courses or []
@@ -141,6 +142,9 @@ class Student(User):
 
         try:
             db.students.delete_one({'_id': ObjectId(self.id)})
+        except pymongo.errors.DuplicateKeyError:
+            logger.exception(f"The Student with the id {self.id} already exists, you should not be calling the add() method.")
+            return False
         except Exception as e:
             logger.exception(f"Error while removing Student {self.id}: {e}")
             return False

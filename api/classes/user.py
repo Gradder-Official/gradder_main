@@ -7,6 +7,7 @@ import datetime
 import re
 
 from api.tools.exceptions import InvalidTypeException, InvalidFormatException
+from . import CalendarEvent
 
 
 class User(UserMixin):
@@ -41,6 +42,7 @@ class User(UserMixin):
         profile_picture: Optional[str] = None,
         _id: Optional[str] = None,
         password: Optional[Union[str, bytes]] = None,
+        calendar: Optional[List[CalendarEvent]] = None
     ):
         r"""Init function for a generic User class.
 
@@ -83,7 +85,7 @@ class User(UserMixin):
         }
 
         try:
-            dictionary["_id"] = self.id
+            dictionary["_id"] = ObjectId(self.id)
         except:
             logger.info("This user has not been initialized yet.")
 
@@ -93,6 +95,9 @@ class User(UserMixin):
     def from_dict(cls, dictionary: dict) -> User:
         r"""Creates a new User object from the dictionary.
         """
+        if "calendar" in dictionary:
+            dictionary["calendar"] = [CalendarEvent.from_dict(i) for i in dictionary["calendar"]]
+        
         return cls(**dictionary)
 
     @property

@@ -17,7 +17,8 @@ class Admin(User):
         first_name: str,
         last_name: str,
         courses: List[str] = None,
-        _id: str = None
+        _id: str = None,
+        calendar: Optional[List[CalendarEvent]] = None
     ):
         r"""Creates a user with Admin access
 
@@ -34,7 +35,7 @@ class Admin(User):
         _id: str, optional
             This user's ID, will be empty if not specified
         """
-        super().__init__(email=email, first_name=first_name, last_name=last_name, _id=_id)
+        super().__init__(email=email, first_name=first_name, last_name=last_name, _id=_id, calendar=calendar)
         self.courses = courses or []
     
     def __repr__(self) -> str:
@@ -69,6 +70,9 @@ class Admin(User):
 
         try:
             self.id = db.admins.insert_one(self.to_dict()).inserted_id
+        except pymongo.errors.DuplicateKeyError:
+            logger.exception(f"The Admin with the id {self.id} already exists, you should not be calling the add() method.")
+            return False
         except Exception as e:
             logger.exception(f"Error while adding Admin {self.id}: {e}")
             return False

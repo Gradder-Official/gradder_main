@@ -17,7 +17,8 @@ class Parent(User):
         first_name: str,
         last_name: str,
         children: List[str] = None,
-        _id: str = None
+        _id: str = None,
+        calendar: Optional[List[CalendarEvent]] = None
     ):
         """Initialises a user of Parent type
 
@@ -36,7 +37,7 @@ class Parent(User):
         """
 
         super().__init__(
-            email=email, first_name=first_name, last_name=last_name, id=_id
+            email=email, first_name=first_name, last_name=last_name, id=_id, calendar=calendar
         )
 
         self.children = []

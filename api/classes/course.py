@@ -409,6 +409,9 @@ class Course:
         try:
             self.id = db.courses.insert_one(self.to_dict()).inserted_id
             return True
+        except pymongo.errors.DuplicateKeyError:
+            logger.exception(f"The Course with the id {self.id} already exists, you should not be calling the add() method.")
+            return False
         except Exception as e:
             logger.exception(f"Error while adding course {self.to_dict()}: {e}")
             return False
