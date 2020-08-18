@@ -334,13 +334,34 @@ def enter_info():
     return response(flashes), 200
 
 @teacher.route("/search", methods=["GET"])
-def get_info_by_search():
-    search = request.form['search']
-    search_result = Teacher.get_by_name(search)
-    search_result_data = {
-        'first_name': search_result.first_name,
-        'last_name': search_result.last_name,
-        '_id': search_result._id
-    }
+def get_names_by_search():
+    """Shows full names of people the user is searching
+    Returns
+    -------
+    dict
+        Teacher names
+    """
+    try:
+        teachers = Teacher.get_by_name(request.form['first_name'])
+        possible_teachers = list()
+        for teacher in teachers:
+            teacher_data = {
+                'full_name': teacher.first_name + ' ' + teacher.last_name,
+            }
+            possible_teachers.append(teacher_data)
+        return response(data={"possible_teachers": possible_teachers}), 200
+    except:
+        return error("There are no teachers by that name"), 404
 
-    return response(data={"search_result_data": search_result_data})
+@teacher.route("/teacher-search-info", methods=["GET", "POST"])
+def teacher_search_info():
+    r"""This method is called when the user clicks on a result on the search bar
+    Returns
+    -------
+    dict
+        Flashes, teacher data
+    """
+    try:
+        return Teacher.get_by_id(request.form['user_id']), 200
+    except:
+        return error("There was a problem finding this user"), 404

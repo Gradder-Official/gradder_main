@@ -243,13 +243,34 @@ def enter_info():
     return response(flashes), 200
 
 @student.route("/search", methods=["GET"])
-def get_info_by_search():
-    search = request.form['search']
-    search_result = Student.get_by_name(search)
-    search_result_data = {
-        'first_name': search_result.first_name,
-        'last_name': search_result.last_name,
-        '_id': search_result._id
-    }
+def get_names_by_search():
+    """Shows full names of people the user is searching
+    Returns
+    -------
+    dict
+        Student names
+    """
+    try:
+        students = Student.get_by_name(request.form['first_name'])
+        possible_students = list()
+        for student in students:
+            student_data = {
+                'full_name': student.first_name + ' ' + student.last_name,
+            }
+            possible_students.append(student_data)
+        return response(data={"possible_students": possible_students}), 200
+    except:
+        return error("There are no students by that name"), 404
 
-    return response(data={"search_result_data": search_result_data})
+@student.route("/student-search-info", methods=["GET", "POST"])
+def student_search_info():
+    r"""This method is called when the user clicks on a result on the search bar
+    Returns
+    -------
+    dict
+        Flashes, student data
+    """
+    try:
+        return Student.get_by_id(request.form['user_id']), 200
+    except:
+        return error("There was a problem finding this user"), 404

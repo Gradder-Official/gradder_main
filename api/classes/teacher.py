@@ -14,7 +14,6 @@ class Teacher(User):
         email: str,
         first_name: str,
         last_name: str,
-        full_name: first_name + ' ' + last_name,
         password: Optional[Union[bytes, str]] = None,
         courses: Optional[list] = None,
         _id: Optional[str] = None,
@@ -130,18 +129,18 @@ class Teacher(User):
             logger.info(f"Error when returning Teacher by email {email}")
 
     @staticmethod
-    def get_by_name(full_name: str) -> Teacher:
+    def get_by_name(first_name: str) -> Teacher:
         r""" Returns Teacher with a specified name.
         Parameters
         ---------
-        full_name: str
+        first_name: str
 
         Returns
         ------
         Teacher
         """
         try:
-            return Teacher.from_dict(db.teachers.find_one({"full_name": full_name}))
+            return Teacher.from_dict(db.teachers.find({"first_name": first_name}))
         except BaseException as e:
             logger.exception(f"Error while getting a teacher by name {id}: {e}")
             return None

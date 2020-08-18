@@ -216,3 +216,16 @@ def manage_courses_by_id(course_id: str):
         return response(flashes), 200
     else:
         return error("Course does not exist"), 404
+
+@admin.route("/admin-search-info", methods=["GET", "POST"])
+def admin_search_info():
+    r"""This method is called when the user clicks on a result on the search bar
+    Returns
+    -------
+    dict
+        Flashes, admin data
+    """
+    try:
+        return Admin.get_by_id(request.form['user_id']), 200
+    except:
+        return error("There was a problem finding this user"), 404
