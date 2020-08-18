@@ -103,18 +103,18 @@ class Student(User):
             return None
     
     @staticmethod
-    def get_by_name(first_name: str) -> Student:
-        r""" Returns Student with a specified name.
+    def get_by_keyword(keyword: str) -> Student:
+        r""" Returns Student with a specified keyword.
         Parameters
         ---------
-        first_name: str
+        keyword: str
 
         Returns
         ------
         Student
         """
         try:
-            return Student.from_dict(db.students.find({"first_name": first_name}))
+            return Student.from_dict(db.students.find({"first_name": {$regex: ".*" + keyword + ".*"}}))
         except BaseException as e:
             logger.exception(f"Error while getting a student by name {id}: {e}")
             return None

@@ -129,8 +129,8 @@ class Teacher(User):
             logger.info(f"Error when returning Teacher by email {email}")
 
     @staticmethod
-    def get_by_name(first_name: str) -> Teacher:
-        r""" Returns Teacher with a specified name.
+    def get_by_keyword(keyword: str) -> Teacher:
+        r""" Returns Teacher with a specified keyword.
         Parameters
         ---------
         first_name: str
@@ -140,7 +140,7 @@ class Teacher(User):
         Teacher
         """
         try:
-            return Teacher.from_dict(db.teachers.find({"first_name": first_name}))
+            return Teacher.from_dict(db.teachers.find({"first_name": {$regex: ".*" + keyword + ".*"}}))
         except BaseException as e:
             logger.exception(f"Error while getting a teacher by name {id}: {e}")
             return None

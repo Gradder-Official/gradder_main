@@ -251,7 +251,7 @@ def get_names_by_search():
         Student names
     """
     try:
-        students = Student.get_by_name(request.form['first_name'])
+        students = Student.get_by_keyword(request.form['first_name'])
         possible_students = list()
         for student in students:
             student_data = {

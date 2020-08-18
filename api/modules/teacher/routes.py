@@ -342,7 +342,7 @@ def get_names_by_search():
         Teacher names
     """
     try:
-        teachers = Teacher.get_by_name(request.form['first_name'])
+        teachers = Teacher.get_by_keyword(request.form['first_name'])
         possible_teachers = list()
         for teacher in teachers:
             teacher_data = {
