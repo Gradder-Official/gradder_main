@@ -241,3 +241,15 @@ def enter_info():
 
     logger.info(f"User info {user.id} updated")
     return response(flashes), 200
+
+@student.route("/search", methods=["GET"])
+def get_info_by_search():
+    search = request.form['search']
+    search_result = Student.get_by_name(search)
+    search_result_data = {
+        'first_name': search_result.first_name,
+        'last_name': search_result.last_name,
+        '_id': search_result._id
+    }
+
+    return response(data={"search_result_data": search_result_data})

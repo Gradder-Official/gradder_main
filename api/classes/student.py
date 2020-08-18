@@ -18,6 +18,7 @@ class Student(User):
         email: str,
         first_name: str,
         last_name: str,
+        full_name: first_name + ' ' + last_name,
         password: str = None,
         courses: List[str] = None,
         assignments: List[str] = None,
@@ -100,6 +101,23 @@ class Student(User):
             return Student.from_dict(db.students.find_one({"email": email}))
         except BaseException as e:
             logger.exception(f"Error while getting a student by email {id}: {e}")
+            return None
+    
+    @staticmethod
+    def get_by_name(full_name: str) -> Student:
+        r""" Returns Student with a specified name.
+        Parameters
+        ---------
+        full_name: str
+
+        Returns
+        ------
+        Student
+        """
+        try:
+            return Student.from_dict(db.students.find_one({"full_name": full_name}))
+        except BaseException as e:
+            logger.exception(f"Error while getting a student by name {id}: {e}")
             return None
 
     @staticmethod
