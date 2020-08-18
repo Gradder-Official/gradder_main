@@ -1,11 +1,13 @@
 import React, { FunctionComponent, useState } from 'react'
 import { NavLink } from "react-router-dom";
 import WhiteLogo from "../assets/images/white-logo.png"
+import createBrowserHistory from 'history/createBrowserHistory';
 import "../assets/styles/sidebar.css"
 
 const StudentSidebar: FunctionComponent = () => {
 
     const [logoutMessage, setLogoutMessage] = useState<string>();
+    const history = createBrowserHistory({forceRefresh:true});
 
     const logout = () => {
 
@@ -15,6 +17,7 @@ const StudentSidebar: FunctionComponent = () => {
                 console.log(logoutMessage)
             }
         )
+        history.push("/auth/logout");
     }
 
     return (
