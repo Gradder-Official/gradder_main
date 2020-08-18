@@ -1,3 +1,5 @@
+from bson import ObjectId
+
 from flask import current_app, request
 from api import db
 from api import root_logger
@@ -5,7 +7,6 @@ from api.classes import Admin, Course, Student, Teacher
 from api.tools.decorators import required_access
 from api.tools.factory import error, response
 from . import admin
-from bson import ObjectId
 
 
 @admin.before_request
@@ -231,24 +232,24 @@ def manage_courses_by_id(course_id: str):
             syllabus = (blob.name, filename)
             course.update_syllabus(syllabus)
             logger.info(f"Course {course._id} updated")
-        if request.form.get('description'):
-            course.update_description(request.form.get('description'))
-        if request.form.get('name'):
-            course.update_name(request.form.get('name'))
-        if request.form.get('number'):
-            course.update_number(request.form.get('number'))
-        if request.form.get('department'):
-            course.update_department(request.form.get('department'))
-        if request.form.get('teacher'):
-            course.update_teacher(request.form.get('teacher'))
-        if request.form.get('students'):
-            course.update_students(request.form.get('students'))
+        Course.update(
+            request.form['department'], 
+            request.form['number'], 
+            request.form['name'], 
+            request.form['teacher'], 
+            request.form['teacher'], 
+            request.form['description'], 
+            request.form['schedule_time'], 
+            request.form['schedule_days'], 
+            request.form['syllabus'], 
+            request.form['students']
+        )
         flashes.append("Course information successfully updated!")
         return response(flashes), 200
     else:
         return error("Course does not exist"), 404
 
-@admin.route("/get-course-info/<course_id:str>", methods=["GET"])
+@admin.route("/get-course-info/<string:course_id>", methods=["GET"])
 def get_course_info(course_id:str):
     """Gets all info for course.
     Returns

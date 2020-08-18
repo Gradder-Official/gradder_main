@@ -192,10 +192,11 @@ def activate_account(token: str):
         return error("That is an expired or incorrect link."), 400
     else:
         if request.form['password_confirmation'] == request.form['password']:
-            db.students.update({"_id": student.id}, {"$set": {"activated": True}})
-
             student.password = request.form['password']
-            db.students.update({"_id": student.id}, {"$set": {"password": student.password}})
-            return response(["Account activated!", "Password set!"]), 200
+
+            if student.activate() and student.set_password():
+                return response(["Account activated!", "Password set!"]), 200
+            else:
+                return error("Unknown error while activating account"), 400
         else:
             return response(["Passwords don't match!"]), 400

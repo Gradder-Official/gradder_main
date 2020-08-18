@@ -576,7 +576,7 @@ class Course:
 
             return False
 
-    def update(self, department: Optional[str] = None, number: Optional[int] = None, name: Optional[str] = None, teacher: Optional[str] = None, description: Optional[str] = None, schedule_time: Optional[str] = None, schedule_days: Optional[str] = None, syllabus : Optional[Tuple[str, str]] = None) -> bool:
+    def update(self, department: Optional[str] = None, number: Optional[int] = None, name: Optional[str] = None, teacher: Optional[str] = None, description: Optional[str] = None, schedule_time: Optional[str] = None, schedule_days: Optional[str] = None, syllabus : Optional[Tuple[str, str]] = None, students : Optional[List[str]] = None) -> bool:
         r"""Updates the course's data.
 
         Parameters
@@ -589,6 +589,7 @@ class Course:
         schedule_time : str, optional
         schedule_days : str, optional
         syllabus : Tuple[str, str], optional
+        students: List[str], optional
 
         Returns
         -------
@@ -621,7 +622,8 @@ class Course:
             'description': self.update_description,
             'schedule_time': self.update_schedule_time,
             'schedule_days': self.update_schedule_days,
-            'syllabus': self.update_syllabus 
+            'syllabus': self.update_syllabus,
+            'students': self.update_students
         }
 
         # Go through all the parameters that are None

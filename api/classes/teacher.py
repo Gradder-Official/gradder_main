@@ -145,3 +145,29 @@ class Teacher(User):
             courses.append((course_id, Course.get_by_id(course_id).name))
 
         return courses
+
+    def activate(self):
+        r"""Activates the user
+
+        Returns
+        ------
+        True if operation was successful, false if it was not
+        """
+        try:
+            db.teachers.update({"_id": ObjectId(self._id)}, {"$set": {"activated": True}})
+            return True
+        except:
+            return False
+
+    def set_password(self):
+        r"""Sets the password after the user activates their account
+
+        Returns
+        ------
+        True if operation was successful, false if it was not
+        """
+        try:
+            db.teachers.update({"_id": self.id}, {"$set": {"password": self.password}})
+            return True
+        except:
+            return False
