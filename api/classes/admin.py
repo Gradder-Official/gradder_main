@@ -7,6 +7,7 @@ from api import root_logger as logger
 
 from .user import User
 from .course import Course
+from .schoolconfig import SchoolConfig
 
 class Admin(User):
     _type = 'Admin'  # Immutable
@@ -191,3 +192,4 @@ class Admin(User):
             courses.append((course_id, Course.get_by_id(course_id).name))
 
         return courses
+

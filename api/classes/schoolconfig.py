@@ -1,9 +1,13 @@
 from __future__ import annotations
 from typing import Dict, List, Optional, Tuple
+from bson import ObjectId
+import re
+
 
 from api import db
 from api import root_logger as logger
 from api.tools.exceptions import InvalidFormatException, InvalidTypeException
+
 
 
 # ToDO:
@@ -22,6 +26,7 @@ class SchoolConfig:
         department_description: Optional[list] = None,
         grade_weights: Optional[bool] = None,
         grading: Optional[list] = None,
+        _id: str = None
     ):
         """
         Helps with SchoolConfig
@@ -67,6 +72,28 @@ class SchoolConfig:
     self._department_description = department_description or List()
     self._grade_weights = grade_weights 
     self._grading = grading or List()
+    if _id is not None:
+        self.id = _id
+    
+    @property
+    def id(self) -> str:
+        return self._id   
+
+    @id.setter
+    def id(self, id: Union[ObjectId, str]):
+        if not isinstance(id, (ObjectId, str)):
+            raise InvalidTypeException(f"The id provided is not a str or bson.objectid.ObjectId (type provided is {type(id)}).")
+
+        try:
+            if isinstance(id, str):
+                ObjectId(id)
+            else:
+                id = str(id)
+        except Exception as e:
+            raise InvalidFormatException(f"Cannot convert provided id to bson.ObjectId: {e}")
+
+        self._id = id
+
 
     @property
     def school_name(self) -> str:
@@ -244,7 +271,13 @@ class SchoolConfig:
         
         self._grading = grading
 
+
+
+
     def to_dict(self) -> dict:
+        """
+        Converts the general information to a dictionary.
+        """
         dict_school = {
             "school_name": self.school_name,
             "school_address": self.school_address,
@@ -261,6 +294,9 @@ class SchoolConfig:
         return dict_school
 
     def from_dict(cls, dictionary: dict) -> SchoolConfig:
+        """
+        Converts information from a dictionary to the file applicable to standard config.
+        """
         return SchoolConfig(
            school_name=dictionary["school_name"] if "school_name" in dictionary else None,
            school_address=dictionary["school_address"] if "school_address" in dictionary else None,
@@ -288,7 +324,9 @@ class SchoolConfig:
         """
         try:
             self.school_name = school_name
-            db.general_info["school_name"] = self.school_name
+            db.general_info.find_one_and_update(
+                {"_id": self.id, "$set" : {"school_name": self.school_name}}
+            )
 
             return True
 
@@ -313,7 +351,9 @@ class SchoolConfig:
         """
         try:
             self.school_address = school_address
-            db.general_info["school_address"] = self.school_address
+            db.general_info.find_one_and_update(
+                {"_id": self.id, "$set" : {"school_address": self.school_address}}
+            )
 
             return True
 
@@ -338,13 +378,15 @@ class SchoolConfig:
         """
         try:
             self.phone_number = phone_number
-            db.general_info["phone_number"] = self.phone_number
+            db.general_info.find_one_and_update(
+                {"_id": self.id, "$set" : {"phone_number": self.phone_number}}
+            )
 
             return True
 
         except Exception as e:
             logger.exception(
-                f"Error while updating school adresss {phone_number}: {e}"
+                f"Error while updating school phone number {phone_number}: {e}"
             )
 
             return False
@@ -363,13 +405,15 @@ class SchoolConfig:
         """
         try:
             self.school_email = school_email
-            db.general_info["school_email"] = self.school_email
+            db.general_info.find_one_and_update(
+                {"_id": self.id, "$set" : {"school_email": self.school_email}}
+            )
 
             return True
 
         except Exception as e:
             logger.exception(
-                f"Error while updating principal's email {school_email}: {e}"
+                f"Error while updating school email {school_email}: {e}"
             )
 
             return False
@@ -388,13 +432,16 @@ class SchoolConfig:
         """
         try:
             self.principal = principal
-            db.general_info["principal"] = self.principal
+            db.general_info.find_one_and_update(
+                {"_id": self.id, "$set" : {"principal": self.principal}}
+            )
+
 
             return True
 
         except Exception as e:
             logger.exception(
-                f"Error while updating school's name {principal}: {e}"
+                f"Error while updating principal {principal}: {e}"
             )
 
             return False
@@ -413,7 +460,10 @@ class SchoolConfig:
         """
         try:
             self.principal_email = principal_email
-            db.general_info["principal_email"] = self.principal_email
+            db.general_info.find_one_and_update(
+                {"_id": self.id, "$set" : {"principal_email": self.principal_email}}
+            )
+
 
             return True
 
@@ -438,7 +488,9 @@ class SchoolConfig:
         """
         try:
             self.departments = departments
-            db.general_info["departments"] = self.departments
+            db.general_info.find_one_and_update(
+                {"_id": self.id, "$set" : {"departments": self.departments}}
+            )
 
             return True
 
@@ -463,7 +515,10 @@ class SchoolConfig:
         """
         try:
             self.department_description = department_description
-            db.general_info["department_description"] = self.department_description
+            db.general_info.find_one_and_update(
+                {"_id": self.id, "$set" : {"department_description": self.department_description}}
+            )
+
 
             return True
 
@@ -488,7 +543,10 @@ class SchoolConfig:
         """
         try:
             self.grade_weights = grade_weights
-            db.general_info["grade_weights"] = self.grade_weights
+            db.general_info.find_one_and_update(
+                {"_id": self.id, "$set" : {"grade_weights": self.grade_weights}}
+            )
+
 
             return True
 
@@ -513,7 +571,9 @@ class SchoolConfig:
         """
         try:
             self.grading = grading
-            db.general_info["grading"] = self.grading
+            db.general_info.find_one_and_update(
+                {"_id": self.id, "$set" : {"grading": self.grading}}
+            )
 
             return True
 
@@ -563,6 +623,8 @@ class SchoolConfig:
 
         **Important**: to avoid confusion, we suggest to avoid using positional parameters when calling this method.
         """
+
+
         parameters = locals()  # Must be first line here, do not remove
     
         PARAMETER_TO_METHOD = {
@@ -585,5 +647,4 @@ class SchoolConfig:
                 if not response:
                     logger.exception(f"Error while updating school information attribute:{parameter} value:{value}")
                     return False
-        
         return True
