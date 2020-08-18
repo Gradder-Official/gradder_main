@@ -55,7 +55,6 @@ export interface course {
     syllabus: [string]
 }
 
-<<<<<<< HEAD
 export interface Submission {
     date_submitted: string,
     content: string,
@@ -65,8 +64,6 @@ export interface Submission {
     id?: string,
 }
 
-=======
->>>>>>> feat: :sparkles: Display students and course info for Teachers
 export interface studentInfo {
     email: string,
     first_name: string,
@@ -74,7 +71,6 @@ export interface studentInfo {
     password: string,
     courses: [],
     assignments: []
-<<<<<<< HEAD
 }
 
 export interface AssignmentChart {
@@ -90,6 +86,4 @@ export interface Events {
     end: string;
     color: string;
     url: string;
-=======
->>>>>>> feat: :sparkles: Display students and course info for Teachers
 }

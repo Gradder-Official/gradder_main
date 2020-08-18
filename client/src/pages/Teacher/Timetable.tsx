@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { useEffect, useState, Component } from "react";
 import { useForm } from "react-hook-form";
 import { Events } from "../../components/Interfaces"
 

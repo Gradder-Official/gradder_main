@@ -352,32 +352,58 @@ def enter_info():
 @teacher.route("/calendar", methods=["GET", "POST"])
 def get_calendar_events():
     """Gets dictionary of calendar events for teacher
-
+    
     Returns
     -------
     dict
         The view response
     """
+
     req_data = request.get_json()
     if req_data:
-        print(req_data)
         title = req_data['title']
         start = req_data['start']
         end = req_data['end']
-        backgroundColor = req_data['backgroundColor']
+        color = req_data['color']
         url = req_data['url']   
 
         newEvent = {
             "title": title,
             "start": start,
             "end": end,
-            "backgroundColor": backgroundColor,
+            "color": color,
             "url": url
         }
 
-        print(newEvent)
-        current_user.add_calendar_event(newEvent)
-
+        teacherDict = current_user.to_dict()
+        teacher = Teacher.get_by_email(teacherDict["email"])
+        current_user.add_calendar_event(teacher.id, newEvent)
+    
     events = current_user.get_calendar()
+    return response(data={"events": events})
+
+@teacher.route("/delete-calendar", methods=["POST"])
+def delete_calendar_events():
+    """Gets dictionary of calendar events for teacher
+
+    Returns
+    -------
+    dict
+        The view response
+    """
+
+    req_data = request.get_json()
+
+    if req_data:
+        title = req_data['title']
+        teacherDict = current_user.to_dict()
+        teacher = Teacher.get_by_email(teacherDict["email"])
+        current_user.remove_calendar_event(teacher.id, title)
+    
+    events = current_user.get_calendar()
+<<<<<<< HEAD
     print(events)
     return response(data={"events": events})
+=======
+    return response(data={"events": events})
+>>>>>>> feat: :zap: Completed endpoints for teacher calendar

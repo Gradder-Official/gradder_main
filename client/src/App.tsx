@@ -50,11 +50,8 @@ const App: FunctionComponent = () => {
     };
   }, []);
 
-  console.log(user);
-
   function logOutUser() {
     setUser(blankUser);
-    console.log(user);
   }
 
   return (
