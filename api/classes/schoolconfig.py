@@ -7,10 +7,9 @@ from api.tools.exceptions import InvalidFormatException, InvalidTypeException
 
 
 # ToDO:
-# Add the proper methods for SchoolConfig
+# Fix all update methods using separate documents in the db.general_info
 # Do we need an ObjectId, and discuss other technical details
 class SchoolConfig: 
-    # Add attributes and methods to edit db.general_info
     def __init__(
         self,
         school_name: Optional[str] = None,
@@ -525,3 +524,66 @@ class SchoolConfig:
 
             return False
     
+    def update(
+        self,
+        school_name: Optional[str] = None,
+        school_address: Optional[str] = None,
+        phone_number: Optional[str] = None,
+        school_email: Optional[str] = None,
+        principal: Optional[str] = None,
+        principal_email: Optional[str] = None,
+        departments: Optional[list] = None,
+        department_description: Optional[list] = None,
+        grade_weights: Optional[bool] = None,
+        grading: Optional[list] = None,
+    ):
+        r"""Updates the school's data.
+
+        Parameters
+        ----------
+        school_name: str, optional
+        school_address: str, optional
+        phone_number: str, optional
+        school_email: str, optional
+        principal: str, optional
+        principal_email: str, optional
+        departments: List[str], optional
+        department_description: List[str], optional
+        grade_weights: bool, optional
+        grading: List[str], optional
+
+        Returns
+        -------
+        bool
+            `True` if all update operations were successful, `False` otherwise
+
+        Notes
+        -----
+        For all the data formats please refer to `SchoolConfig.__init__` docstrings.
+
+        **Important**: to avoid confusion, we suggest to avoid using positional parameters when calling this method.
+        """
+        parameters = locals()  # Must be first line here, do not remove
+    
+        PARAMETER_TO_METHOD = {
+            'school_name': self.update_school_name,
+            'school_adress': self.update_school_address,
+            'phone_number': self.update_phone_number,
+            'school_email': self.update_school_email,
+            'principal': self.update_principal,
+            'principal_email': self.update_principal_email,
+            'departments': self.update_departments,
+            'department_description': self.update_department_description,
+            'grade_weights': self.update_grade_weights,
+            'grading': self.update_grading 
+        }
+
+        # Go through all the parameters that are None
+        for parameter, value in parameters.items():
+            if parameter != "self" and value is not None:
+                response = PARAMETER_TO_METHOD[parameter](value)
+                if not response:
+                    logger.exception(f"Error while updating school information attribute:{parameter} value:{value}")
+                    return False
+        
+        return True
