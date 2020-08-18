@@ -241,3 +241,16 @@ def enter_info():
 
     logger.info(f"User info {user.id} updated")
     return response(flashes), 200
+
+@student.route("/student-search-info", methods=["GET", "POST"])
+def student_search_info():
+    r"""This method is called when the user clicks on a result on the search bar
+    Returns
+    -------
+    dict
+        Flashes, student data
+    """
+    try:
+        return Student.get_by_id(request.form['user_id']), 200
+    except:
+        return error("There was a problem finding this user"), 404
