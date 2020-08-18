@@ -16,8 +16,8 @@ from . import student
 from flask import Flask, jsonify
 
 
-# @student.before_request
-# @required_access(Student)
+@student.before_request
+@required_access(Student)
 def student_verification():
     # Required_access decorator already handled it
     pass
@@ -101,27 +101,6 @@ def assignments_by_class(course_id: str):
     return response(data={"assignments": course_assignments})
     #return response(data={"assignments": list(map(lambda a: a.to_json(), course_assignments))})
 
-# This could possibly instead just use /assignments/<string:assignment_id>/
-# and then we could search through classes to find the assignment 
-@student.route("/assignments/<string:course_id>/<string:assignment_id>/", methods=["GET"])
-def assignment_by_id(course_id: str, assignment_id: str):
-    """Get an assignment by its ID
-    Parameters
-    ----------
-    course_id : str
-        The ID of the class
-    assignment_id : str
-        The ID of the assignment
-    Returns
-    -------
-    dict
-        The view response
-    """
-    assignments = Course.get_by_id(course_id).get_assignments()
-    assignment = list(filter(lambda a: str(a.ID) == assignment_id, assignments))[0]
-    logger.info(f"All assignments from {course_id} with assignment id {assignment_id}.")
-    return response(data={"assignment": assignment})
-
 @student.route("/assignments/<string:assignment_id>/", methods=["GET"])
 def assignment_by_id(course_id: str, assignment_id: str):
     """Get an assignment by its ID
@@ -149,26 +128,7 @@ def submissions_by_assignment_id(assignment_id: str):
     submissions = get_all(assignment.submissions, student_id=current_user.id)
 
     return response(data={"submissions": submissions})
-
-
-@student.route("/assignments/<string:course_id>/<string:assignment_id>/", methods=["GET"])
-def assignment_by_id(course_id: str, assignment_id: str):
-    """Get an assignment by its ID
-    Parameters
-    ----------
-    course_id : str
-        The ID of the class
-    assignment_id : str
-        The ID of the assignment
-    Returns
-    -------
-    dict
-        The view response
-    """
-    assignments = Course.get_by_id(course_id).get_assignments()
-    assignment = list(filter(lambda a: str(a.ID) == assignment_id, assignments))[0]
-    logger.info(f"All assignments from {course_id} with assignment id {assignment_id}.")
-    return response(data={"assignment": assignment})
+    
 
 @student.route("/assignment-schedule", methods=["GET"])
 def get_schedule_assignments():
