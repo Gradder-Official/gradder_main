@@ -41,11 +41,8 @@ const StudentScoreChart: FunctionComponent<AssignmentChart> = ({ assignment_hist
             "student_name": listedStudentName,
             "average_score": totalStudentScore / no_assignments
         }
-        console.log(dictionaryEntry)
         studentScoreData.push(dictionaryEntry)
     }
-
-    console.log(studentScoreData)
 
     return (
         <div className="student-average dash-container">

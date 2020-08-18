@@ -1,86 +1,103 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { useEffect, useState, Component } from "react";
+import { useForm } from "react-hook-form";
+import { Events } from "../../components/Interfaces"
+
 import StudentSidebar from "../../components/TeacherSidebar";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import ReactModal from 'react-modal';
-import { useForm } from "react-hook-form";
+
 import "../../assets/styles/dashboard.css";
 import "../../assets/styles/timetable.css";
 import "../../assets/styles/modal.css";
 
-const TeacherTimetable: FunctionComponent = () => {
-  interface Events {
-    title: string;
-    start: string;
-    end: string;
-    backgroundColor: string;
-    url: string;
-  }
+const TeacherTimetable = () => {
 
   const [eventList, setEventList] = useState<Array<Events>>([
-    {
-      title: "Example",
-      start: "2020-08-08",
-      end: "2020-08-20",
-      backgroundColor: "blue",
-      url: "",
-    },
+    { title: "", start: "", end: "", color: "", url: "" }
   ]);
 
-  const [requestErrors, setRequestErrors] = useState<string>();
-
-  const { register, handleSubmit, errors } = useForm();
-  const onSubmit = (data:Events) => {
-
-    console.log(data);
-    // Send form data to API
-
-    fetch('/api/teacher/calendar', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-    })
-    .then(async response => {
-        console.log(JSON.stringify(data))
-        const res = await response.json();
-        setEventList(res.events)
-        console.log(eventList)
-        // Check for error response
-        if (!response.ok) {
-            const error = (res && res.message) || response.status;
-            return Promise.reject(error);
-        }
-    })
-    .catch(error => {
-        // Return errors
-        console.error('There was an error!', error);
-        setRequestErrors("Sorry, there was problem with creating an event!")
-    }); }
-
-  
-  // Fetches from mock APIs but not from /assignment-schedule
-  // Returns HTTP instead?
+  // Fetches events from calendar
   useEffect(() => {
     fetch("/api/teacher/calendar")
       .then((res) => res.json())
       .then((data) => {
-        setEventList(data.events);
-        console.log(data.events);
+        setEventList(data["data"]["events"]);
       });
   }, []);
 
-  const [modalIsOpen,setIsOpen] = React.useState(false);
+  const [requestErrors, setRequestErrors] = useState<string>();
+  const { register, handleSubmit, errors } = useForm();
+  
+  // Adding an event
+  const onSubmit = (data: Events) => {
+
+    // Send data about event to be added to API
+    fetch('/api/teacher/calendar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    })
+      .then(async response => {
+
+        const res = await response.json();
+        setEventList(res.events)
+
+        // Check for error response
+        if (!response.ok) {
+          const error = (res && res.message) || response.status;
+          return Promise.reject(error);
+        }
+
+      })
+      .catch(error => {
+        // Return errors
+        console.error('There was an error!', error);
+        setRequestErrors("Sorry, there was problem with creating an event!")
+      });
+  }
+
+  // Modal controls
+  const [modalIsOpen, setIsOpen] = React.useState(false);
   function openModal() {
     setIsOpen(true);
   }
- 
+
   function afterOpenModal() {
     // references are now sync'd and can be accessed.
   }
- 
-  function closeModal(){
+
+  function closeModal() {
     setIsOpen(false);
+  }
+
+  // FUNCTION TO DELETE EVENT - to be implemented
+  // Takes JSON of one key-value pair: { "title": title of event to be deleted }
+  function deleteEvent(data: Events) {
+
+    fetch('/api/teacher/delete-calendar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    })
+      .then(async response => {
+
+        const res = await response.json();
+        setEventList(res.events)
+
+        // Check for error response
+        if (!response.ok) {
+          const error = (res && res.message) || response.status;
+          return Promise.reject(error);
+        }
+        
+      })
+      .catch(error => {
+        // Return errors
+        console.error('There was an error!', error);
+        setRequestErrors("Sorry, there was problem with deleting this event!")
+      });
   }
 
   return (
@@ -119,68 +136,68 @@ const TeacherTimetable: FunctionComponent = () => {
           className="Modal"
           overlayClassName="Overlay"
         >  <button className="closebutton" onClick={closeModal}>&times;</button>
-            <div className="eventForm">
-          
-        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="eventForm">
 
-            <div>
-          <label>
-            Event Name:
-            </label>
-            {errors.eventName && <span>This field is required</span>}
-            <input
-              name="title"
-              ref={register({ required: true })}
-            />
-            </div>
-         
-            <div>
-          <label>
-            Start Time:
-            </label>
-            {errors.startTime && <span>This field is required</span>}
-            <input
-              name="start"
-              ref={register({ required: true })}
-            />
-            </div>
-        
-            <div>
-        <label>
-            End Time:
-            </label>
-            {errors.endTime && <span>This field is required</span>}
-            <input
-              name="end"
-              ref={register({ required: true })}
-            />
-            </div>
+            <form onSubmit={handleSubmit(onSubmit)}>
 
-            <div>
-          <label>
-            Color:
+              <div>
+                <label>
+                  Event Name:
             </label>
-            {errors.eventColor && <span>This field is required</span>}
-            <select name="backgroundColor"  ref={register({ required: true })}>
-              <option value="red">Red</option>
-              <option value="orange">Orange</option>
-              <option value="yellow">Yellow</option>
-              <option value="green">Green</option>
-              <option value="blue">Blue</option>
-              <option value="purple">Purple</option>
-              <option value="pink">Pink</option>
-            </select>
-            </div>
-         
-            <div>
-          <label>
-            URL (Optional):
+                {errors.eventName && <span>This field is required</span>}
+                <input
+                  name="title"
+                  ref={register({ required: true })}
+                />
+              </div>
+
+              <div>
+                <label>
+                  Start Time:
+            </label>
+                {errors.startTime && <span>This field is required</span>}
+                <input
+                  name="start"
+                  ref={register({ required: true })}
+                />
+              </div>
+
+              <div>
+                <label>
+                  End Time:
+            </label>
+                {errors.endTime && <span>This field is required</span>}
+                <input
+                  name="end"
+                  ref={register({ required: true })}
+                />
+              </div>
+
+              <div>
+                <label>
+                  Color:
+            </label>
+                {errors.color && <span>This field is required</span>}
+                <select name="color" ref={register({ required: true })}>
+                  <option value="red">Red</option>
+                  <option value="orange">Orange</option>
+                  <option value="yellow">Yellow</option>
+                  <option value="green">Green</option>
+                  <option value="blue">Blue</option>
+                  <option value="purple">Purple</option>
+                  <option value="pink">Pink</option>
+                </select>
+              </div>
+
+              <div>
+                <label>
+                  URL (Optional):
             <input name="url" ref={register({ required: false })} />
-          </label>
+                </label>
+              </div>
+              <input className="submit-button" type="submit" />
+            </form>
           </div>
-          <input className="submit-button" type="submit" />
-        </form>
-        </div>
         </ReactModal>
 
       </div>

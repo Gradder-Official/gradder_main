@@ -132,7 +132,7 @@ class Teacher(User):
             logger.info(f"Error when returning Teacher by email {email}")
 
     def get_course_names(self) -> List[Tuple[str, str]]:
-        r"""Returns a list of the Teacher's courses
+        r""" Returns a list of the Teacher's courses
 
         Returns
         ------
@@ -150,12 +150,12 @@ class Teacher(User):
         return courses
 
     def get_calendar(self) -> List[object]:
-        r"""Returns a list of the Teacher's events
+        r""" Returns a list of the Teacher's events
 
         Returns
         ------
         List[object]
-            A list of a teacher's events, represented as objects (title, start, end, background_color, url).
+            A list of a teacher's events: [title, start, end, background_color, url].
         """
 
         events = list()
@@ -164,20 +164,41 @@ class Teacher(User):
                 "title": event["title"],
                 "start": event["start"],
                 "end": event["end"],
-                "background_color": event["background_color"],
+                "color": event["color"],
                 "url": event["url"]
             }
             events.append(addEvent)
-            print(addEvent)
 
-        print(f"Returned event {events}")
         return events
 
-    def add_calendar_event(self, event):
+    def add_calendar_event(self, teacher_id: str, event: dict):
+        """ Adds an event to the Teacher's calendar
 
-        print(f"Adding event {event} to teacher {self.id}")
+        Parameters
+        ---------
+        teacher_id : str
+            ID of teacher adding the event
+        event : dict
+            Dictionary representation of event to be added {title, start, end, color, url}
+        """
 
         db.teachers.find_one_and_update(
-            {"_id": ObjectId(self.id)},
+            {"_id": ObjectId(teacher_id)},
             {"$push": {"calendar": event}},
+        )
+
+    def remove_calendar_event(self, teacher_id: str, title: str):
+        """ Removes an event from the Teacher's calendar
+
+        Parameters
+        ---------
+        teacher_id : str
+            ID of teacher removing the event
+        event : dict
+            Dictionary representation of event to be removed {title, start, end, color, url}
+        """
+        
+        db.teachers.update(
+            {"_id": teacher_id}, 
+            {"$pull": {"calendar": {"title": title}}}
         )

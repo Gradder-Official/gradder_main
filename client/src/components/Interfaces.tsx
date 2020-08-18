@@ -63,3 +63,11 @@ export interface AssignmentChart {
         "assignment_scores": { "student": string, "score": number }[]
     }[]
 }
+
+export interface Events {
+    title: string;
+    start: string;
+    end: string;
+    color: string;
+    url: string;
+}
