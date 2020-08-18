@@ -69,7 +69,11 @@ const TeacherAnalytics: FunctionComponent<teacher> = ({ userName, userType, logg
     const [analyticsData, setAnalyticsData] = useState(sampleAnalyticsData)
 
     function showCourseInfo(chosenCourse: course) {
-        /* setAnalyticsData(sampleAnalyticsData) */
+        fetch('/api/teacher/courses')
+            .then(res => res.json()).then(response => {
+                setAnalyticsData(response['data']['course_analytics']);
+            }
+        )
     }
 
     return (
