@@ -401,9 +401,4 @@ def delete_calendar_events():
         current_user.remove_calendar_event(teacher.id, title)
     
     events = current_user.get_calendar()
-<<<<<<< HEAD
-    print(events)
     return response(data={"events": events})
-=======
-    return response(data={"events": events})
->>>>>>> feat: :zap: Completed endpoints for teacher calendar
