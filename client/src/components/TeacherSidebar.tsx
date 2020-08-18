@@ -1,20 +1,22 @@
 import React, { FunctionComponent, useState } from 'react'
 import { NavLink } from "react-router-dom";
+import createBrowserHistory from 'history/createBrowserHistory';
 import WhiteLogo from "../assets/images/white-logo.png"
 import "../assets/styles/sidebar.css"
 
 const TeacherSidebar: FunctionComponent = () => {
 
     const [logoutMessage, setLogoutMessage] = useState<string>();
+    const history = createBrowserHistory({forceRefresh:true});
 
     const logout = () => {
-
         fetch('/api/auth/logout')
             .then(res => res.json()).then(response => {
                 setLogoutMessage(response['flashes']);
                 console.log(logoutMessage)
             }
         )
+        history.push("/auth/logout");
     }
 
     return (

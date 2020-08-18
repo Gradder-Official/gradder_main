@@ -34,8 +34,6 @@ const TeacherDash: FunctionComponent<teacher> = ({ userName, userType, loggedIn,
       )
   }, []);
 
-  console.log(myStudents)
-
   return (
     <React.Fragment>
       <TeacherSidebar />
@@ -45,7 +43,6 @@ const TeacherDash: FunctionComponent<teacher> = ({ userName, userType, loggedIn,
           <div className="dash-container statistics">
             <h5>Class Statistics</h5>
           </div>
-
           <DashProfile userName={userName} userType={userType} loggedIn={loggedIn} dob={dob} />
         </div>
 

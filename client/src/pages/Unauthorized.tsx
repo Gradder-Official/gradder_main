@@ -4,11 +4,11 @@ import StudentSidebar from '../components/StudentSidebar';
 
 
 const Unauthorized = (props: any) => {
+
     return (
         <React.Fragment>
-            <StudentSidebar />
             
-            <div className="dash-content">
+            <div className="dash-content" style={{width: "100vw", left: 0}}>
                 <div className="container h-100">
                     <div className="row h-100 justify-content-center align-items-center">
                         <div className="col-12 text-center">

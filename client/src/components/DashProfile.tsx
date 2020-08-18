@@ -1,10 +1,12 @@
 import React, { FunctionComponent, useState } from "react"
 import { Link } from "react-router-dom"
 import { student, teacher } from "./Interfaces"
+import createBrowserHistory from 'history/createBrowserHistory';
 
 const DashProfile: FunctionComponent<student | teacher> = ({ userName }) => {
 
     const [logoutMessage, setLogoutMessage] = useState<string>();
+    const history = createBrowserHistory({forceRefresh:true});
 
     const logout = () => {
 
@@ -13,6 +15,9 @@ const DashProfile: FunctionComponent<student | teacher> = ({ userName }) => {
             setLogoutMessage(response['flashes']);
             console.log(logoutMessage)
         })
+
+        history.push("/auth/logout");
+
     }
 
     // Get current time in hours:minutes
