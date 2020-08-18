@@ -348,3 +348,36 @@ def enter_info():
 
     logger.info(f"User info {user.id} updated")
     return response(flashes), 200
+
+@teacher.route("/calendar", methods=["GET", "POST"])
+def get_calendar_events():
+    """Gets dictionary of calendar events for teacher
+
+    Returns
+    -------
+    dict
+        The view response
+    """
+    req_data = request.get_json()
+    if req_data:
+        print(req_data)
+        title = req_data['title']
+        start = req_data['start']
+        end = req_data['end']
+        backgroundColor = req_data['backgroundColor']
+        url = req_data['url']   
+
+        newEvent = {
+            "title": title,
+            "start": start,
+            "end": end,
+            "backgroundColor": backgroundColor,
+            "url": url
+        }
+
+        print(newEvent)
+        current_user.add_calendar_event(newEvent)
+
+    events = current_user.get_calendar()
+    print(events)
+    return response(data={"events": events})

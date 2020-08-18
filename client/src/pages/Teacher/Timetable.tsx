@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-import React, { useEffect, useState, Component } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Events } from "../../components/Interfaces"
 
@@ -252,67 +251,3 @@ const TeacherTimetable = () => {
 };
 
 export default TeacherTimetable;
-=======
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import StudentSidebar from '../../components/TeacherSidebar';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import "../../assets/styles/dashboard.css";
-import "../../assets/styles/timetable.css";
-
-const TeacherTimetable: FunctionComponent = () => {
-
-    interface Events {
-        title: string
-        date: string
-    }
-
-    const [eventList, setEventList] = useState<Array<Events>>([
-        {title: "Example", date: "2020-08-08"}
-    ]);
-
-    // Fetches from mock APIs but not from /assignment-schedule
-    // Returns HTTP instead?
-    useEffect(() => {
-        fetch('/api/assignment-schedule')
-        .then(res => res.json()).then(data => {
-            setEventList(data.events);
-            console.log(data.events)
-        })
-    }, []);
-
-    return (
-        <React.Fragment>
-
-            <StudentSidebar />
-
-            <div className="dash-content" id="student-timetable">
-                <div className="month-calendar">
-                    <h1>Timetable</h1>
-                    <FullCalendar
-                        plugins={[dayGridPlugin]}
-                        initialView="dayGridMonth"
-                        height="75vh"
-                        events={eventList}
-                    />
-                </div>
-                <div className="time-grid-calendar">
-                    <FullCalendar
-                        plugins={[timeGridPlugin]}
-                        initialView='timeGrid'
-                        dayCount={3}
-                        height="90vh"
-                        nowIndicator={true}
-                        slotMinTime="07:00:00"
-                        events={eventList}
-                    />
-                </div>
-            </div>
-
-        </React.Fragment>
-    );
-};
-
-export default TeacherTimetable;
->>>>>>> add teacher timetable

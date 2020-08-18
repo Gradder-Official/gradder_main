@@ -17,6 +17,7 @@ class Teacher(User):
         password: Optional[Union[bytes, str]] = None,
         courses: Optional[list] = None,
         _id: Optional[str] = None,
+        calendar: Optional[list] = None,
         activated: Optional[bool] = False
     ):
 
@@ -36,6 +37,7 @@ class Teacher(User):
             email=email, first_name=first_name, last_name=last_name, _id=_id, password=password
         )
         self.courses = courses or []
+        self.calendar = calendar or []
 
     def __repr__(self):
         return f"<Teacher {self.id}>"
@@ -45,6 +47,7 @@ class Teacher(User):
         """
         dict_user = super().to_dict()
         dict_user["courses"] = self.courses
+        dict_user["calendar"] = self.calendar
 
         return dict_user
 
@@ -142,3 +145,36 @@ class Teacher(User):
             courses.append(Course.get_by_id(course_id))
 
         return courses
+
+    def get_calendar(self) -> List[object]:
+        r"""Returns a list of the Teacher's events
+
+        Returns
+        ------
+        List[object]
+            A list of a teacher's events, represented as objects (title, start, end, background_color, url).
+        """
+
+        events = list()
+        for event in self.calendar:
+            addEvent = {
+                "title": event["title"],
+                "start": event["start"],
+                "end": event["end"],
+                "background_color": event["background_color"],
+                "url": event["url"]
+            }
+            events.append(addEvent)
+            print(addEvent)
+
+        print(f"Returned event {events}")
+        return events
+
+    def add_calendar_event(self, event):
+
+        print(f"Adding event {event} to teacher {self.id}")
+
+        db.teachers.find_one_and_update(
+            {"_id": ObjectId(self.id)},
+            {"$push": {"calendar": event}},
+        )
