@@ -111,10 +111,16 @@ class Student(User):
 
         Returns
         ------
-        Student
+        List[Student]
         """
         try:
-            return Student.from_dict(db.students.find({"first_name": {$regex: ".*" + keyword + ".*"}}))
+            students = db.students.find({"first_name": {$regex: ".*" + keyword + ".*"}})
+
+            possible_students = []
+            for student in students:
+                possible_students.append(Student.from_dict(student))
+            return possible_students
+
         except BaseException as e:
             logger.exception(f"Error while getting a student by name {id}: {e}")
             return None

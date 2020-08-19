@@ -137,10 +137,16 @@ class Teacher(User):
 
         Returns
         ------
-        Teacher
+        List[Teacher]
         """
         try:
-            return Teacher.from_dict(db.teachers.find({"first_name": {$regex: ".*" + keyword + ".*"}}))
+            teachers = db.teachers.find({"first_name": {$regex: ".*" + keyword + ".*"}})
+
+            possible_teachers = []
+            for teacher in teachers:
+                possible_teachers.append(Teacher.from_dict(teacher))
+            return possible_teachers
+
         except BaseException as e:
             logger.exception(f"Error while getting a teacher by name {id}: {e}")
             return None
