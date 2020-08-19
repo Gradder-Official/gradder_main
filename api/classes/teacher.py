@@ -140,7 +140,7 @@ class Teacher(User):
         List[Teacher]
         """
         try:
-            teachers = db.teachers.find({"first_name": {$regex: ".*" + keyword + ".*"}})
+            teachers = db.teachers.find({"first_name": {"$regex": ".*" + keyword + ".*"}})
 
             possible_teachers = []
             for teacher in teachers:

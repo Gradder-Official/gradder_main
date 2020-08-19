@@ -114,7 +114,7 @@ class Student(User):
         List[Student]
         """
         try:
-            students = db.students.find({"first_name": {$regex: ".*" + keyword + ".*"}})
+            students = db.students.find({"first_name": {"$regex": ".*" + keyword + ".*"}})
 
             possible_students = []
             for student in students:
