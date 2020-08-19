@@ -5,6 +5,14 @@ from api import db
 from bson import ObjectId
 
 class Submission:
+    date_submitted : time
+    content : str
+    filenames : list
+    student_id : str
+    assignment_id : str
+    grade : int
+    _id : str
+
     def __init__(
         self,
         date_submitted: time,
@@ -35,7 +43,7 @@ class Submission:
         self.filenames = filenames
         self.student_id = student_id
         self.assignment_id = assignment_id
-        self._grade = grade
+        self.grade = grade
         self._id = _id if _id is not None else ''
 
     @property
@@ -77,7 +85,32 @@ class Submission:
     def grade(self, grade: int):
         self._grade = grade
 
-        db.courses.find_one_and_update(
-            {"assignments._id": self.assignment_id, "assignments.submissions._id": self.id},
-            {"$set": {"assignments.$.submissions.$.grade": self.grade}}
-        )
+    def update_grade(self, grade: int) -> bool:
+        """Update the grade for this submission
+
+        Parameters
+        ----------
+        grade : int
+            The grade
+
+        Returns
+        -------
+        bool
+            `True` if operation was a success. `False` otherwise
+        """
+        try:
+            self.grade = grade
+            
+            # TODO: Check that the grade is not bigger or smaller than the course range!!
+            db.courses.find_one_and_update(
+                {"assignments._id": self.assignment_id, "assignments.submissions._id": self.id},
+                {"$set": {"assignments.$.submissions.$.grade": self.grade}}
+            )
+
+            return True
+        except:
+            logger.exception(
+                f"Error while updating grade {grade} in submission {self.id}"
+            )
+
+            return False

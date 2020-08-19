@@ -21,6 +21,7 @@ class Course:
     _schedule_days : str
     _syllabus : Tuple[str, str]
     _assignments : List[Assignment]
+    _grade_range : Tuple[int, int]
 
     def __init__(
         self,
@@ -34,6 +35,7 @@ class Course:
         schedule_days: Optional[str] = None,
         syllabus: Optional[Tuple[str, str]] = None,
         assignments: Optional[List[Assignment]] = None,
+        grade_range: Optional[Tuple[int, int]] = None,
         _id: str = None,
     ):
         """Initialises the Course object
@@ -75,6 +77,8 @@ class Course:
         assignments : List[Assignment], optional
             The assignments under this course, by default None
             Format: the list of valid `api.classes.Assignment` instances
+        grade_range : Tuple[int, int], optional
+            The grade range for this course, if None set to (0, 100), by default None
         _id : str, optional
             The ID of the course, by default None
             Format: string which can be converted to `bson.objectId`
@@ -89,6 +93,7 @@ class Course:
         self.schedule_days = schedule_days or ""
         self.syllabus = syllabus or tuple()
         self.assignments = assignments or list()
+        self.grade_range = grade_range or (0, 100)
         if _id is not None:
             self.id = _id
 
@@ -298,6 +303,21 @@ class Course:
         # TODO: add check for a valid syllabus
         self._syllabus = syllabus
 
+
+    @property
+    def grade_range(self) -> Tuple[int, int]:
+        return self._grade_range
+    
+    @property
+    def grade_range(self, grade_range: Tuple[int, int]):
+        if type(grade_range) == tuple and len(grade_range) == 2:
+            if grade_range[1] >= grade_range[0]:
+                raise ValueError("Max value must be larger than min value for grade range")
+            self._grade_range = grade_range
+        else:
+            raise ValueError("Grade range is not tuple or of length 2") 
+
+
     def to_dict(self) -> dict:
         dict_course = {
             "department": self.department,
@@ -310,6 +330,7 @@ class Course:
             "schedule_days": self.schedule_days,
             "syllabus": self.syllabus,
             "assignments": self.assignments,
+            "grade_range": list(self.grade_range)
         }
 
         try:
@@ -338,6 +359,7 @@ class Course:
             )
             if "assignments" in dictionary
             else None,
+            grade_range=dictionary["grade_range"],
             _id=dictionary["_id"],
         )
 
@@ -582,6 +604,34 @@ class Course:
         except:
             logger.exception(
                 f"Error while updating syllabus {syllabus} in class {self.id}: {e}"
+            )
+
+            return False
+        
+    def update_grade_range(self, grade_range: Tuple[int, int]) -> bool:
+        """Update the grade range for this course
+
+        Parameters
+        ----------
+        grade_range : Tuple[int, int]
+            The grade range (min, max)
+
+        Returns
+        -------
+        bool
+            `True` if operation was a success. `False` otherwise
+        """
+        try:
+            self.grade_range = grade_range
+
+            db.courses.find_one_and_update(
+                {"_id": self._id}, {"$set": {"grade_range": self.grade_range}}
+            )
+
+            return True
+        except:
+            logger.exception(
+                f"Error while updating grade_range {grade_range} in class {self.id}: {e}"
             )
 
             return False

@@ -288,11 +288,21 @@ def view_submissions_by_assignment(course_id: str, assignment_id: str):
 
 @teacher.route("/course/<string:course_id>/assignments/<string:assignment_id>/submissions/<string:submission_id>", methods=["POST"])
 def mark_submission(course_id: str, assignment_id: str, submission_id: str):
+    flashes = []
+    
     course = Course.get_by_id(course_id)
     assignments = course.get_assignments()
     assignment: Assignment = get(assignments, id=assignment_id)
     submission: Submission = get(assignment.submissions, id=submission_id)
-    submission.grade = request.form['grade']
+    
+    min_, max_ = course.grade_range
+    if min_ < request.form['grade'] < max_:
+        submission.update_grade(request.form['grade'])
+        flashes.append("Grade updated!")
+        return response(flashes), 200
+    
+    return error("Grade outside course grade boundary")
+ 
 
 @teacher.route("/enter_info", methods=["POST"])
 def enter_info():
