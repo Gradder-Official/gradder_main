@@ -60,16 +60,22 @@ const TeacherTimetable = () => {
 
   // Modal controls
   const [modalIsOpen, setIsOpen] = React.useState(false);
+    const [modalRemoveIsOpen, setRemoveIsOpen] = React.useState(false);
   function openModal() {
     setIsOpen(true);
   }
 
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-  }
-
   function closeModal() {
     setIsOpen(false);
+  }
+
+
+    function openRemoveModal() {
+    setRemoveIsOpen(true);
+  }
+
+  function closeRemoveModal() {
+    setRemoveIsOpen(false);
   }
 
   // FUNCTION TO DELETE EVENT - to be implemented
@@ -100,6 +106,7 @@ const TeacherTimetable = () => {
       });
   }
 
+
   return (
     <React.Fragment>
       <StudentSidebar />
@@ -107,7 +114,8 @@ const TeacherTimetable = () => {
       <div className="dash-content" id="student-timetable">
         <div className="month-calendar">
           <h1>Timetable</h1>
-          <button onClick={openModal}>Open Modal</button>
+          <button onClick={openModal}>Add Event</button>
+          <button onClick={openModal}>Remove Event</button>
           <FullCalendar
             plugins={[dayGridPlugin]}
             initialView="dayGridMonth"
@@ -129,7 +137,6 @@ const TeacherTimetable = () => {
 
         <ReactModal
           isOpen={modalIsOpen}
-          onAfterOpen={afterOpenModal}
           onRequestClose={closeModal}
           contentLabel="Example Modal"
           closeTimeoutMS={500}
@@ -199,6 +206,35 @@ const TeacherTimetable = () => {
             </form>
           </div>
         </ReactModal>
+
+
+
+        <ReactModal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          contentLabel="Example Modal"
+          closeTimeoutMS={500}
+          className="Modal"
+          overlayClassName="Overlay"
+        >  <button className="closebutton" onClick={closeModal}>&times;</button>
+          <div className="eventForm">
+
+            <form onSubmit={handleSubmit(deleteEvent)}>
+              <div>
+                <label>
+                  Event Name:
+            </label>
+                {errors.eventName && <span>This field is required</span>}
+                <input
+                  name="title"
+                  ref={register({ required: true })}
+                />
+              </div>
+              <input className="submit-button" type="submit" />
+            </form>
+          </div>
+        </ReactModal>
+
 
       </div>
     </React.Fragment>
