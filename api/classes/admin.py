@@ -181,6 +181,23 @@ class Admin(User):
             {"_id": ObjectId(class_id)}, {"$set": {"teacher": ObjectId(teacher.ID)}}
         )
 
+    @staticmethod
+    def get_by_keyword(keyword: str) -> Admin:
+        r""" Returns Admin with a specified keyword.
+        Parameters
+        ---------
+        first_name: str
+
+        Returns
+        ------
+        Admin
+        """
+        try:
+            return Admin.from_dict(db.admins.find({"first_name": {"$regex": ".*" + keyword + ".*"}}))
+        except BaseException as e:
+            logger.exception(f"Error while getting an admin by name {id}: {e}")
+            return None
+            
     def get_course_names(self) -> List[(str, str)]:
         r""" Returns all course ids and names for a school in a list
         """

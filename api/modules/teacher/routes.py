@@ -362,6 +362,7 @@ def teacher_search_info():
         Flashes, teacher data
     """
     try:
-        return Teacher.get_by_id(request.form['user_id']), 200
+        return response(None, Teacher.get_by_id(request.form['user_id'])), 200
+
     except:
         return error("There was a problem finding this user"), 404

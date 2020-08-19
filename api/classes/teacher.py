@@ -140,7 +140,7 @@ class Teacher(User):
         Teacher
         """
         try:
-            return Teacher.from_dict(db.teachers.find({"first_name": {$regex: ".*" + keyword + ".*"}}))
+            return Teacher.from_dict(db.teachers.find({"first_name": {"$regex": ".*" + keyword + ".*"}}))
         except BaseException as e:
             logger.exception(f"Error while getting a teacher by name {id}: {e}")
             return None

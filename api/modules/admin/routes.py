@@ -217,6 +217,26 @@ def manage_courses_by_id(course_id: str):
     else:
         return error("Course does not exist"), 404
 
+@admin.route("/search", methods=["GET"])
+def get_names_by_search():
+    """Shows full names of people the user is searching
+    Returns
+    -------
+    dict
+        Admin names
+    """
+    try:
+        admins = Admin.get_by_keyword(request.form['first_name'])
+        possible_admins = list()
+        for admin in admins:
+            admin_data = {
+                'full_name': admin.first_name + ' ' + admin.last_name,
+            }
+            possible_admins.append(admin_data)
+        return response(data={"possible_admins": possible_admins}), 200
+    except:
+        return error("There are no admins by that name"), 404
+
 @admin.route("/admin-search-info", methods=["GET", "POST"])
 def admin_search_info():
     r"""This method is called when the user clicks on a result on the search bar
@@ -226,6 +246,6 @@ def admin_search_info():
         Flashes, admin data
     """
     try:
-        return Admin.get_by_id(request.form['user_id']), 200
+        return response(None, Admin.get_by_id(request.form['user_id'])), 200
     except:
         return error("There was a problem finding this user"), 404

@@ -114,7 +114,7 @@ class Student(User):
         Student
         """
         try:
-            return Student.from_dict(db.students.find({"first_name": {$regex: ".*" + keyword + ".*"}}))
+            return Student.from_dict(db.students.find({"first_name": {"$regex": ".*" + keyword + ".*"}}))
         except BaseException as e:
             logger.exception(f"Error while getting a student by name {id}: {e}")
             return None
