@@ -192,11 +192,11 @@ def activate_account(token: str):
         return error("That is an expired or incorrect link."), 400
     else:
         if request.form['password_confirmation'] == request.form['password']:
-            student.password = request.form['password']
-
-            if student.activate() and student.set_password():
+            if student.activate() and student.set_password(request.form['password']):
+                logger.info(f"Student {student._id} activated their account")
                 return response(["Account activated!", "Password set!"]), 200
             else:
                 return error("Unknown error while activating account"), 400
+
         else:
             return response(["Passwords don't match!"]), 400

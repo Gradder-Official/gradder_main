@@ -233,16 +233,16 @@ def manage_courses_by_id(course_id: str):
             course.update_syllabus(syllabus)
             logger.info(f"Course {course._id} updated")
         Course.update(
-            request.form['department'], 
-            request.form['number'], 
-            request.form['name'], 
-            request.form['teacher'], 
-            request.form['teacher'], 
-            request.form['description'], 
-            request.form['schedule_time'], 
-            request.form['schedule_days'], 
-            request.form['syllabus'], 
-            request.form['students']
+            request.form.get('department'), 
+            request.form.get('number'), 
+            request.form.get('name'), 
+            request.form.get('teacher'), 
+            request.form.get('teacher'), 
+            request.form.get('description'), 
+            request.form.get('schedule_time'), 
+            request.form.get('schedule_days'), 
+            request.form.get('syllabus'), 
+            request.form.get('student')
         )
         flashes.append("Course information successfully updated!")
         return response(flashes), 200

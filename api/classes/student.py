@@ -259,18 +259,24 @@ class Student(User):
         """
         try:
             db.students.update({"_id": ObjectId(self._id)}, {"$set": {"activated": True}})
+            activated = True
             return True
         except:
             return False
 
-    def set_password(self):
+    def set_password(self, password:str):
         r"""Sets the password after the user activates their account
+
+        Parameters
+        ---------
+        password : str
 
         Returns
         ------
         True if operation was successful, false if it was not
         """
         try:
+            self.password = password
             db.students.update({"_id": self.id}, {"$set": {"password": self.password}})
             return True
         except:
