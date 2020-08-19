@@ -29,7 +29,7 @@ const TeacherTimetable = () => {
 
   const [requestErrors, setRequestErrors] = useState<string>();
   const { register, handleSubmit, errors } = useForm();
-  
+
   // Adding an event
   const onSubmit = (data: Events) => {
 
@@ -60,7 +60,7 @@ const TeacherTimetable = () => {
 
   // Modal controls
   const [modalIsOpen, setIsOpen] = React.useState(false);
-    const [modalRemoveIsOpen, setRemoveIsOpen] = React.useState(false);
+  const [modalRemoveIsOpen, setRemoveIsOpen] = React.useState(false);
   function openModal() {
     setIsOpen(true);
   }
@@ -70,7 +70,7 @@ const TeacherTimetable = () => {
   }
 
 
-    function openRemoveModal() {
+  function openRemoveModal() {
     setRemoveIsOpen(true);
   }
 
@@ -97,7 +97,7 @@ const TeacherTimetable = () => {
           const error = (res && res.message) || response.status;
           return Promise.reject(error);
         }
-        
+
       })
       .catch(error => {
         // Return errors
@@ -199,7 +199,7 @@ const TeacherTimetable = () => {
               <div>
                 <label>
                   URL (Optional):
-            <input name="url" ref={register({ required: false })} />
+                  <input name="url" ref={register({ required: false })} />
                 </label>
               </div>
               <input className="submit-button" type="submit" />

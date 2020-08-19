@@ -30,10 +30,10 @@ import TeacherAnalytics from "./pages/Teacher/Analytics";
 
 const App: FunctionComponent = () => {
 
-  const userName = localStorage.getItem('userName') || "";
-  const userType = localStorage.getItem('userType') || "";
-  const loggedIn = localStorage.getItem('loggedIn') || 'false';
-  const dob = localStorage.getItem('dob') || "";
+  const userName = sessionStorage.getItem('userName') || "";
+  const userType = sessionStorage.getItem('userType') || "";
+  const loggedIn = sessionStorage.getItem('loggedIn') || 'false';
+  const dob = sessionStorage.getItem('dob') || "";
 
   console.log(userName, userType, loggedIn)
 
@@ -48,9 +48,9 @@ const App: FunctionComponent = () => {
           )}
         </Route>
         <Route exact path="/auth/logout" render={() => {
-          localStorage.clear()
+          sessionStorage.clear()
           fetch('/api/auth/logout').then(res => res.json())
-          console.log("Local storage cleared: ", localStorage)
+          .catch(error => { return <Redirect to="/"/>})
           return <Login />;
         }} />
         <Route exact path="/dashboard">

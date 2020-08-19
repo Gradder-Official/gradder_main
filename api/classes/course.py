@@ -258,9 +258,9 @@ class Course:
             raise InvalidTypeException(
                 f"The schedule_time provided is not a str (type provided is {type(schedule_time)}")
 
-        if not re.match('(0?[1-9]|1[0-2]):[0-5][0-9]|-(0?[1-9]|1[0-2]):[0-5][0-9]', schedule_time):
+        if not re.match('([01]?[0-9]|2[0-3]):[0-5][0-9]|-([01]?[0-9]|2[0-3]):[0-5][0-9]', schedule_time):
             raise InvalidFormatException(
-                f"The format for time_schedule doesn't match. Expected '(0?[1-9]|1[0-2]):[0-5][0-9]|-(0?[1-9]|1[0-2]):[0-5][0-9]', got {schedule_time}")
+                f"The format for time_schedule doesn't match. Expected '([01]?[0-9]|2[0-3]):[0-5][0-9]|-([01]?[0-9]|2[0-3]):[0-5][0-9]', got {schedule_time}")
 
         start_time, finish_time = schedule_time.split('-')
         start_time_h, start_time_m = list(map(int, start_time.split(':')))

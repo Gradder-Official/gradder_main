@@ -22,22 +22,19 @@ const LoginBox: FunctionComponent = () => {
             body: JSON.stringify(data),
         })
             .then(async response => {
-
                 const res = await response.json();
                 console.log(res)
 
                 // Check for error response
                 if (!response.ok) {
-
                     const error = (res && res.message) || response.status;
                     return Promise.reject(error);
-
                 } else {
 
-                    localStorage.setItem("userName", res['user_info']['userName'])
-                    localStorage.setItem("userType", res['user_info']['userType'])
-                    localStorage.setItem("loggedIn", res['user_info']['loggedIn'])
-                    localStorage.setItem("dob", res['user_info']['dob'])
+                    sessionStorage.setItem("userName", res['user_info']['userName'])
+                    sessionStorage.setItem("userType", res['user_info']['userType'])
+                    sessionStorage.setItem("loggedIn", res['user_info']['loggedIn'])
+                    sessionStorage.setItem("dob", res['user_info']['dob'])
                     console.log("Fetched data from login API")
 
                     history.push("/dashboard");
