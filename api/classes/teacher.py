@@ -67,7 +67,7 @@ class Teacher(User):
         try:
             return Teacher(**dictionary)
         except Exception as e:
-            logger.exception(f"Error while generating a Teacher from dictionary {dictionary}: {e}")
+            logger.exception(f"Error while generating a Teacher from dictionary {dictionary}")
             return None
 
     def add(self) -> bool:
@@ -80,7 +80,7 @@ class Teacher(User):
             logger.exception(f"The Teacher with the id {self.id} already exists, you should not be calling the add() method.")
             return False
         except Exception as e:
-            logger.exception(f"Error while adding Teacher {self.id}: {e}")
+            logger.exception(f"Error while adding Teacher {self.id}")
             return False
         else:
             return True
@@ -92,7 +92,7 @@ class Teacher(User):
         try:
             db.teachers.delete_one({'_id': ObjectId(self.id)})
         except Exception as e:
-            logger.exception(f"Error while removing Teacher {self.id}: {e}")
+            logger.exception(f"Error while removing Teacher {self.id}")
             return False
         else:
             return True

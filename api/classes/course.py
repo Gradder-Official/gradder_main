@@ -113,7 +113,7 @@ class Course:
                 id = str(id)
         except Exception as e:
             raise InvalidFormatException(
-                f"Cannot convert provided id to bson.ObjectId: {e}"
+                f"Cannot convert provided id to bson.ObjectId"
             )
 
         self._id = id
@@ -195,7 +195,7 @@ class Course:
         try:
             ObjectId(teacher_id)
         except Exception as e:
-            logger.exception(f"Error while validating teacher id {teacher_id}: {e}")
+            logger.exception(f"Error while validating teacher id {teacher_id}")
             raise e
 
         try:
@@ -203,7 +203,7 @@ class Course:
                 raise Exception(f"The teacher with id {teacher_id} does not exist.")
         except Exception as e:
             logger.exception(
-                f"Error while validating the existence of teacher {teacher_id}: {e}"
+                f"Error while validating the existence of teacher {teacher_id}"
             )
             raise e
 
@@ -238,7 +238,7 @@ class Course:
             try:
                 ObjectId(student_id)
             except Exception as e:
-                logger.exception(f"Error while validating student id {student_id}: {e}")
+                logger.exception(f"Error while validating student id {student_id}")
                 raise e
 
             try:
@@ -246,7 +246,7 @@ class Course:
                     raise Exception(f"The student with id {student_id} does not exist.")
             except Exception as e:
                 logger.exception(
-                    f"Error while validating the existence of student {student_id}: {e}"
+                    f"Error while validating the existence of student {student_id}"
                 )
                 raise e
 
@@ -413,7 +413,7 @@ class Course:
             logger.exception(f"The Course with the id {self.id} already exists, you should not be calling the add() method.")
             return False
         except Exception as e:
-            logger.exception(f"Error while adding course {self.to_dict()}: {e}")
+            logger.exception(f"Error while adding course {self.to_dict()}")
             return False
 
     def remove(self) -> bool:
@@ -422,7 +422,7 @@ class Course:
             db.courses.remove({"_id": self.id})
             return True
         except Exception as e:
-            logger.exception(f"Error while deleting course {_id}: {e}")
+            logger.exception(f"Error while deleting course {_id}")
             return False
 
     def update_department(self, department: str) -> bool:
@@ -448,7 +448,7 @@ class Course:
             return True
         except Exception as e:
             logger.exception(
-                f"Error while updating department {department} in class {self.id}: {e}"
+                f"Error while updating department {department} in class {self.id}"
             )
 
             return False
@@ -476,7 +476,7 @@ class Course:
             return True
         except Exception as e:
             logger.exception(
-                f"Error while updating number {number} in class {self.id}: {e}"
+                f"Error while updating number {number} in class {self.id}"
             )
 
             return False
@@ -504,7 +504,7 @@ class Course:
             return True
         except Exception as e:
             logger.exception(
-                f"Error while updating name {name} in class {self.id}: {e}"
+                f"Error while updating name {name} in class {self.id}"
             )
 
             return False
@@ -532,7 +532,7 @@ class Course:
             return True
         except Exception as e:
             logger.exception(
-                f"Error while updating teacher {teacher_id} in class {self.id}: {e}"
+                f"Error while updating teacher {teacher_id} in class {self.id}"
             )
 
             return False
@@ -560,7 +560,7 @@ class Course:
             return True
         except Exception as e:
             logger.exception(
-                f"Error while updating description {description} in class {self.id}: {e}"
+                f"Error while updating description {description} in class {self.id}"
             )
 
             return False
@@ -588,7 +588,7 @@ class Course:
             return True
         except Exception as e:
             logger.exception(
-                f"Error while updating schedule_time {schedule_time} in class {self.id}: {e}"
+                f"Error while updating schedule_time {schedule_time} in class {self.id}"
             )
 
             return False
@@ -616,7 +616,7 @@ class Course:
             return True
         except Exception as e:
             logger.exception(
-                f"Error while updating schedule_days {schedule_days} in class {self.id}: {e}"
+                f"Error while updating schedule_days {schedule_days} in class {self.id}"
             )
 
             return False
@@ -646,7 +646,7 @@ class Course:
             return True
         except:
             logger.exception(
-                f"Error while updating syllabus {syllabus} in class {self.id}: {e}"
+                f"Error while updating syllabus {syllabus} in class {self.id}"
             )
 
             return False
@@ -695,7 +695,7 @@ class Course:
             logger.exception(f"The property `id` does not exist for this course")
             return False
         except Exception as e:
-            logger.exception(f"Error while updating a course: {e}")
+            logger.exception(f"Error while updating a course")
             return False
 
         PARAMETER_TO_METHOD = {

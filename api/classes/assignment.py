@@ -94,6 +94,6 @@ class Assignment:
         try:
             ObjectId(id)
         except Exception as e:
-            raise InvalidFormatException(f"Cannot convert provided id to bson.ObjectId: {e}")
+            raise InvalidFormatException(f"Cannot convert provided id to bson.ObjectId")
 
         self._id = id

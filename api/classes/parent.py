@@ -83,7 +83,7 @@ class Parent(User):
         try:
             return Parent(**dictionary)
         except Exception as e:
-            logger.exception(f"Error while generating a Parent from dictionary {dictionary}: {e}")
+            logger.exception(f"Error while generating a Parent from dictionary {dictionary}")
             return None
 
     @staticmethod

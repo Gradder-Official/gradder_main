@@ -83,7 +83,7 @@ class Student(User):
         try:
             return Student.from_dict(db.students.find_one({"_id": ObjectId(id)}))
         except BaseException as e:
-            logger.exception(f"Error while getting a student by id {id}: {e}")
+            logger.exception(f"Error while getting a student by id {id}")
             return None
 
     @staticmethod
@@ -100,7 +100,7 @@ class Student(User):
         try:
             return Student.from_dict(db.students.find_one({"email": email}))
         except BaseException as e:
-            logger.exception(f"Error while getting a student by email {id}: {e}")
+            logger.exception(f"Error while getting a student by email {id}")
             return None
 
     @staticmethod
@@ -121,7 +121,7 @@ class Student(User):
         try:
             return Student(**dictionary)
         except Exception as e:
-            logger.exception(f"Error while generating a Student from dictionary {dictionary}: {e}")
+            logger.exception(f"Error while generating a Student from dictionary {dictionary}")
             return None
 
     def add(self) -> bool:
@@ -131,7 +131,7 @@ class Student(User):
         try:
             self.id = db.students.insert_one(self.to_dict()).inserted_id
         except Exception as e:
-            logger.exception(f"Error while adding Student {self.id}: {e}")
+            logger.exception(f"Error while adding Student {self.id}")
             return False
         else:
             return True
@@ -146,7 +146,7 @@ class Student(User):
             logger.exception(f"The Student with the id {self.id} already exists, you should not be calling the add() method.")
             return False
         except Exception as e:
-            logger.exception(f"Error while removing Student {self.id}: {e}")
+            logger.exception(f"Error while removing Student {self.id}")
             return False
         else:
             return True
