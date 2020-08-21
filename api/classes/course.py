@@ -636,7 +636,7 @@ class Course:
 
             return False
 
-    def update(self, department: Optional[str] = None, number: Optional[int] = None, name: Optional[str] = None, teacher: Optional[str] = None, description: Optional[str] = None, schedule_time: Optional[str] = None, schedule_days: Optional[str] = None, syllabus : Optional[Tuple[str, str]] = None) -> bool:
+    def update(self, **kwargs) -> bool:
         r"""Updates the course's data.
 
         Parameters
@@ -649,6 +649,7 @@ class Course:
         schedule_time : str, optional
         schedule_days : str, optional
         syllabus : Tuple[str, str], optional
+        grade_range : Tuple[int, int], option
 
         Returns
         -------
@@ -661,8 +662,6 @@ class Course:
 
         **Important**: to avoid confusion, we suggest to avoid using positional parameters when calling this method.
         """
-        parameters = locals()  # Must be first line here, do not remove
-
         try:
             if Course.get_by_id(self.id) is None:
                 raise Exception(f"The course with id {self.id} does not exist.")
@@ -670,7 +669,7 @@ class Course:
             logger.exception(f"The property `id` does not exist for this course")
             return False
         except Exception as e:
-            logger.exception(f"Error while updating a course: {e}")
+            logger.exception(f"Error while updating a course")
             return False
     
         PARAMETER_TO_METHOD = {
@@ -681,18 +680,19 @@ class Course:
             'description': self.update_description,
             'schedule_time': self.update_schedule_time,
             'schedule_days': self.update_schedule_days,
-            'syllabus': self.update_syllabus 
+            'syllabus': self.update_syllabus,
+            'grade_range': self.update_grade_range
         }
 
         # Go through all the parameters that are None
-        for parameter, value in parameters.items():
-            if parameter != "self" and value is not None:
-                response = PARAMETER_TO_METHOD[parameter](value)
-                if not response:
-                    logger.exception(f"Error while updating course:{self.id} attribute:{parameter} value:{value}")
-                    return False
+        for key, value in kwargs.items():
+            response = PARAMETER_TO_METHOD[key](value)
+            if not response:
+                logger.exception(f"Error while updating course:{self.id} attribute: {key} value: {value}")
+                return False
         
         return True
+
 
     def get_assignments(self) -> List[Assignment]:
         """Get the assignments for this course.
