@@ -21,7 +21,7 @@ class Assignment:
         content: str, #TODO: this should be represented int Deltas(JSON)
         filenames: list,
         estimated_time: int,
-        weight: int,
+        # weight: int,
         submissions: List[Submission] = None,
         _id: str = None,
     ):
@@ -56,7 +56,7 @@ class Assignment:
         self.filenames = filenames
         self.estimated_time = estimated_time
         self.submissions = submissions or []
-        self.weight = weight
+        # self.weight = weight
 
         if _id is not None:
             self.id = _id
