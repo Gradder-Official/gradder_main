@@ -815,7 +815,7 @@ class Course:
 
     @staticmethod
     def get_by_department_number(department: str, number: int) -> Course:
-        """Get a course by its ID
+        """Get a course by its department number
 
         Parameters
         ----------

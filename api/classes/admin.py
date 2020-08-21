@@ -113,7 +113,8 @@ class Admin(User):
         """
         return Admin.from_dict(db.admins.find_one({"email": email}))
     
-    def get_course_names(self) -> Course:
+    @staticmethod
+    def get_course_names() -> Course:
         r"""Returns a list of the Teacher's courses
 
         Returns
