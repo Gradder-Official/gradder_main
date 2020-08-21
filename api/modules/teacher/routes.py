@@ -193,38 +193,34 @@ def manage_classes_by_id(course_id: str):
     course = Course.get_by_id(course_id)
     syllabus_name = course.get_syllabus_name()
 
-    if syllabus_name is not None:
-
-        if len(syllabus_name) > 20:
-            syllabus_name = syllabus_name[:20] + "..."
-
-        request.form['syllabus'].label.text = (
-            f"Update current syllabus: { syllabus_name })"
-        )
-
-    else:
-        return error("Could not find syllabus"), 400
-
     try:
         syllabus = ()
-        if request.form['syllabus'].name is not None:
-            syllabus_file = request.files[request.form['syllabus'].name]
-            filename = syllabus_file.filename
-            blob = upload_blob(
-                uuid.uuid4().hex + "." + syllabus_file.content_type.split("/")[-1],
-                syllabus_file,
-            )
-            syllabus = (blob.name, filename)
-        else:
-            return error("Please specify the syllabus name"), 400
-        
-        course.update_description(request.form['description'])
-        course.update_syllabus(syllabus)
+        if 'file' in request.files:
+            print(request.files['file'])
+            file = request.files['file']
+            syllabus_file = file.syllabus_file
+            syllabus_name = file.syllabus_name
+            print(syllabus_file, syllabus_name)
+            
+            if syllabus_file is not None:
+                blob = upload_blob(
+                    uuid.uuid4().hex + "." + syllabus_file.content_type.split("/")[-1],
+                    syllabus_file,
+                )
+                syllabus = (blob.name, syllabus_name)
 
-        logger.info(f"Syllabus updated")
-        return response(flashes=["Course information successfully updated!"])
+            else:
+                print("Specify syllabus name")
+                return error("Please specify the syllabus name"), 400
+        
+            course.update_description(file.description)
+            course.update_syllabus(syllabus)
+
+            logger.info(f"Syllabus updated")
+            return response(flashes=["Course information successfully updated!"])
 
     except KeyError:
+        print("Not all fields satisfied")
         return error("Not all fields satisfied"), 400
 
     courses = []
@@ -235,6 +231,7 @@ def manage_classes_by_id(course_id: str):
         }
         courses.append(course_data)
 
+    print(courses)
     return response(
         flashes=["Course information successfully updated!"], 
         data={"courses": courses, "current_description": course.description}

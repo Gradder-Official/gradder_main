@@ -5,6 +5,7 @@ import "../../assets/styles/dashboard.css";
 import "../../assets/styles/manage-courses.css";
 import TeacherSidebar from "../../components/TeacherSidebar";
 import { Form, ButtonGroup, Button } from "react-bootstrap";
+import UpdateSyllabus from "../../components/UpdateSyllabus";
 
 const TeacherCourses: FunctionComponent<teacher> = ({ userName, userType, loggedIn, dob }) => {
 
@@ -51,6 +52,8 @@ const TeacherCourses: FunctionComponent<teacher> = ({ userName, userType, logged
         })
     }
 
+    console.log(displayCourse, displayCourse.id)
+
     return (
         <React.Fragment>
             <TeacherSidebar />
@@ -93,7 +96,7 @@ const TeacherCourses: FunctionComponent<teacher> = ({ userName, userType, logged
                         <p><b>Schedule days: </b>{displayCourse.schedule_days}</p>
                         <p><b>Schedule time: </b>{displayCourse.schedule_time}</p>
                         <p>Current syllabus: {displayCourse.syllabus}</p>
-                        <Button className="update-syllabus-btn">Update Syllabus</Button>
+                        <UpdateSyllabus courseId={displayCourse.id} />
                     </div>
                 </div>
             </div>

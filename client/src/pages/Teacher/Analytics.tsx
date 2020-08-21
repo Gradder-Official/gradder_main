@@ -37,6 +37,8 @@ const TeacherAnalytics: FunctionComponent<teacher> = ({ userName, userType, logg
             )
     }, []);
 
+    // TO DO: Link up once grading functionality is finished
+
     const sampleAnalyticsData = {
         "total_average": 82,
         "starting_average": 74,

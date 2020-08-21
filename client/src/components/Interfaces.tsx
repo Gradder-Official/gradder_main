@@ -37,6 +37,12 @@ export interface LoginFormInputs {
     remember_me: boolean
 };
 
+export interface UpdateSyllabusInputs {
+    syllabus_name: string,
+    syllabus_file: Blob | string,
+    description: string
+};
+
 export interface course {
     id: string,
     name: string,
