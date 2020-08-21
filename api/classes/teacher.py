@@ -128,20 +128,17 @@ class Teacher(User):
         except:
             logger.info(f"Error when returning Teacher by email {email}")
 
-    def get_course_names(self) -> List[Tuple[str, str]]:
+    def get_courses() -> List[Course]:
         r"""Returns a list of the Teacher's courses
 
         Returns
         ------
-        List[Tuple[str, str]]
+        List[Course]
             A list of a teacher's courses, represented as tuples (course-id, course-name).
         """
-        from api.classes import (
-            Course,
-        )  # If put at top, creates a circular import problem
-
         courses = list()
+
         for course_id in self.courses:
-            courses.append((course_id, Course.get_by_id(course_id).name))
+            courses.append(Course.get_by_id(course_id))
 
         return courses

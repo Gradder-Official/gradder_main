@@ -108,19 +108,20 @@ class Admin(User):
         """
         return Admin.from_dict(db.admins.find_one({"email": email}))
     
-    def get_course_names(self) -> Course:
-        r"""Returns a list of the Teacher's courses
+    @staticmethod
+    def get_courses() -> List[Course]:
+        r"""Returns a list of the Admin's courses
 
         Returns
         ------
-        List[Tuple[str, str]]
-            A list of a teacher's courses, represented as tuples (course-id, course-name).
+        List[Course]
+            A list of an admin's courses, represented as tuples (course-id, course-name).
         """
         courses = list()
 
         for course_id in db.courses.find():
             course_id = course_id.get("_id")
-            courses.append((course_id, Course.get_by_id(course_id).name))
+            courses.append(Course.get_by_id(course_id))
 
         return courses
 
@@ -180,14 +181,3 @@ class Admin(User):
         db.courses.update_one(
             {"_id": ObjectId(class_id)}, {"$set": {"teacher": ObjectId(teacher.ID)}}
         )
-
-    def get_course_names(self) -> List[(str, str)]:
-        r""" Returns all course ids and names for a school in a list
-        """
-        courses = list()
-
-        for course in db.courses.find():
-            course_id = course.get("_id")
-            courses.append((course_id, Course.get_by_id(course_id).name))
-
-        return courses

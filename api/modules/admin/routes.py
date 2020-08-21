@@ -1,9 +1,12 @@
+import uuid
+
 from flask import current_app, request
 
-from api import root_logger
+from api import root_logger as logger
 from api.classes import Admin, Course, Student, Teacher
 from api.tools.decorators import required_access
 from api.tools.factory import error, response
+from api.tools.google_storage import upload_blob
 
 from . import admin
 
@@ -38,7 +41,7 @@ def add_teacher():
 
     if teacher.add():
         flashes.append("Teacher added!")
-        root_logger.info(f"Teacher {teacher.email} added")
+        logger.info(f"Teacher {teacher.email} added")
         token = teacher.get_activation_token()
         app = current_app._get_current_object()
         msg = Message(
@@ -53,7 +56,7 @@ def add_teacher():
         mail.send(msg)        
         return response(flashes), 200
     else:
-        root_logger.info(f"Error adding teacher {teacher.email}")
+        logger.info(f"Error adding teacher {teacher.email}")
         flashes.append("There was a problem adding this account")
         return response(flashes), 400
         
@@ -184,7 +187,8 @@ def manage_courses():
     dict
         All course data
     """
-    return response({"courses": Admin.get_course_names()}), 200
+    return response({"courses": Admin.get_courses()}), 200
+
 
 @admin.route("/course/<string:course_id>", methods=["GET", "POST"])
 def manage_courses_by_id(course_id: str):
@@ -198,7 +202,6 @@ def manage_courses_by_id(course_id: str):
     flashes = list()
 
     course = Course.get_by_id(course_id)
-
     if course:
         if request.form.get('file'):
             syllabus_file = request.form['file']
@@ -210,8 +213,19 @@ def manage_courses_by_id(course_id: str):
             syllabus = (blob.name, filename)
             course.update_syllabus(syllabus)
             logger.info(f"Course {course._id} updated")
+
+        # NOTE: Possibly refactor this for Python 3.8 to be:
+        """
+        if (description := request.form.get('description')):
+            course.update_description(description)
+        
+        # ... etc
+        """
         if request.form.get('description'):
             course.update_description(request.form.get('description'))
+        if request.form.get('grade_range'):
+            course.update_grade_range(request.form.get('grade_range'))
+        
         flashes.append("Course information successfully updated!")
         return response(flashes), 200
     else:
