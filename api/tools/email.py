@@ -1,15 +1,16 @@
 from threading import Thread
-from flask import current_app, render_template
-from flask_mail import Message
 from typing import List, Tuple
-from . import mail
 
+from flask import current_app, render_template
+
+from api import mail
+from flask_mail import Message
 
 # A type the defines a list of files contained in tuples as (filename, file_content)
 fileList = List[Tuple]
 
 
-def send_async_email(app, msg: Message):
+def send_email(app, msg: Message):
     r"""Sends an email in the context of the current app.
     Parameters
     ----------
@@ -22,7 +23,7 @@ def send_async_email(app, msg: Message):
         mail.send(msg)
 
 
-def send_email(
+def send_async_email(
     to: List[str], subject: str, template: str, files: fileList = None, **kwargs
 ):
     r"""Sends an email in another thread.
@@ -55,7 +56,7 @@ def send_email(
         for filename, file_content in files:
             msg.attach(filename, "application/octect-stream", file_content)
 
-    thr = Thread(target=send_async_email, args=[app, msg])
+    thr = Thread(target=send_email, args=[app, msg])
     thr.start()
 
     return thr
