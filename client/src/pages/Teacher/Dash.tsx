@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
-import { teacher, studentInfo, student } from "../../components/Interfaces";
+import { teacher, studentInfo, student, course } from "../../components/Interfaces";
 import "../../assets/styles/dashboard.css";
 import "../../assets/styles/assignments.css";
 import DashProfile from "../../components/DashProfile";
@@ -20,6 +20,26 @@ const TeacherDash: FunctionComponent<teacher> = ({ userName, userType, loggedIn,
     }
   ]);
 
+  const blankCourse: course = {
+    "id": "",
+    "name": "",
+    "assignments": {},
+    "students": [{
+      "email": "",
+      "first_name": "",
+      "last_name": "",
+      "password": "",
+      "courses": [],
+      "assignments": []
+    }],
+    "description": "",
+    "schedule_time": "",
+    "schedule_days": "",
+    "syllabus": [""]
+  }
+
+  const [courses, setCourses] = useState<Array<course>>([blankCourse]);
+
   useEffect(() => {
     fetch('/api/teacher/courses')
       .then(res => res.json()).then(response => {
@@ -30,6 +50,7 @@ const TeacherDash: FunctionComponent<teacher> = ({ userName, userType, loggedIn,
           })
         })
         setMyStudents(studentInfoList)
+        setCourses(response['data']['courses']);
       }
       )
   }, []);
@@ -49,19 +70,33 @@ const TeacherDash: FunctionComponent<teacher> = ({ userName, userType, loggedIn,
         <div className="dash-flex-row">
           <div className="dash-container timetable">
             <h5>Students</h5>
-            {myStudents.map((student) => (
-              <MyStudent 
-                email={student.email} 
-                first_name={student.first_name}
-                last_name={student.last_name}
-                password={student.password}
-                courses={student.courses}
-                assignments={student.assignments}/>
-            ))}
+            {myStudents[0] !== undefined &&
+              myStudents[0]["first_name"] !== "" &&
+              myStudents.map((student) => (
+                <MyStudent
+                  email={student.email}
+                  first_name={student.first_name}
+                  last_name={student.last_name}
+                  password={student.password}
+                  courses={student.courses}
+                  assignments={student.assignments} />
+              ))}
+            {myStudents[0] === undefined &&
+              <p className="no-students">No students</p>
+            }
           </div>
           <div className="dash-flex-col">
-            <div className="dash-container assignments">
-              <h5>Course Plans</h5>
+            <div className="dash-container courses">
+              <h5>Courses</h5>
+              <div className="courses-wrapper">
+                {courses.map((course) => (
+                  <div className="teacher-dash-courses-container">
+                    <h1>{course.name}</h1>
+                    <h3>{course.description}</h3>
+                    <p>Schedule days: {course.schedule_days}</p>
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="dash-container grades">
               <h5>Assignments</h5>
