@@ -114,7 +114,24 @@ class Student(User):
         List[Student]
         """
         try:
-            students = db.students.find({"first_name": {"$regex": ".*" + keyword + ".*"}})
+            students = db.students.aggregate([
+                {
+                    '$search': {
+                        'autocomplete': {
+                            'query': keyword, 
+                            'path': 'first_name'
+                        }
+                    }
+                }, {
+                    '$project': {
+                        '_id': 1, 
+                        'first_name': 1, 
+                        'last_name': 1
+                    }
+                }, {
+                    '$limit': 5
+                }
+            ])
 
             possible_students = []
             for student in students:

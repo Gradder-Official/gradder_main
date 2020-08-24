@@ -140,7 +140,24 @@ class Teacher(User):
         List[Teacher]
         """
         try:
-            teachers = db.teachers.find({"first_name": {"$regex": ".*" + keyword + ".*"}})
+            teachers = db.teachers.aggregate([
+                {
+                    '$search': {
+                        'autocomplete': {
+                            'query': keyword, 
+                            'path': 'first_name'
+                        }
+                    }
+                }, {
+                    '$project': {
+                        '_id': 1, 
+                        'first_name': 1, 
+                        'last_name': 1
+                    }
+                }, {
+                    '$limit': 5
+                }
+            ])
 
             possible_teachers = []
             for teacher in teachers:

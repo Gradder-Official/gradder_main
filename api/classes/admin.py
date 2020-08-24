@@ -193,7 +193,24 @@ class Admin(User):
         List[Admin]
         """
         try:
-            admins = db.admins.find({"first_name": {"$regex": ".*" + keyword + ".*"}})
+            admins = db.admins.aggregate([
+                {
+                    '$search': {
+                        'autocomplete': {
+                            'query': keyword, 
+                            'path': 'first_name'
+                        }
+                    }
+                }, {
+                    '$project': {
+                        '_id': 1, 
+                        'first_name': 1, 
+                        'last_name': 1
+                    }
+                }, {
+                    '$limit': 5
+                }
+            ])
 
             possible_admins = []
             for admin in admins:
