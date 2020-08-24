@@ -61,7 +61,7 @@ class Admin(User):
         try:
             return Admin(**dictionary)
         except Exception as e:
-            logger.exception(f"Error while generating an Admin from dictionary {dictionary}: {e}")
+            logger.exception(f"Error while generating an Admin from dictionary {dictionary}")
             return None
     
     def add(self) -> bool:
@@ -74,7 +74,7 @@ class Admin(User):
             logger.exception(f"The Admin with the id {self.id} already exists, you should not be calling the add() method.")
             return False
         except Exception as e:
-            logger.exception(f"Error while adding Admin {self.id}: {e}")
+            logger.exception(f"Error while adding Admin {self.id}")
             return False
         else:
             return True
@@ -86,7 +86,7 @@ class Admin(User):
         try:
             db.admins.delete_one({'_id': ObjectId(self.id)})
         except Exception as e:
-            logger.exception(f"Error while removing Admin {self.id}: {e}")
+            logger.exception(f"Error while removing Admin {self.id}")
             return False
         else:
             return True
@@ -113,7 +113,8 @@ class Admin(User):
         """
         return Admin.from_dict(db.admins.find_one({"email": email}))
     
-    def get_course_names(self) -> Course:
+    @staticmethod
+    def get_course_names() -> Course:
         r"""Returns a list of the Teacher's courses
 
         Returns
@@ -149,7 +150,7 @@ class Admin(User):
             db.courses.insert_one(dictionary)
             return True
         except BaseException as e:
-            root_logger.exception(f"Error while adding class {course.ID}: {e}")
+            root_logger.exception(f"Error while adding class {course.ID}")
             return False
 
     @staticmethod
