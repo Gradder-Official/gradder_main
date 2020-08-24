@@ -155,7 +155,7 @@ class Teacher(User):
         """
         try:
             db.teachers.update({"_id": ObjectId(self._id)}, {"$set": {"activated": True}})
-            activated = True
+            self.activated = True
             return True
         except:
             return False
