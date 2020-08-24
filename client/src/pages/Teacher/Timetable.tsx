@@ -18,14 +18,17 @@ const TeacherTimetable = () => {
     { title: "", start: "", end: "", color: "", url: "" }
   ]);
 
-  // Fetches events from calendar
-  useEffect(() => {
+  function fetchCalendar() {
     fetch("/api/teacher/calendar")
       .then((res) => res.json())
       .then((data) => {
         setEventList(data["data"]["events"]);
+        console.log(eventList)
       });
-  }, []);
+  }
+
+  // Fetches events from calendar
+  useEffect(() => { fetchCalendar() }, []);
 
   const [requestErrors, setRequestErrors] = useState<string>();
   const { register, handleSubmit, errors } = useForm();
@@ -43,6 +46,7 @@ const TeacherTimetable = () => {
 
         const res = await response.json();
         setEventList(res.events)
+        console.log(eventList)
 
         // Check for error response
         if (!response.ok) {
@@ -63,10 +67,12 @@ const TeacherTimetable = () => {
   const [modalRemoveIsOpen, setRemoveIsOpen] = React.useState(false);
   function openModal() {
     setIsOpen(true);
+
   }
 
   function closeModal() {
     setIsOpen(false);
+    fetchCalendar();
   }
 
 
@@ -76,6 +82,7 @@ const TeacherTimetable = () => {
 
   function closeRemoveModal() {
     setRemoveIsOpen(false);
+    fetchCalendar();
   }
 
   // FUNCTION TO DELETE EVENT - to be implemented
@@ -90,7 +97,8 @@ const TeacherTimetable = () => {
       .then(async response => {
 
         const res = await response.json();
-        setEventList(res.events)
+        setEventList(res["data"]["events"])
+        console.log(eventList)
 
         // Check for error response
         if (!response.ok) {
@@ -115,7 +123,7 @@ const TeacherTimetable = () => {
         <div className="month-calendar">
           <h1>Timetable</h1>
           <button onClick={openModal}>Add Event</button>
-          <button onClick={openModal}>Remove Event</button>
+          <button onClick={openRemoveModal}>Remove Event</button>
           <FullCalendar
             plugins={[dayGridPlugin]}
             initialView="dayGridMonth"
@@ -202,7 +210,7 @@ const TeacherTimetable = () => {
                   <input name="url" ref={register({ required: false })} />
                 </label>
               </div>
-              <input className="submit-button" type="submit" />
+              <input className="submit-button" type="submit" onClick={closeModal}/>
             </form>
           </div>
         </ReactModal>
@@ -210,13 +218,14 @@ const TeacherTimetable = () => {
 
 
         <ReactModal
-          isOpen={modalIsOpen}
-          onRequestClose={closeModal}
+          isOpen={modalRemoveIsOpen}
+          onRequestClose={closeRemoveModal}
           contentLabel="Example Modal"
           closeTimeoutMS={500}
           className="Modal"
           overlayClassName="Overlay"
-        >  <button className="closebutton" onClick={closeModal}>&times;</button>
+        >
+          <button className="closebutton" onClick={closeRemoveModal}>&times;</button>
           <div className="eventForm">
 
             <form onSubmit={handleSubmit(deleteEvent)}>
@@ -230,7 +239,7 @@ const TeacherTimetable = () => {
                   ref={register({ required: true })}
                 />
               </div>
-              <input className="submit-button" type="submit" />
+              <input className="submit-button" type="submit" onClick={closeRemoveModal}/>
             </form>
           </div>
         </ReactModal>
