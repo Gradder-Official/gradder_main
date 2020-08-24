@@ -25,6 +25,7 @@ import { student, teacher } from "./components/Interfaces";
 import "bootstrap/dist/css/bootstrap.min.css";
 import TeacherDash from "./pages/Teacher/Dash";
 import TeacherCourses from "./pages/Teacher/Courses";
+import TeacherAnalytics from "./pages/Teacher/Analytics";
 
 
 const App: FunctionComponent = () => {

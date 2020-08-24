@@ -216,6 +216,7 @@ class Course:
                 f"The parameter 'students' provided is not a List[str] (type provided is {type(students)}).")
 
         for student_id in students:
+<<<<<<< HEAD
             if not isinstance(student_id, str):
                 raise InvalidTypeException(f"The parameter student_id {student_id} in students is not a str (type provided is {type(student_id)}).")
 
@@ -234,6 +235,24 @@ class Course:
                 logger.exception(
                     f"Error while validating the existence of student {student_id}: {e}")
                 raise e
+=======
+            if student_id is not None:
+                try:
+                    ObjectId(student_id)
+                except Exception as e:
+                    logger.exception(
+                        f"Error while validating student id {student_id}: {e}")
+                    raise e
+
+                try:
+                    if Student.get_by_id(student_id) is None:
+                        raise Exception(
+                            f"The student with id {student_id} does not exist.")
+                except Exception as e:
+                    logger.exception(
+                        f"Error while validating the existence of student {student_id}: {e}")
+                    raise e
+>>>>>>> 6dab694151796a63466322038380ea1b0596c0dc
         
         self._students = students
 
@@ -635,6 +654,7 @@ class Course:
         try:
             self.grade_range = grade_range
 
+<<<<<<< HEAD
             db.courses.find_one_and_update(
                 {"_id": self._id}, {"$set": {"grade_range": self.grade_range}}
             )
@@ -648,6 +668,9 @@ class Course:
             return False
 
     def update(self, **kwargs) -> bool:
+=======
+    def update(self, department: Optional[str] = None, number: Optional[int] = None, name: Optional[str] = None, teacher: Optional[str] = None, description: Optional[str] = None, schedule_time: Optional[str] = None, schedule_days: Optional[str] = None, syllabus: Optional[Tuple[str, str]] = None) -> bool:
+>>>>>>> 6dab694151796a63466322038380ea1b0596c0dc
         r"""Updates the course's data.
 
         Parameters
@@ -693,6 +716,7 @@ class Course:
             'description': self.update_description,
             'schedule_time': self.update_schedule_time,
             'schedule_days': self.update_schedule_days,
+<<<<<<< HEAD
             'syllabus': self.update_syllabus,
             'grade_range': self.update_grade_range
         }
@@ -704,6 +728,20 @@ class Course:
                 logger.exception(f"Error while updating course:{self.id} attribute: {key} value: {value}")
                 return False
         
+=======
+            'syllabus': self.update_syllabus
+        }
+
+        # Go through all the parameters that are None
+        for parameter, value in parameters.items():
+            if parameter != "self" and value is not None:
+                response = PARAMETER_TO_METHOD[parameter](value)
+                if not response:
+                    logger.exception(
+                        f"Error while updating course:{self.id} attribute:{parameter} value:{value}")
+                    return False
+
+>>>>>>> 6dab694151796a63466322038380ea1b0596c0dc
         return True
 
 

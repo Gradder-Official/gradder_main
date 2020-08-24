@@ -132,12 +132,17 @@ class Teacher(User):
             logger.info(f"Error when returning Teacher by email {email}")
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     def get_courses() -> List[Course]:
         r"""Returns a list of the Teacher's courses
 =======
     def get_course_names(self) -> List[Tuple[str, str]]:
         r""" Returns a list of the Teacher's courses
 >>>>>>> feat: :zap: Completed endpoints for teacher calendar
+=======
+    def get_course_names(self) -> List[Tuple[str, str]]:
+        r""" Returns a list of the Teacher's courses
+>>>>>>> 6dab694151796a63466322038380ea1b0596c0dc
 
         Returns
         ------
