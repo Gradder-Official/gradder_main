@@ -2,6 +2,8 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { assignment, student } from "../components/Interfaces";
 import "../assets/styles/assignments.css";
 import AssignmentBox from "../components/AssignmentBox";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Row from 'react-bootstrap/Row';
 
 const AssignmentPreview: FunctionComponent = () => {
   const [assignments, setAssignments] = useState<Array<assignment>>([]);
@@ -19,17 +21,28 @@ const AssignmentPreview: FunctionComponent = () => {
   const dummy_assignment = [
     {
       title: "Assignment 1",
-      assigned_to: "History",
+      assigned_to: "Math",
       due_by: "Fri, 02 Feb 1996 03:04:05 GMT",
     },
+    {
+      title: "Assignment 2",
+      assigned_to: "Physics",
+      due_by: "Fri, 04 Feb 1996 03:04:05 GMT",
+    },
+    {
+      title: "Assignment 3",
+      assigned_to: "Chemistry",
+      due_by: "Fri, 04 Feb 1996 03:04:05 GMT",
+    },
   ];
+  
   // eslint-disable-next-line
   useEffect(() => {
     setAssignments(dummy_assignment);
   });
 
   return (
-    <div className="assignments-preview">
+    <Row className="assignments-preview">
       {assignments.map((assignment) => (
         <AssignmentBox
           title={assignment.title}
@@ -37,7 +50,7 @@ const AssignmentPreview: FunctionComponent = () => {
           due_by={assignment.due_by}
         />
       ))}
-    </div>
+    </Row>
   );
 };
 
