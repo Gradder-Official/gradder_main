@@ -23,15 +23,21 @@
     font-family: 'Gilroy', sans-serif;
     font-weight: bold;
 }
+#profile-pic-small{
+    flex-grow: 1;
+    margin-left: 10px;
+    margin-right: 10px;
+    min-height: 22vh;
+}
 .dash-container-small {
     border-radius: 20px;
     background: white;
-    margin-left: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
     margin-top: 20px;
     margin-bottom: 20px;
     padding: 25px;
     flex-grow: 1;
-    max-width: 30vw;
     min-height: 22vh;
 }
 .dash-container-small h5 {
@@ -58,19 +64,31 @@
     justify-content: space-between;
     min-height: 30vh;
 }
-
 #student-overview .statistics {
     flex-grow: 3;
+}
+.profileDetails-small{
+    background-color: rgb(115, 140, 249);
 }
 #student-overview .profile {
     background-color: rgb(115, 140, 249);
     max-width: 60vw;
-    height: 10vh;
+    min-height: 10vh;
     min-height: 165px;
     flex-grow: 2;
     color: white;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+}
+#student-overview .profile-small {
+    background-color: rgb(115, 140, 249);
+    min-height: 10vh;
+    min-height: 165px;
+    flex-grow: 1;
+    color: white;
+    display: flex;
+    flex-direction: column;
     justify-content: space-between;
 }
 #student-overview .profile-details h2 {
@@ -82,8 +100,6 @@
     width: 20vw;
     height: 20vw;
     border-radius: 5%;
-    margin-top: 20px;
-    margin-left: 20px;
 }
 #student-overview .profile-time {
     margin-right: 20px;
@@ -93,6 +109,16 @@
     font-size: 20px;
     color: white;
     float: right;
+    margin-left: 15px;
+    margin-bottom: 10px;
+}
+#student-overview .profile-time-small {
+    margin-right: 10px;
+}
+#student-overview .profile-time-small i {
+    font-size: 20px;
+    color: white;
+    float: left;
     margin-left: 15px;
     margin-bottom: 10px;
 }
@@ -146,5 +172,13 @@
     .student-dash-flex-row{
         display:none;
     }
+    #profile-pic-small{
+        min-height: 40vh;
+    }
 }
-
+@media (min-width: 992px){
+    .dash-container-small{
+    max-width: 30vw;
+    margin-left: 20px;
+    }
+}
