@@ -5,6 +5,13 @@ export interface student {
     dob: string;
 }
 
+export interface teacher {
+    userName: string,
+    userType: string;
+    loggedIn: boolean;
+    dob: string;
+}
+
 export interface assignment {
     title: string,
     date_assigned?: string,
