@@ -1,28 +1,32 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState } from 'react';
 import { Form, Modal, Button } from "react-bootstrap";
 import "../assets/styles/manage-courses.css";
 import { UpdateSyllabusInputs } from './Interfaces';
 import { useForm } from "react-hook-form";
 
 
-function UpdateSyllabus(courseId: any) {
+const UpdateSyllabus = (courseId: any) => {
 
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     const { register, handleSubmit } = useForm<UpdateSyllabusInputs>();
+    const [selectedFile, setSelectedFile] = useState<string | Blob>('');
+
+    const uploadFile = (event: { target: any; }) => {
+        setSelectedFile(event.target.files[0])
+        console.log(typeof(event.target.files[0]))
+    }
 
     const updateCourse = (data: UpdateSyllabusInputs) => {
 
         const updateCourseAPI = "/api/teacher/course/" + courseId["courseId"]
 
         const sendData = new FormData();
-        sendData.append('syllabus_name', data.syllabus_name);
-        sendData.append('syllabus_file', data.syllabus_file);
-        sendData.append('description', data.description);
-        console.log(data)
+        sendData.append('syllabus_name', data["syllabus_name"]);
+        sendData.append('syllabus_file', selectedFile);
+        sendData.append('description', data["description"]);
 
         fetch(updateCourseAPI, {
             method: 'POST',
@@ -56,16 +60,17 @@ function UpdateSyllabus(courseId: any) {
                 </Modal.Header>
                 <Modal.Body>
 
-                    <Form onSubmit={handleSubmit(updateCourse)} className="update-syllabus-form">
+                    <Form onSubmit={handleSubmit(updateCourse)} className="update-syllabus-form" encType="multipart/form-data">
                         <label>
                             Syllabus name:
                             <input type="text" name="syllabus_name" ref={register} />
                         </label>
                         <label>
                             Upload file:
-                            <input accept="image/*,.pdf,.doc,.docx,.xls,.xlsx"
+                            <input
                                 type="file" name="syllabus_file"
                                 ref={register}
+                                onChange={uploadFile}
                             />
                         </label>
                         <label>

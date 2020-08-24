@@ -52,8 +52,6 @@ const TeacherCourses: FunctionComponent<teacher> = ({ userName, userType, logged
         })
     }
 
-    console.log(displayCourse, displayCourse.id)
-
     return (
         <React.Fragment>
             <TeacherSidebar />
