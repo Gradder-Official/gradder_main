@@ -194,30 +194,30 @@ def manage_classes_by_id(course_id: str):
     syllabus_name = course.get_syllabus_name()
 
     try:
-        syllabus = ()
-        if 'file' in request.files:
-            print(request.files['file'])
-            file = request.files['file']
-            syllabus_file = file.syllabus_file
-            syllabus_name = file.syllabus_name
-            print(syllabus_file, syllabus_name)
+        syllabus = []
+        if request.form and request.files:
+            syllabus_file = request.files['syllabus_file']
+            syllabus_name = request.form.get('syllabus_name')
+            description = request.form.get('description')
             
             if syllabus_file is not None:
+                
                 blob = upload_blob(
                     uuid.uuid4().hex + "." + syllabus_file.content_type.split("/")[-1],
                     syllabus_file,
                 )
-                syllabus = (blob.name, syllabus_name)
+                syllabus = [blob.name, syllabus_name]
+
+                course.update_description(description)
+                course.update_syllabus(syllabus)
+
+                logger.info(f"Syllabus updated")
+                return response(flashes=["Course information successfully updated!"])
 
             else:
-                print("Specify syllabus name")
-                return error("Please specify the syllabus name"), 400
+                print("Specify syllabus information")
+                return error("Please specify the syllabus information"), 400
         
-            course.update_description(file.description)
-            course.update_syllabus(syllabus)
-
-            logger.info(f"Syllabus updated")
-            return response(flashes=["Course information successfully updated!"])
 
     except KeyError:
         print("Not all fields satisfied")
@@ -231,7 +231,6 @@ def manage_classes_by_id(course_id: str):
         }
         courses.append(course_data)
 
-    print(courses)
     return response(
         flashes=["Course information successfully updated!"], 
         data={"courses": courses, "current_description": course.description}

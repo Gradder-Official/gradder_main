@@ -238,7 +238,7 @@ class Course:
             raise InvalidTypeException(
                 f"The description provided is not a str (type provided is {type(description)})")
 
-        if not 0 < len(description) <= 500:
+        if not 0 <= len(description) <= 500:
             raise InvalidFormatException(
                 f"The string provided is too long. The description should not exceed 500 characters. (currently: {len(description)})")
 
@@ -581,7 +581,7 @@ class Course:
             return True
         except:
             logger.exception(
-                f"Error while updating syllabus {syllabus} in class {self.id}: {e}"
+                f"Error while updating syllabus {syllabus} in class {self.id}"
             )
 
             return False
