@@ -42,7 +42,8 @@
     align-items: flex-end;
     width: fit-content;
     height: fit-content;
-    background-color: rgb(158, 171, 230);
+    background-color: #5a73e2;
+    color: white;
     margin-bottom: 0;
 }
 .assignment-card .assignment-deadline {
