@@ -50,7 +50,7 @@ class SchoolConfig:
             Email of the current principal of the school
         
         departments: List[str], optional
-            A List of 3-letter abbreivations of the departments at the school
+            A List of 3-letter abbreviations of the departments at the school
         
         department_description: List[str], optional
             List of descriptions for each department in the school
@@ -61,15 +61,15 @@ class SchoolConfig:
         grading: List[str], optional
             Grading System for the school(Can be Letter Grades(A-F))
         """
-    self._school_name = school_name or ""
-    self._school_address = school_address or ""
-    self._phone_number = phone_number or ""
-    self._school_email = school_email or ""
-    self._principal = principal or ""
-    self._departments = departments or List()
-    self._department_description = department_description or List()
-    self._grade_weights = grade_weights 
-    self._grading = grading or List()
+    self.school_name = school_name or ""
+    self.school_address = school_address or ""
+    self.phone_number = phone_number or ""
+    self.school_email = school_email or ""
+    self.principal = principal or ""
+    self.departments = departments or list()
+    self.department_description = department_description or list()
+    self.grade_weights = grade_weights 
+    self.grading = grading or List()
     if _id is not None:
         self.id = _id
     
