@@ -3,6 +3,7 @@ from typing import Union, Dict, Optional
 from bcrypt import hashpw, gensalt, checkpw
 
 import re
+import datetime
 
 from flask_login import UserMixin
 
@@ -62,8 +63,6 @@ class User(UserMixin):
         self.last_name = last_name  # TODO: add validation (property)
         self.id = _id if _id is not None else ''
         self.password = password if password is not None else ''
-        self.description = _description if _description is not None else ''
-        self.date_of_birth = _date_of_birth if _date_of_birth is not None else ''
 
     def __repr__(self):
         return f"<User {self._id}>"
@@ -146,14 +145,6 @@ class User(UserMixin):
         r"""Creates a new User object from the dictionary.
         """
         return User(**dictionary)
-
-    @property
-    def description(self) -> str:
-        return self._description
-
-    @description.setter
-    def description(self, description: str):
-        db.users.update({"id": self.id}, {"$set": {"_description": description}})
 
     @property
     def date_of_birth(self) -> str:

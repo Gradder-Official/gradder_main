@@ -95,7 +95,8 @@ def view_assignments():
             'description': course.description,
             'schedule_time': course.schedule_time,
             'schedule_days': course.schedule_days,
-            '_syllabus': course._syllabus
+            '_syllabus': course._syllabus,
+            'course_analytics': course._course_analytics
         }
         courses.append(course_data)
     

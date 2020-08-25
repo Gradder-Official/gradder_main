@@ -24,7 +24,8 @@ const TeacherCourses: FunctionComponent<teacher> = ({ userName, userType, logged
         "description": "",
         "schedule_time": "",
         "schedule_days": "",
-        "syllabus": [""]
+        "syllabus": [""],
+        "course_analytics": {}
     }
 
     const [courses, setCourses] = useState<Array<course>>([blankCourse]);
@@ -48,7 +49,8 @@ const TeacherCourses: FunctionComponent<teacher> = ({ userName, userType, logged
             "description": chosenCourse.description,
             "schedule_time": chosenCourse.schedule_time,
             "schedule_days": chosenCourse.schedule_days,
-            "syllabus": chosenCourse.syllabus
+            "syllabus": chosenCourse.syllabus,
+            "course_analytics": chosenCourse.course_analytics
         })
     }
 

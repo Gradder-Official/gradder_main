@@ -1,11 +1,12 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
-import { teacher, course } from "../../components/Interfaces";
+import { teacher, course, AnalyticsData } from "../../components/Interfaces";
 import TeacherSidebar from "../../components/TeacherSidebar";
 import { ButtonGroup, Button } from "react-bootstrap";
 import "../../assets/styles/dashboard.css";
 import "../../assets/styles/analytics.css";
 import AssignmentScoreChart from "../../components/AssignmentScoreChart";
 import StudentScoreChart from "../../components/StudentScoreChart";
+import { Dictionary } from "@fullcalendar/react";
 
 const TeacherAnalytics: FunctionComponent<teacher> = ({ userName, userType, loggedIn, dob }) => {
 
@@ -24,7 +25,8 @@ const TeacherAnalytics: FunctionComponent<teacher> = ({ userName, userType, logg
         "description": "",
         "schedule_time": "",
         "schedule_days": "",
-        "syllabus": [""]
+        "syllabus": [""],
+        "course_analytics": []
     }
 
     const [courses, setCourses] = useState<Array<course>>([blankCourse]);
@@ -37,9 +39,7 @@ const TeacherAnalytics: FunctionComponent<teacher> = ({ userName, userType, logg
             )
     }, []);
 
-    // TO DO: Link up once grading functionality is finished
-
-    const sampleAnalyticsData = {
+    const sampleAnalyticsData: AnalyticsData = {
         "total_average": 82,
         "starting_average": 74,
         "no_students": 2,
@@ -68,14 +68,45 @@ const TeacherAnalytics: FunctionComponent<teacher> = ({ userName, userType, logg
         ]
     }
 
-    const [analyticsData, setAnalyticsData] = useState(sampleAnalyticsData)
+    const [analyticsData, setAnalyticsData] = useState<AnalyticsData>(sampleAnalyticsData)
 
+    // TODO: Get course analytics when clicked... need data for this
     function showCourseInfo(chosenCourse: course) {
-        fetch('/api/teacher/courses')
-            .then(res => res.json()).then(response => {
-                setAnalyticsData(response['data']['course_analytics']);
-            }
-        )
+
+        /* const chosenCourseAnalytics = chosenCourse.course_analytics
+
+        let chosenCourseAssignmentHistory: { assignment_name: string; assignment_scores: Dictionary[] }[] = []
+        let chosenCourseAssignmentScores: { student: string; score: number }[] = []
+
+        let assignmentHistoryDict = chosenCourseAnalytics.assignment_history
+        let assignmentScoresDict = chosenCourseAnalytics.assignment_history.assignment_scores
+        
+        assignmentScoresDict.map((assignment_score: Dictionary) => (
+            chosenCourseAssignmentScores.push({ 
+                "student": assignment_score.student,
+                "score": assignment_score.score
+            })
+        ))
+
+        assignmentHistoryDict.map((assignment: Dictionary) => (
+            chosenCourseAssignmentHistory.push({
+                "assignment_name": assignment.assignment_name,
+                "assignment_scores": chosenCourseAssignmentScores
+            })
+        ))
+
+        console.log(chosenCourseAssignmentScores)
+        console.log(chosenCourseAssignmentHistory)
+
+        /* let chosenCourseAnalyticsDict: AnalyticsData = {
+            "total_average": chosenCourseAnalytics.total_average,
+            "starting_average": chosenCourseAnalytics.starting_average,
+            "no_students": chosenCourseAnalytics.no_students,
+            "assignment_history": []
+            // "assignment_history": chosenCourseAssignmentHistory
+        }
+
+        setAnalyticsData(chosenCourseAnalyticsDict) */
     }
 
     return (

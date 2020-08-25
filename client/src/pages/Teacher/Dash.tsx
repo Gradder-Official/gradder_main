@@ -35,7 +35,8 @@ const TeacherDash: FunctionComponent<teacher> = ({ userName, userType, loggedIn,
     "description": "",
     "schedule_time": "",
     "schedule_days": "",
-    "syllabus": [""]
+    "syllabus": [""],
+    "course_analytics": {}
   }
 
   const [courses, setCourses] = useState<Array<course>>([blankCourse]);

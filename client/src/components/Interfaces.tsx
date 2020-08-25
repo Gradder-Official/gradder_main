@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { Dictionary } from "@fullcalendar/react";
 
 export interface Props {
     children: ReactNode;
@@ -52,7 +53,8 @@ export interface course {
     description: string,
     schedule_time: string,
     schedule_days: string,
-    syllabus: [string]
+    syllabus: [string],
+    course_analytics: Dictionary
 }
 
 export interface Submission {
@@ -86,4 +88,14 @@ export interface Events {
     end: string;
     color: string;
     url: string;
+}
+
+export interface AnalyticsData {
+    "total_average": number,
+    "starting_average": number,
+    "no_students": number,
+    "assignment_history": {
+        "assignment_name": string,
+        "assignment_scores": { "student": string, "score": number }[]
+    }[]
 }
