@@ -1,10 +1,10 @@
 from __future__ import annotations
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Union, Optional
 from bson import ObjectId
 
 from api import db
 from api import root_logger as logger
-from .user import User
+from . import User, CalendarEvent
 
 class Teacher(User):
     _type = 'Teacher'  # Immutable
@@ -14,9 +14,11 @@ class Teacher(User):
         email: str,
         first_name: str,
         last_name: str,
-        courses: list = None,
-        _id: str = None,
-        activated: bool = False
+        password: Optional[Union[bytes, str]] = None,
+        courses: Optional[list] = None,
+        _id: Optional[Union[ObjectId, str]] = None,
+        activated: Optional[bool] = False,
+        calendar: Optional[List[CalendarEvent]] = None
     ):
 
         r""" Initializes a user of Teacher type.
@@ -32,7 +34,7 @@ class Teacher(User):
             The activation status of the user, by default False
         """
         super().__init__(
-            email=email, first_name=first_name, last_name=last_name, _id=_id
+            email=email, first_name=first_name, last_name=last_name, _id=_id, password=password, calendar=calendar
         )
         self.courses = courses or []
 
@@ -65,7 +67,7 @@ class Teacher(User):
         try:
             return Teacher(**dictionary)
         except Exception as e:
-            logger.exception(f"Error while generating a Teacher from dictionary {dictionary}: {e}")
+            logger.exception(f"Error while generating a Teacher from dictionary {dictionary}")
             return None
 
     def add(self) -> bool:
@@ -74,8 +76,11 @@ class Teacher(User):
 
         try:
             self.id = db.teachers.insert_one(self.to_dict()).inserted_id
+        except pymongo.errors.DuplicateKeyError:
+            logger.exception(f"The Teacher with the id {self.id} already exists, you should not be calling the add() method.")
+            return False
         except Exception as e:
-            logger.exception(f"Error while adding Teacher {self.id}: {e}")
+            logger.exception(f"Error while adding Teacher {self.id}")
             return False
         else:
             return True
@@ -87,7 +92,7 @@ class Teacher(User):
         try:
             db.teachers.delete_one({'_id': ObjectId(self.id)})
         except Exception as e:
-            logger.exception(f"Error while removing Teacher {self.id}: {e}")
+            logger.exception(f"Error while removing Teacher {self.id}")
             return False
         else:
             return True

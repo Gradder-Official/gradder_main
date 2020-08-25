@@ -67,6 +67,15 @@ const LoginBox: FunctionComponent = () => {
                         <div className="error">Please enter your password.</div>
                     )}
                 </Form.Group>
+                <Form.Group controlId="formBasicCheckbox">
+                    <Form.Check 
+                        name="remember_me" 
+                        type="checkbox" 
+                        label="Remember me?" 
+                        defaultChecked 
+                        ref={register}
+                    />
+                </Form.Group>
                 <Button variant="primary" type="submit">
                     Submit
                 </Button>

@@ -34,11 +34,12 @@ def load_user(id: str) -> Union[Teacher, Student, Parent, Admin]:
         user = scope.get_by_id(id)
         if user is not None:
             break
-    
+
     if user is not None:
-        return TYPE_DICTIONARY[user["usertype"]].from_dict(user)
+        return TYPE_DICTIONARY[user._type].from_dict(user.to_dict())
 
     return None
+
 
 @auth.route("/login", methods=["GET", "POST"])
 def login():
@@ -49,37 +50,49 @@ def login():
     dict
         The view response
     """
-    # TESTING PURPOSES ONLY
-    return response(flashes=["Log in successful"]), 200
-    
+
     if current_user.is_authenticated:
         logger.info(f"The user {current_user.id} is already authenticated.")
-        return error("Already authenticated"), 400
+        current_user_info = {
+            "userName": current_user.first_name + " " + current_user.last_name,
+            "userType": current_user._type,
+            "loggedIn": True,
+            "dob": "",
+        }
+        return response(user_info=current_user_info), 200
 
     try:
-        email = request.form['email'].lower()
-        password = request.form['password']
-        remember_me = request.form.get('remember_me', False)
+        req_data = request.get_json()
+        email = req_data["email"].lower()
+        password = req_data["password"]
+        remember_me = req_data["remember_me"]
 
-        for scope in [Teacher, Student, Admin, Parent]:
-            logger.info(f"Trying to find {type(scope).__name__} with email {email}...")
+        for scope in [Student, Teacher, Admin, Parent]:
+            logger.info(f"Trying to find {scope.__name__} with email {email}...")
             user = scope.get_by_email(email)
             if user is not None:
+                logger.info(f"User: {user.first_name}")
                 if user.validate_password(password):
                     login_user(user, remember_me)
-                    logger.info(f"LOGGED IN: {user.first_name} {user.last_name} - ACCESS: {user._type}")
+                    logger.info(
+                        f"LOGGED IN: {user.first_name} {user.last_name} - ACCESS: {user._type}"
+                    )
 
                     return response(flashes=["Log in successful"]), 200
-            
-                logger.info(f"Failed to validate the password for the {type(scope).__name__} with email {email}")
-            
-            logger.info(f"Could not find {type(scope).__name__} with email {email}")
-        
-        logger.info(f"Could not login user with email {email}")
-        return error("Invalid email or password."), 400 
-    except KeyError:
+
+                logger.info(
+                    f"Failed to validate the password for the {scope.__name__} with email {email}"
+                )
+                return error("Invalid password,"), 400
+
+            logger.info(f"Could not find {str(scope)} with email {email}")
+
+        logger.info(f"Could not find user with email {email}")
+        return error("The user with this email does not exist."), 400
+    except (KeyError, TypeError):
         logger.info("Not all fields satisfied")
         return error("Not all fields satisfied"), 400
+
 
 @auth.route("/logout", methods=["GET"])
 @login_required
@@ -93,7 +106,7 @@ def logout():
     """
     logger.info(
         "LOGGED OUT: {} {} - ACCESS: {}".format(
-            current_user.first_name, current_user.last_name, current_user.USERTYPE
+            current_user.first_name, current_user.last_name, current_user._type
         )
     )
     logout_user()
@@ -110,13 +123,16 @@ def change_password():
     dict
         The view response
     """
-    user = TYPE_DICTIONARY[
-        current_user.USERTYPE.capitalize()].get_by_id(current_user.ID)
-    
+    user = TYPE_DICTIONARY[current_user.USERTYPE.capitalize()].get_by_id(
+        current_user.ID
+    )
+
     try:
-        new_password = request.form['new_password']
+        new_password = request.form["new_password"]
+
         current_user.password = new_password
 
+        # TODO: I think this should definitely be update, not add, because add() can potentially add a new one
         if not current_user.add():
             return error("Unknown error while changing the password."), 500
     except KeyError:
@@ -159,14 +175,15 @@ def request_password_reset():
     """
     if current_user.is_authenticated:
         return error(f"Wrong route, use {url_for('auth.change_password')}."), 303
-    
+
     try:
-        email = request.form['email'].lower()
+        email = request.form["email"].lower()
         send_reset_email(User.from_dict(User.get_by_email(email)))
     except KeyError:
         return error("Not all fields satisfied"), 400
     else:
         return response(["An email has been sent to reset your password."]), 200
+
 
 @auth.route("/request-password-reset/<string:token>", methods=["POST"])
 def password_reset(token: str):
@@ -184,14 +201,14 @@ def password_reset(token: str):
     """
     if current_user.is_authenticated:
         return error(f"Wrong route, use {url_for('auth.change_password')}."), 303
-    
+
     user = User.verify_reset_token(token)
     if user is None:
         return error("That is an expired or incorrect link."), 410
-    
+
     user = User.from_dict(user)
     try:
-        new_password = request.form['new_password']
+        new_password = request.form["new_password"]
         user.password = new_password
 
         if not user.add():

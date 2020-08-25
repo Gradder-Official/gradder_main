@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { Link } from "react-router-dom";
-import { student } from "../components/Interfaces";
-import StudentSidebar from '../components/StudentSidebar';
-import "../assets/styles/profile.css";
+import { student } from "../../components/Interfaces";
+import StudentSidebar from '../../components/StudentSidebar';
+import "../../assets/styles/profile.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -10,8 +10,7 @@ import Col from 'react-bootstrap/Col';
 
 
 const StudentProfile: FunctionComponent<student> = ({ userName, dob }) => {
-    var ageCalculator = require('age-calculator');
-    let { AgeFromDateString, AgeFromDate } = require('age-calculator');
+    let { AgeFromDateString } = require('age-calculator');
     let ageFromString = new AgeFromDateString(dob).age;
     // Get current time in hours:minutes
     const [hour, minute] = new Date().toLocaleTimeString().slice(0, 7).split(":")

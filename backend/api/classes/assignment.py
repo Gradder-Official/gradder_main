@@ -1,7 +1,13 @@
-from datetime import time, datetime
+from __future__ import annotations
+from datetime import datetime, time
 from typing import List
 
+from bson import ObjectId
+
+from api.tools.exceptions import InvalidFormatException, InvalidTypeException
+
 from .submission import Submission
+
 
 class Assignment:
     _id: str
@@ -15,6 +21,7 @@ class Assignment:
         content: str, #TODO: this should be represented int Deltas(JSON)
         filenames: list,
         estimated_time: int,
+        weight: int,
         submissions: List[Submission] = None,
         _id: str = None,
     ):
@@ -40,17 +47,53 @@ class Assignment:
         _id: str, optional
             Specifies the assignment ID, will be empty if not specified
         """
+        self.title = title
+        self.date_assigned = date_assigned
+        self.assigned_by = assigned_by
+        self.assigned_to = assigned_to
+        self.due_by = due_by
+        self.content = content
+        self.filenames = filenames
+        self.estimated_time = estimated_time
+        self.submissions = submissions or []
+        self.weight = weight
+
         if _id is not None:
             self.id = _id
 
     def __repr__(self):
         return f"<Assignment { self.id }>"
         
+    def to_dict(self):
+        return {
+            "title": self.title,
+            "date_assigned": self.date_assigned,
+            "assigned_by": self.assigned_by,
+            "assigned_to": self.assigned_to,
+            "due_by": self.due_by,
+            "content": self.content,
+            "filenames": self.filenames,
+            "estimated_time": self.estimated_time,
+            "submissions": self.submissions,
+            "id": self.id
+        }
+
+    @classmethod
+    def from_dict(cls, assignment: dict) -> Assignment:
+        return cls(**assignment)
+
     @property
     def id(self) -> str:
         return self._id
     
-    @id.setter 
+    @id.setter
     def id(self, id: str):
-        self._id = id
+        if id is not str:
+            raise InvalidTypeException(f"The id provided is not a str (type provided is {type(id)}).")
 
+        try:
+            ObjectId(id)
+        except Exception as e:
+            raise InvalidFormatException(f"Cannot convert provided id to bson.ObjectId")
+
+        self._id = id

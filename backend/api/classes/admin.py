@@ -2,10 +2,12 @@ from __future__ import annotations
 from typing import Dict, List
 from bson import ObjectId
 
-from api import db, root_logger
+from api import db
+from api import root_logger as logger
 
 from .user import User
 from .course import Course
+from . import Student, Teacher, Parent
 
 class Admin(User):
     _type = 'Admin'  # Immutable
@@ -15,7 +17,8 @@ class Admin(User):
         first_name: str,
         last_name: str,
         courses: List[str] = None,
-        _id: str = None
+        _id: str = None,
+        calendar: Optional[List[CalendarEvent]] = None
     ):
         r"""Creates a user with Admin access
 
@@ -32,7 +35,7 @@ class Admin(User):
         _id: str, optional
             This user's ID, will be empty if not specified
         """
-        super().__init__(email=email, first_name=first_name, last_name=last_name, _id=_id)
+        super().__init__(email=email, first_name=first_name, last_name=last_name, _id=_id, calendar=calendar)
         self.courses = courses or []
     
     def __repr__(self) -> str:
@@ -58,7 +61,7 @@ class Admin(User):
         try:
             return Admin(**dictionary)
         except Exception as e:
-            logger.exception(f"Error while generating an Admin from dictionary {dictionary}: {e}")
+            logger.exception(f"Error while generating an Admin from dictionary {dictionary}")
             return None
     
     def add(self) -> bool:
@@ -67,8 +70,11 @@ class Admin(User):
 
         try:
             self.id = db.admins.insert_one(self.to_dict()).inserted_id
+        except pymongo.errors.DuplicateKeyError:
+            logger.exception(f"The Admin with the id {self.id} already exists, you should not be calling the add() method.")
+            return False
         except Exception as e:
-            logger.exception(f"Error while adding Admin {self.id}: {e}")
+            logger.exception(f"Error while adding Admin {self.id}")
             return False
         else:
             return True
@@ -80,7 +86,7 @@ class Admin(User):
         try:
             db.admins.delete_one({'_id': ObjectId(self.id)})
         except Exception as e:
-            logger.exception(f"Error while removing Admin {self.id}: {e}")
+            logger.exception(f"Error while removing Admin {self.id}")
             return False
         else:
             return True
@@ -107,7 +113,8 @@ class Admin(User):
         """
         return Admin.from_dict(db.admins.find_one({"email": email}))
     
-    def get_course_names(self) -> Course:
+    @staticmethod
+    def get_course_names() -> Course:
         r"""Returns a list of the Teacher's courses
 
         Returns
@@ -143,7 +150,7 @@ class Admin(User):
             db.courses.insert_one(dictionary)
             return True
         except BaseException as e:
-            root_logger.exception(f"Error while adding class {course.ID}: {e}")
+            root_logger.exception(f"Error while adding class {course.ID}")
             return False
 
     @staticmethod
@@ -190,3 +197,29 @@ class Admin(User):
             courses.append((course_id, Course.get_by_id(course_id).name))
 
         return courses
+
+    def get_student_names(self) -> List[(str, str)]:
+        r"""
+        Returns a list of all ObjectId's and Names of Students
+        """
+
+        students = list()
+
+        for student in db.students.find():
+            student_id = student.get("_id")
+            students.append((student_id, Student.get_by_id(student_id).name))
+        
+        return students
+    
+    def get_teacher_names(self) -> List[(str, str)]:
+        r"""
+        Returns all Teacher names, and ObjectId's of Students
+        """
+
+        teachers = list()
+
+        for teacher in db.teachers.find():
+            teacher_id = teacher.get("_id")
+            teachers.append((teacher_id, Teacher.get_by_id(teacher_id).name))
+        
+        return teachers

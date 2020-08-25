@@ -1,9 +1,14 @@
-from flask import request
+import uuid
 
-from api import root_logger
-from api.classes import Admin, Teacher, Student, Course
-from api.tools.factory import response, error
+from flask import current_app, current_user, request, url_for
+
+from api import mail
+from api import root_logger as logger
+from api.classes import Admin, Course, Student, Teacher
 from api.tools.decorators import required_access
+from api.tools.factory import error, response
+from api.tools.google_storage import upload_blob
+from flask_mail import Message
 
 from . import admin
 
@@ -38,8 +43,8 @@ def add_teacher():
 
     if teacher.add():
         flashes.append("Teacher added!")
-        root_logger.info(f"Teacher {teacher.email} added")
-        token = user.get_activation_token()
+        logger.info(f"Teacher {teacher.email} added")
+        token = teacher.get_activation_token()
         app = current_app._get_current_object()
         msg = Message(
             app.config["MAIL_SUBJECT_PREFIX"] + " " + "Account Activation Link",
@@ -53,7 +58,7 @@ def add_teacher():
         mail.send(msg)        
         return response(flashes), 200
     else:
-        root_logger.info(f"Error adding teacher {teacher.email}")
+        logger.info(f"Error adding teacher {teacher.email}")
         flashes.append("There was a problem adding this account")
         return response(flashes), 400
         
@@ -82,8 +87,8 @@ def add_student():
         
     if student.add():
         flashes.append("Student added!")
-        root_logger.info(f"Student {student.email} added")
-        token = user.get_activation_token()
+        logger.info(f"Student {student.email} added")
+        token = current_user.get_activation_token()
         app = current_app._get_current_object()
         msg = Message(
             app.config["MAIL_SUBJECT_PREFIX"] + " " + "Account Activation Link",
@@ -97,7 +102,7 @@ def add_student():
         mail.send(msg)        
         return response(flashes), 200
     else:
-        root_logger.info(f"Error adding Student {student.email}")
+        logger.info(f"Error adding Student {student.email}")
         flashes.append("There was a problem adding this account"), 400
         return response(flashes), 400
 
@@ -113,7 +118,7 @@ def register_courses():
     flashes = list()
 
     try:
-        if Course.get_by_number(request.form['number']):
+        if Course.get_by_department_number(request.form['number']):
             course = Course(
                 request.form['department'],
                 request.form['number'],
@@ -127,7 +132,7 @@ def register_courses():
         return error("Not all fields satisfied."), 400
 
     if Admin.add_course(course=course):
-        root_logger.info(f"Course {request.form['number']} added")
+        logger.info(f"Course {request.form['number']} added")
         flashes.append("Course added!")
         return response(flashes), 200
     else:
@@ -147,7 +152,7 @@ def add_student_to_course():
 
     try:
         if Student.get_by_email(request.form['email']):
-            Admin.add_student(Course.get_by_number(request.form['number'])._id, request.form['email'])
+            Admin.add_student(Course.get_by_department_number(request.form['number'])._id, request.form['email'])
         else:
             flashes.append("Account doesn't exist!")
             return response(flashes), 400
@@ -168,7 +173,7 @@ def add_teacher_to_course():
 
     try:
         if Teacher.get_by_email(request.form['email']):
-            Admin.add_teacher(Course.get_by_number(request.form['number'])._id, request.form['email'])
+            Admin.add_teacher(Course.get_by_department_number(request.form['number'])._id, request.form['email'])
         else:
             flashes.append("Account doesn't exist!")
             return response(flashes), 400

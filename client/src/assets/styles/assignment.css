@@ -12,7 +12,7 @@
     padding-bottom: 0.5em;
 }
 
-.dash-container {
+#assignment-display .dash-container {
   min-height: calc(100% - 50px - 20px);
   max-height: max-content;
 }
@@ -28,4 +28,27 @@
 .ql-editor {
   /* Bump up font size very slightly to be more readable */
   font-size: 115%;
+}
+
+.material-icons {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+.submission-content .ql-editor {
+  max-height: 75px;
+  overflow: hidden;
+  content: "";
+  position: relative;
+}
+
+.submission-content .ql-editor:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: linear-gradient(transparent 60px, white)
 }

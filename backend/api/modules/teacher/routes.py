@@ -1,18 +1,20 @@
 import uuid
 from datetime import datetime
 
-from flask import flash, redirect, render_template, request, url_for, request
+from flask import flash, redirect, render_template, request, url_for
 from flask_login import current_user
 from werkzeug.utils import secure_filename
 
 from api import db
 from api import root_logger as logger
-from api.classes import Assignment, Course, Teacher
-from api.tools.factory import response, error
+from api.classes import Assignment, Course, Submission, Teacher
 from api.tools.decorators import required_access
+from api.tools.factory import error, response
 from api.tools.google_storage import upload_blob
+from api.tools.search import get
 
 from . import teacher
+
 
 def get_existing_assignment_files():
     """ Helper function to get existing assignment files
@@ -59,6 +61,7 @@ def add_assignment():
             content=request.form['content'],
             filenames=file_list,
             estimated_time=request.form['estimated_time'],
+            weight=request.form['weight']
         )
 
         Course.get_by_id(request.form['assigned_to']).add_assignment(new_assignment)
@@ -148,6 +151,7 @@ def edit_assignment(course_id: str, assignment_id: str):
             content=request.form['content'],
             filenames=file_list,
             estimated_time=request.form['estimated_time'],
+            weight=request.form['weight']
         )
         edited_assignment.id = assignment.id
         course.edit_assignment(edited_assignment)
@@ -163,6 +167,7 @@ def edit_assignment(course_id: str, assignment_id: str):
     request.form['estimated_time'].default = assignment.estimated_time
     request.form['title'].default = assignment.title
     request.form['content'].default = assignment.content
+    request.form['weight'].default = assignment.weight
     request.files.default = assignment.filenames
 
     return response(data={"assignment":assignment.to_json()})
@@ -252,3 +257,78 @@ def activate_account(token: str):
     else:
         db.teachers.update({"id": teacher.id}, {"$set": {"activated": True}})
         return response(["Account activated!"]), 200 
+
+@teacher.route("/course/<string:course_id>/assignments/<string:assignment_id>/submissions", methods=["GET"])
+def view_submissions_by_assignment(course_id: str, assignment_id: str):
+    """Collects all submissions for a specific assignment of a class
+
+    Parameters
+    -------
+    course_id: str
+        The course ID to look up in the database
+    
+    assignment_id: str
+        The assignment ID to look up in the database
+
+    Returns
+    -------
+    dict
+        Assignment submissions
+    """
+    course = Course.get_by_id(course_id)
+    assignments = course.get_assignments()
+
+    assignment: Assignment = list(filter(lambda a: str(a.id) == assignment_id, assignments))[0]
+
+    if assignment is None:
+        return error("Could not find assignment"), 400
+
+    else:
+        return response(data={"submissions": assignment.submissions})
+
+@teacher.route("/course/<string:course_id>/assignments/<string:assignment_id>/submissions/<string:submission_id>", methods=["POST"])
+def mark_submission(course_id: str, assignment_id: str, submission_id: str):
+    course = Course.get_by_id(course_id)
+    assignments = course.get_assignments()
+    assignment: Assignment = get(assignments, id=assignment_id)
+    submission: Submission = get(assignment.submissions, id=submission_id)
+    submission.grade = request.form['grade']
+
+@teacher.route("/enter_info", methods=["POST"])
+def enter_info():
+    """Enters description, date of birth and profile picture for teacher
+
+    Returns 
+    -------
+    dict
+        Flashes, teacher data from the form
+    """
+    
+    flashes = list()
+    user = Teacher.get_by_id(current_user.id)
+
+    if request.form.get('description'):
+        user.description = request.form["description"]
+        flashes.append("Description updated")
+
+    if request.form.get('date_of_birth'):
+        user.date_of_birth = request.form["date_of_birth"]
+        flashes.append("Date of birth updated")
+
+    try:       
+        profile_picture_file = request.files['profile_picture']
+        filename = profile_picture_file.filename
+        blob = upload_blob(
+            uuid.uuid4().hex + "." +  profile_picture_file.content_type.split("/")[-1],
+             profile_picture_file,
+        )
+        profile_picture = (blob.name, filename)
+
+    except KeyError:
+            return error("Not all fields satisfied"), 400    
+
+    user.profile_picture = profile_picture
+    flashes.append("Profile picture updated")
+
+    logger.info(f"User info {user.id} updated")
+    return response(flashes), 200
