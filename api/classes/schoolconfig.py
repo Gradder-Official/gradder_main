@@ -3,11 +3,9 @@ from typing import Dict, List, Optional, Tuple
 from bson import ObjectId
 import re
 
-
 from api import db
 from api import root_logger as logger
 from api.tools.exceptions import InvalidFormatException, InvalidTypeException
-
 
 
 # ToDO:
