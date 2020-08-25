@@ -196,8 +196,6 @@ class Admin(User):
 
         return courses
 
-<<<<<<< HEAD
-=======
     def get_student_names(self) -> List[(str, str)]:
         r"""
         Returns a list of all ObjectId's and Names of Students
@@ -221,6 +219,5 @@ class Admin(User):
         for teacher in db.teachers.find():
             teacher_id = teacher.get("_id")
             teachers.append((teacher_id, Teacher.get_by_id(teacher_id).name))
-        
+            
         return teachers
->>>>>>> dev
