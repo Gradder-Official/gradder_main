@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 /* Dashboard content */
 .dash-content {
     position: absolute;
@@ -31,7 +29,6 @@
     margin-right: 10px;
     min-height: 22vh;
 }
->>>>>>> 4021de8ba5042d7eeb0233b8e41cc91d4b19a4d5
 .dash-container-small {
     border-radius: 20px;
     background: white;
@@ -59,11 +56,9 @@
     font-family: "Gilroy", sans-serif;
     font-weight: bold;
 }
-<<<<<<< HEAD
 .mobile-profile {
     display: none !important;
-=======
-
+}
 /* Student dashboard */
 #student-overview .student-dash-flex-row {
     display: flex;
@@ -73,7 +68,6 @@
 }
 #student-overview .statistics {
     flex-grow: 3;
->>>>>>> 4021de8ba5042d7eeb0233b8e41cc91d4b19a4d5
 }
 .profileDetails-small{
     background-color: rgb(115, 140, 249);
@@ -89,8 +83,6 @@
     flex-direction: row;
     justify-content: space-between;
 }
-<<<<<<< HEAD
-=======
 #student-overview .profile-small {
     background-color: rgb(115, 140, 249);
     min-height: 10vh;
@@ -106,7 +98,6 @@
     margin-left: 5px;
     font-size: 35px;
 }
->>>>>>> 4021de8ba5042d7eeb0233b8e41cc91d4b19a4d5
 #student-overview img {
     width: 20vw;
     height: 20vw;
@@ -123,8 +114,6 @@
     margin-left: 15px;
     margin-bottom: 10px;
 }
-<<<<<<< HEAD
-=======
 #student-overview .profile-time-small {
     margin-right: 10px;
 }
@@ -140,7 +129,6 @@
     flex-grow: 1;
 }
 
->>>>>>> 4021de8ba5042d7eeb0233b8e41cc91d4b19a4d5
 #student-overview .student-dash-flex-col {
     display: flex;
     flex-direction: column;

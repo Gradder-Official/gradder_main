@@ -15,21 +15,13 @@ import {
 } from "react-router-dom";
 
 // Components
-<<<<<<< HEAD
-import Login from './pages/Login';
+
+
 import TeacherDash from './pages/TeacherDash';
 import TeacherAssignments from './pages/TeacherAssignments';
 import TeacherTimetable from './pages/TeacherTimetable';
 import TeacherProfile from './pages/TeacherProfile';
 
-import StudentDash from './pages/StudentDash';
-import StudentAssignments from './pages/StudentAssignments';
-import StudentTimetable from './pages/StudentTimetable';
-import StudentProfile from './pages/StudentProfile';
-<<<<<<< HEAD
-import Unauthorized from './pages/Unauthorized';
-import ProtectedRoute from './components/ProtectedRoute'
-=======
 import Login from "./pages/Login";
 import StudentDash from "./pages/Student/Dash";
 import StudentAssignments from "./pages/Student/Assignments";
@@ -38,10 +30,7 @@ import StudentTimetable from "./pages/Student/Timetable";
 import StudentProfile from "./pages/Student/Profile";
 import Unauthorized from "./pages/Unauthorized";
 import ProtectedRoute from "./components/ProtectedRoute";
->>>>>>> dev
 
-=======
->>>>>>> 4021de8ba5042d7eeb0233b8e41cc91d4b19a4d5
 // Types and interfaces
 import { teacher } from "./components/Interfaces";
 
@@ -49,20 +38,16 @@ import { teacher } from "./components/Interfaces";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const App: FunctionComponent = () => {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
   const [requestErrors, setRequestErrors] = useState<string>();
->>>>>>> dev
 
-  const blankUser: student = {
-    userName: "",
-    userType: "",
+  const blankUser: teacher = {
+    userName: 'Stephen King',
+    userType: 'teacher',
     loggedIn: true,
-    dob: "",
+    dob: '1973-05-10',
   };
 
-  const [user, setUser] = useState<student>(blankUser);
+  const [user, setUser] = useState<teacher>(blankUser);
 
   useEffect(() => {
     let isMounted = true;
@@ -79,16 +64,8 @@ const App: FunctionComponent = () => {
       setUser(blankUser);
     };
   }, []);
-=======
   
   // Fetch user type from API. Below is a dummy.
-  const [user] = useState<teacher>({
-    userName: 'Stephen King',
-    userType: 'teacher',
-    loggedIn: true,
-    dob: '1973-05-10',
-  });
->>>>>>> 4021de8ba5042d7eeb0233b8e41cc91d4b19a4d5
 
   console.log(user);
 
@@ -123,7 +100,7 @@ const App: FunctionComponent = () => {
             <Login />
           )}
         </Route>
-<<<<<<< HEAD
+
         <ProtectedRoute user={user} scope="student" exact path="/student/dashboard" render={(props: any) => (
           <StudentDash {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob}/> 
         )}/>
@@ -136,10 +113,10 @@ const App: FunctionComponent = () => {
         <ProtectedRoute user={user} scope="student" exact path="/student/profile" render={(props: any) => (
           <StudentProfile {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob} />
         )}/>
-<<<<<<< HEAD
+
         <Route exact path="/unauthorized" render={(props: any) => (
           <Unauthorized {...props}/>
-=======
+        )}/>
         <Route exact path="/teacher/dashboard" render={(props) => (
           <TeacherDash {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob}/> 
         )}/>
@@ -151,9 +128,8 @@ const App: FunctionComponent = () => {
         )}/>
         <Route exact path="/teacher/profile" render={(props) => (
           <TeacherProfile {...props} userName={user.userName} userType={user.userType} loggedIn={user.loggedIn} dob={user.dob} />
->>>>>>> 4021de8ba5042d7eeb0233b8e41cc91d4b19a4d5
         )}/>
-=======
+
         <Route
           exact
           path="/auth/logout"
@@ -241,7 +217,6 @@ const App: FunctionComponent = () => {
           path="/unauthorized"
           render={(props: any) => <Unauthorized {...props} />}
         />
->>>>>>> dev
       </Switch>
     </Router>
   );

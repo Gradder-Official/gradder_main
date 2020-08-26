@@ -51,14 +51,8 @@
   margin-right: 20px;
 }
 #sidebar-nav .active,
-<<<<<<< HEAD
-#sidebar-nav .nav-link:hover,
-#sidebar-nav #sidebar-logout:hover {
-  background: rgb(93, 118, 232);
-=======
 #sidebar-nav .nav-link:hover {
   background: rgb(76, 102, 212);
->>>>>>> 4021de8ba5042d7eeb0233b8e41cc91d4b19a4d5
   border-radius: 0 50px 50px 0;
 }
 #sidebar-nav #sidebar-logout {
