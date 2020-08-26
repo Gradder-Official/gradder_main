@@ -23,22 +23,33 @@ def parent_verification():
     pass
 
 @parent.route("/check-grades/<string:course_id>/", methods=["GET"])
-def get_schedule_classes(course_id: str):
-    """Gets grades of assignments for specific course of a student
+def get_grades():
+    """Gets grades of assignments parent's students
 
     Returns
     -------
     dict
         The view response
     """
-        
-    course_assignments = Course.get_by_id(course_id).get_assignments()
+    students = []
+    for student_id in parent.children:
+        students.append(Student.get_by_id(student_id))
+
     grades = []
-    for assignment in course_assignments:
-        grade_data = {
+    for student in students:
+        student_assignments = student.get_assignments()
+        grades_student = []
+        for assignment in student_assignments:
+            grade_data = {
             'assignment': assignment.title,
             'grade': assignment.submissions[-1].grade
+            }
+            grades_student.append(grade_data)
+
+        grade_data = {
+            'student': student.first_name + ' ' + student.last_name
+            'grades': grades_student
         }
         grades.append(grade_data)
-    
+
     return response(data={"grades": grades})
