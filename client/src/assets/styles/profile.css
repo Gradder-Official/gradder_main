@@ -30,6 +30,7 @@
 }
 .dash-content .profile {
     background-color: rgb(115, 140, 249);
+    min-width: 400px;
     max-width: 60vw;
     height: 10vh;
     min-height: 165px;
@@ -42,7 +43,7 @@
 .dash-content .profile-details h2 {
     margin-top: 3.5vh;
     margin-left: 5px;
-    font-size: 35px;
+    font-size: 2rem;
 }
 .profile-details img {
     width: 90px;
@@ -65,6 +66,11 @@
 }
 
 /* Responsiveness */
+@media screen and (max-width: 1300px) {
+    .teacher-dash-courses-container h3 {
+        display: none;
+    }
+}
 @media screen and (max-width: 1000px) {
     .dash-content {
         position: absolute;
@@ -80,6 +86,11 @@
     }
     #student-overview .profile {
         margin-bottom: 7vh;
+    }
+}
+@media screen and (max-width: 720px) {
+    .dash-content {
+        width: 85vw;
     }
 }
 
@@ -99,6 +110,12 @@
     }
     .mobile-profile {
         display: flex !important;
+    }
+    .dash-container .courses {
+        max-height: none;
+    }
+    .courses-wrapper {
+        flex-direction: column;
     }
 }
 

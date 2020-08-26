@@ -46,7 +46,6 @@
 }
 
 .dash-content .timetable {
-    height: 70vh;
     flex-grow: 1;
 }
 .dash-flex-col {
@@ -64,9 +63,7 @@
     flex-grow: 3;
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
     max-height: 38vh;
-    overflow-x: scroll;
     max-width: -webkit-fill-available;
 }
 .dash-content .grades {
@@ -87,15 +84,16 @@
 .courses-wrapper {
     display: flex;
     flex-direction: row;
-    height: 85%;
 }
 .teacher-dash-courses-container {
     border-radius: 20px;
-    min-width: 12vw;
+    max-height: 20vh;
+    min-width: 10vw;
     margin: 0 10px;
     margin-top: 15px;
     padding: 15px;
     background: aliceblue;
+    overflow-y: scroll;
 }
 .teacher-dash-courses-container h1 {
     font-size: 16px;
@@ -113,6 +111,16 @@
 }
 
 /* Responsiveness */
+@media screen and (max-width: 1185px) {
+    .dash-content .profile-time {
+        font-size: small;
+    }
+}
+@media screen and (max-width: 1150px and min-width: 1000px) {
+    .dash-content .profile-details h2 {
+        margin-top: 0vh !important;
+    }
+}
 @media screen and (max-width: 1000px) {
     .dash-content {
         position: absolute;
@@ -127,6 +135,10 @@
     }
     .dash-content .profile {
         margin-bottom: 7vh;
+        max-width: none !important;
+    }
+    .no-students {
+        margin-top: 20px;
     }
 }
 @media screen and (max-width: 720px) {
@@ -149,14 +161,20 @@
         margin: 10px;
         display: flex;
         flex-direction: column;
+        max-height: none;
     }
     .dash-content .profile {
-        flex-direction: column-reverse;
+        min-width: 0 !important;
+        flex-direction: column-reverse !important;
+        height: fit-content !important;
     }
     .dash-content .profile-details {
         display: flex;
         flex-direction: row;
         align-items: center;
+    }
+    .dash-content .profile-time h1 {
+        margin-top: 5vh;
     }
     .dash-content .profile img {
         width: 45%;
@@ -165,6 +183,10 @@
     .dash-content .profile-details h2 {
         margin-top: 0px;
         font-size: 30px;
+    }
+    .teacher-dash-courses-container {
+        margin: 0;
+        margin-top: 20px;
     }
 }
 @media screen and (max-height: 670px) {
