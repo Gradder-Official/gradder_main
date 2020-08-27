@@ -27,33 +27,38 @@ const TeacherProfile: FunctionComponent<teacher> = ({ userName, dob }) => {
             <div className="dash-content" id="student-overview">
                 {/*This is the mobile approach using React-Boostrap*/}
                 <Container fluid className="d-block d-lg-none">
-                    {/*</Container><Row className="justify-content-md-center" */}
-                    <Row className="dash-container-small profileDetails-small" xs={12}>
+                    <Row className="profile-header-small profileDetails-small" xs={12}>
                         <Col className="profile-small" xs={12}>
                             <div className="profile-details">
                                 <p className="h3">Welcome, <br></br>{userName}!</p>
                             </div>
-                       </Col>
+                        </Col>
                         <Col xs={12} className="profile-second-row">
                             <div className="profile-time-small text-left text-white">
-                                <Link to="/">
-                                    <i className="text-left -mr-2 material-icons-outlined">exit_to_app</i>
-                                </Link>
-                                <Link to="/dashboard">
-                                    <i className="text-left material-icons-outlined">mail</i>
-                                </Link>
+                                <Row className="ml-n3">
+                                    <Link to="/">
+                                        <i className="text-left -mr-2 material-icons-outlined">exit_to_app</i>
+                                    </Link>
+                                    <Link to="/dashboard">
+                                        <i className="text-left material-icons-outlined">mail</i>
+                                    </Link>
+                                </Row>
                                 <p className="h1">{curTime}</p>
                                 <p>{curDate}</p>
                             </div>
                         </Col>
                     </Row>
                     <Row xs={12}>
-                        <img src="https://www.iambetter.org/wp-content/uploads/2020/04/Albert_Einstein_1024x1024.jpg" alt="Profile" id="profile-pic-small" className="profile-pic" />
+                        <img src="https://www.iambetter.org/wp-content/uploads/2020/04/Albert_Einstein_1024x1024.jpg" alt="Profile" id="profile-pic-small" className="d-none d-lg-block profile-pic" />
                     </Row>
                     <Row xs={12}>
                         <div className="dash-container-small">
                             <h5>Date of Birth</h5>
                             <p>{dob}</p>
+                        </div>
+                        <div className="dash-container-small">
+                            <h5>Age</h5>
+                            <p>{ageFromString}</p>
                         </div>
                     </Row>
                     <Row xs={12}>
@@ -61,13 +66,9 @@ const TeacherProfile: FunctionComponent<teacher> = ({ userName, dob }) => {
                             <h5>Change Password</h5>
                         </div>
                     </Row>
-                    {/* </Row> */}
                 </Container>
 
                 {/*This is the desktop/large screen version*/}
-
-
-
                 <div className="student-dash-flex-row d-none d-lg-flex">
                     <div className="student-dash-flex-col">
                         <div className="dash-container profile">
@@ -77,14 +78,18 @@ const TeacherProfile: FunctionComponent<teacher> = ({ userName, dob }) => {
 
                             </div>
                             <div className="profile-time">
-                                <Link to="/">
-                                    <i className="material-icons-outlined">exit_to_app</i>
-                                </Link>
-                                <Link to="/dashboard">
-                                    <i className="material-icons-outlined">mail</i>
-                                </Link>
+                                <Col xs={12}>
+                                    <Link to="/">
+                                        <i className="material-icons-outlined">exit_to_app</i>
+                                    </Link>
+                                    <Link to="/dashboard">
+                                        <i className="material-icons-outlined">mail</i>
+                                    </Link>
+                                </Col>
+                                <div className="mr-2">
                                 <h1>{curTime}</h1>
                                 <p>{curDate}</p>
+                            </div>
                             </div>
                         </div>
                         <div className="dash-container timetable">

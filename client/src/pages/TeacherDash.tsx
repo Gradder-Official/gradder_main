@@ -5,7 +5,8 @@ import TeacherSidebar from '../components/TeacherSidebar';
 import "../assets/styles/dashboard.css";
 import "../assets/styles/assignments.css";
 import AssignmentPreview from "../components/AssignmentPreview";
-
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 const TeacherDash: FunctionComponent<teacher> = ({ userName }) => {
   // Get current time in hours:minutes
@@ -35,12 +36,14 @@ const TeacherDash: FunctionComponent<teacher> = ({ userName }) => {
               />
             </div>
             <div className="profile-time">
+              <Col xs={12}>
               <Link to="/">
                 <i className="material-icons-outlined">exit_to_app</i>
               </Link>
               <Link to="/dashboard">
                 <i className="material-icons-outlined">mail</i>
               </Link>
+              </Col>
               <h1>{curTime}</h1>
               <p>{curDate}</p>
             </div>
@@ -48,15 +51,16 @@ const TeacherDash: FunctionComponent<teacher> = ({ userName }) => {
         </div>
 
         <div className="student-dash-flex-row">
-          <div className="dash-container timetable">
-            <h5>Timetable</h5>
+          <div className="student-dash-flex-col">
+            <div className="dash-container timetable">
+              <h5>Timetable</h5>
+            </div>
           </div>
           <div className="student-dash-flex-col">
-            <div className="dash-container assignments">
+            <div className="dash-container">
               <h5>Upcoming Assignments</h5>
               <AssignmentPreview />
             </div>
-
             <div className="dash-container grades">
               <h5>Grades</h5>
             </div>

@@ -18,11 +18,13 @@ const AssignmentPreview: FunctionComponent = () => {
       title: "Assignment 2",
       assigned_to: "Physics",
       due_by: "Fri, 04 Feb 1996 03:04:05 GMT",
+      id: "fcb1f1bcd4cde0c0b34a80bc21ffda68"
     },
     {
       title: "Assignment 3",
       assigned_to: "Chemistry",
       due_by: "Fri, 04 Feb 1996 03:04:05 GMT",
+      id: "fcb1f1bcd4cde0c0b34a80bc21ffda68"
     },
   ]);
   
