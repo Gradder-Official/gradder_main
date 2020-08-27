@@ -17,8 +17,8 @@
     margin: 20px;
     padding: 25px;
     flex-grow: 1;
-    min-width: 400px;
-    min-height: 180px;
+    min-width: 300px;
+    min-height: 25vh;
 }
 .dash-container h5 {
     font-family: 'Gilroy', sans-serif;
@@ -63,7 +63,6 @@
     flex-grow: 3;
     display: flex;
     flex-direction: column;
-    max-height: 38vh;
     max-width: -webkit-fill-available;
 }
 .dash-content .grades {
@@ -71,29 +70,39 @@
 }
 
 /* Teacher */
-.no-students {
-    height: 85%;
-    background: aliceblue;
+.student-list-dash {
+    display: flex;
+    flex-direction: column;
+    background: whitesmoke;
+    padding: 15px;
     border-radius: 20px;
-    margin-top: 10%;
+    margin-top: 20px;
+    height: 90%;
+}
+.no-students {
+    background: white;
+    border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 20px;
+    height: 100px;
 }
 .courses-wrapper {
     display: flex;
     flex-direction: row;
+    background: whitesmoke;
+    padding: 10px 0;
+    border-radius: 20px;
+    margin-top: 10px;
 }
 .teacher-dash-courses-container {
     border-radius: 20px;
-    max-height: 20vh;
     min-width: 10vw;
     margin: 0 10px;
-    margin-top: 15px;
     padding: 15px;
-    background: aliceblue;
-    overflow-y: scroll;
+    background: white;
+    overflow: hidden;
 }
 .teacher-dash-courses-container h1 {
     font-size: 16px;
@@ -109,16 +118,23 @@
     font-size: 12px;
     margin: 10px 0;
 }
-
 /* Responsiveness */
+@media screen and (max-width: 1250px) and (min-width: 1150px) {
+    .teacher-dash-courses-container p {
+        font-size: 10px;
+    }
+}
 @media screen and (max-width: 1185px) {
     .dash-content .profile-time {
         font-size: small;
     }
 }
-@media screen and (max-width: 1150px and min-width: 1000px) {
+@media screen and (max-width: 1150px) and (min-width: 1000px) {
     .dash-content .profile-details h2 {
         margin-top: 0vh !important;
+    }
+    .teacher-dash-courses-container p {
+        display:  none;
     }
 }
 @media screen and (max-width: 1000px) {
@@ -137,8 +153,8 @@
         margin-bottom: 7vh;
         max-width: none !important;
     }
-    .no-students {
-        margin-top: 20px;
+    .teacher-dash-courses-container {
+        margin: 10px 20px;
     }
 }
 @media screen and (max-width: 720px) {
@@ -147,6 +163,9 @@
         right: auto;
         left: 12vw;
         width: 88vw;
+    }
+    .dash-content .profile-details h2 {
+        margin-top: 0vh !important;
     }
 }
 @media screen and (max-width: 500px) {

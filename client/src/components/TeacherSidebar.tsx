@@ -33,7 +33,7 @@ const TeacherSidebar: FunctionComponent = () => {
                     Overview
                 </NavLink>
                 <NavLink to="/teacher/classes" className="nav-link" activeClassName="active">
-                    <span className="material-icons-outlined">calendar_today</span>
+                    <span className="material-icons-outlined">class</span>
                     Classes
                 </NavLink>
                 <NavLink to="/teacher/timetable" className="nav-link" activeClassName="active">

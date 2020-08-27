@@ -71,20 +71,22 @@ const TeacherDash: FunctionComponent<teacher> = ({ userName, userType, loggedIn,
         <div className="dash-flex-row">
           <div className="dash-container timetable">
             <h5>Students</h5>
-            {myStudents[0] !== undefined &&
-              myStudents[0]["first_name"] !== "" &&
-              myStudents.map((student) => (
-                <MyStudent
-                  email={student.email}
-                  first_name={student.first_name}
-                  last_name={student.last_name}
-                  password={student.password}
-                  courses={student.courses}
-                  assignments={student.assignments} />
-              ))}
-            {myStudents[0] === undefined &&
-              <p className="no-students">No students</p>
-            }
+            <div className="student-list-dash">
+              {myStudents[0] !== undefined &&
+                myStudents[0]["first_name"] !== "" &&
+                myStudents.map((student) => (
+                  <MyStudent
+                    email={student.email}
+                    first_name={student.first_name}
+                    last_name={student.last_name}
+                    password={student.password}
+                    courses={student.courses}
+                    assignments={student.assignments} />
+                ))}
+              {myStudents[0] === undefined &&
+                <p className="no-students">No students</p>
+              }
+            </div>
           </div>
           <div className="dash-flex-col">
             <div className="dash-container courses">
@@ -93,8 +95,7 @@ const TeacherDash: FunctionComponent<teacher> = ({ userName, userType, loggedIn,
                 {courses.map((course) => (
                   <div className="teacher-dash-courses-container">
                     <h1>{course.name}</h1>
-                    <h3>{course.description}</h3>
-                    <p>Schedule days: {course.schedule_days}</p>
+                    <p>{course.description}</p>
                   </div>
                 ))}
               </div>

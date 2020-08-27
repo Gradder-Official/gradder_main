@@ -58,15 +58,15 @@ const TeacherCourses: FunctionComponent<teacher> = ({ userName, userType, logged
         <React.Fragment>
             <TeacherSidebar />
 
-            <div className="dash-content dash-flex-col">
+            <div className="dash-content dash-flex-col" id="teacher-view">
 
                 <div className="class-navbar">
                     <h1>Courses</h1>
-                    <ButtonGroup>
+                    <div className="btn-navbar">
                         {courses.map((course) => (
                             <Button onClick={() => showCourseInfo(course)}>{course.name}</Button>
                         ))}
-                    </ButtonGroup>
+                    </div>
                 </div>
 
                 <div className="dash-flex-row" id="classes-container">

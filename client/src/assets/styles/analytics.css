@@ -17,3 +17,13 @@
     font-size: 15px;
     font-family: "SF UI Text", sans-serif;
 }
+@media screen and (max-width: 1000px) {
+    .analytics-averages .dash-container, .analytics-charts .dash-container{
+        width: 90%;
+    }
+    .class-navbar {
+        margin: 10px;
+        width: 75vw;
+        margin-left: 20px;
+    }
+}

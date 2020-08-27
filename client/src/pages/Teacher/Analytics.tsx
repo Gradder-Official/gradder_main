@@ -117,11 +117,11 @@ const TeacherAnalytics: FunctionComponent<teacher> = ({ userName, userType, logg
 
                 <div className="class-navbar">
                     <h1>Analytics</h1>
-                    <ButtonGroup>
+                    <div className="btn-navbar">
                         {courses.map((course) => (
                             <Button onClick={() => showCourseInfo(course)}>{course.name}</Button>
                         ))}
-                    </ButtonGroup>
+                    </div>
                 </div>
 
                 <div className="dash-flex-col" id="analytics">
