@@ -221,3 +221,23 @@ class Admin(User):
             teachers.append((teacher_id, Teacher.get_by_id(teacher_id).name))
             
         return teachers
+
+    @staticmethod
+    def update_school_settings(config: SchoolConfig):
+        try:
+            dictionary = config.to_dict()
+            school_name = dictionary["school_name"]
+            school_address = dictionary["school_address"]
+            phone_number = dictionary["phone_number"]
+            school_email = dictionary["school_email"]
+            principal = dictionary["principal"]
+            principal_email = dictionary["principal_email"]
+            departments = dictionary["departments"]
+            department_description = dictionary["deparment_description"]
+            grade_weights = dictionary["grade_weights"]
+            grading = dictionary["grading"]
+            SchoolConfig.update(school_name, school_address, phone_number, school_email, principal, principal_email, departments, department_description, grade_weights, grading)
+            return True
+        except:
+            logger.exception(f"An error occured while updating school settings")
+            return False
