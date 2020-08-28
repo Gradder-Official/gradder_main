@@ -73,7 +73,7 @@
     width: 180px;
   }
 }
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 800px) {
   .dash-sidebar {
     position: fixed;
     width: 100px;

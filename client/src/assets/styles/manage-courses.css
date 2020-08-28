@@ -97,7 +97,7 @@
     border: 0;
     margin-top: 20px;
 }
-.update-syllabus-form .btn:hover {
+.update-syllabus-btn:hover, .update-syllabus-btn:focus, .update-syllabus-btn:active {
     background: rgb(76,102,212)
 }
 .update-syllabus-form input {

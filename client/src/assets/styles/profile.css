@@ -72,12 +72,6 @@
     }
 }
 @media screen and (max-width: 1000px) {
-    .dash-content {
-        position: absolute;
-        right: 0;
-        left: auto;
-        width: 75vw;
-    }
     #student-overview .student-dash-flex-row {
         flex-direction: column-reverse;
     }
@@ -86,11 +80,6 @@
     }
     #student-overview .profile {
         margin-bottom: 7vh;
-    }
-}
-@media screen and (max-width: 720px) {
-    .dash-content {
-        width: 85vw;
     }
 }
 

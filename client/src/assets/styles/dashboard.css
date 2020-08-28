@@ -142,9 +142,11 @@
         position: absolute;
         right: 0;
         left: auto;
+        width: 78vw;
     }
     .dash-content .dash-flex-row {
         flex-direction: column-reverse;
+        width: 100%;
     }
     .dash-content .dash-container {
         max-width: none;
@@ -157,7 +159,7 @@
         margin: 10px 20px;
     }
 }
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 800px) {
     .dash-content {
         position: absolute;
         right: auto;
@@ -204,7 +206,6 @@
         font-size: 30px;
     }
     .teacher-dash-courses-container {
-        margin: 0;
         margin-top: 20px;
     }
 }

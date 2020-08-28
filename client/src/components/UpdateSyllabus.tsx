@@ -83,11 +83,6 @@ const UpdateSyllabus = (courseId: any) => {
                     </Form>
 
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                </Modal.Footer>
             </Modal>
         </>
     );
