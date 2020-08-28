@@ -27,7 +27,7 @@
 .dash-header {
     margin: 10px;
     padding: 20px 30px;
-    border-bottom: 5px solid rgb(121, 141, 228);
+    border-bottom: 5px solid rgb(76, 102, 212) !important;
 }
 .dash-header h1 {
     font-family: "Gilroy", sans-serif;
