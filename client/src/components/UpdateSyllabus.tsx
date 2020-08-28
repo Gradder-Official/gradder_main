@@ -3,7 +3,8 @@ import { Form, Modal, Button } from "react-bootstrap";
 import "../assets/styles/manage-courses.css";
 import { UpdateSyllabusInputs } from './Interfaces';
 import { useForm } from "react-hook-form";
-
+import { BsFileEarmarkPlus } from "react-icons/bs";
+import { IconContext } from "react-icons";
 
 const UpdateSyllabus = (courseId: any) => {
 
@@ -16,7 +17,7 @@ const UpdateSyllabus = (courseId: any) => {
 
     const uploadFile = (event: { target: any; }) => {
         setSelectedFile(event.target.files[0])
-        console.log(typeof(event.target.files[0]))
+        console.log(typeof (event.target.files[0]))
     }
 
     const updateCourse = (data: UpdateSyllabusInputs) => {
@@ -50,9 +51,11 @@ const UpdateSyllabus = (courseId: any) => {
 
     return (
         <>
-            <Button className="update-syllabus-btn" onClick={handleShow}>
-                Update Syllabus
-            </Button>
+            <IconContext.Provider value={{ color: "white", style: { verticalAlign: 'middle' }, size: "1.5em"}}>
+                <Button className="update-syllabus-btn" onClick={handleShow}>
+                    <BsFileEarmarkPlus /> Update Syllabus
+                </Button>
+            </IconContext.Provider>
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>

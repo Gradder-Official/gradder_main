@@ -1,6 +1,8 @@
 import React, { useEffect, useState, Component } from "react";
 import { useForm } from "react-hook-form";
 import { Events } from "../../components/Interfaces";
+import { BsPlus } from "react-icons/bs";
+import { RiSubtractLine } from "react-icons/ri";
 
 import StudentSidebar from "../../components/TeacherSidebar";
 import FullCalendar from "@fullcalendar/react";
@@ -11,6 +13,7 @@ import ReactModal from "react-modal";
 import "../../assets/styles/dashboard.css";
 import "../../assets/styles/timetable.css";
 import "../../assets/styles/modal.css";
+import { IconContext } from "react-icons";
 
 const TeacherTimetable = () => {
   const [eventList, setEventList] = useState<Array<Events>>([
@@ -114,8 +117,8 @@ const TeacherTimetable = () => {
       <div className="dash-content" id="student-timetable">
         <div className="month-calendar">
           <h1>Timetable</h1>
-          <button onClick={openModal}>Add Event</button>
-          <button onClick={openRemoveModal}>Remove Event</button>
+          <button onClick={openModal}><BsPlus /> Add Event</button>
+          <button onClick={openRemoveModal}><RiSubtractLine /> Remove Event</button>
           <FullCalendar
             plugins={[dayGridPlugin]}
             initialView="dayGridMonth"
