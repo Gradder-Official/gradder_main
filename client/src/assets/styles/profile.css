@@ -1,12 +1,43 @@
+/* Dashboard content */
+.dash-content {
+    position: absolute;
+    left: 230px;
+    padding: 10px 20px;
+    height: 100vh;
+    width: 84vw;
+    border-radius: 20px 0 0 20px;
+    background: whitesmoke;
+    z-index: 100;
+    overflow-y: scroll;
+}
+.dash-container {
+    border-radius: 20px;
+    background: white;
+    margin: 20px;
+    padding: 25px;
+    flex-grow: 1;
+    min-width: 400px;
+    min-height: 180px;
+}
+.dash-container h5 {
+    font-family: 'Gilroy', sans-serif;
+    font-weight: bold;
+}
+#profile-pic-small{
+    flex-grow: 1;
+    margin-left: 10px;
+    margin-right: 10px;
+    min-height: 22vh;
+}
 .dash-container-small {
     border-radius: 20px;
     background: white;
-    margin-left: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
     margin-top: 20px;
     margin-bottom: 20px;
     padding: 25px;
     flex-grow: 1;
-    max-width: 30vw;
     min-height: 22vh;
 }
 .dash-container-small h5 {
@@ -16,6 +47,24 @@
 .dash-container-small p {
     margin-top: 2vh;
 }
+
+.profile-header-small {
+    border-radius: 20px;
+    background: white;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 25px;
+    flex-grow: 1;
+    min-height: 22vh;
+}
+.profile-header-small h5 {
+    font-family: 'Gilroy', sans-serif;
+    font-weight: bold;
+}
+.profile-header-small p {
+    margin-top: 2vh;
+}
+
 .dash-header {
     margin: 10px;
     padding: 20px 30px;
@@ -28,10 +77,23 @@
 .mobile-profile {
     display: none !important;
 }
+/* Student dashboard */
+#student-overview .student-dash-flex-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    min-height: 30vh;
+}
+#student-overview .statistics {
+    flex-grow: 3;
+}
+.profileDetails-small{
+    background-color: rgb(115, 140, 249);
+}
 #student-overview .profile {
     background-color: rgb(115, 140, 249);
     max-width: 60vw;
-    height: 10vh;
+    min-height: 10vh;
     min-height: 165px;
     flex-grow: 2;
     color: white;
@@ -39,12 +101,25 @@
     flex-direction: row;
     justify-content: space-between;
 }
+#student-overview .profile-small {
+    background-color: rgb(115, 140, 249);
+    min-height: 10vh;
+    min-height: 165px;
+    flex-grow: 1;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+#student-overview .profile-details h2 {
+    margin-top: 5vh;
+    margin-left: 5px;
+    font-size: 35px;
+}
 #student-overview img {
     width: 20vw;
     height: 20vw;
     border-radius: 5%;
-    margin-top: 20px;
-    margin-left: 20px;
 }
 #student-overview .profile-time {
     margin-right: 20px;
@@ -57,6 +132,21 @@
     margin-left: 15px;
     margin-bottom: 10px;
 }
+#student-overview .profile-time-small {
+    margin-right: 10px;
+}
+#student-overview .profile-time-small i {
+    font-size: 20px;
+    color: white;
+    float: left;
+    margin-left: 15px;
+    margin-bottom: 10px;
+}
+#student-overview .timetable {
+    height: 60vh;
+    flex-grow: 1;
+}
+
 #student-overview .student-dash-flex-col {
     display: flex;
     flex-direction: column;
@@ -99,5 +189,17 @@
     .mobile-profile {
         display: flex !important;
     }
+    #profile-pic-small{
+        min-height: 40vh;
+    }
 }
-
+@media (min-width: 992px){
+    .dash-container-small{
+    max-width: 100vw;
+    margin-left: 20px;
+    }
+    .profile-header-small{
+        max-width: 100vw;
+        margin-left: 20px;
+    }
+}

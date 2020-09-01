@@ -23,13 +23,13 @@
     padding: 30px;
 }
 .fc .fc-button{
-    background-color: rgb(121, 141, 228);
+    background-color: #5a73e2;
     border: none;
 }
 .fc .fc-button:hover, 
 .fc .fc-button-primary:not(:disabled):active, 
 .fc .fc-button-primary:not(:disabled).fc-button-active {
-    background-color: rgb(68, 92, 198);
+    background-color: rgb(76, 102, 212) !important;
 }
 .fc .fc-button-primary:focus {
     box-shadow: none;
