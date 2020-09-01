@@ -250,3 +250,36 @@ def enter_info():
 
     logger.info(f"User info {user.id} updated")
     return response(flashes), 200
+
+@student.route("/search", methods=["GET"])
+def get_names_by_search():
+    """Shows full names of people the user is searching
+    Returns
+    -------
+    dict
+        Student names
+    """
+    try:
+        students = Student.get_by_keyword(request.form['first_name'])
+        possible_students = list()
+        for student in students:
+            student_data = {
+                'full_name': student.first_name + ' ' + student.last_name,
+            }
+            possible_students.append(student_data)
+        return response(data={"possible_students": possible_students}), 200
+    except:
+        return error("There are no students by that name"), 404
+
+@student.route("/student-search-info", methods=["GET", "POST"])
+def student_search_info():
+    r"""This method is called when the user clicks on a result on the search bar
+    Returns
+    -------
+    dict
+        Flashes, student data
+    """
+    try:
+        return response(None, Student.get_by_id(request.form['user_id'])), 200
+    except:
+        return error("There was a problem finding this user"), 404
