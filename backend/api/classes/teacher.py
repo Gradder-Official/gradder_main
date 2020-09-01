@@ -132,6 +132,46 @@ class Teacher(User):
         except:
             logger.info(f"Error when returning Teacher by email {email}")
 
+    @staticmethod
+    def get_by_keyword(keyword: str) -> Teacher:
+        r""" Returns Teacher with a specified keyword.
+        Parameters
+        ---------
+        first_name: str
+
+        Returns
+        ------
+        List[Teacher]
+        """
+        try:
+            teachers = db.teachers.aggregate([
+                {
+                    '$search': {
+                        'autocomplete': {
+                            'query': keyword, 
+                            'path': 'first_name'
+                        }
+                    }
+                }, {
+                    '$project': {
+                        '_id': 1, 
+                        'first_name': 1, 
+                        'last_name': 1
+                    }
+                }, {
+                    '$limit': 5
+                }
+            ])
+
+            possible_teachers = []
+            for teacher in teachers:
+                possible_teachers.append(Teacher.from_dict(teacher))
+            return possible_teachers
+
+        except BaseException as e:
+            logger.exception(f"Error while getting a teacher by name {id}: {e}")
+            return None
+
     def get_course_names(self) -> List[Tuple[str, str]]:
         r"""Returns a list of the Teacher's courses
 

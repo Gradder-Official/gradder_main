@@ -102,6 +102,46 @@ class Student(User):
         except BaseException as e:
             logger.exception(f"Error while getting a student by email {id}")
             return None
+    
+    @staticmethod
+    def get_by_keyword(keyword: str) -> Student:
+        r""" Returns Student with a specified keyword.
+        Parameters
+        ---------
+        keyword: str
+
+        Returns
+        ------
+        List[Student]
+        """
+        try:
+            students = db.students.aggregate([
+                {
+                    '$search': {
+                        'autocomplete': {
+                            'query': keyword, 
+                            'path': 'first_name'
+                        }
+                    }
+                }, {
+                    '$project': {
+                        '_id': 1, 
+                        'first_name': 1, 
+                        'last_name': 1
+                    }
+                }, {
+                    '$limit': 5
+                }
+            ])
+
+            possible_students = []
+            for student in students:
+                possible_students.append(Student.from_dict(student))
+            return possible_students
+
+        except BaseException as e:
+            logger.exception(f"Error while getting a student by name {id}: {e}")
+            return None
 
     @staticmethod
     def from_dict(dictionary: dict) -> Student:
