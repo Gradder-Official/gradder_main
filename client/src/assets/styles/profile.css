@@ -92,6 +92,7 @@
 }
 #student-overview .profile {
     background-color: rgb(115, 140, 249);
+    min-width: 400px;
     max-width: 60vw;
     min-height: 10vh;
     min-height: 165px;
@@ -100,6 +101,19 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+.dash-content .profile-details h2 {
+    margin-top: 3.5vh;
+    margin-left: 5px;
+    font-size: 2rem;
+}
+.profile-details img {
+    width: 90px;
+    height: 90px;
+    border: 4px solid rgb(83, 107, 216);
+    border-radius: 30%;
+    margin-top: 2vh;
+    margin-left: 20px;
 }
 #student-overview .profile-small {
     background-color: rgb(115, 140, 249);
@@ -121,11 +135,11 @@
     height: 20vw;
     border-radius: 5%;
 }
-#student-overview .profile-time {
+.dash-content .profile-time {
     margin-right: 20px;
     text-align: right;
 }
-#student-overview .profile-time i {
+.dash-content .profile-time i {
     font-size: 20px;
     color: white;
     float: right;
@@ -154,13 +168,12 @@
 }
 
 /* Responsiveness */
-@media screen and (max-width: 1000px) {
-    .dash-content {
-        position: absolute;
-        right: 0;
-        left: auto;
-        width: 75vw;
+@media screen and (max-width: 1300px) {
+    .teacher-dash-courses-container h3 {
+        display: none;
     }
+}
+@media screen and (max-width: 1000px) {
     #student-overview .student-dash-flex-row {
         flex-direction: column-reverse;
     }
@@ -189,14 +202,20 @@
     .mobile-profile {
         display: flex !important;
     }
+    .dash-container .courses {
+        max-height: none;
+    }
+    .courses-wrapper {
+        flex-direction: column;
+    }
     #profile-pic-small{
         min-height: 40vh;
     }
 }
 @media (min-width: 992px){
     .dash-container-small{
-    max-width: 100vw;
-    margin-left: 20px;
+        max-width: 100vw;
+        margin-left: 20px;
     }
     .profile-header-small{
         max-width: 100vw;

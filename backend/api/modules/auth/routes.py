@@ -84,7 +84,10 @@ def login():
                         f"LOGGED IN: {user.first_name} {user.last_name} - ACCESS: {user._type}"
                     )
 
-                    return response(flashes=["Log in successful"]), 200
+                        return response(flashes=["Log in successful"]), 200
+
+                    logger.info(
+                        f"Failed to validate the password for the {type(scope).__name__} with email {email}")
 
                 logger.info(
                     f"Failed to validate the password for the {scope.__name__} with email {email}"

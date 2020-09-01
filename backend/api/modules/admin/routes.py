@@ -211,7 +211,8 @@ def manage_courses():
     dict
         All course data
     """
-    return response({"courses": Admin.get_course_names()}), 200
+    return response({"courses": Admin.get_courses()}), 200
+
 
 @admin.route("/course/<string:course_id>", methods=["POST"])
 def manage_courses_by_id(course_id: str):
@@ -225,7 +226,6 @@ def manage_courses_by_id(course_id: str):
     flashes = list()
 
     course = Course.get_by_id(course_id)
-
     if course:
         if request.form.get('file'):
             syllabus_file = request.form['file']

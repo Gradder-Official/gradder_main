@@ -1,0 +1,29 @@
+#analytics .analytics-averages {
+    min-height: fit-content;
+}
+.analytics-averages .dash-container {
+    min-width: 10vw;
+    min-height: 0;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+#analytics .analytics-charts .dash-container {
+    height: 60vh;
+}
+#analytics .analytics-charts svg text {
+    font-weight: 600;
+    font-size: 15px;
+    font-family: "SF UI Text", sans-serif;
+}
+@media screen and (max-width: 1000px) {
+    .analytics-averages .dash-container, .analytics-charts .dash-container{
+        width: 90%;
+    }
+    .class-navbar {
+        margin: 10px;
+        width: 75vw;
+        margin-left: 20px;
+    }
+}

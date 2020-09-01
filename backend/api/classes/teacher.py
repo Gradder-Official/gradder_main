@@ -37,6 +37,7 @@ class Teacher(User):
             email=email, first_name=first_name, last_name=last_name, _id=_id, password=password, calendar=calendar
         )
         self.courses = courses or []
+        self.calendar = calendar or []
 
     def __repr__(self):
         return f"<Teacher {self.id}>"
@@ -46,6 +47,8 @@ class Teacher(User):
         """
         dict_user = super().to_dict()
         dict_user["courses"] = self.courses
+        dict_user["calendar"] = self.calendar
+
         dict_user["activated"] = self.activated
         return dict_user
 
@@ -173,23 +176,73 @@ class Teacher(User):
             return None
 
     def get_course_names(self) -> List[Tuple[str, str]]:
-        r"""Returns a list of the Teacher's courses
+        r""" Returns a list of the Teacher's courses
 
         Returns
         ------
-        List[Tuple[str, str]]
+        List[Course]
             A list of a teacher's courses, represented as tuples (course-id, course-name).
         """
-        from api.classes import (
-            Course,
-        )  # If put at top, creates a circular import problem
-
         courses = list()
+
         for course_id in self.courses:
-            courses.append((course_id, Course.get_by_id(course_id).name))
+            courses.append(Course.get_by_id(course_id))
 
         return courses
 
+    def get_calendar(self) -> List[object]:
+        r""" Returns a list of the Teacher's events
+
+        Returns
+        ------
+        List[object]
+            A list of a teacher's events: [title, start, end, background_color, url].
+        """
+
+        events = list()
+        for event in self.calendar:
+            addEvent = {
+                "title": event["title"],
+                "start": event["start"],
+                "end": event["end"],
+                "color": event["color"],
+                "url": event["url"]
+            }
+            events.append(addEvent)
+
+        return events
+
+    def add_calendar_event(self, teacher_id: str, event: dict):
+        """ Adds an event to the Teacher's calendar
+
+        Parameters
+        ---------
+        teacher_id : str
+            ID of teacher adding the event
+        event : dict
+            Dictionary representation of event to be added {title, start, end, color, url}
+        """
+
+        db.teachers.find_one_and_update(
+            {"_id": ObjectId(teacher_id)},
+            {"$push": {"calendar": event}},
+        )
+
+    def remove_calendar_event(self, teacher_id: str, title: str):
+        """ Removes an event from the Teacher's calendar
+
+        Parameters
+        ---------
+        teacher_id : str
+            ID of teacher removing the event
+        event : dict
+            Dictionary representation of event to be removed {title, start, end, color, url}
+        """
+        
+        db.teachers.update(
+            {"_id": teacher_id}, 
+            {"$pull": {"calendar": {"title": title}}}
+        )
     def activate(self):
         r"""Activates the user
 

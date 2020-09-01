@@ -1,0 +1,97 @@
+/*.Modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  border: none !important;
+  z-index: 1000;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  height: 85vh;
+  width: 50vw;
+}
+
+.Modal::selection {
+  border: none !important;
+}*/
+
+.Overlay::selection {
+  border: none !important;
+}
+
+/*
+@media (max-width: 768px) {
+  .Modal {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+}
+*/
+
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border: none;
+  z-index: 1000;
+  right: 0;
+  bottom: 0;
+}
+
+.ReactModal__Overlay {
+  opacity: 0;
+  z-index: 1000;
+  transform: translateY(-100px);
+  transition: all 500ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+  transform: translateY(-100px);
+}
+
+.eventForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.eventInput {
+  display: flex;
+  margin-bottom: 20px;
+  flex-direction: column;
+}
+.eventInput input {
+  border-color: rgb(89, 115, 226);
+}
+.closebutton {
+  color: black;
+  background-color: white;
+  border: none;
+  align-self: flex-start;
+}
+
+.submit-button {
+  justify-self: center;
+}
+
+.eventFormButton input {
+  border-radius: 20px;
+  background: rgb(90, 115, 226);
+  border: 0;
+  padding: 8px 20px;
+  color: white;
+  margin-right: 200px;
+  margin-bottom: 2vh;
+}

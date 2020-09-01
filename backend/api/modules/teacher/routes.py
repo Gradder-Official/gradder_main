@@ -7,7 +7,8 @@ from werkzeug.utils import secure_filename
 
 from api import db
 from api import root_logger as logger
-from api.classes import Assignment, Course, Submission, Teacher
+from api.classes import Assignment, Course, Teacher, Student
+from api.tools.factory import response, error
 from api.tools.decorators import required_access
 from api.tools.factory import error, response
 from api.tools.google_storage import upload_blob
@@ -31,8 +32,8 @@ def get_existing_assignment_files():
     
     return file_list
 
-@teacher.before_request
-@required_access(Teacher)
+#@teacher.before_request
+#@required_access(Teacher)
 def teacher_verification():
     # Required_access decorator already handled it
     pass
@@ -61,7 +62,7 @@ def add_assignment():
             content=request.form['content'],
             filenames=file_list,
             estimated_time=request.form['estimated_time'],
-            weight=request.form['weight']
+            # weight=request.form['weight']
         )
 
         Course.get_by_id(request.form['assigned_to']).add_assignment(new_assignment)
@@ -89,11 +90,17 @@ def view_assignments():
         course_data = {
             'id': str(course_id),
             'name': course.name,
-            'assignments': list(map(lambda a: a.to_dict(), course_assignments))
+            'assignments': list(map(lambda a: a.to_dict(), course_assignments)),
+            'students': list(map(lambda s: Student.get_by_id(s).to_dict(), course.students)),
+            'description': course.description,
+            'schedule_time': course.schedule_time,
+            'schedule_days': course.schedule_days,
+            '_syllabus': course._syllabus,
+            'course_analytics': course._course_analytics
         }
         courses.append(course_data)
     
-    return response(data={"courses": [course_data]})
+    return response(data={"courses": courses})
 
 @teacher.route("/assignments/<string:course_id>", methods=["GET"])
 def view_assignment_by_class_id(course_id: str):
@@ -151,7 +158,7 @@ def edit_assignment(course_id: str, assignment_id: str):
             content=request.form['content'],
             filenames=file_list,
             estimated_time=request.form['estimated_time'],
-            weight=request.form['weight']
+            # weight=request.form['weight']
         )
         edited_assignment.id = assignment.id
         course.edit_assignment(edited_assignment)
@@ -167,7 +174,7 @@ def edit_assignment(course_id: str, assignment_id: str):
     request.form['estimated_time'].default = assignment.estimated_time
     request.form['title'].default = assignment.title
     request.form['content'].default = assignment.content
-    request.form['weight'].default = assignment.weight
+    # request.form['weight'].default = assignment.weight
     request.files.default = assignment.filenames
 
     return response(data={"assignment":assignment.to_json()})
@@ -190,38 +197,34 @@ def manage_classes_by_id(course_id: str):
     course = Course.get_by_id(course_id)
     syllabus_name = course.get_syllabus_name()
 
-    if syllabus_name is not None:
-
-        if len(syllabus_name) > 20:
-            syllabus_name = syllabus_name[:20] + "..."
-
-        request.form['syllabus'].label.text = (
-            f"Update current syllabus: { syllabus_name })"
-        )
-
-    else:
-        return error("Could not find syllabus"), 400
-
     try:
-        syllabus = ()
-        if request.form['syllabus'].name is not None:
-            syllabus_file = request.files[request.form['syllabus'].name]
-            filename = syllabus_file.filename
-            blob = upload_blob(
-                uuid.uuid4().hex + "." + syllabus_file.content_type.split("/")[-1],
-                syllabus_file,
-            )
-            syllabus = (blob.name, filename)
-        else:
-            return error("Please specify the syllabus name"), 400
-        
-        course.update_description(request.form['description'])
-        course.update_syllabus(syllabus)
+        syllabus = []
+        if request.form and request.files:
+            syllabus_file = request.files['syllabus_file']
+            syllabus_name = request.form.get('syllabus_name')
+            description = request.form.get('description')
+            
+            if syllabus_file is not None:
+                
+                blob = upload_blob(
+                    uuid.uuid4().hex + "." + syllabus_file.content_type.split("/")[-1],
+                    syllabus_file,
+                )
+                syllabus = [blob.name, syllabus_name]
 
-        logger.info(f"Syllabus updated")
-        return response(flashes=["Course information successfully updated!"])
+                course.update_description(description)
+                course.update_syllabus(syllabus)
+
+                logger.info(f"Syllabus updated")
+                return response(flashes=["Course information successfully updated!"])
+
+            else:
+                print("Specify syllabus information")
+                return error("Please specify the syllabus information"), 400
+        
 
     except KeyError:
+        print("Not all fields satisfied")
         return error("Not all fields satisfied"), 400
 
     courses = []
@@ -296,11 +299,21 @@ def view_submissions_by_assignment(course_id: str, assignment_id: str):
 
 @teacher.route("/course/<string:course_id>/assignments/<string:assignment_id>/submissions/<string:submission_id>", methods=["POST"])
 def mark_submission(course_id: str, assignment_id: str, submission_id: str):
+    flashes = []
+    
     course = Course.get_by_id(course_id)
     assignments = course.get_assignments()
     assignment: Assignment = get(assignments, id=assignment_id)
     submission: Submission = get(assignment.submissions, id=submission_id)
-    submission.grade = request.form['grade']
+    
+    min_, max_ = course.grade_range
+    if min_ < request.form['grade'] < max_:
+        submission.update_grade(request.form['grade'])
+        flashes.append("Grade updated!")
+        return response(flashes), 200
+    
+    return error("Grade outside course grade boundary")
+ 
 
 @teacher.route("/enter_info", methods=["POST"])
 def enter_info():
@@ -341,6 +354,59 @@ def enter_info():
     logger.info(f"User info {user.id} updated")
     return response(flashes), 200
 
+@teacher.route("/calendar", methods=["GET", "POST"])
+def get_calendar_events():
+    """Gets dictionary of calendar events for teacher
+    
+    Returns
+    -------
+    dict
+        The view response
+    """
+
+    req_data = request.get_json()
+    if req_data:
+        title = req_data['title']
+        start = req_data['start']
+        end = req_data['end']
+        color = req_data['color']
+        url = req_data['url']   
+
+        newEvent = {
+            "title": title,
+            "start": start,
+            "end": end,
+            "color": color,
+            "url": url
+        }
+
+        teacherDict = current_user.to_dict()
+        teacher = Teacher.get_by_email(teacherDict["email"])
+        current_user.add_calendar_event(teacher.id, newEvent)
+    
+    events = current_user.get_calendar()
+    return response(data={"events": events})
+
+@teacher.route("/delete-calendar", methods=["POST"])
+def delete_calendar_events():
+    """Gets dictionary of calendar events for teacher
+
+    Returns
+    -------
+    dict
+        The view response
+    """
+
+    req_data = request.get_json()
+
+    if req_data:
+        title = req_data['title']
+        teacherDict = current_user.to_dict()
+        teacher = Teacher.get_by_email(teacherDict["email"])
+        current_user.remove_calendar_event(teacher.id, title)
+    
+    events = current_user.get_calendar()
+    return response(data={"events": events})
 @teacher.route("/search", methods=["GET"])
 def get_names_by_search():
     """Shows full names of people the user is searching

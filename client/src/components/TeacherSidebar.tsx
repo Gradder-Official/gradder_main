@@ -1,9 +1,24 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import { NavLink } from "react-router-dom";
+import createBrowserHistory from 'history/createBrowserHistory';
 import WhiteLogo from "../assets/images/white-logo.png"
 import "../assets/styles/sidebar.css"
 
 const TeacherSidebar: FunctionComponent = () => {
+
+    const [logoutMessage, setLogoutMessage] = useState<string>();
+    const history = createBrowserHistory({forceRefresh:true});
+
+    const logout = () => {
+        fetch('/api/auth/logout')
+            .then(res => res.json()).then(response => {
+                setLogoutMessage(response['flashes']);
+                console.log(logoutMessage)
+            }
+        )
+        history.push("/auth/logout");
+    }
+
     return (
         <div className="dash-sidebar">
             <div className="navbar-header">
@@ -17,6 +32,10 @@ const TeacherSidebar: FunctionComponent = () => {
                     <span className="material-icons-outlined">home</span>
                     Overview
                 </NavLink>
+                <NavLink to="/teacher/classes" className="nav-link" activeClassName="active">
+                    <span className="material-icons-outlined">class</span>
+                    Classes
+                </NavLink>
                 <NavLink to="/teacher/timetable" className="nav-link" activeClassName="active">
                     <span className="material-icons-outlined">calendar_today</span>
                     Timetable
@@ -25,13 +44,17 @@ const TeacherSidebar: FunctionComponent = () => {
                     <span className="material-icons-outlined">check_box</span>
                     Assignments
                 </NavLink>
-                <NavLink to="/dashboard" className="nav-link" activeClassName="active">
-                    <span className="material-icons-outlined">pie_chart</span>   
+                <NavLink to="/teacher/analytics" className="nav-link" activeClassName="active">
+                    <span className="material-icons-outlined">pie_chart</span>
                     Analytics
                 </NavLink>
                 <NavLink to="/teacher/profile" className="nav-link" activeClassName="active">
                     <span className="material-icons-outlined">settings</span>
                     Settings
+                </NavLink>
+                <NavLink to="/" onClick={logout} className="nav-link" id="sidebar-logout">
+                    <span className="material-icons-outlined">exit_to_app</span>
+                    Log out
                 </NavLink>
             </nav>
         </div>

@@ -10,17 +10,19 @@ from api.tools.exceptions import InvalidFormatException, InvalidTypeException
 
 
 class Course:
-    _id: str
-    _department: str
-    _number: int
-    _name: str
-    _teacher: str
-    _students: List[str]
-    _description: str
-    _schedule_time: str
-    _schedule_days: str
-    _syllabus: Tuple[str, str]
-    _assignments: List[Assignment]
+    _id : str
+    _department : str
+    _number : int
+    _name : str
+    _teacher : str
+    _students : List[str]
+    _description : str
+    _schedule_time : str
+    _schedule_days : str
+    _syllabus : Tuple[str, str]
+    _assignments : List[Assignment]
+    _grade_range : Tuple[int, int]
+    _course_analytics : dict
 
     def __init__(
         self,
@@ -34,10 +36,11 @@ class Course:
         schedule_days: Optional[str] = None,
         syllabus: Optional[Tuple[str, str]] = None,
         assignments: Optional[List[Assignment]] = None,
+        grade_range: Optional[Tuple[int, int]] = None,
         _id: str = None,
+        course_analytics: Optional[dict] = None
     ):
         """Initialises the Course object
-
         Parameters
         ----------
         department : str
@@ -75,9 +78,24 @@ class Course:
         assignments : List[Assignment], optional
             The assignments under this course, by default None
             Format: the list of valid `api.classes.Assignment` instances
+        grade_range : Tuple[int, int], optional
+            The grade range for this course, if None set to (0, 100), by default None
         _id : str, optional
             The ID of the course, by default None
             Format: string which can be converted to `bson.objectId`
+        course_analytics : dict, optional
+            Dictionary of course analytics data
+            Format: dictionary of { 
+                total_average, 
+                starting_average, 
+                no_students, 
+                assignment_history : {
+                    assignment_name,
+                    assignment_scores: [
+                        { student, score }
+                    ]
+                }
+            }
         """
         self.department = department
         self.number = number
@@ -89,8 +107,11 @@ class Course:
         self.schedule_days = schedule_days or ""
         self.syllabus = syllabus or tuple()
         self.assignments = assignments or list()
+        self._course_analytics = course_analytics
         if _id is not None:
             self.id = _id
+        if grade_range is not None:
+            self.grade_range = grade_range or (0, 100)
 
     def __repr__(self):
         return f"<Course {self.id}>"
@@ -138,10 +159,8 @@ class Course:
     @number.setter
     def number(self, number: int):
         if not isinstance(number, int):
-            raise InvalidTypeException(
-                f"The course number provided is not an int (type provided is {type(name)})."
-            )
-
+            raise InvalidTypeException(f"The course number provided is not an int (type provided is {type(number)}).")
+            
         if not 0 < number < 100000:
             raise InvalidFormatException(
                 f"The format for course number doesn't match. Expected 0 < number < 100000, got {number}"
@@ -184,10 +203,8 @@ class Course:
             teacher_id = str(teacher_id)
 
         if not isinstance(teacher_id, str):
-            raise InvalidTypeException(
-                f"The teacher_id provided is not a str (type provided is {type(teacher)})."
-            )
-
+            raise InvalidTypeException(f"The teacher_id provided is not a str (type provided is {type(teacher_id)}).")
+        
         if teacher_id == "":
             self._teacher = teacher_id
             return
@@ -355,6 +372,38 @@ class Course:
         # TODO: add check for a valid syllabus
         self._syllabus = syllabus
 
+
+    @property
+    def grade_range(self) -> Tuple[int, int]:
+        return self._grade_range
+    
+    @grade_range.setter
+    def grade_range(self, grade_range: Tuple[int, int]):
+        if type(grade_range) == tuple and len(grade_range) == 2:
+            if grade_range[1] >= grade_range[0]:
+                raise ValueError("Max value must be larger than min value for grade range")
+            self._grade_range = grade_range
+        else:
+            raise ValueError("Grade range is not tuple or of length 2") 
+
+    @property
+    def course_analytics(self) -> dict:
+        return self._course_analytics
+
+    @course_analytics.setter
+    def course_analytics(self, analyticsDict: dict):
+        dictKeys = ["total_average", "starting_average", "no_students", "assignment_history" ]
+        assignmentHistoryKeys = [ "assignment_name", "assignment_scores" ]
+
+        for key in dictKeys:
+            if key not in analyticsDict:
+                raise InvalidFormatException(f"The analyticsDict {analyticsDict} is missing the key: {key}")
+
+            for key in assignmentHistoryKeys:
+                if key not in dictKeys["assignment_history"]:
+                    raise InvalidFormatException(f"The assignment_history dictionary in analyticsDict {analyticsDict} is missing the key: {key}")
+
+
     def to_dict(self) -> dict:
         dict_course = {
             "department": self.department,
@@ -367,6 +416,7 @@ class Course:
             "schedule_days": self.schedule_days,
             "syllabus": self.syllabus,
             "assignments": self.assignments,
+            "grade_range": list(self.grade_range) 
         }
 
         try:
@@ -400,6 +450,7 @@ class Course:
             )
             if "assignments" in dictionary
             else None,
+            grade_range=dictionary["grade_range"] if "grade_range" in dictionary else None,
             _id=dictionary["_id"],
         )
 
@@ -427,13 +478,10 @@ class Course:
 
     def update_department(self, department: str) -> bool:
         r"""Updates the department of this course.
-
         Method should only be called on the courses that are already initialized and pushed to the DB.
-
         Parameters
         ----------
         department : str
-
         Returns
         -------
         bool
@@ -455,13 +503,10 @@ class Course:
 
     def update_number(self, number: int) -> bool:
         r"""Updates the course number of this course.
-
         Method should only be called on the courses that are already initialized and pushed to the DB.
-
         Parameters
         ----------
         number : int
-
         Returns
         -------
         bool
@@ -483,13 +528,10 @@ class Course:
 
     def update_name(self, name: str) -> bool:
         r"""Updates the name of this course.
-
         Method should only be called on the courses that are already initialized and pushed to the DB.
-
         Parameters
         ----------
         name : str
-
         Returns
         -------
         bool
@@ -511,13 +553,10 @@ class Course:
 
     def update_teacher(self, teacher_id: str) -> bool:
         r"""Updates the teacher for this course.
-
         Method should only be called on the courses that are already initialized and pushed to the DB.
-
         Parameters
         ----------
         teacher_id : str
-
         Returns
         -------
         bool
@@ -567,13 +606,10 @@ class Course:
 
     def update_description(self, description: str) -> bool:
         r"""Updates the description for this course.
-
         Method should only be called on the courses that are already initialized and pushed to the DB.
-
         Parameters
         ----------
         description : str
-
         Returns
         -------
         bool
@@ -595,13 +631,10 @@ class Course:
 
     def update_schedule_time(self, schedule_time: str) -> bool:
         r"""Updates the schedule time for this course.
-
         Method should only be called on the courses that are already initialized and pushed to the DB.
-
         Parameters
         ----------
         schedule_time : str
-
         Returns
         -------
         bool
@@ -623,13 +656,10 @@ class Course:
 
     def update_schedule_days(self, schedule_days: str) -> bool:
         r"""Updates the schedule days for this course.
-
         Method should only be called on the courses that are already initialized and pushed to the DB.
-
         Parameters
         ----------
         schedule_days : str
-
         Returns
         -------
         bool
@@ -651,14 +681,11 @@ class Course:
 
     def update_syllabus(self, syllabus: Tuple[str, str]) -> bool:
         r"""Updates the syllabus for this course.
-
         Method should only be called on the courses that are already initialized and pushed to the DB.
-
         Parameters
         ----------
         syllabus : Tuple[str, str]
             The syllabus in the format (syllabus_id, syllabus_filename)
-
         Returns
         -------
         bool
@@ -678,20 +705,35 @@ class Course:
             )
 
             return False
+        
+    def update_grade_range(self, grade_range: Tuple[int, int]) -> bool:
+        """Update the grade range for this course
+        Parameters
+        ----------
+        grade_range : Tuple[int, int]
+            The grade range (min, max)
+        Returns
+        -------
+        bool
+            `True` if operation was a success. `False` otherwise
+        """
+        try:
+            self.grade_range = grade_range
 
-    def update(
-        self,
-        department: Optional[str] = None,
-        number: Optional[int] = None,
-        name: Optional[str] = None,
-        teacher: Optional[str] = None,
-        description: Optional[str] = None,
-        schedule_time: Optional[str] = None,
-        schedule_days: Optional[str] = None,
-        syllabus: Optional[Tuple[str, str]] = None,
-    ) -> bool:
+            db.courses.find_one_and_update(
+                {"_id": self._id}, {"$set": {"grade_range": self.grade_range}}
+            )
+
+            return True
+        except:
+            logger.exception(
+                f"Error while updating grade_range {grade_range} in class {self.id}: {e}"
+            )
+
+            return False
+
+    def update(self, **kwargs) -> bool:
         r"""Updates the course's data.
-
         Parameters
         ----------
         department : str, optional 
@@ -702,21 +744,18 @@ class Course:
         schedule_time : str, optional
         schedule_days : str, optional
         syllabus : Tuple[str, str], optional
+        grade_range : Tuple[int, int], option
         students: List[str], optional
 
         Returns
         -------
         bool
             `True` if all update operations were successful, `False` otherwise
-
         Notes
         -----
         For all the data formats please refer to `Course.__init__` docstrings.
-
         **Important**: to avoid confusion, we suggest to avoid using positional parameters when calling this method.
         """
-        parameters = locals()  # Must be first line here, do not remove
-
         try:
             if Course.get_by_id(self.id) is None:
                 raise Exception(f"The course with id {self.id} does not exist.")
@@ -736,26 +775,23 @@ class Course:
             'schedule_time': self.update_schedule_time,
             'schedule_days': self.update_schedule_days,
             'syllabus': self.update_syllabus,
+            'grade_range': self.update_grade_range
             'students': self.update_students
         }
 
         # Go through all the parameters that are None
-        for parameter, value in parameters.items():
-            if parameter != "self" and value is not None:
-                response = PARAMETER_TO_METHOD[parameter](value)
-                if not response:
-                    logger.exception(
-                        f"Error while updating course:{self.id} attribute:{parameter} value:{value}"
-                    )
-                    return False
-
+        for key, value in kwargs.items():
+            response = PARAMETER_TO_METHOD[key](value)
+            if not response:
+                logger.exception(f"Error while updating course:{self.id} attribute: {key} value: {value}")
+                return False
+        
         return True
+
 
     def get_assignments(self) -> List[Assignment]:
         """Get the assignments for this course.
-
         This automatically adds the attribute 'course_name' to them.
-
         Returns
         -------
         List[Assignment]
@@ -773,7 +809,6 @@ class Course:
 
     def add_assignment(self, assignment: Assignment):
         """Add an assignment to this course
-
         Parameters
         ----------
         assignment : Assignment
@@ -792,7 +827,6 @@ class Course:
 
     def edit_assignment(self, assignment: Assignment):
         """ Edits an assignment in this course
-
         Parameters
         ----------
         assignment : Assignment
@@ -812,7 +846,6 @@ class Course:
 
     def delete_assignment(self, assignment_id: str):
         """Delete an assignment from this course
-
         Parameters
         ----------
         assignment_id : str
@@ -830,12 +863,10 @@ class Course:
     @staticmethod
     def get_by_id(_id: str) -> Course:
         """Get a course by its ID
-
         Parameters
         ----------
         _id : str
             The ID to search for
-
         Returns
         -------
         Course
@@ -853,7 +884,6 @@ class Course:
             The course's department to look up in
         number : int
             The course number to search for
-
         Returns
         -------
         Course
@@ -870,7 +900,6 @@ class Course:
 
     def get_syllabus_name(self) -> str:
         """Get the name of the syllabus for this course
-
         Returns
         -------
         str

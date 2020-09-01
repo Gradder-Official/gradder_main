@@ -9,7 +9,7 @@
   padding-right: 4vw;
   height: 100vh;
   width: 250px;
-  background-color: #5a73e2;
+  background-color: rgb(90, 115, 226);
 }
 
 /* Sidebar top */
@@ -72,7 +72,7 @@
     width: 180px;
   }
 }
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 800px) {
   .dash-sidebar {
     position: fixed;
     width: 100px;
