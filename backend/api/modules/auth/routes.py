@@ -51,15 +51,21 @@ def login():
         The view response
     """
 
-    if current_user.is_authenticated:
-        logger.info(f"The user {current_user.id} is already authenticated.")
-        current_user_info = {
-            "userName": current_user.first_name + " " + current_user.last_name,
-            "userType": current_user._type,
-            "loggedIn": True,
-            "dob": "",
-        }
-        return response(user_info=current_user_info), 200
+    if request.method == 'GET':
+        if current_user.is_authenticated:
+            logger.info(f"The user {current_user.id} is already authenticated.")
+            # TODO: this should definitely be a method in a class
+            current_user_info = {
+                "userName": current_user.first_name + " " + current_user.last_name,
+                "userType": current_user._type,
+                "loggedIn": True,
+                "dob": "",
+            }
+            return response(user_info=current_user_info), 200
+        
+        # If it's a GET (i.e., a user hasn't entered any info yet, the user is not logged in)
+        logger.info(f"The user is not logged in.")
+        return response(user_info={"loggedIn": False}), 200
 
     try:
         req_data = request.get_json()
