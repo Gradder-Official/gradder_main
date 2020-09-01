@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import Dict, List, Tuple
 from bson import ObjectId
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from bcrypt import hashpw
 
 from api import db
 from api import root_logger as logger
@@ -65,7 +66,8 @@ class Student(User):
             **super().to_dict(),
             'password': '',
             'courses': self.courses,
-            'assignments': self.assignments
+            'assignments': self.assignments,
+            'activated': self.activated
         }
     
     @staticmethod
@@ -290,3 +292,35 @@ class Student(User):
         except:
             return None
         return Student.get_by_id(user_id)
+
+    def activate(self):
+        r"""Activates the user
+
+        Returns
+        ------
+        True if operation was successful, false if it was not
+        """
+        try:
+            db.students.update({"_id": ObjectId(self._id)}, {"$set": {"activated": True}})
+            self.activated = True
+            return True
+        except:
+            return False
+
+    def set_password(self, password:str):
+        r"""Sets the password after the user activates their account
+
+        Parameters
+        ---------
+        password : str
+
+        Returns
+        ------
+        True if operation was successful, false if it was not
+        """
+        try:
+            self.password = password
+            db.students.update({"_id": self.id}, {"$set": {"password": self.password}})
+            return True
+        except:
+            return False
