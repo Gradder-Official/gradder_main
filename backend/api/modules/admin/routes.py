@@ -1,6 +1,8 @@
 import uuid
 
-from flask import current_app, current_user, request, url_for
+from flask import current_app, request, url_for
+from flask_login import current_user
+from flask_mail import Message
 
 from api import mail
 from api import root_logger as logger
@@ -8,7 +10,6 @@ from api.classes import Admin, Course, Student, Teacher
 from api.tools.decorators import required_access
 from api.tools.factory import error, response
 from api.tools.google_storage import upload_blob
-from flask_mail import Message
 
 from . import admin
 
