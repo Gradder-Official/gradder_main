@@ -8,17 +8,6 @@ import AssignmentPreview from "../../components/AssignmentPreview";
 
 const StudentDash: FunctionComponent<student> = ({ userName }) => {
 
-  const [logoutMessage, setLogoutMessage] = useState<string>();
-
-  const logout = () => {
-
-    fetch('/api/auth/logout')
-      .then(res => res.json()).then(response => {
-        setLogoutMessage(response['flashes']);
-        console.log(logoutMessage)
-      })
-  }
-
   // Get current time in hours:minutes
   const [hour, minute] = new Date().toLocaleTimeString().slice(0, 7).split(":");
   const curTime = hour + ":" + minute;
@@ -46,11 +35,11 @@ const StudentDash: FunctionComponent<student> = ({ userName }) => {
               />
             </div>
             <div className="profile-time">
-              <Link to="/" onClick={logout}>
+            <Link to="/auth/logout">
                 <i className="material-icons-outlined">exit_to_app</i>
               </Link>
-              <Link to="/dashboard">
-                <i className="material-icons-outlined">mail</i>
+              <Link to="/profile">
+                <i className="material-icons-outlined">person</i>
               </Link>
               <h1>{curTime}</h1>
               <p>{curDate}</p>

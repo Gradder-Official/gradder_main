@@ -37,11 +37,11 @@ const TeacherDash: FunctionComponent<teacher> = ({ userName }) => {
             </div>
             <div className="profile-time">
               <Col xs={12}>
-              <Link to="/">
+              <Link to="/auth/logout">
                 <i className="material-icons-outlined">exit_to_app</i>
               </Link>
-              <Link to="/dashboard">
-                <i className="material-icons-outlined">mail</i>
+              <Link to="/profile">
+                <i className="material-icons-outlined">person</i>
               </Link>
               </Col>
               <h1>{curTime}</h1>
