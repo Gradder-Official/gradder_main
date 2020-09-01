@@ -12,8 +12,6 @@
 
 # Virtual environments
 **venv
-**Pipfile
-**Pipfile.lock
 **gradder_env/
 
 # JSON tokens
