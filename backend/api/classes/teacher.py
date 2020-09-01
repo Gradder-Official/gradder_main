@@ -46,7 +46,7 @@ class Teacher(User):
         """
         dict_user = super().to_dict()
         dict_user["courses"] = self.courses
-
+        dict_user["activated"] = self.activated
         return dict_user
 
     @staticmethod
@@ -189,3 +189,35 @@ class Teacher(User):
             courses.append((course_id, Course.get_by_id(course_id).name))
 
         return courses
+
+    def activate(self):
+        r"""Activates the user
+
+        Returns
+        ------
+        True if operation was successful, false if it was not
+        """
+        try:
+            db.teachers.update({"_id": ObjectId(self._id)}, {"$set": {"activated": True}})
+            self.activated = True
+            return True
+        except:
+            return False
+
+    def set_password(self, password:str):
+        r"""Sets the password after the user activates their account
+
+        Parameters
+        ---------
+        password : str
+
+        Returns
+        ------
+        True if operation was successful, false if it was not
+        """
+        try:
+            self.password = password
+            db.teachers.update({"_id": self.id}, {"$set": {"password": self.password}})
+            return True
+        except:
+            return False
