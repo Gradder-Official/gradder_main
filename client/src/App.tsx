@@ -1,5 +1,12 @@
+/** @format */
+
 // NPM Imports
-import React, { useState, useEffect, FunctionComponent } from "react";
+import React, {
+  useState,
+  useEffect,
+  FunctionComponent,
+  useReducer,
+} from "react";
 import {
   Switch,
   BrowserRouter as Router,
@@ -27,8 +34,8 @@ import TeacherDash from "./pages/Teacher/Dash";
 import TeacherCourses from "./pages/Teacher/Courses";
 import TeacherAnalytics from "./pages/Teacher/Analytics";
 
-
 const App: FunctionComponent = () => {
+  const [requestErrors, setRequestErrors] = useState<string>();
 
   const userName = sessionStorage.getItem('userName') || "";
   const userType = sessionStorage.getItem('userType') || "";
@@ -37,6 +44,7 @@ const App: FunctionComponent = () => {
 
   console.log(userName, userType, loggedIn)
 
+  // TODO: add the "home page" for the multiple schools and the school urls/subdomains
   return (
     <Router>
       <Switch>

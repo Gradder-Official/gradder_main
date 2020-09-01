@@ -14,7 +14,7 @@ export interface student {
 
 export interface teacher {
     userName: string,
-    userType: string,
+    userType: string;
     loggedIn: boolean;
     dob: string;
 }

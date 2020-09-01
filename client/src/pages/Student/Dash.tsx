@@ -8,6 +8,14 @@ import DashProfile from "../../components/DashProfile";
 
 const StudentDash: FunctionComponent<student> = ({ userName, userType, loggedIn, dob }) => {
 
+  // Get current time in hours:minutes
+  const [hour, minute] = new Date().toLocaleTimeString().slice(0, 7).split(":");
+  const curTime = hour + ":" + minute;
+
+  // Get day, month, date
+  const options = { weekday: "long", month: "long", day: "numeric" };
+  const curDate = new Date().toLocaleDateString(undefined, options);
+
   return (
     <React.Fragment>
       <StudentSidebar />

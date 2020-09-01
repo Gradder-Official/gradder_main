@@ -51,9 +51,8 @@
   margin-right: 20px;
 }
 #sidebar-nav .active,
-#sidebar-nav .nav-link:hover,
-#sidebar-nav #sidebar-logout:hover {
-  background: rgb(93, 118, 232);
+#sidebar-nav .nav-link:hover {
+  background: rgb(76, 102, 212);
   border-radius: 0 50px 50px 0;
 }
 #sidebar-nav #sidebar-logout {

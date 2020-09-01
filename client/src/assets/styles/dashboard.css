@@ -44,8 +44,32 @@
 .dash-content .statistics {
     flex-grow: 3;
 }
-
-.dash-content .timetable {
+#student-overview .profile {
+    background-color: #5a73e2 !important;
+    max-width: 30vw;
+    height: 10vh;
+    min-height: 165px;
+    flex-grow: 2;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+#student-overview .profile-details h2 {
+    margin-top: 3.5vh;
+    margin-left: 5px;
+    font-size: 35px;
+}
+#student-overview .profile-details img {
+    width: 90px;
+    height: 90px;
+    border: 4px solid #5a73e2;
+    border-radius: 30%;
+    margin-top: 2vh;
+    margin-left: 20px;
+}
+#student-overview .timetable {
+    height: 70vh;
     flex-grow: 1;
 }
 .dash-flex-col {

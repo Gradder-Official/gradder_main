@@ -23,7 +23,7 @@ const TeacherSidebar: FunctionComponent = () => {
         <div className="dash-sidebar">
             <div className="navbar-header">
                 <NavLink to="/dashboard" className="sidebar-logo">
-                    <img src={WhiteLogo} alt="Gradder" />
+                    <img src={ WhiteLogo } alt="Gradder" />
                     <h4>Gradder</h4>
                 </NavLink>
             </div>
