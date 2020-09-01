@@ -119,11 +119,7 @@ def register_courses():
     flashes = list()
 
     try:
-<<<<<<< HEAD:api/modules/admin/routes.py
-        if Course.get_by_number(request.form['number']) == None:
-=======
         if Course.get_by_department_number(request.form['number']):
->>>>>>> dev:backend/api/modules/admin/routes.py
             course = Course(
                 request.form['department'],
                 request.form['number'],

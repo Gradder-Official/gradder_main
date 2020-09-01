@@ -728,7 +728,6 @@ class Course:
             return False
 
         PARAMETER_TO_METHOD = {
-<<<<<<< HEAD:api/classes/course.py
             'department': self.update_department,
             'number': self.update_number,
             'name': self.update_name,
@@ -738,16 +737,6 @@ class Course:
             'schedule_days': self.update_schedule_days,
             'syllabus': self.update_syllabus,
             'students': self.update_students
-=======
-            "department": self.update_department,
-            "number": self.update_number,
-            "name": self.update_name,
-            "teacher": self.update_teacher,
-            "description": self.update_description,
-            "schedule_time": self.update_schedule_time,
-            "schedule_days": self.update_schedule_days,
-            "syllabus": self.update_syllabus,
->>>>>>> dev:backend/api/classes/course.py
         }
 
         # Go through all the parameters that are None
