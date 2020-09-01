@@ -254,6 +254,33 @@ def manage_courses_by_id(course_id: str):
     else:
         return error("Course does not exist"), 404
 
+@admin.route("/add_student_to_parent", methods=["GET", "POST"])
+def add_student_to_parent():
+    r"""Adds a student to a parent.
+    Returns
+    -------
+    dict
+        Flashes
+    """
+
+    if Admin.add_student_to_parent(request.form['parent_id'], request.form['student_id']):
+        return response(["Added student to parent"]), 200
+    else:
+        return error("There was an error adding this student"), 400
+
+@admin.route("/remove_student_from_parent", methods=["GET", "POST"])
+def remove_student_from_parent():
+    r"""Removes a student from a parent.
+    Returns
+    -------
+    dict
+        Flashes
+    """
+
+    if Admin.remove_student_from_parent(request.form['parent_id'], request.form['student_id']):
+        return response(["Removed student from parent"]), 200
+    else:
+        return error("There was an error removing this student"), 400
 @admin.route("/get-course-info/<string:course_id>", methods=["GET"])
 def get_course_info(course_id:str):
     """Gets all info for course.

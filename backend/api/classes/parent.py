@@ -31,7 +31,7 @@ class Parent(User):
         last_name : str
             The user's last name
         children : List[str], optional
-            The children the user has, by default None
+            The ids of the children the user has, by default None
         _id : str, optional
             The ID of the user, by default None
         """
@@ -39,17 +39,6 @@ class Parent(User):
         super().__init__(
             email=email, first_name=first_name, last_name=last_name, id=_id, calendar=calendar
         )
-
-        self.children = []
-        if children is not None:
-            for child in children:
-                try:
-                    user = Student.get_by_name(
-                        first_name=child["first_name"], last_name=child["last_name"]
-                    )
-                    self.children.append(user._id)
-                except BaseException:
-                    pass
 
     def __repr__(self):
         return f"<Parent {self._id}>"

@@ -148,7 +148,7 @@ class Admin(User):
             db.courses.insert_one(dictionary)
             return True
         except BaseException as e:
-            root_logger.exception(f"Error while adding class {course.ID}")
+            logger.exception(f"Error while adding class {course.ID}")
             return False
 
     @staticmethod
@@ -259,6 +259,30 @@ class Admin(User):
         for teacher in db.teachers.find():
             teacher_id = teacher.get("_id")
             teachers.append((teacher_id, Teacher.get_by_id(teacher_id).name))
+        
+        return teachers
+    
+    @staticmethod
+    def add_student_to_parent(parent_id: str, student_id: str) -> bool:
+        try:
+            db.students.update_one({"_id": ObjectId(student_id)}, {"$push": {"parents": ObjectId(parent_id)}})
+            db.parents.update_one({"_id": ObjectId(parent_id)}, {"$push": {"children": ObjectId(student_id)}})
+            logger.debug(f"Added student {student_id} to parent {parent_id}")
+            return True
+        except:
+            logger.error(f"Error adding student {student_id} to parent {parent_id}")
+            return False
+
+    @staticmethod
+    def remove_student_from_parent(parent_id: str, student_id: str) -> bool:
+        try:
+            db.students.update_one({"_id": ObjectId(student_id)}, {"$pull": {"parents": ObjectId(parent_id)}})
+            db.parents.update_one({"_id": ObjectId(parent_id)}, {"$pull": {"children": ObjectId(student_id)}})
+            logger.debug(f"Removed student {student_id} from parent {parent_id}")
+            return True
+        except:
+            logger.error(f"Error removing student {student_id} from parent {parent_id}")
+            return False
             
         return teachers
 

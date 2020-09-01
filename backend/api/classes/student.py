@@ -24,8 +24,8 @@ class Student(User):
         assignments: List[str] = None,
         _id: str = None,
         activated: bool = False,
-        calendar: Optional[List[CalendarEvent]] = None
-
+        calendar: Optional[List[CalendarEvent]] = None,
+        parents: List[str] = None
     ):
         """Initialises a user of Student type
 
@@ -43,6 +43,8 @@ class Student(User):
             The ID of the user, by default None
         activated : bool
             The activation status of the user, by default False
+        parents : List[str], by default None
+            The user's parents
         """
         super().__init__(
             email=email, first_name=first_name, last_name=last_name, _id=_id, password=password, calendar=calendar
