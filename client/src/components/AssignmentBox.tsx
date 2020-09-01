@@ -1,6 +1,10 @@
 import React, { FunctionComponent } from 'react'
 import { Link } from 'react-router-dom'
 import { assignment } from './Interfaces'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 const AssignmentBox: FunctionComponent<assignment> = ({ id, title, assigned_to, due_by }) => {
 
@@ -18,8 +22,8 @@ const AssignmentBox: FunctionComponent<assignment> = ({ id, title, assigned_to, 
             <Link to={assignmentLink} className="assignment-card">
                 <h4 className="card-title">{title}</h4>
                 <div className="assignment-info">
-                    <p className="assignment-deadline">Due {date}, {timestamp}</p>
-                    <p className="subject-badge">{assigned_to}</p>
+                    <p className="assignment-deadline">{date} <br></br> {timestamp}</p>
+                    <p style={{ marginTop: "10%" }} className="subject-badge text-center">{assigned_to}</p>
                 </div>
             </Link>
         </React.Fragment>

@@ -1,23 +1,12 @@
 import React, { FunctionComponent, useState } from "react";
-import { Link } from "react-router-dom";
 import { student } from "../../components/Interfaces";
 import StudentSidebar from "../../components/StudentSidebar";
 import "../../assets/styles/dashboard.css";
 import "../../assets/styles/assignments.css";
 import AssignmentPreview from "../../components/AssignmentPreview";
+import DashProfile from "../../components/DashProfile";
 
-const StudentDash: FunctionComponent<student> = ({ userName }) => {
-
-  const [logoutMessage, setLogoutMessage] = useState<string>();
-
-  const logout = () => {
-
-    fetch('/api/auth/logout')
-      .then(res => res.json()).then(response => {
-        setLogoutMessage(response['flashes']);
-        console.log(logoutMessage)
-      })
-  }
+const StudentDash: FunctionComponent<student> = ({ userName, userType, loggedIn, dob }) => {
 
   // Get current time in hours:minutes
   const [hour, minute] = new Date().toLocaleTimeString().slice(0, 7).split(":");
@@ -36,33 +25,16 @@ const StudentDash: FunctionComponent<student> = ({ userName }) => {
           <div className="dash-container statistics">
             <h5>Statistics</h5>
           </div>
-          <div className="dash-container profile">
-            <div className="profile-details">
-              <h2>Hello, {userName}</h2>
-              <img
-                src="https://www.iambetter.org/wp-content/uploads/2020/04/Albert_Einstein_1024x1024.jpg"
-                alt="Profile"
-                className="profile-pic"
-              />
-            </div>
-            <div className="profile-time">
-              <Link to="/" onClick={logout}>
-                <i className="material-icons-outlined">exit_to_app</i>
-              </Link>
-              <Link to="/dashboard">
-                <i className="material-icons-outlined">mail</i>
-              </Link>
-              <h1>{curTime}</h1>
-              <p>{curDate}</p>
-            </div>
-          </div>
+
+          <DashProfile userName={userName} userType={userType} loggedIn={loggedIn} dob={dob} />
+
         </div>
 
-        <div className="student-dash-flex-row">
+        <div className="dash-flex-row">
           <div className="dash-container timetable">
             <h5>Timetable</h5>
           </div>
-          <div className="student-dash-flex-col">
+          <div className="dash-flex-col">
             <div className="dash-container assignments">
               <h5>Upcoming Assignments</h5>
               <AssignmentPreview />

@@ -12,8 +12,6 @@
 
 # Virtual environments
 **venv
-**Pipfile
-**Pipfile.lock
 **gradder_env/
 
 # JSON tokens
@@ -48,3 +46,5 @@
 **npm-debug.log*
 **yarn-debug.log*
 **yarn-error.log*
+
+token.txt
