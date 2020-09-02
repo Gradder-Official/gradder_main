@@ -775,7 +775,7 @@ class Course:
             'schedule_time': self.update_schedule_time,
             'schedule_days': self.update_schedule_days,
             'syllabus': self.update_syllabus,
-            'grade_range': self.update_grade_range
+            'grade_range': self.update_grade_range,
             'students': self.update_students
         }
 
