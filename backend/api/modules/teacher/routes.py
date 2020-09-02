@@ -30,7 +30,7 @@ def get_existing_assignment_files():
 
 
 @teacher.before_request
-@required_access([Teacher])
+@required_access(["Teacher"])
 def teacher_verification():
     # Required_access decorator already handled it
     pass

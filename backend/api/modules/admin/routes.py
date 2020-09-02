@@ -15,7 +15,7 @@ from . import admin
 
 
 @admin.before_request
-@required_access([Admin])
+@required_access(["Admin"])
 def admin_verification():
     # Required_access decorator already handled it
     pass

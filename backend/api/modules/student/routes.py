@@ -17,7 +17,7 @@ from . import student
 
 
 @student.before_request
-@required_access([Student])
+@required_access(["Student"])
 def student_verification():
     # Required_access decorator already handled it
     pass
