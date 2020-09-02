@@ -123,9 +123,7 @@ def view_assignment_by_class_id(course_id: str):
     )
 
 
-@teacher.route(
-    "/assignments/<string:course_id>/<string:assignment_id>", methods=["GET", "POST"]
-)
+@teacher.route("/assignments/<string:course_id>/<string:assignment_id>", methods=["GET", "POST"])
 def edit_assignment(course_id: str, assignment_id: str):
     """Edits assignment for the class
 
