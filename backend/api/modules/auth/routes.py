@@ -1,10 +1,9 @@
 from typing import Union
 
-from flask import abort, current_app, redirect, request
+from flask import current_app, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
-from werkzeug.urls import url_parse
 
-from api import db, login_manager
+from api import login_manager
 from api import root_logger as logger
 from api.classes import Admin, Parent, Student, Teacher, User
 from api.tools.dictionaries import TYPE_DICTIONARY
@@ -51,20 +50,19 @@ def login():
         The view response
     """
 
-    if request.method == 'GET':
-        if current_user.is_authenticated:
-            logger.info(f"The user {current_user.id} is already authenticated.")
-            # TODO: this should definitely be a method in a class
-            current_user_info = {
-                "userName": current_user.first_name + " " + current_user.last_name,
-                "userType": current_user._type,
-                "loggedIn": True,
-                "dob": "",
-            }
-            return response(user_info=current_user_info), 200
-        
+    if current_user.is_authenticated:
+        logger.info(f"The user {current_user.id} is already authenticated.")
+        # TODO: this should definitely be a method in a class
+        current_user_info = {
+            "userName": current_user.first_name + " " + current_user.last_name,
+            "userType": current_user._type,
+            "loggedIn": True,
+            "dob": "",
+        }
+        return response(user_info=current_user_info), 200
+    elif request.method == "GET":
         # If it's a GET (i.e., a user hasn't entered any info yet, the user is not logged in)
-        logger.info(f"The user is not logged in.")
+        logger.info("The user is not logged in.")
         return response(user_info={"loggedIn": False}), 200
 
     try:
@@ -84,7 +82,13 @@ def login():
                         f"LOGGED IN: {user.first_name} {user.last_name} - ACCESS: {user._type}"
                     )
 
-                    return response(flashes=["Log in successful"]), 200
+                    current_user_info = {
+                        "userName": current_user.first_name + " " + current_user.last_name,
+                        "userType": current_user._type,
+                        "loggedIn": True,
+                        "dob": "",
+                    }
+                    return response(flashes=["Log in succesful! Redirecting to dashboard..."], user_info=current_user_info), 200
 
                 logger.info(
                     f"Failed to validate the password for the {scope.__name__} with email {email}"
@@ -93,7 +97,7 @@ def login():
 
             logger.info(f"Could not find {str(scope)} with email {email}")
 
-        logger.info(f"Could not find user with email {email}")
+        logger.info(f"Could not find any users with email {email}")
         return error("The user with this email does not exist."), 400
     except (KeyError, TypeError):
         logger.info("Not all fields satisfied")
@@ -129,9 +133,6 @@ def change_password():
     dict
         The view response
     """
-    user = TYPE_DICTIONARY[current_user.USERTYPE.capitalize()].get_by_id(
-        current_user.ID
-    )
 
     try:
         new_password = request.form["new_password"]

@@ -1,5 +1,6 @@
 from typing import List, Dict
 
+
 def response(flashes: List[str] = [], forms: Dict = {}, **kwargs) -> dict:
     """Response factory for JSON backend
 
@@ -15,11 +16,7 @@ def response(flashes: List[str] = [], forms: Dict = {}, **kwargs) -> dict:
     dict
         The response ready to send
     """
-    return {
-        'flashes': flashes,
-        'forms': forms,
-        **kwargs
-    }
+    return {"flashes": flashes, "forms": forms, **kwargs}
 
 
 def error(message: str, flash: bool = True) -> dict:

@@ -33,6 +33,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import TeacherDash from "./pages/Teacher/Dash";
 import TeacherCourses from "./pages/Teacher/Courses";
 import TeacherAnalytics from "./pages/Teacher/Analytics";
+import TeacherAssignments from "./pages/TeacherAssignments";
 
 const App: FunctionComponent = () => {
   const [requestErrors, setRequestErrors] = useState<string>();
@@ -90,6 +91,9 @@ const App: FunctionComponent = () => {
         )} />
         <ProtectedRoute userType={userType} scope="teacher" exact path="/teacher/timetable" render={(props: any) => (
           <TeacherTimetable {...props} userName={userName} userType={userType} loggedIn={loggedIn} dob={dob} />
+        )} />
+        <ProtectedRoute userType={userType} scope="teacher" exact path="/teacher/assignmentss" render={(props: any) => (
+          <TeacherAssignments {...props} userName={userName} userType={userType} loggedIn={loggedIn} dob={dob} />
         )} />
         <ProtectedRoute userType={userType} scope="teacher" exact path="/teacher/analytics" render={(props: any) => (
           <TeacherAnalytics {...props} userName={userName} userType={userType} loggedIn={loggedIn} dob={dob} />

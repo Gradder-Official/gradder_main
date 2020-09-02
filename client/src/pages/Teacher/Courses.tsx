@@ -35,7 +35,7 @@ const TeacherCourses: FunctionComponent<teacher> = ({ userName, userType, logged
             .then(res => res.json()).then(response => {
                 setCourses(response['data']['courses']);
             }
-            )
+        )
     }, []);
 
     const [displayCourse, setDisplayCourse] = useState<course>(blankCourse)

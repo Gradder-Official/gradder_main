@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Union, Dict, Optional
+from typing import Union, Dict, Optional, List
 from bcrypt import hashpw, gensalt, checkpw
 from flask_login import UserMixin
 from bson import ObjectId
@@ -7,6 +7,7 @@ import datetime
 import re
 
 from api.tools.exceptions import InvalidTypeException, InvalidFormatException
+from api import root_logger as logger
 from . import CalendarEvent
 
 
@@ -31,6 +32,7 @@ class User(UserMixin):
     _bio: str
     _date_of_birth: str
     _profile_picture: str
+    _activated: bool
 
     def __init__(
         self,
@@ -42,7 +44,8 @@ class User(UserMixin):
         profile_picture: Optional[str] = None,
         _id: Optional[str] = None,
         password: Optional[Union[str, bytes]] = None,
-        calendar: Optional[List[CalendarEvent]] = None
+        calendar: Optional[List[CalendarEvent]] = None,
+        activated: Optional[bool] = None
     ):
         r"""Init function for a generic User class.
 
@@ -68,6 +71,7 @@ class User(UserMixin):
         self.bio = bio or ""
         self.date_of_birth = date_of_birth or ""
         self.profile_picture = profile_picture or ""
+        self.activated = activated or False
         if _id is not None:
             self.id = _id
 
@@ -82,11 +86,12 @@ class User(UserMixin):
             "first_name": self.first_name,
             "last_name": self.last_name,
             "password": self.password,
+            "activated": self.activated
         }
 
         try:
             dictionary["_id"] = ObjectId(self.id)
-        except:
+        except Exception:
             logger.info("This user has not been initialized yet.")
 
         return dictionary
@@ -170,6 +175,17 @@ class User(UserMixin):
             password = hashpw(password.encode("utf-8"), gensalt(prefix=b"2b"))
 
         self._password = password
+
+    @property
+    def activated(self) -> bool:
+        return self._activated
+    
+    @activated.setter
+    def activated(self, activated: bool):
+        if not isinstance(activated, bool):
+            raise InvalidTypeException(f"The activated provided is not a bool (type provided is {type(activated)})")
+
+        self._activated = activated
 
     @property
     def id(self) -> str:

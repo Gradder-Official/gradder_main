@@ -2,8 +2,6 @@ from flask import abort
 from functools import wraps
 from flask_login import current_user
 
-from .dictionaries import TYPE_DICTIONARY
-
 
 def required_access(people: list):
     r"""Checks if current user has access to view a specific endpoint.
