@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Dict, List, Optional, Tuple
+from typing import List, Optional, Union
 from bson import ObjectId
 import re
 
@@ -8,9 +8,6 @@ from api import root_logger as logger
 from api.tools.exceptions import InvalidFormatException, InvalidTypeException
 
 
-# TODO:
-# Fix all update methods using separate documents in the db.general_info
-# Do we need an ObjectId, and discuss other technical details
 class SchoolConfig:
     _school_name: str
     _school_address: str
@@ -80,8 +77,8 @@ class SchoolConfig:
         self.principal = principal or ""
         self.departments = departments or list()
         self.department_description = department_description or list()
-        self.grade_weights = grade_weights
-        self.grading = grading or List()
+        self.grade_weights = grade_weights or False
+        self.grading = grading or list()
         if _id is not None:
             self.id = _id
 
@@ -211,7 +208,7 @@ class SchoolConfig:
 
         if not re.match(r"^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$", principal_email):
             raise InvalidTypeException(
-                f"The principal's email provided is not a valid email."
+                "The principal's email provided is not a valid email."
             )
 
         self._principal_email = principal_email
@@ -287,38 +284,12 @@ class SchoolConfig:
 
         return dict_school
 
+    @classmethod
     def from_dict(cls, dictionary: dict) -> SchoolConfig:
         """
         Converts information from a dictionary to the file applicable to standard config.
         """
-        return SchoolConfig(
-            school_name=dictionary["school_name"]
-            if "school_name" in dictionary
-            else None,
-            school_address=dictionary["school_address"]
-            if "school_address" in dictionary
-            else None,
-            phone_number=dictionary["phone_number"]
-            if "phone_number" in dictionary
-            else None,
-            school_email=dictionary["school_email"]
-            if "school_email" in dictionary
-            else None,
-            principal=dictionary["principal"] if "principal" in dictionary else None,
-            principal_email=dictionary["principal_email"]
-            if "principal_email" in dictionary
-            else None,
-            departments=dictionary["departments"]
-            if "departments" in dictionary
-            else None,
-            department_description=dictionary["department_description"]
-            if "department_description" in dictionary
-            else None,
-            grade_weights=dictionary["grade_weights"]
-            if "grade_weights" in dictionary
-            else None,
-            grading=dictionary["grading"] if "grading" in dictionary else None,
-        )
+        return cls(**dictionary)
 
     def update_school_name(self, school_name: str) -> bool:
         r"""Updates the school's name.
@@ -581,19 +552,7 @@ class SchoolConfig:
 
             return False
 
-    def update(
-        self,
-        school_name: Optional[str] = None,
-        school_address: Optional[str] = None,
-        phone_number: Optional[str] = None,
-        school_email: Optional[str] = None,
-        principal: Optional[str] = None,
-        principal_email: Optional[str] = None,
-        departments: Optional[list] = None,
-        department_description: Optional[list] = None,
-        grade_weights: Optional[bool] = None,
-        grading: Optional[list] = None,
-    ):
+    def update(self, **kwargs):
         r"""Updates the school's data.
 
         Parameters
@@ -621,8 +580,6 @@ class SchoolConfig:
         **Important**: to avoid confusion, we suggest to avoid using positional parameters when calling this method.
         """
 
-        parameters = locals()  # Must be first line here, do not remove
-
         PARAMETER_TO_METHOD = {
             "school_name": self.update_school_name,
             "school_adress": self.update_school_address,
@@ -633,16 +590,14 @@ class SchoolConfig:
             "departments": self.update_departments,
             "department_description": self.update_department_description,
             "grade_weights": self.update_grade_weights,
-            "grading": self.update_grading,
+            "grading": self.update_grading
         }
 
         # Go through all the parameters that are None
-        for parameter, value in parameters.items():
-            if parameter != "self" and value is not None:
-                response = PARAMETER_TO_METHOD[parameter](value)
-                if not response:
-                    logger.exception(
-                        f"Error while updating school information attribute:{parameter} value:{value}"
-                    )
-                    return False
+        for key, value in kwargs.items():
+            response = PARAMETER_TO_METHOD[key](value)
+            if not response:
+                logger.exception(f"Error while updating school information attribute:{parameter} value:{value}")
+                return False
+
         return True

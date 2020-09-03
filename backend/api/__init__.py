@@ -7,6 +7,7 @@ from config import config
 
 from .tools.encoder import JSONImproved
 from .tools.db import DB
+from .classes import SchoolConfig
 from .tools.logger import logger
 
 
@@ -16,6 +17,7 @@ login_manager.login_view = "auth.login"
 mail = Mail()
 
 db: DB = None
+school_config: SchoolConfig = None
 root_logger: logger = None
 
 
@@ -30,6 +32,9 @@ def create_app(config_name):
     # TODO: Add handling of different schools based on the information passed from the React frontend
     global db
     db = DB(app.config.get("MONGO_CONNECTION_STRING"), "school1")
+
+    global school_config
+    school_config = SchoolConfig()
 
     global root_logger
     root_logger = logger[config_name]()  # Creates a logger relevant to the app environment
