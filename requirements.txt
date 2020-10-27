@@ -12,7 +12,7 @@ chardet==3.0.4
 click==7.1.1
 colorama==0.4.3
 coverage==5.2
-cryptography==2.9.2
+cryptography==3.2
 dnspython==1.16.0
 dominate==2.5.1
 firebase-admin==4.0.0
