@@ -1,11 +1,12 @@
 from __future__ import annotations
+
 from typing import Dict, List, Tuple
-from bson import ObjectId
 
 from api import db
 from api import root_logger as logger
+from bson import ObjectId
 
-from . import User, Student
+from . import Student, User
 
 
 class Parent(User):

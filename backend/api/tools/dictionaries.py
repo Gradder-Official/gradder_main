@@ -1,4 +1,4 @@
-from api.classes import Teacher, Student, Parent, Admin
+from api.classes import Admin, Parent, Student, Teacher
 
 # Converts the string to the Class type
 TYPE_DICTIONARY = {

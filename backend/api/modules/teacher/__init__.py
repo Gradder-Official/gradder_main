@@ -1,8 +1,9 @@
 r"""The blueprint that handles all the teacher-related things.
 This includes managing classes, posting assignments, viewing students, and more.
 """
-from . import routes
 from flask import Blueprint
+
+from . import routes
 
 teacher = Blueprint(
     "teacher",

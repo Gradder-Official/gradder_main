@@ -1,9 +1,8 @@
 from threading import Thread
 from typing import List, Tuple
 
-from flask import current_app, render_template
-
 from api import mail
+from flask import current_app, render_template
 from flask_mail import Message
 
 # A type the defines a list of files contained in tuples as (filename, file_content)

@@ -1,6 +1,5 @@
-from pymongo import MongoClient
-
 from flask import current_app
+from pymongo import MongoClient
 
 
 class DB:

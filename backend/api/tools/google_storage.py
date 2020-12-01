@@ -1,7 +1,7 @@
-from google.cloud import storage
 from datetime import datetime, timedelta
 
 from api import root_logger as logger
+from google.cloud import storage
 
 
 def upload_blob(filename: str, file_obj):

@@ -1,10 +1,10 @@
 from __future__ import annotations
+
 from datetime import datetime, time
 from typing import List
 
-from bson import ObjectId
-
 from api.tools.exceptions import InvalidFormatException, InvalidTypeException
+from bson import ObjectId
 
 from .submission import Submission
 

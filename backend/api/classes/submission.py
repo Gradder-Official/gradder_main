@@ -1,5 +1,6 @@
 from __future__ import annotations
-from datetime import time, datetime
+
+from datetime import datetime, time
 from typing import Union
 
 from api import db

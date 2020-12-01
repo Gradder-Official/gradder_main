@@ -1,11 +1,12 @@
 from __future__ import annotations
-from typing import List, Optional, Union
-from bson import ObjectId
+
 import re
+from typing import List, Optional, Union
 
 from api import db
 from api import root_logger as logger
 from api.tools.exceptions import InvalidFormatException, InvalidTypeException
+from bson import ObjectId
 
 
 class SchoolConfig:

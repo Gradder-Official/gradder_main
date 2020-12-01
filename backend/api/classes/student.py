@@ -1,15 +1,16 @@
 from __future__ import annotations
+
 from typing import Dict, List, Tuple
-from bson import ObjectId
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from bcrypt import hashpw
 
 from api import db
 from api import root_logger as logger
+from bcrypt import hashpw
+from bson import ObjectId
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
+from . import Assignment, Course
 from .submission import Submission
 from .user import User
-from . import Assignment, Course
 
 
 class Student(User):

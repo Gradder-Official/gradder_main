@@ -1,12 +1,13 @@
 from __future__ import annotations
-from typing import Dict, List, Tuple, Union, Optional
-from bson import ObjectId
+
+from typing import Dict, List, Optional, Tuple, Union
 
 import pymongo
-
 from api import db
 from api import root_logger as logger
-from . import User, CalendarEvent
+from bson import ObjectId
+
+from . import CalendarEvent, User
 
 
 class Teacher(User):

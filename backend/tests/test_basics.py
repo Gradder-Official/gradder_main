@@ -1,6 +1,7 @@
 import unittest
-from flask import current_app
+
 from api import create_app
+from flask import current_app
 
 
 class BasicsTestCase(unittest.TestCase):

@@ -1,15 +1,14 @@
 import uuid
 from datetime import datetime
 
-from flask import request
-from flask_login import current_user
-
 from api import root_logger as logger
-from api.classes import Assignment, Course, Teacher, Student
+from api.classes import Assignment, Course, Student, Teacher
 from api.tools.decorators import required_access
 from api.tools.factory import error, response
 from api.tools.google_storage import upload_blob
 from api.tools.search import get
+from flask import request
+from flask_login import current_user
 
 from . import teacher
 

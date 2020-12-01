@@ -1,13 +1,15 @@
 from __future__ import annotations
-from typing import Union, Dict, Optional, List
-from bcrypt import hashpw, gensalt, checkpw
-from flask_login import UserMixin
-from bson import ObjectId
+
 import datetime
 import re
+from typing import Dict, List, Optional, Union
 
-from api.tools.exceptions import InvalidTypeException, InvalidFormatException
 from api import root_logger as logger
+from api.tools.exceptions import InvalidFormatException, InvalidTypeException
+from bcrypt import checkpw, gensalt, hashpw
+from bson import ObjectId
+from flask_login import UserMixin
+
 from . import CalendarEvent
 
 

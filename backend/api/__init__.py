@@ -1,15 +1,13 @@
+from config import config
 from flask import Flask
+from flask_cors import CORS
 from flask_login import LoginManager
 from flask_mail import Mail
-from flask_cors import CORS
 
-from config import config
-
-from .tools.encoder import JSONImproved
-from .tools.db import DB
 from .classes import SchoolConfig
+from .tools.db import DB
+from .tools.encoder import JSONImproved
 from .tools.logger import logger
-
 
 login_manager = LoginManager()
 login_manager.login_view = "auth.login"

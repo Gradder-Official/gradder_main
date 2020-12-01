@@ -1,13 +1,12 @@
 from typing import Union
 
-from flask import current_app, request, url_for
-from flask_login import current_user, login_required, login_user, logout_user
-
 from api import login_manager
 from api import root_logger as logger
 from api.classes import Admin, Parent, Student, Teacher, User
 from api.tools.dictionaries import TYPE_DICTIONARY
 from api.tools.factory import error, response
+from flask import current_app, request, url_for
+from flask_login import current_user, login_required, login_user, logout_user
 
 from . import auth
 
