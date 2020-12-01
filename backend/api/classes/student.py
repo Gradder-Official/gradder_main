@@ -11,6 +11,7 @@ from .submission import Submission
 from .user import User
 from . import Assignment, Course
 
+
 class Student(User):
     _type = 'Student'  # Immutable
 
@@ -52,10 +53,10 @@ class Student(User):
 
         self.courses = courses or []
         self.assignments = assignments or []
-    
+
     def __repr__(self):
         return f"<Student {self.id}>"
-    
+
     def to_dict(self) -> Dict[str, str]:
         """A dictionary representation of the Student
 
@@ -71,7 +72,7 @@ class Student(User):
             'assignments': self.assignments,
             'activated': self.activated
         }
-    
+
     @staticmethod
     def get_by_id(id: str) -> Student:
         r"""Returns a Student object with a specified id.
@@ -107,7 +108,7 @@ class Student(User):
         except BaseException as e:
             logger.exception(f"Error while getting a student by email {id}")
             return None
-    
+
     @staticmethod
     def get_by_keyword(keyword: str) -> Student:
         r""" Returns Student with a specified keyword.
@@ -124,14 +125,14 @@ class Student(User):
                 {
                     '$search': {
                         'autocomplete': {
-                            'query': keyword, 
+                            'query': keyword,
                             'path': 'first_name'
                         }
                     }
                 }, {
                     '$project': {
-                        '_id': 1, 
-                        'first_name': 1, 
+                        '_id': 1,
+                        'first_name': 1,
                         'last_name': 1
                     }
                 }, {
@@ -145,7 +146,8 @@ class Student(User):
             return possible_students
 
         except BaseException as e:
-            logger.exception(f"Error while getting a student by name {id}: {e}")
+            logger.exception(
+                f"Error while getting a student by name {id}: {e}")
             return None
 
     @staticmethod
@@ -162,11 +164,12 @@ class Student(User):
         """
         if dictionary is None:
             return None
-            
+
         try:
             return Student(**dictionary)
         except Exception as e:
-            logger.exception(f"Error while generating a Student from dictionary {dictionary}")
+            logger.exception(
+                f"Error while generating a Student from dictionary {dictionary}")
             return None
 
     def add(self) -> bool:
@@ -188,7 +191,8 @@ class Student(User):
         try:
             db.students.delete_one({'_id': ObjectId(self.id)})
         except pymongo.errors.DuplicateKeyError:
-            logger.exception(f"The Student with the id {self.id} already exists, you should not be calling the add() method.")
+            logger.exception(
+                f"The Student with the id {self.id} already exists, you should not be calling the add() method.")
             return False
         except Exception as e:
             logger.exception(f"Error while removing Student {self.id}")
@@ -203,10 +207,10 @@ class Student(User):
         for course_id in self.courses:
             assignments.extend(Course.get_by_id(course_id).get_assignments())
 
-        #TODO: add logger
+        # TODO: add logger
 
         return assignments
-    
+
     def get_course_ids(self) -> List[Course]:
         r"""Returns a list of the Teacher's courses
 
@@ -245,20 +249,22 @@ class Student(User):
         }
 
         db.courses.find_one_and_update(
-            {"_id": ObjectId(course_id), "assignments._id": ObjectId(submission.assignment_id)},
+            {"_id": ObjectId(course_id), "assignments._id": ObjectId(
+                submission.assignment_id)},
             {"$push": {"assignments.$.submissions": dictionary}},
         )
 
-        #TODO: add logger
+        # TODO: add logger
 
-        unique_submission_string = course_id + "_" + submission.assignment_id + "_" + submission.id
+        unique_submission_string = course_id + "_" + \
+            submission.assignment_id + "_" + submission.id
 
         db.students.find_one_and_update(
             {"_id": ObjectId(self.id)},
             {"$push": {"assignments": unique_submission_string}},
         )
 
-        #TODO: add logger
+        # TODO: add logger
 
     def get_activation_token(self, expires_sec=1800):
         """Gets an activation token for a student
@@ -277,7 +283,7 @@ class Student(User):
         return s.dumps({"student_id": self.ID}).decode("utf-8")
 
     @staticmethod
-    def verify_activation_token(token:str):
+    def verify_activation_token(token: str):
         """Verifies the activation token for a student
 
         Parameters
@@ -303,13 +309,14 @@ class Student(User):
         True if operation was successful, false if it was not
         """
         try:
-            db.students.update({"_id": ObjectId(self._id)}, {"$set": {"activated": True}})
+            db.students.update({"_id": ObjectId(self._id)}, {
+                               "$set": {"activated": True}})
             self.activated = True
             return True
         except:
             return False
 
-    def set_password(self, password:str):
+    def set_password(self, password: str):
         r"""Sets the password after the user activates their account
 
         Parameters
@@ -322,7 +329,8 @@ class Student(User):
         """
         try:
             self.password = password
-            db.students.update({"_id": self.id}, {"$set": {"password": self.password}})
+            db.students.update({"_id": self.id}, {
+                               "$set": {"password": self.password}})
             return True
         except:
             return False

@@ -1,6 +1,7 @@
 r"""The blueprint that handles all the parent-related things.
 This includes parent dashboard, communication with teachers, and more.
 """
+from . import routes
 from flask import Blueprint
 
 parent = Blueprint(
@@ -8,5 +9,3 @@ parent = Blueprint(
     __name__,
     url_prefix="/api/parent",
 )
-
-from . import routes

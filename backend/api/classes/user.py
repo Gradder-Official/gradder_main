@@ -101,8 +101,9 @@ class User(UserMixin):
         r"""Creates a new User object from the dictionary.
         """
         if "calendar" in dictionary:
-            dictionary["calendar"] = [CalendarEvent.from_dict(i) for i in dictionary["calendar"]]
-        
+            dictionary["calendar"] = [CalendarEvent.from_dict(
+                i) for i in dictionary["calendar"]]
+
         return cls(**dictionary)
 
     @property
@@ -152,7 +153,7 @@ class User(UserMixin):
     @password.setter
     def password(self, password: str):
         r"""The setter method for the password.
-        
+
         Parameters
         ----------
         password : str
@@ -166,11 +167,11 @@ class User(UserMixin):
 
         # The password's length is limited to 50 in the endpoint, so if it is larger and matches regex, it is a hash
         # If any of the conditions are not met, this as a new password, so we encode and hash it
-        
+
         # The hashed password should never begin with $2a$ or $2y$, but better to be safe
         # than sorry :D
-        if not (isinstance(password, bytes) and \
-                password.startswith((b'$2a$', b'$2b$', b'$2y$')) and \
+        if not (isinstance(password, bytes) and
+                password.startswith((b'$2a$', b'$2b$', b'$2y$')) and
                 len(password) == 60):
             password = hashpw(password.encode("utf-8"), gensalt(prefix=b"2b"))
 
@@ -179,11 +180,12 @@ class User(UserMixin):
     @property
     def activated(self) -> bool:
         return self._activated
-    
+
     @activated.setter
     def activated(self, activated: bool):
         if not isinstance(activated, bool):
-            raise InvalidTypeException(f"The activated provided is not a bool (type provided is {type(activated)})")
+            raise InvalidTypeException(
+                f"The activated provided is not a bool (type provided is {type(activated)})")
 
         self._activated = activated
 

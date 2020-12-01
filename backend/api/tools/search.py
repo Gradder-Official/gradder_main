@@ -35,9 +35,10 @@ def get(iterable, **kwargs: dict):
         for element in iterable:
             if all(pred2(element) == value for pred2, value in converted):
                 return element
-    
+
     # Oops, nothing was found :c
     return None
+
 
 def get_all(iterable, **kwargs: dict):
     """Like :func:`get`, but to get all instances, not just the first.
@@ -54,5 +55,5 @@ def get_all(iterable, **kwargs: dict):
         copy.remove(current)
         results.append(current)
         current = get(copy, **kwargs)
-    
+
     return results

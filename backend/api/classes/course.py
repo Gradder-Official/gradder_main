@@ -10,19 +10,19 @@ from api.tools.exceptions import InvalidFormatException, InvalidTypeException
 
 
 class Course:
-    _id : str
-    _department : str
-    _number : int
-    _name : str
-    _teacher : str
-    _students : List[str]
-    _description : str
-    _schedule_time : str
-    _schedule_days : str
-    _syllabus : Tuple[str, str]
-    _assignments : List[Assignment]
-    _grade_range : Tuple[int, int]
-    _course_analytics : dict
+    _id: str
+    _department: str
+    _number: int
+    _name: str
+    _teacher: str
+    _students: List[str]
+    _description: str
+    _schedule_time: str
+    _schedule_days: str
+    _syllabus: Tuple[str, str]
+    _assignments: List[Assignment]
+    _grade_range: Tuple[int, int]
+    _course_analytics: dict
 
     def __init__(
         self,
@@ -159,8 +159,9 @@ class Course:
     @number.setter
     def number(self, number: int):
         if not isinstance(number, int):
-            raise InvalidTypeException(f"The course number provided is not an int (type provided is {type(number)}).")
-            
+            raise InvalidTypeException(
+                f"The course number provided is not an int (type provided is {type(number)}).")
+
         if not 0 < number < 100000:
             raise InvalidFormatException(
                 f"The format for course number doesn't match. Expected 0 < number < 100000, got {number}"
@@ -203,8 +204,9 @@ class Course:
             teacher_id = str(teacher_id)
 
         if not isinstance(teacher_id, str):
-            raise InvalidTypeException(f"The teacher_id provided is not a str (type provided is {type(teacher_id)}).")
-        
+            raise InvalidTypeException(
+                f"The teacher_id provided is not a str (type provided is {type(teacher_id)}).")
+
         if teacher_id == "":
             self._teacher = teacher_id
             return
@@ -217,7 +219,8 @@ class Course:
 
         try:
             if Teacher.get_by_id(teacher_id) is None:
-                raise Exception(f"The teacher with id {teacher_id} does not exist.")
+                raise Exception(
+                    f"The teacher with id {teacher_id} does not exist.")
         except Exception as e:
             logger.exception(
                 f"Error while validating the existence of teacher {teacher_id}"
@@ -255,12 +258,14 @@ class Course:
             try:
                 ObjectId(student_id)
             except Exception as e:
-                logger.exception(f"Error while validating student id {student_id}")
+                logger.exception(
+                    f"Error while validating student id {student_id}")
                 raise e
 
             try:
                 if Student.get_by_id(student_id) is None:
-                    raise Exception(f"The student with id {student_id} does not exist.")
+                    raise Exception(
+                        f"The student with id {student_id} does not exist.")
             except Exception as e:
                 logger.exception(
                     f"Error while validating the existence of student {student_id}"
@@ -372,19 +377,19 @@ class Course:
         # TODO: add check for a valid syllabus
         self._syllabus = syllabus
 
-
     @property
     def grade_range(self) -> Tuple[int, int]:
         return self._grade_range
-    
+
     @grade_range.setter
     def grade_range(self, grade_range: Tuple[int, int]):
         if type(grade_range) == tuple and len(grade_range) == 2:
             if grade_range[1] >= grade_range[0]:
-                raise ValueError("Max value must be larger than min value for grade range")
+                raise ValueError(
+                    "Max value must be larger than min value for grade range")
             self._grade_range = grade_range
         else:
-            raise ValueError("Grade range is not tuple or of length 2") 
+            raise ValueError("Grade range is not tuple or of length 2")
 
     @property
     def course_analytics(self) -> dict:
@@ -392,17 +397,19 @@ class Course:
 
     @course_analytics.setter
     def course_analytics(self, analyticsDict: dict):
-        dictKeys = ["total_average", "starting_average", "no_students", "assignment_history" ]
-        assignmentHistoryKeys = [ "assignment_name", "assignment_scores" ]
+        dictKeys = ["total_average", "starting_average",
+                    "no_students", "assignment_history"]
+        assignmentHistoryKeys = ["assignment_name", "assignment_scores"]
 
         for key in dictKeys:
             if key not in analyticsDict:
-                raise InvalidFormatException(f"The analyticsDict {analyticsDict} is missing the key: {key}")
+                raise InvalidFormatException(
+                    f"The analyticsDict {analyticsDict} is missing the key: {key}")
 
             for key in assignmentHistoryKeys:
                 if key not in dictKeys["assignment_history"]:
-                    raise InvalidFormatException(f"The assignment_history dictionary in analyticsDict {analyticsDict} is missing the key: {key}")
-
+                    raise InvalidFormatException(
+                        f"The assignment_history dictionary in analyticsDict {analyticsDict} is missing the key: {key}")
 
     def to_dict(self) -> dict:
         dict_course = {
@@ -416,7 +423,7 @@ class Course:
             "schedule_days": self.schedule_days,
             "syllabus": self.syllabus,
             "assignments": self.assignments,
-            "grade_range": list(self.grade_range) 
+            "grade_range": list(self.grade_range)
         }
 
         try:
@@ -446,7 +453,8 @@ class Course:
             else None,
             syllabus=dictionary["syllabus"] if "syllabus" in dictionary else None,
             assignments=list(
-                map(lambda x: Assignment.from_dict(x), list(dictionary["assignments"]))
+                map(lambda x: Assignment.from_dict(x),
+                    list(dictionary["assignments"]))
             )
             if "assignments" in dictionary
             else None,
@@ -461,7 +469,8 @@ class Course:
             self.id = db.courses.insert_one(self.to_dict()).inserted_id
             return True
         except pymongo.errors.DuplicateKeyError:
-            logger.exception(f"The Course with the id {self.id} already exists, you should not be calling the add() method.")
+            logger.exception(
+                f"The Course with the id {self.id} already exists, you should not be calling the add() method.")
             return False
         except Exception as e:
             logger.exception(f"Error while adding course {self.to_dict()}")
@@ -590,11 +599,13 @@ class Course:
         bool
             `True` if the update operation was successful, `False` otherwise
         """
-        
+
         for _id in student_ids:
             try:
-                db.students.find_one({"_id": ObjectId(_id)}, {"$push": {"courses": self.id}})
-                db.courses.find_one({"_id": self.id}, {"$push": {"students": ObjectId(_id)}})
+                db.students.find_one({"_id": ObjectId(_id)}, {
+                                     "$push": {"courses": self.id}})
+                db.courses.find_one({"_id": self.id}, {
+                                    "$push": {"students": ObjectId(_id)}})
 
             except Exception as e:
                 logger.exception(
@@ -705,7 +716,7 @@ class Course:
             )
 
             return False
-        
+
     def update_grade_range(self, grade_range: Tuple[int, int]) -> bool:
         """Update the grade range for this course
         Parameters
@@ -758,9 +769,11 @@ class Course:
         """
         try:
             if Course.get_by_id(self.id) is None:
-                raise Exception(f"The course with id {self.id} does not exist.")
+                raise Exception(
+                    f"The course with id {self.id} does not exist.")
         except AttributeError:
-            logger.exception(f"The property `id` does not exist for this course")
+            logger.exception(
+                f"The property `id` does not exist for this course")
             return False
         except Exception as e:
             logger.exception(f"Error while updating a course")
@@ -783,11 +796,11 @@ class Course:
         for key, value in kwargs.items():
             response = PARAMETER_TO_METHOD[key](value)
             if not response:
-                logger.exception(f"Error while updating course:{self.id} attribute: {key} value: {value}")
+                logger.exception(
+                    f"Error while updating course:{self.id} attribute: {key} value: {value}")
                 return False
-        
-        return True
 
+        return True
 
     def get_assignments(self) -> List[Assignment]:
         """Get the assignments for this course.

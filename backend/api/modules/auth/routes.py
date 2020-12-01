@@ -72,7 +72,8 @@ def login():
         remember_me = req_data["remember_me"]
 
         for scope in [Student, Teacher, Admin, Parent]:
-            logger.info(f"Trying to find {scope.__name__} with email {email}...")
+            logger.info(
+                f"Trying to find {scope.__name__} with email {email}...")
             user = scope.get_by_email(email)
             if user is not None:
                 logger.info(f"User: {user.first_name}")

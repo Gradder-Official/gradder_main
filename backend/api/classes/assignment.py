@@ -11,6 +11,7 @@ from .submission import Submission
 
 class Assignment:
     _id: str
+
     def __init__(
         self,
         title: str,
@@ -18,7 +19,7 @@ class Assignment:
         assigned_by: int,
         assigned_to: str,
         due_by: datetime,
-        content: str, #TODO: this should be represented int Deltas(JSON)
+        content: str,  # TODO: this should be represented int Deltas(JSON)
         filenames: list,
         estimated_time: int,
         # weight: int,
@@ -63,7 +64,7 @@ class Assignment:
 
     def __repr__(self):
         return f"<Assignment { self.id }>"
-        
+
     def to_dict(self):
         return {
             "title": self.title,
@@ -85,15 +86,17 @@ class Assignment:
     @property
     def id(self) -> str:
         return self._id
-    
+
     @id.setter
     def id(self, id: str):
         if id is not str:
-            raise InvalidTypeException(f"The id provided is not a str (type provided is {type(id)}).")
+            raise InvalidTypeException(
+                f"The id provided is not a str (type provided is {type(id)}).")
 
         try:
             ObjectId(id)
         except Exception as e:
-            raise InvalidFormatException(f"Cannot convert provided id to bson.ObjectId")
+            raise InvalidFormatException(
+                f"Cannot convert provided id to bson.ObjectId")
 
         self._id = id

@@ -1,6 +1,7 @@
 r"""The blueprint that handles all the admin-related stuff.
 This includes managing students, teachers, admin dashboard, etc.
 """
+from . import routes
 from flask import Blueprint
 
 admin = Blueprint(
@@ -8,5 +9,3 @@ admin = Blueprint(
     __name__,
     url_prefix="/api/admin",
 )
-
-from . import routes

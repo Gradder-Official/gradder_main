@@ -22,7 +22,8 @@ def get_existing_assignment_files():
         for file_ in files:
             filename = file_.filename
             blob = upload_blob(
-                uuid.uuid4().hex + "." + file_.content_type.split("/")[-1], file_
+                uuid.uuid4().hex + "." +
+                file_.content_type.split("/")[-1], file_
             )
             file_list.append((blob.name, filename))
 
@@ -62,7 +63,8 @@ def add_assignment():
             # weight=request.form['weight']
         )
 
-        Course.get_by_id(request.form["assigned_to"]).add_assignment(new_assignment)
+        Course.get_by_id(request.form["assigned_to"]
+                         ).add_assignment(new_assignment)
 
         logger.info(f"Assignment {request.form['title']} added")
         return response(flashes=["Assignment sent!"])
@@ -119,7 +121,8 @@ def view_assignment_by_class_id(course_id: str):
     course_assignments = Course.get_by_id(course_id).get_assignments()
 
     return response(
-        data={"assignments": list(map(lambda a: a.to_dict(), course_assignments))}
+        data={"assignments": list(
+            map(lambda a: a.to_dict(), course_assignments))}
     )
 
 
@@ -213,7 +216,8 @@ def manage_classes_by_id(course_id: str):
             if syllabus_file is not None:
 
                 blob = upload_blob(
-                    uuid.uuid4().hex + "." + syllabus_file.content_type.split("/")[-1],
+                    uuid.uuid4().hex + "." +
+                    syllabus_file.content_type.split("/")[-1],
                     syllabus_file,
                 )
                 syllabus = [blob.name, syllabus_name]
@@ -355,7 +359,8 @@ def enter_info():
         profile_picture_file = request.files["profile_picture"]
         filename = profile_picture_file.filename
         blob = upload_blob(
-            uuid.uuid4().hex + "." + profile_picture_file.content_type.split("/")[-1],
+            uuid.uuid4().hex + "." +
+            profile_picture_file.content_type.split("/")[-1],
             profile_picture_file,
         )
         profile_picture = (blob.name, filename)

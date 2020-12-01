@@ -4,7 +4,7 @@ from api import create_app
 
 
 class BasicsTestCase(unittest.TestCase):
-    
+
     def setUp(self):
         self.app = create_app("testing")
         self.app_context = self.app.app_context()
@@ -14,15 +14,14 @@ class BasicsTestCase(unittest.TestCase):
         self.logger = logger
 
         self.name = "BasicsTestCase"
-        
-        self.logger.info(self.log_message("Application set up"))
 
+        self.logger.info(self.log_message("Application set up"))
 
     def tearDown(self):
         self.app_context.pop()
 
         self.logger.info(self.log_message("Application teared down"))
-    
+
     def log_message(self, message: str) -> str:
         r"""Useful if we need to display specific information for all tests.
         """

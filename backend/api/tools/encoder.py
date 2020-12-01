@@ -1,6 +1,7 @@
 from flask.json import JSONEncoder
 from bson import ObjectId
 
+
 class JSONImproved(JSONEncoder):
     def default(self, obj):
         """Replaces the default :func:`~JSONEncoder.default` function

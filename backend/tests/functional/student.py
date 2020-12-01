@@ -20,4 +20,3 @@
 #         self.logger.info(self.log_message("Password set correctly"))
 
 #         # Adding a student to the database
-        

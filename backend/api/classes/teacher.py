@@ -26,7 +26,6 @@ class Teacher(User):
         activated: Optional[bool] = None,
         calendar: Optional[List[CalendarEvent]] = None
     ):
-
         r"""Initializes a user of Teacher type.
 
         Parameters
@@ -182,7 +181,8 @@ class Teacher(User):
             return possible_teachers
 
         except BaseException as e:
-            logger.exception(f"Error while getting a teacher by name {id}: {e}")
+            logger.exception(
+                f"Error while getting a teacher by name {id}: {e}")
             return None
 
     def get_course_names(self) -> List[Tuple[str, str]]:
@@ -282,7 +282,8 @@ class Teacher(User):
         """
         try:
             self.password = password
-            db.teachers.update({"_id": self.id}, {"$set": {"password": self.password}})
+            db.teachers.update({"_id": self.id}, {
+                               "$set": {"password": self.password}})
             return True
         except:
             return False

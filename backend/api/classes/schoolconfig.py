@@ -312,7 +312,8 @@ class SchoolConfig:
             return True
 
         except Exception as e:
-            logger.exception(f"Error while updating school name {school_name}: {e}")
+            logger.exception(
+                f"Error while updating school name {school_name}: {e}")
 
             return False
 
@@ -391,7 +392,8 @@ class SchoolConfig:
             return True
 
         except Exception as e:
-            logger.exception(f"Error while updating school email {school_email}: {e}")
+            logger.exception(
+                f"Error while updating school email {school_email}: {e}")
 
             return False
 
@@ -416,7 +418,8 @@ class SchoolConfig:
             return True
 
         except Exception as e:
-            logger.exception(f"Error while updating principal {principal}: {e}")
+            logger.exception(
+                f"Error while updating principal {principal}: {e}")
 
             return False
 
@@ -468,7 +471,8 @@ class SchoolConfig:
             return True
 
         except Exception as e:
-            logger.exception(f"Error while updating departments {departments}: {e}")
+            logger.exception(
+                f"Error while updating departments {departments}: {e}")
 
             return False
 
@@ -523,7 +527,8 @@ class SchoolConfig:
             return True
 
         except Exception as e:
-            logger.exception(f"Error while updating grade weights {grade_weights}: {e}")
+            logger.exception(
+                f"Error while updating grade weights {grade_weights}: {e}")
 
             return False
 
@@ -548,7 +553,8 @@ class SchoolConfig:
             return True
 
         except Exception as e:
-            logger.exception(f"Error while updating grading system {grading}: {e}")
+            logger.exception(
+                f"Error while updating grading system {grading}: {e}")
 
             return False
 
@@ -597,7 +603,8 @@ class SchoolConfig:
         for key, value in kwargs.items():
             response = PARAMETER_TO_METHOD[key](value)
             if not response:
-                logger.exception(f"Error while updating school information attribute:{parameter} value:{value}")
+                logger.exception(
+                    f"Error while updating school information attribute:{parameter} value:{value}")
                 return False
 
         return True

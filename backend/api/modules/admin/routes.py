@@ -48,7 +48,8 @@ def add_teacher():
         token = teacher.get_activation_token()
         app = current_app._get_current_object()
         msg = Message(
-            app.config["MAIL_SUBJECT_PREFIX"] + " " + "Account Activation Link",
+            app.config["MAIL_SUBJECT_PREFIX"] +
+            " " + "Account Activation Link",
             sender=app.config["MAIL_SENDER"],
             recipients=[teacher.email],
         )
@@ -56,13 +57,13 @@ def add_teacher():
             { url_for('teacher.activate_account', token=token, _external=True) }
             If you did not register for this account, you can ignore this email. If you need any further assistance, please contact team@gradder.io.
             """
-        mail.send(msg)        
+        mail.send(msg)
         return response(flashes), 200
     else:
         logger.info(f"Error adding teacher {teacher.email}")
         flashes.append("There was a problem adding this account")
         return response(flashes), 400
-        
+
 
 @admin.route("/add-student", methods=["GET", "POST"])
 def add_student():
@@ -85,14 +86,15 @@ def add_student():
             student.password(request.form['password'])
     except KeyError:
         return error("Not all fields satisfied"), 400
-        
+
     if student.add():
         flashes.append("Student added!")
         logger.info(f"Student {student.email} added")
         token = current_user.get_activation_token()
         app = current_app._get_current_object()
         msg = Message(
-            app.config["MAIL_SUBJECT_PREFIX"] + " " + "Account Activation Link",
+            app.config["MAIL_SUBJECT_PREFIX"] +
+            " " + "Account Activation Link",
             sender=app.config["MAIL_SENDER"],
             recipients=[student.email]
         )
@@ -100,12 +102,13 @@ def add_student():
             { url_for('student.activate_account', token=token, _external=True) }
             If you did not register for this account, you can ignore this email. If you need any further assistance, please contact team@gradder.io.
             """
-        mail.send(msg)        
+        mail.send(msg)
         return response(flashes), 200
     else:
         logger.info(f"Error adding Student {student.email}")
         flashes.append("There was a problem adding this account"), 400
         return response(flashes), 400
+
 
 @admin.route("/register-courses", methods=["POST"])
 def register_courses():
@@ -138,6 +141,7 @@ def register_courses():
         flashes.append("There was a problem adding your course")
         return response(flashes), 400
 
+
 @admin.route("/get-info-for-new-course", methods=["GET"])
 def get_info_for_new_course():
     """Gets department and teacher info for adding a new course to the database.
@@ -149,9 +153,10 @@ def get_info_for_new_course():
 
     flashes = list()
 
-    try: 
+    try:
         departments = db.courses.find({}, {"department": 1, "_id": 0})
-        teachers = db.courses.find({}, {"name": 1, "email": 1, "department": 1, "_id": 0})
+        teachers = db.courses.find(
+            {}, {"name": 1, "email": 1, "department": 1, "_id": 0})
     except:
         return error("Unknown error while getting info for departments and teachers"), 400
 
@@ -159,8 +164,8 @@ def get_info_for_new_course():
         "departments": departments,
         "teachers": teachers
     }), 200
-    
-    
+
+
 @admin.route("/add-student-to-course", methods=["GET", "POST"])
 def add_student_to_course():
     """Adds a student to a course.
@@ -174,13 +179,15 @@ def add_student_to_course():
 
     try:
         if Student.get_by_email(request.form['email']):
-            Admin.add_student(Course.get_by_department_number(request.form['number'])._id, request.form['email'])
+            Admin.add_student(Course.get_by_department_number(
+                request.form['number'])._id, request.form['email'])
         else:
             flashes.append("Account doesn't exist!")
             return response(flashes), 400
 
     except KeyError:
         return response(flashes), 400
+
 
 @admin.route("/add-teacher-to-course", methods=["GET", "POST"])
 def add_teacher_to_course():
@@ -195,13 +202,15 @@ def add_teacher_to_course():
 
     try:
         if Teacher.get_by_email(request.form['email']):
-            Admin.add_teacher(Course.get_by_department_number(request.form['number'])._id, request.form['email'])
+            Admin.add_teacher(Course.get_by_department_number(
+                request.form['number'])._id, request.form['email'])
         else:
             flashes.append("Account doesn't exist!")
             return response(flashes), 400
 
     except KeyError:
         return response(flashes), 400
+
 
 @admin.route("/course", methods=["GET"])
 def manage_courses():
@@ -222,7 +231,7 @@ def manage_courses_by_id(course_id: str):
     dict
         Flashes, course data from the form
     """
-    
+
     flashes = list()
 
     course = Course.get_by_id(course_id)
@@ -231,28 +240,30 @@ def manage_courses_by_id(course_id: str):
             syllabus_file = request.form['file']
             filename = syllabus_file.filename
             blob = upload_blob(
-                uuid.uuid4().hex + "." + syllabus_file.content_type.split("/")[-1],
+                uuid.uuid4().hex + "." +
+                syllabus_file.content_type.split("/")[-1],
                 syllabus_file,
             )
             syllabus = (blob.name, filename)
             course.update_syllabus(syllabus)
             logger.info(f"Course {course._id} updated")
         Course.update(
-            request.form.get('department'), 
-            request.form.get('number'), 
-            request.form.get('name'), 
-            request.form.get('teacher'), 
-            request.form.get('teacher'), 
-            request.form.get('description'), 
-            request.form.get('schedule_time'), 
-            request.form.get('schedule_days'), 
-            request.form.get('syllabus'), 
+            request.form.get('department'),
+            request.form.get('number'),
+            request.form.get('name'),
+            request.form.get('teacher'),
+            request.form.get('teacher'),
+            request.form.get('description'),
+            request.form.get('schedule_time'),
+            request.form.get('schedule_days'),
+            request.form.get('syllabus'),
             request.form.get('student')
         )
         flashes.append("Course information successfully updated!")
         return response(flashes), 200
     else:
         return error("Course does not exist"), 404
+
 
 @admin.route("/add_student_to_parent", methods=["GET", "POST"])
 def add_student_to_parent():
@@ -268,6 +279,7 @@ def add_student_to_parent():
     else:
         return error("There was an error adding this student"), 400
 
+
 @admin.route("/remove_student_from_parent", methods=["GET", "POST"])
 def remove_student_from_parent():
     r"""Removes a student from a parent.
@@ -281,8 +293,10 @@ def remove_student_from_parent():
         return response(["Removed student from parent"]), 200
     else:
         return error("There was an error removing this student"), 400
+
+
 @admin.route("/get-course-info/<string:course_id>", methods=["GET"])
-def get_course_info(course_id:str):
+def get_course_info(course_id: str):
     """Gets all info for course.
     Returns
     -------
@@ -292,7 +306,7 @@ def get_course_info(course_id:str):
 
     flashes = list()
 
-    try: 
+    try:
         course_info = db.courses.find({"_id": ObjectId(course_id)})
     except:
         return error("Unknown error while getting course info"), 400
@@ -300,6 +314,8 @@ def get_course_info(course_id:str):
     return response(flashes, {
         "course_info": course_info
     }), 200
+
+
 @admin.route("/search", methods=["GET"])
 def get_names_by_search():
     """Shows full names of people the user is searching
@@ -319,6 +335,7 @@ def get_names_by_search():
         return response(data={"possible_admins": possible_admins}), 200
     except:
         return error("There are no admins by that name"), 404
+
 
 @admin.route("/admin-search-info", methods=["GET", "POST"])
 def admin_search_info():

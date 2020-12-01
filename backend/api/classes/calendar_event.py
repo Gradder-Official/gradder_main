@@ -8,14 +8,14 @@ class CalendarEvent:
     _end: str
     _color: str
     _url: str
-    
+
     def __init__(self, title: str, start: str, end: str, color: Optional[str], url: Optional[str]):
         self.title = title
         self.start = start
         self.end = end
         self.color = color or ""
         self.url = url or ""
-    
+
     def to_dict(self) -> dict:
         return {
             "title": self.title,
@@ -36,23 +36,23 @@ class CalendarEvent:
     @title.setter
     def title(self, title: str):
         self._title = title
-    
+
     @property
     def start(self) -> str:
         return self._start
-    
+
     @start.setter
     def start(self, start: str):
         self._start = start
-    
+
     @property
     def end(self) -> str:
         return self._end
-    
+
     @end.setter
     def end(self, end: str):
         self._end = end
-    
+
     @property
     def color(self) -> str:
         return self._color
@@ -64,7 +64,7 @@ class CalendarEvent:
     @property
     def url(self) -> str:
         return self._url
-    
+
     @url.setter
     def url(self, url: str):
         self._url = url

@@ -37,7 +37,8 @@ def create_app(config_name):
     school_config = SchoolConfig()
 
     global root_logger
-    root_logger = logger[config_name]()  # Creates a logger relevant to the app environment
+    # Creates a logger relevant to the app environment
+    root_logger = logger[config_name]()
 
     login_manager.init_app(app)
     mail.init_app(app)

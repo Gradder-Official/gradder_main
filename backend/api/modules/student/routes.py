@@ -40,7 +40,8 @@ def submit(course_id: str, assignment_id: str):
 
     assignment = db.courses.find_one(
         {"assignments._id": ObjectId(assignment_id)},
-        {"_id": 0, "assignments": {"$elemMatch": {"_id": ObjectId(assignment_id)}}},
+        {"_id": 0, "assignments": {"$elemMatch": {
+            "_id": ObjectId(assignment_id)}}},
     )["assignments"][0]
 
     if assignment is not None and course_id in current_user.courses:
@@ -51,7 +52,8 @@ def submit(course_id: str, assignment_id: str):
                 for file_ in files:
                     filename = file_.filename
                     blob = upload_blob(
-                        uuid.uuid4().hex + "." + file_.content_type.split("/")[-1],
+                        uuid.uuid4().hex + "." +
+                        file_.content_type.split("/")[-1],
                         file_,
                     )
                     file_list.append((blob.name, filename))
@@ -122,7 +124,8 @@ def assignment_by_id(course_id: str, assignment_id: str):
     """
     assignments = current_user.get_assignments()
     assignment = get(assignments, id=assignment_id)
-    logger.info(f"All assignments from {course_id} with assignment id {assignment_id}.")
+    logger.info(
+        f"All assignments from {course_id} with assignment id {assignment_id}.")
     return response(data={"assignment": assignment})
 
 
@@ -148,7 +151,8 @@ def get_schedule_assignments():
     assignments = current_user.get_assignments()
     events = []
     for assignment in assignments:
-        assignment_data = {"title": assignment.title, "date": assignment.due_by}
+        assignment_data = {"title": assignment.title,
+                           "date": assignment.due_by}
         events.append(assignment_data)
 
     # Dummy event for testing
@@ -214,7 +218,8 @@ def activate_account(token: str):
 
         else:
             return response(["Passwords don't match!"]), 400
-        db.students.update({"id": ObjectId(student._id)}, {"$set": {"activated": True}})
+        db.students.update({"id": ObjectId(student._id)},
+                           {"$set": {"activated": True}})
         return response(["Account activated!"]), 200
 
 
@@ -243,7 +248,8 @@ def enter_info():
         profile_picture_file = request.files["profile_picture"]
         filename = profile_picture_file.filename
         blob = upload_blob(
-            uuid.uuid4().hex + "." + profile_picture_file.content_type.split("/")[-1],
+            uuid.uuid4().hex + "." +
+            profile_picture_file.content_type.split("/")[-1],
             profile_picture_file,
         )
         profile_picture = (blob.name, filename)

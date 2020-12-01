@@ -1,6 +1,8 @@
 import logging
 
-FORMAT = logging.Formatter("%(asctime)s - %(levelname)s : %(filename)s - %(funcName)s : %(message)s")
+FORMAT = logging.Formatter(
+    "%(asctime)s - %(levelname)s : %(filename)s - %(funcName)s : %(message)s")
+
 
 def DevelopmentLogger():
     logger = logging.getLogger()

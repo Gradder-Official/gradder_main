@@ -26,7 +26,7 @@ class Submission:
         _id: Optional[Union[str, ObjectId]] = None,
     ):
         r"""Initializes the Submission object
-        
+
         Parameters
         ----------
         assignment_id: str or bson.objectid.ObjectId
@@ -93,8 +93,10 @@ class Submission:
             else:
                 assignment_id = str(assignment_id)
         except Exception as e:
-            logger.exception(f"The assignment_id {id} is not of valid format (has to be either bson.objectid.ObjectId or convertible to bson.objectid.ObjectId)")
-            raise InvalidFormatException(f"The assignment_id {id} is not of valid format (has to be either bson.objectid.ObjectId or convertible to bson.objectid.ObjectId)")
+            logger.exception(
+                f"The assignment_id {id} is not of valid format (has to be either bson.objectid.ObjectId or convertible to bson.objectid.ObjectId)")
+            raise InvalidFormatException(
+                f"The assignment_id {id} is not of valid format (has to be either bson.objectid.ObjectId or convertible to bson.objectid.ObjectId)")
 
         try:
             if Assignment.get_by_id(assignment_id) is None:
@@ -105,10 +107,11 @@ class Submission:
             logger.exception(f"Assignment with id {id} does not exist")
             raise e from InvalidFormatException
         except Exception as e:
-            logger.exception(f"Error while retrieving Assignment with id {id}: {e}")
-        
+            logger.exception(
+                f"Error while retrieving Assignment with id {id}: {e}")
+
         self._assignment_id = assignment_id
-    
+
     @property
     def student_id(self) -> str:
         return self._student_id
@@ -123,8 +126,10 @@ class Submission:
             else:
                 student_id = str(student_id)
         except Exception as e:
-            logger.exception(f"The student_id {id} is not of valid format (has to be either bson.objectid.ObjectId or convertible to bson.objectid.ObjectId)")
-            raise InvalidFormatException(f"The student_id {id} is not of valid format (has to be either bson.objectid.ObjectId or convertible to bson.objectid.ObjectId)")
+            logger.exception(
+                f"The student_id {id} is not of valid format (has to be either bson.objectid.ObjectId or convertible to bson.objectid.ObjectId)")
+            raise InvalidFormatException(
+                f"The student_id {id} is not of valid format (has to be either bson.objectid.ObjectId or convertible to bson.objectid.ObjectId)")
 
         try:
             if Student.get_by_id(student_id) is None:
@@ -135,14 +140,15 @@ class Submission:
             logger.exception(f"Student with id {id} does not exist")
             raise InvalidFormatException from e
         except Exception as e:
-            logger.exception(f"Error while retrieving Student with id {id}: {e}")
-        
+            logger.exception(
+                f"Error while retrieving Student with id {id}: {e}")
+
         self._student_id = student_id
 
     @property
     def date_time_submitted(self) -> str:
         return self._date_time_submitted
-    
+
     @date_time_submitted.setter
     def date_time_submitted(self, date_time_submitted: Union[datetime, str]):
         try:
@@ -151,15 +157,17 @@ class Submission:
             else:
                 date_time_submitted = str(date_time_submitted)
         except Exception as e:
-            logger.exception(f"date_time_submitted provided is not of a valid datetime.datetime format (got {date_time_submitted})")
-            raise InvalidFormatException(f"date_time_submitted provided is not of a valid datetime.datetime format (got {date_time_submitted})")
+            logger.exception(
+                f"date_time_submitted provided is not of a valid datetime.datetime format (got {date_time_submitted})")
+            raise InvalidFormatException(
+                f"date_time_submitted provided is not of a valid datetime.datetime format (got {date_time_submitted})")
 
         self._date_time_submitted = date_time_submitted
 
     @property
     def content(self) -> str:
         return self._content
-    
+
     @content.setter
     def content(self, content: str):
         # TODO: validate it's in valid Quill.Deltas format
@@ -168,7 +176,7 @@ class Submission:
     @property
     def files(self) -> list:
         return self._files
-    
+
     @files.setter
     def files(self, files: list):
         # TODO: validation
@@ -177,7 +185,7 @@ class Submission:
     @property
     def grade(self) -> str:
         return self._grade
-    
+
     @grade.setter
     def grade(self, grade: str):
         # Validate by checking against settings

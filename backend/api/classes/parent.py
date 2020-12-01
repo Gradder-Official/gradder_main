@@ -53,7 +53,7 @@ class Parent(User):
             pass
 
         return dict_user
-    
+
     @staticmethod
     def from_dict(dictionary: dict) -> Parent:
         r"""Creates a Parent from a dictionary.
@@ -68,11 +68,12 @@ class Parent(User):
         """
         if dictionary is None:
             return None
-            
+
         try:
             return Parent(**dictionary)
         except Exception as e:
-            logger.exception(f"Error while generating a Parent from dictionary {dictionary}")
+            logger.exception(
+                f"Error while generating a Parent from dictionary {dictionary}")
             return None
 
     @staticmethod
@@ -96,7 +97,7 @@ class Parent(User):
     @staticmethod
     def get_by_email(email: str) -> Parent:
         r""" Returns Parent with a specified email.
-        
+
         Parameters
         ---------
         email : str
