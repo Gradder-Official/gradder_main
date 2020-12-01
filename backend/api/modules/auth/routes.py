@@ -72,8 +72,7 @@ def login():
         remember_me = req_data["remember_me"]
 
         for scope in [Student, Teacher, Admin, Parent]:
-            logger.info(
-                f"Trying to find {scope.__name__} with email {email}...")
+            logger.info(f"Trying to find {scope.__name__} with email {email}...")
             user = scope.get_by_email(email)
             if user is not None:
                 logger.info(f"User: {user.first_name}")
@@ -84,12 +83,20 @@ def login():
                     )
 
                     current_user_info = {
-                        "userName": current_user.first_name + " " + current_user.last_name,
+                        "userName": current_user.first_name
+                        + " "
+                        + current_user.last_name,
                         "userType": current_user._type,
                         "loggedIn": True,
                         "dob": "",
                     }
-                    return response(flashes=["Log in succesful! Redirecting to dashboard..."], user_info=current_user_info), 200
+                    return (
+                        response(
+                            flashes=["Log in succesful! Redirecting to dashboard..."],
+                            user_info=current_user_info,
+                        ),
+                        200,
+                    )
 
                 logger.info(
                     f"Failed to validate the password for the {scope.__name__} with email {email}"

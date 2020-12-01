@@ -18,7 +18,7 @@ class JSONImproved(JSONEncoder):
         """
         if isinstance(obj, ObjectId):
             return str(obj)
-        elif hasattr(obj, 'to_dict'):
+        elif hasattr(obj, "to_dict"):
             return obj.to_dict()
         else:
             return obj

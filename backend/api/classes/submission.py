@@ -94,9 +94,11 @@ class Submission:
                 assignment_id = str(assignment_id)
         except Exception as e:
             logger.exception(
-                f"The assignment_id {id} is not of valid format (has to be either bson.objectid.ObjectId or convertible to bson.objectid.ObjectId)")
+                f"The assignment_id {id} is not of valid format (has to be either bson.objectid.ObjectId or convertible to bson.objectid.ObjectId)"
+            )
             raise InvalidFormatException(
-                f"The assignment_id {id} is not of valid format (has to be either bson.objectid.ObjectId or convertible to bson.objectid.ObjectId)")
+                f"The assignment_id {id} is not of valid format (has to be either bson.objectid.ObjectId or convertible to bson.objectid.ObjectId)"
+            )
 
         try:
             if Assignment.get_by_id(assignment_id) is None:
@@ -107,8 +109,7 @@ class Submission:
             logger.exception(f"Assignment with id {id} does not exist")
             raise e from InvalidFormatException
         except Exception as e:
-            logger.exception(
-                f"Error while retrieving Assignment with id {id}: {e}")
+            logger.exception(f"Error while retrieving Assignment with id {id}: {e}")
 
         self._assignment_id = assignment_id
 
@@ -127,9 +128,11 @@ class Submission:
                 student_id = str(student_id)
         except Exception as e:
             logger.exception(
-                f"The student_id {id} is not of valid format (has to be either bson.objectid.ObjectId or convertible to bson.objectid.ObjectId)")
+                f"The student_id {id} is not of valid format (has to be either bson.objectid.ObjectId or convertible to bson.objectid.ObjectId)"
+            )
             raise InvalidFormatException(
-                f"The student_id {id} is not of valid format (has to be either bson.objectid.ObjectId or convertible to bson.objectid.ObjectId)")
+                f"The student_id {id} is not of valid format (has to be either bson.objectid.ObjectId or convertible to bson.objectid.ObjectId)"
+            )
 
         try:
             if Student.get_by_id(student_id) is None:
@@ -140,8 +143,7 @@ class Submission:
             logger.exception(f"Student with id {id} does not exist")
             raise InvalidFormatException from e
         except Exception as e:
-            logger.exception(
-                f"Error while retrieving Student with id {id}: {e}")
+            logger.exception(f"Error while retrieving Student with id {id}: {e}")
 
         self._student_id = student_id
 
@@ -158,9 +160,11 @@ class Submission:
                 date_time_submitted = str(date_time_submitted)
         except Exception as e:
             logger.exception(
-                f"date_time_submitted provided is not of a valid datetime.datetime format (got {date_time_submitted})")
+                f"date_time_submitted provided is not of a valid datetime.datetime format (got {date_time_submitted})"
+            )
             raise InvalidFormatException(
-                f"date_time_submitted provided is not of a valid datetime.datetime format (got {date_time_submitted})")
+                f"date_time_submitted provided is not of a valid datetime.datetime format (got {date_time_submitted})"
+            )
 
         self._date_time_submitted = date_time_submitted
 

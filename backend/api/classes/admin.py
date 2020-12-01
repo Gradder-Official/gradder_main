@@ -176,8 +176,7 @@ class Admin(User):
         """
         student = Student.get_by_email(email)
         db.courses.update_one(
-            {"_id": ObjectId(class_id)}, {
-                "$push": {"students": ObjectId(student.ID)}}
+            {"_id": ObjectId(class_id)}, {"$push": {"students": ObjectId(student.ID)}}
         )
 
     @staticmethod
@@ -194,8 +193,7 @@ class Admin(User):
         """
         teacher = Teacher.get_by_email(email)
         db.courses.update_one(
-            {"_id": ObjectId(class_id)}, {
-                "$set": {"teacher": ObjectId(teacher.ID)}}
+            {"_id": ObjectId(class_id)}, {"$set": {"teacher": ObjectId(teacher.ID)}}
         )
 
     @staticmethod
@@ -281,8 +279,7 @@ class Admin(User):
             logger.debug(f"Added student {student_id} to parent {parent_id}")
             return True
         except:
-            logger.error(
-                f"Error adding student {student_id} to parent {parent_id}")
+            logger.error(f"Error adding student {student_id} to parent {parent_id}")
             return False
 
     @staticmethod
@@ -296,12 +293,10 @@ class Admin(User):
                 {"_id": ObjectId(parent_id)},
                 {"$pull": {"children": ObjectId(student_id)}},
             )
-            logger.debug(
-                f"Removed student {student_id} from parent {parent_id}")
+            logger.debug(f"Removed student {student_id} from parent {parent_id}")
             return True
         except:
-            logger.error(
-                f"Error removing student {student_id} from parent {parent_id}")
+            logger.error(f"Error removing student {student_id} from parent {parent_id}")
             return False
 
         return teachers
@@ -334,6 +329,5 @@ class Admin(User):
             )
             return True
         except:
-            logger.exception(
-                f"An error occured while updating school settings")
+            logger.exception(f"An error occured while updating school settings")
             return False

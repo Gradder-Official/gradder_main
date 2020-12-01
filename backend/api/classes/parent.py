@@ -9,7 +9,7 @@ from . import User, Student
 
 
 class Parent(User):
-    _type = 'Parent'  # Immutable
+    _type = "Parent"  # Immutable
 
     def __init__(
         self,
@@ -18,7 +18,7 @@ class Parent(User):
         last_name: str,
         children: List[str] = None,
         _id: str = None,
-        calendar: Optional[List[CalendarEvent]] = None
+        calendar: Optional[List[CalendarEvent]] = None,
     ):
         """Initialises a user of Parent type
 
@@ -37,15 +37,18 @@ class Parent(User):
         """
 
         super().__init__(
-            email=email, first_name=first_name, last_name=last_name, id=_id, calendar=calendar
+            email=email,
+            first_name=first_name,
+            last_name=last_name,
+            id=_id,
+            calendar=calendar,
         )
 
     def __repr__(self):
         return f"<Parent {self._id}>"
 
     def to_dict(self) -> Dict[str, str]:
-        r"""A representation of the object in a dictionary format.
-        """
+        r"""A representation of the object in a dictionary format."""
         dict_user = super().to_dict()
         try:
             dict_user["children"] = self.children
@@ -73,7 +76,8 @@ class Parent(User):
             return Parent(**dictionary)
         except Exception as e:
             logger.exception(
-                f"Error while generating a Parent from dictionary {dictionary}")
+                f"Error while generating a Parent from dictionary {dictionary}"
+            )
             return None
 
     @staticmethod
@@ -96,7 +100,7 @@ class Parent(User):
 
     @staticmethod
     def get_by_email(email: str) -> Parent:
-        r""" Returns Parent with a specified email.
+        r"""Returns Parent with a specified email.
 
         Parameters
         ---------

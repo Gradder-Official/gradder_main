@@ -20,7 +20,7 @@ def get(iterable, **kwargs: dict):
     if len(kwargs) == 1:
         # Most common use case
         k, v = kwargs.popitem()
-        pred = attrgetter(k.replace('__', '.'))
+        pred = attrgetter(k.replace("__", "."))
         for element in iterable:
             if pred(element) == v:
                 return element
@@ -28,7 +28,7 @@ def get(iterable, **kwargs: dict):
         # More complicated use case
         # Convert nested attributes to dotted attributes
         converted = [
-            (attrgetter(kwarg.replace('__', '.')), value)
+            (attrgetter(kwarg.replace("__", ".")), value)
             for kwarg, value in kwargs.items()
         ]
 

@@ -13,7 +13,7 @@ from . import Assignment, Course
 
 
 class Student(User):
-    _type = 'Student'  # Immutable
+    _type = "Student"  # Immutable
 
     def __init__(
         self,
@@ -26,7 +26,7 @@ class Student(User):
         _id: str = None,
         activated: bool = False,
         calendar: Optional[List[CalendarEvent]] = None,
-        parents: List[str] = None
+        parents: List[str] = None,
     ):
         """Initialises a user of Student type
 
@@ -48,7 +48,12 @@ class Student(User):
             The user's parents
         """
         super().__init__(
-            email=email, first_name=first_name, last_name=last_name, _id=_id, password=password, calendar=calendar
+            email=email,
+            first_name=first_name,
+            last_name=last_name,
+            _id=_id,
+            password=password,
+            calendar=calendar,
         )
 
         self.courses = courses or []
@@ -67,10 +72,10 @@ class Student(User):
         """
         return {
             **super().to_dict(),
-            'password': '',
-            'courses': self.courses,
-            'assignments': self.assignments,
-            'activated': self.activated
+            "password": "",
+            "courses": self.courses,
+            "assignments": self.assignments,
+            "activated": self.activated,
         }
 
     @staticmethod
@@ -94,7 +99,7 @@ class Student(User):
 
     @staticmethod
     def get_by_email(email: str) -> Student:
-        r""" Returns Student with a specified email.
+        r"""Returns Student with a specified email.
         Parameters
         ---------
         email: str
@@ -111,7 +116,7 @@ class Student(User):
 
     @staticmethod
     def get_by_keyword(keyword: str) -> Student:
-        r""" Returns Student with a specified keyword.
+        r"""Returns Student with a specified keyword.
         Parameters
         ---------
         keyword: str
@@ -121,24 +126,17 @@ class Student(User):
         List[Student]
         """
         try:
-            students = db.students.aggregate([
-                {
-                    '$search': {
-                        'autocomplete': {
-                            'query': keyword,
-                            'path': 'first_name'
+            students = db.students.aggregate(
+                [
+                    {
+                        "$search": {
+                            "autocomplete": {"query": keyword, "path": "first_name"}
                         }
-                    }
-                }, {
-                    '$project': {
-                        '_id': 1,
-                        'first_name': 1,
-                        'last_name': 1
-                    }
-                }, {
-                    '$limit': 5
-                }
-            ])
+                    },
+                    {"$project": {"_id": 1, "first_name": 1, "last_name": 1}},
+                    {"$limit": 5},
+                ]
+            )
 
             possible_students = []
             for student in students:
@@ -146,8 +144,7 @@ class Student(User):
             return possible_students
 
         except BaseException as e:
-            logger.exception(
-                f"Error while getting a student by name {id}: {e}")
+            logger.exception(f"Error while getting a student by name {id}: {e}")
             return None
 
     @staticmethod
@@ -169,12 +166,12 @@ class Student(User):
             return Student(**dictionary)
         except Exception as e:
             logger.exception(
-                f"Error while generating a Student from dictionary {dictionary}")
+                f"Error while generating a Student from dictionary {dictionary}"
+            )
             return None
 
     def add(self) -> bool:
-        r"""Adds the student to the DB.
-        """
+        r"""Adds the student to the DB."""
 
         try:
             self.id = db.students.insert_one(self.to_dict()).inserted_id
@@ -185,14 +182,14 @@ class Student(User):
             return True
 
     def remove(self) -> bool:
-        r"""Removes this student from the database.
-        """
+        r"""Removes this student from the database."""
 
         try:
-            db.students.delete_one({'_id': ObjectId(self.id)})
+            db.students.delete_one({"_id": ObjectId(self.id)})
         except pymongo.errors.DuplicateKeyError:
             logger.exception(
-                f"The Student with the id {self.id} already exists, you should not be calling the add() method.")
+                f"The Student with the id {self.id} already exists, you should not be calling the add() method."
+            )
             return False
         except Exception as e:
             logger.exception(f"Error while removing Student {self.id}")
@@ -201,8 +198,7 @@ class Student(User):
             return True
 
     def get_assignments(self) -> List[Assignment]:
-        """Gets a list of assignments from the database for this student
-        """
+        """Gets a list of assignments from the database for this student"""
         assignments = list()
         for course_id in self.courses:
             assignments.extend(Course.get_by_id(course_id).get_assignments())
@@ -226,11 +222,7 @@ class Student(User):
 
         return course_ids
 
-    def add_submission(
-        self,
-        course_id: str,
-        submission: Submission
-    ):
+    def add_submission(self, course_id: str, submission: Submission):
         """Add a submission as this student
 
         Parameters
@@ -244,20 +236,21 @@ class Student(User):
         """
         submission.id = str(ObjectId())
 
-        dictionary = {
-            **submission.to_dict()
-        }
+        dictionary = {**submission.to_dict()}
 
         db.courses.find_one_and_update(
-            {"_id": ObjectId(course_id), "assignments._id": ObjectId(
-                submission.assignment_id)},
+            {
+                "_id": ObjectId(course_id),
+                "assignments._id": ObjectId(submission.assignment_id),
+            },
             {"$push": {"assignments.$.submissions": dictionary}},
         )
 
         # TODO: add logger
 
-        unique_submission_string = course_id + "_" + \
-            submission.assignment_id + "_" + submission.id
+        unique_submission_string = (
+            course_id + "_" + submission.assignment_id + "_" + submission.id
+        )
 
         db.students.find_one_and_update(
             {"_id": ObjectId(self.id)},
@@ -274,9 +267,9 @@ class Student(User):
         expires_sec : int
             Seconds before token expires, default to 1800
 
-        Returns 
+        Returns
         ---------
-        token : str 
+        token : str
             Token for activation
         """
         s = Serializer(current_app.config["SECRET_KEY"], expires_sec)
@@ -290,7 +283,7 @@ class Student(User):
         ----------
         token : str
 
-        Returns 
+        Returns
         ---------
         Student
         """
@@ -309,8 +302,9 @@ class Student(User):
         True if operation was successful, false if it was not
         """
         try:
-            db.students.update({"_id": ObjectId(self._id)}, {
-                               "$set": {"activated": True}})
+            db.students.update(
+                {"_id": ObjectId(self._id)}, {"$set": {"activated": True}}
+            )
             self.activated = True
             return True
         except:
@@ -329,8 +323,7 @@ class Student(User):
         """
         try:
             self.password = password
-            db.students.update({"_id": self.id}, {
-                               "$set": {"password": self.password}})
+            db.students.update({"_id": self.id}, {"$set": {"password": self.password}})
             return True
         except:
             return False

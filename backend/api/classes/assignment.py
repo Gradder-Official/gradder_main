@@ -76,7 +76,7 @@ class Assignment:
             "filenames": self.filenames,
             "estimated_time": self.estimated_time,
             "submissions": self.submissions,
-            "id": self.id
+            "id": self.id,
         }
 
     @classmethod
@@ -91,12 +91,12 @@ class Assignment:
     def id(self, id: str):
         if id is not str:
             raise InvalidTypeException(
-                f"The id provided is not a str (type provided is {type(id)}).")
+                f"The id provided is not a str (type provided is {type(id)})."
+            )
 
         try:
             ObjectId(id)
         except Exception as e:
-            raise InvalidFormatException(
-                f"Cannot convert provided id to bson.ObjectId")
+            raise InvalidFormatException(f"Cannot convert provided id to bson.ObjectId")
 
         self._id = id

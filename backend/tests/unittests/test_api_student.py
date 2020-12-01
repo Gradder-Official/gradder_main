@@ -28,8 +28,7 @@ class APIStudentDatabaseOperationsTestCase(unittest.TestCase):
 
         self.student = Student.from_dict(dictionary)
         if self.student.add():
-            self.logger.info(
-                f"Successfully created a student {self.student.id}")
+            self.logger.info(f"Successfully created a student {self.student.id}")
 
     def tearDown(self):
         if self.student.remove():
@@ -46,6 +45,5 @@ class APIStudentDatabaseOperationsTestCase(unittest.TestCase):
         self.assertIsNone(Student.get_by_id("InvalidId"))
         self.logger.info("Returned None on invalid ID")
 
-        self.assertTrue(type(Student.get_by_id(
-            self.student.id)).__name__ == 'Student')
+        self.assertTrue(type(Student.get_by_id(self.student.id)).__name__ == "Student")
         self.logger.info("Successfully retrieved a student from the database")

@@ -32,13 +32,13 @@ def add_teacher():
 
     flashes = list()
     try:
-        if not Teacher.get_by_email(request.form['email']):
+        if not Teacher.get_by_email(request.form["email"]):
             teacher = Teacher(
-                request.form['email'],
-                request.form['first_name'],
-                request.form['last_name']
+                request.form["email"],
+                request.form["first_name"],
+                request.form["last_name"],
             )
-            teacher.password(request.form['password'])
+            teacher.password(request.form["password"])
     except KeyError:
         return error("Not all fields satisfied."), 400
 
@@ -48,8 +48,7 @@ def add_teacher():
         token = teacher.get_activation_token()
         app = current_app._get_current_object()
         msg = Message(
-            app.config["MAIL_SUBJECT_PREFIX"] +
-            " " + "Account Activation Link",
+            app.config["MAIL_SUBJECT_PREFIX"] + " " + "Account Activation Link",
             sender=app.config["MAIL_SENDER"],
             recipients=[teacher.email],
         )
@@ -77,13 +76,13 @@ def add_student():
     flashes = list()
 
     try:
-        if not Student.get_by_email(request.form['email']):
+        if not Student.get_by_email(request.form["email"]):
             student = Student(
-                request.form['email'],
-                request.form['first_name'],
-                request.form['last_name']
+                request.form["email"],
+                request.form["first_name"],
+                request.form["last_name"],
             )
-            student.password(request.form['password'])
+            student.password(request.form["password"])
     except KeyError:
         return error("Not all fields satisfied"), 400
 
@@ -93,10 +92,9 @@ def add_student():
         token = current_user.get_activation_token()
         app = current_app._get_current_object()
         msg = Message(
-            app.config["MAIL_SUBJECT_PREFIX"] +
-            " " + "Account Activation Link",
+            app.config["MAIL_SUBJECT_PREFIX"] + " " + "Account Activation Link",
             sender=app.config["MAIL_SENDER"],
-            recipients=[student.email]
+            recipients=[student.email],
         )
         msg.body = f"""Here is your account activation link:
             { url_for('student.activate_account', token=token, _external=True) }
@@ -122,11 +120,9 @@ def register_courses():
     flashes = list()
 
     try:
-        if Course.get_by_department_number(request.form['number']):
+        if Course.get_by_department_number(request.form["number"]):
             course = Course(
-                request.form['department'],
-                request.form['number'],
-                request.form['name']
+                request.form["department"], request.form["number"], request.form["name"]
             )
         else:
             return error("Course already exists"), 400
@@ -156,14 +152,15 @@ def get_info_for_new_course():
     try:
         departments = db.courses.find({}, {"department": 1, "_id": 0})
         teachers = db.courses.find(
-            {}, {"name": 1, "email": 1, "department": 1, "_id": 0})
+            {}, {"name": 1, "email": 1, "department": 1, "_id": 0}
+        )
     except:
-        return error("Unknown error while getting info for departments and teachers"), 400
+        return (
+            error("Unknown error while getting info for departments and teachers"),
+            400,
+        )
 
-    return response(flashes, {
-        "departments": departments,
-        "teachers": teachers
-    }), 200
+    return response(flashes, {"departments": departments, "teachers": teachers}), 200
 
 
 @admin.route("/add-student-to-course", methods=["GET", "POST"])
@@ -178,9 +175,11 @@ def add_student_to_course():
     flashes = list()
 
     try:
-        if Student.get_by_email(request.form['email']):
-            Admin.add_student(Course.get_by_department_number(
-                request.form['number'])._id, request.form['email'])
+        if Student.get_by_email(request.form["email"]):
+            Admin.add_student(
+                Course.get_by_department_number(request.form["number"])._id,
+                request.form["email"],
+            )
         else:
             flashes.append("Account doesn't exist!")
             return response(flashes), 400
@@ -201,9 +200,11 @@ def add_teacher_to_course():
     flashes = list()
 
     try:
-        if Teacher.get_by_email(request.form['email']):
-            Admin.add_teacher(Course.get_by_department_number(
-                request.form['number'])._id, request.form['email'])
+        if Teacher.get_by_email(request.form["email"]):
+            Admin.add_teacher(
+                Course.get_by_department_number(request.form["number"])._id,
+                request.form["email"],
+            )
         else:
             flashes.append("Account doesn't exist!")
             return response(flashes), 400
@@ -236,28 +237,27 @@ def manage_courses_by_id(course_id: str):
 
     course = Course.get_by_id(course_id)
     if course:
-        if request.form.get('file'):
-            syllabus_file = request.form['file']
+        if request.form.get("file"):
+            syllabus_file = request.form["file"]
             filename = syllabus_file.filename
             blob = upload_blob(
-                uuid.uuid4().hex + "." +
-                syllabus_file.content_type.split("/")[-1],
+                uuid.uuid4().hex + "." + syllabus_file.content_type.split("/")[-1],
                 syllabus_file,
             )
             syllabus = (blob.name, filename)
             course.update_syllabus(syllabus)
             logger.info(f"Course {course._id} updated")
         Course.update(
-            request.form.get('department'),
-            request.form.get('number'),
-            request.form.get('name'),
-            request.form.get('teacher'),
-            request.form.get('teacher'),
-            request.form.get('description'),
-            request.form.get('schedule_time'),
-            request.form.get('schedule_days'),
-            request.form.get('syllabus'),
-            request.form.get('student')
+            request.form.get("department"),
+            request.form.get("number"),
+            request.form.get("name"),
+            request.form.get("teacher"),
+            request.form.get("teacher"),
+            request.form.get("description"),
+            request.form.get("schedule_time"),
+            request.form.get("schedule_days"),
+            request.form.get("syllabus"),
+            request.form.get("student"),
         )
         flashes.append("Course information successfully updated!")
         return response(flashes), 200
@@ -274,7 +274,9 @@ def add_student_to_parent():
         Flashes
     """
 
-    if Admin.add_student_to_parent(request.form['parent_id'], request.form['student_id']):
+    if Admin.add_student_to_parent(
+        request.form["parent_id"], request.form["student_id"]
+    ):
         return response(["Added student to parent"]), 200
     else:
         return error("There was an error adding this student"), 400
@@ -289,7 +291,9 @@ def remove_student_from_parent():
         Flashes
     """
 
-    if Admin.remove_student_from_parent(request.form['parent_id'], request.form['student_id']):
+    if Admin.remove_student_from_parent(
+        request.form["parent_id"], request.form["student_id"]
+    ):
         return response(["Removed student from parent"]), 200
     else:
         return error("There was an error removing this student"), 400
@@ -311,9 +315,7 @@ def get_course_info(course_id: str):
     except:
         return error("Unknown error while getting course info"), 400
 
-    return response(flashes, {
-        "course_info": course_info
-    }), 200
+    return response(flashes, {"course_info": course_info}), 200
 
 
 @admin.route("/search", methods=["GET"])
@@ -325,11 +327,11 @@ def get_names_by_search():
         Admin names
     """
     try:
-        admins = Admin.get_by_keyword(request.form['first_name'])
+        admins = Admin.get_by_keyword(request.form["first_name"])
         possible_admins = list()
         for admin in admins:
             admin_data = {
-                'full_name': admin.first_name + ' ' + admin.last_name,
+                "full_name": admin.first_name + " " + admin.last_name,
             }
             possible_admins.append(admin_data)
         return response(data={"possible_admins": possible_admins}), 200
@@ -346,6 +348,6 @@ def admin_search_info():
         Flashes, admin data
     """
     try:
-        return response(None, Admin.get_by_id(request.form['user_id'])), 200
+        return response(None, Admin.get_by_id(request.form["user_id"])), 200
     except:
         return error("There was a problem finding this user"), 404

@@ -39,7 +39,7 @@ def send_async_email(
     files : fileList, optional
         A list of tuples, each of which defines a file to attach as (filename, file_content), the default is None.
     \**kwargs : Any types
-        Keyword arguments that would be passed to the html/txt template and would be rendered in there. 
+        Keyword arguments that would be passed to the html/txt template and would be rendered in there.
     """
     app = current_app._get_current_object()
 
