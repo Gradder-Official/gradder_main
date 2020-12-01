@@ -1,0 +1,106 @@
+.login-page {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+}
+.login-background {
+    flex: 4;
+    background: linear-gradient(45deg, rgba(89,188,226,1) 35%, rgba(102,130,252,1) 100%);
+}
+.login-logo {
+    display: block;
+    width: 50%;
+    margin: 25vh auto;
+}
+.mobile-login-logo {
+    display: none;
+}
+.login-container {
+    flex: 3;
+    padding: 20px;
+    background-color: white;
+}
+.login-container h1 {
+    margin-top: 18vh;
+    font-size: 80px;
+    font-weight: bold;
+    font-family: 'Gilroy', sans-serif;
+    text-align: center;
+}
+.login-container Form {
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 6vh;
+}
+.login-container Form label {
+    font-weight: 500;
+    font-size: 1.2rem;
+}
+.login-container .form-check label {
+    font-size: inherit;
+}
+.login-container Form button {
+    width: 100%;
+    margin-top: 4vh;
+    background-color: rgb(90, 115, 226);
+    padding: 10px;
+    border: none;
+}
+.login-container Form button:hover {
+    background-color: rgb(63, 123, 201);
+}
+.login-container .error {
+    text-align: right;
+    padding: 10px;
+    color: rgb(63, 123, 201);
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+.login-container .responseError {
+    text-align: center;
+    padding: 50px;
+    color: rgb(63, 123, 201);
+}
+
+/* RESPONSIVE */
+@media screen and (max-width: 1200px) {
+    .login-logo {
+        width: 70%;
+    }
+}
+@media screen and (max-width: 1050px) {
+    .login-logo {
+        margin: 40vh auto;
+    }
+    .login-container {
+        flex: 5;
+    }
+}
+@media screen and (max-width: 750px) {
+    .login-background {
+        display: none;
+    }
+    .mobile-login-logo {
+        display: block;
+        width: 150px;
+        margin: 0 auto;
+        margin-top: 50px;
+    }
+    .login-container h1 {
+        margin-top: 5vh;
+        font-size: 60px;
+    }
+    .login-container Form button {
+        background: linear-gradient(90deg, rgba(89,188,226,1) 35%, rgba(102,130,252,1) 100%);
+    }
+}
+@media screen and (max-width: 500px) {
+    .mobile-login-logo {
+        width: 20vh;
+        margin-top: 5vh;
+    }
+    .login-container h1 {
+        font-size: 50px;
+    }
+}

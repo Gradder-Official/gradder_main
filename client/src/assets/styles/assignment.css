@@ -1,0 +1,54 @@
+/* Override default quill.js font */
+.quill > * {
+  font-family: "SF UI Text", sans-serif !important;
+}
+
+.ql-editor > h1,
+.ql-editor > h2,
+.ql-editor > h3,
+.ql-editor > h4,
+.ql-editor > h5,
+.ql-editor > h6 {
+    padding-bottom: 0.5em;
+}
+
+#assignment-display .dash-container {
+  min-height: calc(100% - 50px - 20px);
+  max-height: max-content;
+}
+
+.quill {
+  flex-grow: 1;
+}
+
+.ql-container {
+  height: calc(100% - 40px);
+}
+
+.ql-editor {
+  /* Bump up font size very slightly to be more readable */
+  font-size: 115%;
+}
+
+.material-icons {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+.submission-content .ql-editor {
+  max-height: 75px;
+  overflow: hidden;
+  content: "";
+  position: relative;
+}
+
+.submission-content .ql-editor:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: linear-gradient(transparent 60px, white)
+}

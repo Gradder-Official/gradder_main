@@ -1,0 +1,110 @@
+/* Assignment preview */
+.assignments {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.assignment-card {
+    border: none;
+    border-radius: 20px;
+    padding: 30px;
+    font-family: 'SF UI Text', sans-serif;
+    background: white;
+    margin: 20px;
+    text-decoration: none;
+    color: black;
+    height: fit-content;
+}
+.assignment-card:hover {
+    text-decoration: none;
+    color: black;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.3);
+}
+.assignment-card .card-title {
+    font-size: 28px;
+    color: black;
+    font-weight: bold;
+    line-height: 1.5;
+    padding-right: 20px;
+}
+.assignment-card .assignment-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* margin-top: 20px; */
+}
+.assignment-card .subject-badge {
+    font-size: 15px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    justify-content: flex-end;
+    align-items: flex-end;
+    width: fit-content;
+    height: fit-content;
+    background-color: rgb(76, 102, 212);
+    margin-bottom: 0;
+    color: white;
+}
+.assignment-card .assignment-deadline {
+    text-align: left;
+    width: 50%;
+    height: min-content;
+    margin-bottom: 0;
+}
+
+/* Preview on dashboard */
+.assignments-preview {
+    display: flex;
+    flex-direction: row;
+    background: rgb(232, 232, 232);
+    border-radius: 20px;
+    margin-top: 10px;
+    margin-left: 10px !important;
+}
+@media (max-width: 992px) {
+    .assignments-preview{
+        width:fit-content;
+    }
+}
+.assignments-preview .assignment-card {
+    /*max-width: 30%;*/
+    margin: 15px;
+    padding: 20px;
+    max-height: 150px;
+    background: rgb(244, 244, 244);
+}
+#student-overview .assignments-preview .assignment-card .assignment-info {
+    flex-direction: column;
+    margin-top: 15px;
+}
+#student-overview .assignments-preview .assignment-card .assignment-info p {
+    font-size: 12px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.assignments-preview .assignment-card .assignment-deadline {
+    justify-content: flex-end;
+    align-items: flex-end;
+    text-align: left;
+}
+#student-overview .assignments-preview .assignment-card .card-title {
+    font-size: 15px;
+}
+/* Responsive */
+@media screen and (max-width: 1000px) {
+}
+@media screen and (max-width: 720px) {
+}
+@media screen and (max-width: 500px) {
+    .assignment-card .card-title {
+        font-size: 20px;
+    }
+    .assignment-card .assignment-info {
+        flex-direction: column;
+    }
+    .assignment-card .assignment-deadline {
+        width: 100%;
+        text-align: left;
+    }
+}

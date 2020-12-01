@@ -1,0 +1,240 @@
+/* Dashboard content */
+.dash-content {
+    position: absolute;
+    left: 230px;
+    padding: 10px 20px;
+    height: 100vh;
+    width: 84vw;
+    border-radius: 20px 0 0 20px;
+    background: whitesmoke;
+    z-index: 100;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.dash-container {
+    border-radius: 20px;
+    background: white;
+    margin: 20px;
+    padding: 25px;
+    flex-grow: 1;
+    min-width: 300px;
+    min-height: 25vh;
+}
+.dash-container h5 {
+    font-family: 'Gilroy', sans-serif;
+    font-weight: bold;
+}
+.dash-header {
+    margin: 10px;
+    padding: 20px 30px;
+    border-bottom: 5px solid rgb(76, 102, 212) !important;
+}
+.dash-header h1 {
+    font-family: "Gilroy", sans-serif;
+    font-weight: bold;
+}
+
+/* Student dashboard */
+.dash-flex-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    min-height: 30vh;
+}
+.dash-content .statistics {
+    flex-grow: 3;
+}
+#student-overview .profile {
+    background-color: #5a73e2 !important;
+    max-width: 30vw;
+    height: 10vh;
+    min-height: 165px;
+    flex-grow: 2;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+#student-overview .profile-details h2 {
+    margin-top: 3.5vh;
+    margin-left: 5px;
+    font-size: 35px;
+}
+#student-overview .profile-details img {
+    width: 90px;
+    height: 90px;
+    border: 4px solid #5a73e2;
+    border-radius: 30%;
+    margin-top: 2vh;
+    margin-left: 20px;
+}
+#student-overview .timetable {
+    height: 70vh;
+    flex-grow: 1;
+}
+.dash-flex-col {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 4;
+}
+.dash-content .assignments {
+    flex-grow: 3;
+    display: flex;
+    max-height: 30vh;
+    flex-direction: column;
+}
+.dash-content .courses {
+    flex-grow: 3;
+    display: flex;
+    flex-direction: column;
+    max-width: -webkit-fill-available;
+}
+.dash-content .grades {
+    flex-grow: 2;
+}
+
+/* Teacher */
+.student-list-dash {
+    display: flex;
+    flex-direction: column;
+    background: whitesmoke;
+    padding: 15px;
+    border-radius: 20px;
+    margin-top: 20px;
+    height: 90%;
+}
+.no-students {
+    background: white;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    height: 100px;
+}
+.courses-wrapper {
+    display: flex;
+    flex-direction: row;
+    background: whitesmoke;
+    padding: 10px 0;
+    border-radius: 20px;
+    margin-top: 10px;
+}
+.teacher-dash-courses-container {
+    border-radius: 20px;
+    min-width: 10vw;
+    margin: 0 10px;
+    padding: 15px;
+    background: white;
+    overflow: hidden;
+}
+.teacher-dash-courses-container h1 {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+.teacher-dash-courses-container h3 {
+    font-size: 14px;
+    font-weight: 400;
+    margin: 20px 0;
+}
+.teacher-dash-courses-container p {
+    font-size: 12px;
+    margin: 10px 0;
+}
+/* Responsiveness */
+@media screen and (max-width: 1250px) and (min-width: 1150px) {
+    .teacher-dash-courses-container p {
+        font-size: 10px;
+    }
+}
+@media screen and (max-width: 1185px) {
+    .dash-content .profile-time {
+        font-size: small;
+    }
+}
+@media screen and (max-width: 1150px) and (min-width: 1000px) {
+    .dash-content .profile-details h2 {
+        margin-top: 0vh !important;
+    }
+    .teacher-dash-courses-container p {
+        display:  none;
+    }
+}
+@media screen and (max-width: 1000px) {
+    .dash-content {
+        position: absolute;
+        right: 0;
+        left: auto;
+        width: 78vw;
+    }
+    .dash-content .dash-flex-row {
+        flex-direction: column-reverse;
+        width: 100%;
+    }
+    .dash-content .dash-container {
+        max-width: none;
+    }
+    .dash-content .profile {
+        margin-bottom: 7vh;
+        max-width: none !important;
+    }
+    .teacher-dash-courses-container {
+        margin: 10px 20px;
+    }
+}
+@media screen and (max-width: 800px) {
+    .dash-content {
+        position: absolute;
+        right: auto;
+        left: 12vw;
+        width: 88vw;
+    }
+    .dash-content .profile-details h2 {
+        margin-top: 0vh !important;
+    }
+}
+@media screen and (max-width: 500px) {
+    .dash-content {
+        left: 50px;
+        height: fit-content;
+        min-height: 100vh;
+    }
+    .dash-content .dash-container {
+        min-width: auto;
+        height: fit-content;
+        margin: 10px;
+        display: flex;
+        flex-direction: column;
+        max-height: none;
+    }
+    .dash-content .profile {
+        min-width: 0 !important;
+        flex-direction: column-reverse !important;
+        height: fit-content !important;
+    }
+    .dash-content .profile-details {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .dash-content .profile-time h1 {
+        margin-top: 5vh;
+    }
+    .dash-content .profile img {
+        width: 45%;
+        height: 45%;
+    }
+    .dash-content .profile-details h2 {
+        margin-top: 0px;
+        font-size: 30px;
+    }
+    .teacher-dash-courses-container {
+        margin-top: 20px;
+    }
+}
+@media screen and (max-height: 670px) {
+    .dash-content {
+        min-height: 105vh;
+    }
+}

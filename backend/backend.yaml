@@ -1,0 +1,7 @@
+runtime: python
+env: flex
+service: backend
+entrypoint: gunicorn -b :$PORT --log-level debug --timeout 90 --workers 4 --threads 4 gradder:app
+
+runtime_config:
+  python_version: 3
