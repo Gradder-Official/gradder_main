@@ -1,7 +1,8 @@
-from google.cloud import storage
-from datetime import datetime, timedelta
+from datetime import datetime
+from datetime import timedelta
 
 from api import root_logger as logger
+from google.cloud import storage
 
 
 def upload_blob(filename: str, file_obj):
@@ -31,6 +32,5 @@ def get_signed_url(filename):
 
     logger.info(f"File {filename} opened from assignment")
 
-    return blob.generate_signed_url(
-        expiration=datetime.utcnow() + timedelta(seconds=3600)
-    )
+    return blob.generate_signed_url(expiration=datetime.utcnow() +
+                                    timedelta(seconds=3600))

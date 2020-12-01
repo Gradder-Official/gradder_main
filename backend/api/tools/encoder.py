@@ -1,5 +1,6 @@
-from flask.json import JSONEncoder
 from bson import ObjectId
+from flask.json import JSONEncoder
+
 
 class JSONImproved(JSONEncoder):
     def default(self, obj):
@@ -17,7 +18,7 @@ class JSONImproved(JSONEncoder):
         """
         if isinstance(obj, ObjectId):
             return str(obj)
-        elif hasattr(obj, 'to_dict'):
+        elif hasattr(obj, "to_dict"):
             return obj.to_dict()
         else:
             return obj

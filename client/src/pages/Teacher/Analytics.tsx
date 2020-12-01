@@ -80,9 +80,9 @@ const TeacherAnalytics: FunctionComponent<teacher> = ({ userName, userType, logg
 
         let assignmentHistoryDict = chosenCourseAnalytics.assignment_history
         let assignmentScoresDict = chosenCourseAnalytics.assignment_history.assignment_scores
-        
+
         assignmentScoresDict.map((assignment_score: Dictionary) => (
-            chosenCourseAssignmentScores.push({ 
+            chosenCourseAssignmentScores.push({
                 "student": assignment_score.student,
                 "score": assignment_score.score
             })

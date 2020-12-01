@@ -3,10 +3,10 @@ This includes student dashboard, viewing assignments, submitting assignments, et
 """
 from flask import Blueprint
 
+from . import routes
+
 student = Blueprint(
     "student",
     __name__,
     url_prefix="/api/student",
 )
-
-from . import routes

@@ -1,12 +1,13 @@
-from flask import abort
 from functools import wraps
+
+from flask import abort
 from flask_login import current_user
 
 
 def required_access(people: list):
     r"""Checks if current user has access to view a specific endpoint.
-    The common use case is to put it after @[blueprint].before_request to check that every 
-    endpoint in a specific blueprint can be accessed only by the desired types of users. 
+    The common use case is to put it after @[blueprint].before_request to check that every
+    endpoint in a specific blueprint can be accessed only by the desired types of users.
     If the type of flask_login.current_user is not in people, raises the 403 forbidden error.
     Parameters
     ----------

@@ -1,13 +1,21 @@
 from __future__ import annotations
-from typing import Union, Dict, Optional, List
-from bcrypt import hashpw, gensalt, checkpw
-from flask_login import UserMixin
-from bson import ObjectId
+
 import datetime
 import re
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Union
 
-from api.tools.exceptions import InvalidTypeException, InvalidFormatException
 from api import root_logger as logger
+from api.tools.exceptions import InvalidFormatException
+from api.tools.exceptions import InvalidTypeException
+from bcrypt import checkpw
+from bcrypt import gensalt
+from bcrypt import hashpw
+from bson import ObjectId
+from flask_login import UserMixin
+
 from . import CalendarEvent
 
 
@@ -35,17 +43,17 @@ class User(UserMixin):
     _activated: bool
 
     def __init__(
-        self,
-        email: str,
-        first_name: str,
-        last_name: str,
-        bio: Optional[str] = None,
-        date_of_birth: Optional[str] = None,
-        profile_picture: Optional[str] = None,
-        _id: Optional[str] = None,
-        password: Optional[Union[str, bytes]] = None,
-        calendar: Optional[List[CalendarEvent]] = None,
-        activated: Optional[bool] = None
+            self,
+            email: str,
+            first_name: str,
+            last_name: str,
+            bio: Optional[str] = None,
+            date_of_birth: Optional[str] = None,
+            profile_picture: Optional[str] = None,
+            _id: Optional[str] = None,
+            password: Optional[Union[str, bytes]] = None,
+            calendar: Optional[List[CalendarEvent]] = None,
+            activated: Optional[bool] = None,
     ):
         r"""Init function for a generic User class.
 
@@ -79,14 +87,13 @@ class User(UserMixin):
         return f"<User {self.id}>"
 
     def to_dict(self) -> Dict[str, str]:
-        r"""Converts the object to a dictionary.
-        """
+        r"""Converts the object to a dictionary."""
         dictionary = {
             "email": self.email,
             "first_name": self.first_name,
             "last_name": self.last_name,
             "password": self.password,
-            "activated": self.activated
+            "activated": self.activated,
         }
 
         try:
@@ -98,11 +105,12 @@ class User(UserMixin):
 
     @classmethod
     def from_dict(cls, dictionary: dict) -> User:
-        r"""Creates a new User object from the dictionary.
-        """
+        r"""Creates a new User object from the dictionary."""
         if "calendar" in dictionary:
-            dictionary["calendar"] = [CalendarEvent.from_dict(i) for i in dictionary["calendar"]]
-        
+            dictionary["calendar"] = [
+                CalendarEvent.from_dict(i) for i in dictionary["calendar"]
+            ]
+
         return cls(**dictionary)
 
     @property
@@ -117,8 +125,8 @@ class User(UserMixin):
             )
 
         if not re.match(
-            r"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", email
-        ):
+                r"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$",
+                email):
             raise InvalidFormatException(
                 f"The email given is not in a valid email format (got {email})"
             )
@@ -145,14 +153,13 @@ class User(UserMixin):
 
     @property
     def password(self) -> str:
-        r"""Returns the hash of the password.
-        """
+        r"""Returns the hash of the password."""
         return self._password
 
     @password.setter
     def password(self, password: str):
         r"""The setter method for the password.
-        
+
         Parameters
         ----------
         password : str
@@ -166,12 +173,11 @@ class User(UserMixin):
 
         # The password's length is limited to 50 in the endpoint, so if it is larger and matches regex, it is a hash
         # If any of the conditions are not met, this as a new password, so we encode and hash it
-        
+
         # The hashed password should never begin with $2a$ or $2y$, but better to be safe
         # than sorry :D
-        if not (isinstance(password, bytes) and \
-                password.startswith((b'$2a$', b'$2b$', b'$2y$')) and \
-                len(password) == 60):
+        if not (isinstance(password, bytes) and password.startswith(
+            (b"$2a$", b"$2b$", b"$2y$")) and len(password) == 60):
             password = hashpw(password.encode("utf-8"), gensalt(prefix=b"2b"))
 
         self._password = password
@@ -179,11 +185,13 @@ class User(UserMixin):
     @property
     def activated(self) -> bool:
         return self._activated
-    
+
     @activated.setter
     def activated(self, activated: bool):
         if not isinstance(activated, bool):
-            raise InvalidTypeException(f"The activated provided is not a bool (type provided is {type(activated)})")
+            raise InvalidTypeException(
+                f"The activated provided is not a bool (type provided is {type(activated)})"
+            )
 
         self._activated = activated
 
@@ -205,8 +213,7 @@ class User(UserMixin):
                 id = str(id)
         except Exception as e:
             raise InvalidFormatException(
-                f"Cannot convert provided id to bson.ObjectId"
-            )
+                f"Cannot convert provided id to bson.ObjectId")
 
         self._id = id
 
@@ -246,15 +253,13 @@ class User(UserMixin):
             )
 
         if not re.match(
-            r'[\w \.\+\(\)\[\]\{\}\?\*\&\^\%\$\#\/\'"~<>,:;!-_=@]{1,100}',
-            bio,
-            flags=re.UNICODE,
+                r'[\w \.\+\(\)\[\]\{\}\?\*\&\^\%\$\#\/\'"~<>,:;!-_=@]{1,100}',
+                bio,
+                flags=re.UNICODE,
         ):
             raise InvalidFormatException(
-                r"The format for bio doesn't match. Expected '[\w \.\+\(\)\[\]\{\}\?\*\&\^\%\$\#\/\'\"~<>,:;!-_=@]{1, 500}', got {bio}".format(
-                    bio=bio
-                )
-            )
+                r"The format for bio doesn't match. Expected '[\w \.\+\(\)\[\]\{\}\?\*\&\^\%\$\#\/\'\"~<>,:;!-_=@]{1, 500}', got {bio}"
+                .format(bio=bio))
 
         self._bio = bio
 
@@ -309,9 +314,9 @@ class User(UserMixin):
         expires_sec : int
             Seconds before token expires, default to 1800
 
-        Returns 
+        Returns
         ---------
-        token : str 
+        token : str
             Token for activation
         """
         s = Serializer(current_app.config["SECRET_KEY"], expires_sec)
@@ -325,7 +330,7 @@ class User(UserMixin):
         ----------
         token : str
 
-        Returns 
+        Returns
         ---------
         User
         """

@@ -98,7 +98,7 @@ const App: FunctionComponent = () => {
         <ProtectedRoute userType={userType} scope="teacher" exact path="/teacher/analytics" render={(props: any) => (
           <TeacherAnalytics {...props} userName={userName} userType={userType} loggedIn={loggedIn} dob={dob} />
         )} />
-        
+
         <Route exact path="/student/assignment/:id" render={(props) => (
             <AssignmentDisplay {...props}/>
         )}/>

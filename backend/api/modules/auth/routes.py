@@ -1,13 +1,22 @@
 from typing import Union
 
-from flask import current_app, request, url_for
-from flask_login import current_user, login_required, login_user, logout_user
-
 from api import login_manager
 from api import root_logger as logger
-from api.classes import Admin, Parent, Student, Teacher, User
+from api.classes import Admin
+from api.classes import Parent
+from api.classes import Student
+from api.classes import Teacher
+from api.classes import User
 from api.tools.dictionaries import TYPE_DICTIONARY
-from api.tools.factory import error, response
+from api.tools.factory import error
+from api.tools.factory import response
+from flask import current_app
+from flask import request
+from flask import url_for
+from flask_login import current_user
+from flask_login import login_required
+from flask_login import login_user
+from flask_login import logout_user
 
 from . import auth
 
@@ -72,7 +81,8 @@ def login():
         remember_me = req_data["remember_me"]
 
         for scope in [Student, Teacher, Admin, Parent]:
-            logger.info(f"Trying to find {scope.__name__} with email {email}...")
+            logger.info(
+                f"Trying to find {scope.__name__} with email {email}...")
             user = scope.get_by_email(email)
             if user is not None:
                 logger.info(f"User: {user.first_name}")
@@ -83,12 +93,21 @@ def login():
                     )
 
                     current_user_info = {
-                        "userName": current_user.first_name + " " + current_user.last_name,
+                        "userName":
+                        current_user.first_name + " " + current_user.last_name,
                         "userType": current_user._type,
                         "loggedIn": True,
                         "dob": "",
                     }
-                    return response(flashes=["Log in succesful! Redirecting to dashboard..."], user_info=current_user_info), 200
+                    return (
+                        response(
+                            flashes=[
+                                "Log in succesful! Redirecting to dashboard..."
+                            ],
+                            user_info=current_user_info,
+                        ),
+                        200,
+                    )
 
                 logger.info(
                     f"Failed to validate the password for the {scope.__name__} with email {email}"
@@ -114,11 +133,8 @@ def logout():
     dict
         The view response
     """
-    logger.info(
-        "LOGGED OUT: {} {} - ACCESS: {}".format(
-            current_user.first_name, current_user.last_name, current_user._type
-        )
-    )
+    logger.info("LOGGED OUT: {} {} - ACCESS: {}".format(
+        current_user.first_name, current_user.last_name, current_user._type))
     logout_user()
     return response(["You have been logged out"]), 200
 
@@ -181,7 +197,8 @@ def request_password_reset():
         The view response
     """
     if current_user.is_authenticated:
-        return error(f"Wrong route, use {url_for('auth.change_password')}."), 303
+        return error(
+            f"Wrong route, use {url_for('auth.change_password')}."), 303
 
     try:
         email = request.form["email"].lower()
@@ -189,7 +206,8 @@ def request_password_reset():
     except KeyError:
         return error("Not all fields satisfied"), 400
     else:
-        return response(["An email has been sent to reset your password."]), 200
+        return response(["An email has been sent to reset your password."
+                         ]), 200
 
 
 @auth.route("/request-password-reset/<string:token>", methods=["POST"])
@@ -207,7 +225,8 @@ def password_reset(token: str):
         The view response
     """
     if current_user.is_authenticated:
-        return error(f"Wrong route, use {url_for('auth.change_password')}."), 303
+        return error(
+            f"Wrong route, use {url_for('auth.change_password')}."), 303
 
     user = User.verify_reset_token(token)
     if user is None:

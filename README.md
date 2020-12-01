@@ -14,8 +14,11 @@ Official repo for Gradder: an AI-driven platform for smart grade management.
 
 **Guidelines**
 
-For the coding guidelines and explained application structure, please check out our Notion.
+For the coding guidelines and explained application structure, please check out
+our Notion.
 
 **Authors**
 
-Alex Nikanov, Shrey Gupta, Michelle Lo, Karthik Bhargav, Jacob MacKenzie-Websdale, Aryan Kumawat, Safin Singh, Michael Wang, Lakshita Jain, Varun Chilukuri, Hanzhang Luo.
+Alex Nikanov, Shrey Gupta, Michelle Lo, Karthik Bhargav, Jacob
+MacKenzie-Websdale, Aryan Kumawat, Safin Singh, Michael Wang, Lakshita Jain,
+Varun Chilukuri, Hanzhang Luo.

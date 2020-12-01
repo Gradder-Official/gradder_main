@@ -1,4 +1,5 @@
-from typing import List, Dict
+from typing import Dict
+from typing import List
 
 
 def response(flashes: List[str] = [], forms: Dict = {}, **kwargs) -> dict:

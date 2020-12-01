@@ -1,24 +1,28 @@
 from __future__ import annotations
-from typing import Dict, List, Tuple
-from bson import ObjectId
+
+from typing import Dict
+from typing import List
+from typing import Tuple
 
 from api import db
 from api import root_logger as logger
+from bson import ObjectId
 
-from . import User, Student
+from . import Student
+from . import User
 
 
 class Parent(User):
-    _type = 'Parent'  # Immutable
+    _type = "Parent"  # Immutable
 
     def __init__(
-        self,
-        email: str,
-        first_name: str,
-        last_name: str,
-        children: List[str] = None,
-        _id: str = None,
-        calendar: Optional[List[CalendarEvent]] = None
+            self,
+            email: str,
+            first_name: str,
+            last_name: str,
+            children: List[str] = None,
+            _id: str = None,
+            calendar: Optional[List[CalendarEvent]] = None,
     ):
         """Initialises a user of Parent type
 
@@ -37,15 +41,18 @@ class Parent(User):
         """
 
         super().__init__(
-            email=email, first_name=first_name, last_name=last_name, id=_id, calendar=calendar
+            email=email,
+            first_name=first_name,
+            last_name=last_name,
+            id=_id,
+            calendar=calendar,
         )
 
     def __repr__(self):
         return f"<Parent {self._id}>"
 
     def to_dict(self) -> Dict[str, str]:
-        r"""A representation of the object in a dictionary format.
-        """
+        r"""A representation of the object in a dictionary format."""
         dict_user = super().to_dict()
         try:
             dict_user["children"] = self.children
@@ -53,7 +60,7 @@ class Parent(User):
             pass
 
         return dict_user
-    
+
     @staticmethod
     def from_dict(dictionary: dict) -> Parent:
         r"""Creates a Parent from a dictionary.
@@ -68,11 +75,13 @@ class Parent(User):
         """
         if dictionary is None:
             return None
-            
+
         try:
             return Parent(**dictionary)
         except Exception as e:
-            logger.exception(f"Error while generating a Parent from dictionary {dictionary}")
+            logger.exception(
+                f"Error while generating a Parent from dictionary {dictionary}"
+            )
             return None
 
     @staticmethod
@@ -95,8 +104,8 @@ class Parent(User):
 
     @staticmethod
     def get_by_email(email: str) -> Parent:
-        r""" Returns Parent with a specified email.
-        
+        r"""Returns Parent with a specified email.
+
         Parameters
         ---------
         email : str

@@ -39,8 +39,8 @@
     background-color: #5a73e2;
     border: none;
 }
-.fc .fc-button:hover, 
-.fc .fc-button-primary:not(:disabled):active, 
+.fc .fc-button:hover,
+.fc .fc-button-primary:not(:disabled):active,
 .fc .fc-button-primary:not(:disabled).fc-button-active {
     background-color: rgb(76, 102, 212) !important;
 }

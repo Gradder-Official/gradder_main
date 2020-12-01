@@ -1,15 +1,13 @@
+from config import config
 from flask import Flask
+from flask_cors import CORS
 from flask_login import LoginManager
 from flask_mail import Mail
-from flask_cors import CORS
 
-from config import config
-
-from .tools.encoder import JSONImproved
-from .tools.db import DB
 from .classes import SchoolConfig
+from .tools.db import DB
+from .tools.encoder import JSONImproved
 from .tools.logger import logger
-
 
 login_manager = LoginManager()
 login_manager.login_view = "auth.login"
@@ -37,25 +35,31 @@ def create_app(config_name):
     school_config = SchoolConfig()
 
     global root_logger
-    root_logger = logger[config_name]()  # Creates a logger relevant to the app environment
+    # Creates a logger relevant to the app environment
+    root_logger = logger[config_name]()
 
     login_manager.init_app(app)
     mail.init_app(app)
 
     with app.app_context():
         from .modules.auth import auth as auth_blueprint
+
         app.register_blueprint(auth_blueprint)
 
         from .modules.student import student as student_blueprint
+
         app.register_blueprint(student_blueprint)
 
         from .modules.parent import parent as parent_blueprint
+
         app.register_blueprint(parent_blueprint)
 
         from .modules.admin import admin as admin_blueprint
+
         app.register_blueprint(admin_blueprint)
 
         from .modules.teacher import teacher as teacher_blueprint
+
         app.register_blueprint(teacher_blueprint)
 
         return app

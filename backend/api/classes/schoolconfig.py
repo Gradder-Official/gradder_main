@@ -1,11 +1,15 @@
 from __future__ import annotations
-from typing import List, Optional, Union
-from bson import ObjectId
+
 import re
+from typing import List
+from typing import Optional
+from typing import Union
 
 from api import db
 from api import root_logger as logger
-from api.tools.exceptions import InvalidFormatException, InvalidTypeException
+from api.tools.exceptions import InvalidFormatException
+from api.tools.exceptions import InvalidTypeException
+from bson import ObjectId
 
 
 class SchoolConfig:
@@ -22,18 +26,18 @@ class SchoolConfig:
     _id: str
 
     def __init__(
-        self,
-        school_name: Optional[str] = None,
-        school_address: Optional[str] = None,
-        phone_number: Optional[str] = None,
-        school_email: Optional[str] = None,
-        principal: Optional[str] = None,
-        principal_email: Optional[str] = None,
-        departments: Optional[list] = None,
-        department_description: Optional[list] = None,
-        grade_weights: Optional[bool] = None,
-        grading: Optional[list] = None,
-        _id: str = None,
+            self,
+            school_name: Optional[str] = None,
+            school_address: Optional[str] = None,
+            phone_number: Optional[str] = None,
+            school_email: Optional[str] = None,
+            principal: Optional[str] = None,
+            principal_email: Optional[str] = None,
+            departments: Optional[list] = None,
+            department_description: Optional[list] = None,
+            grade_weights: Optional[bool] = None,
+            grading: Optional[list] = None,
+            _id: str = None,
     ):
         """
         Helps with SchoolConfig
@@ -100,8 +104,7 @@ class SchoolConfig:
                 id = str(id)
         except Exception as e:
             raise InvalidFormatException(
-                f"Cannot convert provided id to bson.ObjectId: {e}"
-            )
+                f"Cannot convert provided id to bson.ObjectId: {e}")
 
         self._id = id
 
@@ -165,10 +168,10 @@ class SchoolConfig:
                 f"The school email provided is not a str (type provided is {type(school_email)})."
             )
 
-        if not re.match(r"^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$", school_email):
+        if not re.match(r"^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$",
+                        school_email):
             raise InvalidTypeException(
-                f"The school email provided is not a valid email."
-            )
+                f"The school email provided is not a valid email.")
 
         self._school_email = school_email
 
@@ -206,10 +209,10 @@ class SchoolConfig:
                 f"The principal's email provided is not a str (type provided is {type(principal_email)})."
             )
 
-        if not re.match(r"^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$", principal_email):
+        if not re.match(r"^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$",
+                        principal_email):
             raise InvalidTypeException(
-                "The principal's email provided is not a valid email."
-            )
+                "The principal's email provided is not a valid email.")
 
         self._principal_email = principal_email
 
@@ -305,14 +308,18 @@ class SchoolConfig:
         """
         try:
             self.school_name = school_name
-            db.general_info.find_one_and_update(
-                {"_id": self.id, "$set": {"school_name": self.school_name}}
-            )
+            db.general_info.find_one_and_update({
+                "_id": self.id,
+                "$set": {
+                    "school_name": self.school_name
+                }
+            })
 
             return True
 
         except Exception as e:
-            logger.exception(f"Error while updating school name {school_name}: {e}")
+            logger.exception(
+                f"Error while updating school name {school_name}: {e}")
 
             return False
 
@@ -330,16 +337,18 @@ class SchoolConfig:
         """
         try:
             self.school_address = school_address
-            db.general_info.find_one_and_update(
-                {"_id": self.id, "$set": {"school_address": self.school_address}}
-            )
+            db.general_info.find_one_and_update({
+                "_id": self.id,
+                "$set": {
+                    "school_address": self.school_address
+                }
+            })
 
             return True
 
         except Exception as e:
             logger.exception(
-                f"Error while updating school adresss {school_address}: {e}"
-            )
+                f"Error while updating school adresss {school_address}: {e}")
 
             return False
 
@@ -357,9 +366,12 @@ class SchoolConfig:
         """
         try:
             self.phone_number = phone_number
-            db.general_info.find_one_and_update(
-                {"_id": self.id, "$set": {"phone_number": self.phone_number}}
-            )
+            db.general_info.find_one_and_update({
+                "_id": self.id,
+                "$set": {
+                    "phone_number": self.phone_number
+                }
+            })
 
             return True
 
@@ -384,14 +396,18 @@ class SchoolConfig:
         """
         try:
             self.school_email = school_email
-            db.general_info.find_one_and_update(
-                {"_id": self.id, "$set": {"school_email": self.school_email}}
-            )
+            db.general_info.find_one_and_update({
+                "_id": self.id,
+                "$set": {
+                    "school_email": self.school_email
+                }
+            })
 
             return True
 
         except Exception as e:
-            logger.exception(f"Error while updating school email {school_email}: {e}")
+            logger.exception(
+                f"Error while updating school email {school_email}: {e}")
 
             return False
 
@@ -409,14 +425,18 @@ class SchoolConfig:
         """
         try:
             self.principal = principal
-            db.general_info.find_one_and_update(
-                {"_id": self.id, "$set": {"principal": self.principal}}
-            )
+            db.general_info.find_one_and_update({
+                "_id": self.id,
+                "$set": {
+                    "principal": self.principal
+                }
+            })
 
             return True
 
         except Exception as e:
-            logger.exception(f"Error while updating principal {principal}: {e}")
+            logger.exception(
+                f"Error while updating principal {principal}: {e}")
 
             return False
 
@@ -434,9 +454,12 @@ class SchoolConfig:
         """
         try:
             self.principal_email = principal_email
-            db.general_info.find_one_and_update(
-                {"_id": self.id, "$set": {"principal_email": self.principal_email}}
-            )
+            db.general_info.find_one_and_update({
+                "_id": self.id,
+                "$set": {
+                    "principal_email": self.principal_email
+                }
+            })
 
             return True
 
@@ -461,18 +484,23 @@ class SchoolConfig:
         """
         try:
             self.departments = departments
-            db.general_info.find_one_and_update(
-                {"_id": self.id, "$set": {"departments": self.departments}}
-            )
+            db.general_info.find_one_and_update({
+                "_id": self.id,
+                "$set": {
+                    "departments": self.departments
+                }
+            })
 
             return True
 
         except Exception as e:
-            logger.exception(f"Error while updating departments {departments}: {e}")
+            logger.exception(
+                f"Error while updating departments {departments}: {e}")
 
             return False
 
-    def update_department_description(self, department_description: list) -> bool:
+    def update_department_description(self,
+                                      department_description: list) -> bool:
         r"""Updates the department descriptions.
 
         Parameters
@@ -486,12 +514,12 @@ class SchoolConfig:
         """
         try:
             self.department_description = department_description
-            db.general_info.find_one_and_update(
-                {
-                    "_id": self.id,
-                    "$set": {"department_description": self.department_description},
-                }
-            )
+            db.general_info.find_one_and_update({
+                "_id": self.id,
+                "$set": {
+                    "department_description": self.department_description
+                },
+            })
 
             return True
 
@@ -516,14 +544,18 @@ class SchoolConfig:
         """
         try:
             self.grade_weights = grade_weights
-            db.general_info.find_one_and_update(
-                {"_id": self.id, "$set": {"grade_weights": self.grade_weights}}
-            )
+            db.general_info.find_one_and_update({
+                "_id": self.id,
+                "$set": {
+                    "grade_weights": self.grade_weights
+                }
+            })
 
             return True
 
         except Exception as e:
-            logger.exception(f"Error while updating grade weights {grade_weights}: {e}")
+            logger.exception(
+                f"Error while updating grade weights {grade_weights}: {e}")
 
             return False
 
@@ -541,14 +573,18 @@ class SchoolConfig:
         """
         try:
             self.grading = grading
-            db.general_info.find_one_and_update(
-                {"_id": self.id, "$set": {"grading": self.grading}}
-            )
+            db.general_info.find_one_and_update({
+                "_id": self.id,
+                "$set": {
+                    "grading": self.grading
+                }
+            })
 
             return True
 
         except Exception as e:
-            logger.exception(f"Error while updating grading system {grading}: {e}")
+            logger.exception(
+                f"Error while updating grading system {grading}: {e}")
 
             return False
 
@@ -590,14 +626,16 @@ class SchoolConfig:
             "departments": self.update_departments,
             "department_description": self.update_department_description,
             "grade_weights": self.update_grade_weights,
-            "grading": self.update_grading
+            "grading": self.update_grading,
         }
 
         # Go through all the parameters that are None
         for key, value in kwargs.items():
             response = PARAMETER_TO_METHOD[key](value)
             if not response:
-                logger.exception(f"Error while updating school information attribute:{parameter} value:{value}")
+                logger.exception(
+                    f"Error while updating school information attribute:{parameter} value:{value}"
+                )
                 return False
 
         return True

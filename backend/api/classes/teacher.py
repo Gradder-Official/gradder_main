@@ -1,32 +1,37 @@
 from __future__ import annotations
-from typing import Dict, List, Tuple, Union, Optional
-from bson import ObjectId
+
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Tuple
+from typing import Union
 
 import pymongo
-
 from api import db
 from api import root_logger as logger
-from . import User, CalendarEvent
+from bson import ObjectId
+
+from . import CalendarEvent
+from . import User
 
 
 class Teacher(User):
     _type = "Teacher"  # Immutable
 
     def __init__(
-        self,
-        email: str,
-        first_name: str,
-        last_name: str,
-        password: Optional[Union[bytes, str]] = None,
-        courses: Optional[list] = None,
-        bio: Optional[str] = None,
-        date_of_birth: Optional[str] = None,
-        profile_picture: Optional[str] = None,
-        _id: Optional[Union[ObjectId, str]] = None,
-        activated: Optional[bool] = None,
-        calendar: Optional[List[CalendarEvent]] = None
+            self,
+            email: str,
+            first_name: str,
+            last_name: str,
+            password: Optional[Union[bytes, str]] = None,
+            courses: Optional[list] = None,
+            bio: Optional[str] = None,
+            date_of_birth: Optional[str] = None,
+            profile_picture: Optional[str] = None,
+            _id: Optional[Union[ObjectId, str]] = None,
+            activated: Optional[bool] = None,
+            calendar: Optional[List[CalendarEvent]] = None,
     ):
-
         r"""Initializes a user of Teacher type.
 
         Parameters
@@ -49,7 +54,7 @@ class Teacher(User):
             activated=activated,
             bio=bio,
             date_of_birth=date_of_birth,
-            profile_picture=profile_picture
+            profile_picture=profile_picture,
         )
         self.courses = courses or []
         self.calendar = calendar or []
@@ -62,7 +67,7 @@ class Teacher(User):
         dict_user = {
             **super().to_dict(),
             "courses": self.courses,
-            "calendar": self.calendar
+            "calendar": self.calendar,
         }
 
         return dict_user
@@ -131,7 +136,8 @@ class Teacher(User):
         Teacher
         """
         try:
-            return Teacher.from_dict(db.teachers.find_one({"_id": ObjectId(id)}))
+            return Teacher.from_dict(
+                db.teachers.find_one({"_id": ObjectId(id)}))
         except:
             logger.info(f"Error when returning Teacher by id {id}")
 
@@ -164,17 +170,26 @@ class Teacher(User):
         List[Teacher]
         """
         try:
-            teachers = db.teachers.aggregate(
-                [
-                    {
-                        "$search": {
-                            "autocomplete": {"query": keyword, "path": "first_name"}
+            teachers = db.teachers.aggregate([
+                {
+                    "$search": {
+                        "autocomplete": {
+                            "query": keyword,
+                            "path": "first_name"
                         }
-                    },
-                    {"$project": {"_id": 1, "first_name": 1, "last_name": 1}},
-                    {"$limit": 5},
-                ]
-            )
+                    }
+                },
+                {
+                    "$project": {
+                        "_id": 1,
+                        "first_name": 1,
+                        "last_name": 1
+                    }
+                },
+                {
+                    "$limit": 5
+                },
+            ])
 
             possible_teachers = []
             for teacher in teachers:
@@ -182,7 +197,8 @@ class Teacher(User):
             return possible_teachers
 
         except BaseException as e:
-            logger.exception(f"Error while getting a teacher by name {id}: {e}")
+            logger.exception(
+                f"Error while getting a teacher by name {id}: {e}")
             return None
 
     def get_course_names(self) -> List[Tuple[str, str]]:
@@ -235,7 +251,9 @@ class Teacher(User):
 
         db.teachers.find_one_and_update(
             {"_id": ObjectId(teacher_id)},
-            {"$push": {"calendar": event}},
+            {"$push": {
+                "calendar": event
+            }},
         )
 
     def remove_calendar_event(self, teacher_id: str, title: str):
@@ -249,9 +267,12 @@ class Teacher(User):
             Dictionary representation of event to be removed {title, start, end, color, url}
         """
 
-        db.teachers.update(
-            {"_id": teacher_id}, {"$pull": {"calendar": {"title": title}}}
-        )
+        db.teachers.update({"_id": teacher_id},
+                           {"$pull": {
+                               "calendar": {
+                                   "title": title
+                               }
+                           }})
 
     def activate(self):
         r"""Activates the user
@@ -261,9 +282,10 @@ class Teacher(User):
         True if operation was successful, false if it was not
         """
         try:
-            db.teachers.update(
-                {"_id": ObjectId(self._id)}, {"$set": {"activated": True}}
-            )
+            db.teachers.update({"_id": ObjectId(self._id)},
+                               {"$set": {
+                                   "activated": True
+                               }})
             self.activated = True
             return True
         except:
@@ -282,7 +304,10 @@ class Teacher(User):
         """
         try:
             self.password = password
-            db.teachers.update({"_id": self.id}, {"$set": {"password": self.password}})
+            db.teachers.update({"_id": self.id},
+                               {"$set": {
+                                   "password": self.password
+                               }})
             return True
         except:
             return False

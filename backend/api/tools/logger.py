@@ -1,6 +1,8 @@
 import logging
 
-FORMAT = logging.Formatter("%(asctime)s - %(levelname)s : %(filename)s - %(funcName)s : %(message)s")
+FORMAT = logging.Formatter(
+    "%(asctime)s - %(levelname)s : %(filename)s - %(funcName)s : %(message)s")
+
 
 def DevelopmentLogger():
     logger = logging.getLogger()
@@ -41,7 +43,7 @@ def ProductionLogger():
     client = google.cloud.logging.Client()
     handler = CloudLoggingHandler(client)
 
-    cloud_logger = logging.getLogger('cloudLogger')
+    cloud_logger = logging.getLogger("cloudLogger")
     cloud_logger.setLevel(logging.INFO)
     cloud_logger.addHandler(handler)
 
