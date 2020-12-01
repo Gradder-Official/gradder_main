@@ -33,7 +33,7 @@ function useLocalStorage(key: string, initialValue: any) {
     return initialValue;
     }
   });
-  
+
   // Return a wrapped version of useState's setter function that ...
   // ... persists the new value to localStorage.
   const setValue = (value: any) => {
@@ -50,7 +50,7 @@ function useLocalStorage(key: string, initialValue: any) {
     console.log(error);
     }
   };
-  
+
   return [storedValue, setValue];
 }
 
@@ -69,7 +69,7 @@ const AssignmentDisplay = (props: any) => {
     submissions: new Array<string>(),
     id: id,
   }
-  
+
   // TODO: Get from server
   let alreadySubmitted = true;
 
@@ -81,7 +81,7 @@ const AssignmentDisplay = (props: any) => {
 
   // TODO: actually link the assignment
   const estimation = a.estimated_time === undefined ? "no estimated time" : `around ${a.estimated_time} minutes`;
-  
+
   // Dropzone integration
   const {acceptedFiles, getRootProps, getInputProps} = useDropzone({multiple: true});
   const files = acceptedFiles.map((file: File) => {
@@ -108,7 +108,7 @@ const AssignmentDisplay = (props: any) => {
   return (
     <React.Fragment>
       <StudentSidebar/>
-      
+
       <div className="dash-content" id="assignment-display">
         <div className="dash-container">
           <Row className="h-100">
@@ -133,7 +133,7 @@ const AssignmentDisplay = (props: any) => {
                   <ReactQuill theme="snow" value={cached} onChange={setCached}/>
                   <input type="text" name="content" value={cached} hidden/>
                   <small className="form-text text-muted">
-                    We automatically save your work to your 
+                    We automatically save your work to your
                     browser when you type - but don't worry,
                     your teachers can't see until you send it.
                   </small>

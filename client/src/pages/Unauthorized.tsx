@@ -7,7 +7,7 @@ const Unauthorized = (props: any) => {
 
     return (
         <React.Fragment>
-            
+
             <div className="dash-content" style={{width: "100vw", left: 0}}>
                 <div className="container h-100">
                     <div className="row h-100 justify-content-center align-items-center">
@@ -26,5 +26,5 @@ const Unauthorized = (props: any) => {
         </React.Fragment>
     )
   }
-  
+
   export default Unauthorized;

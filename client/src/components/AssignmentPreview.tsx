@@ -27,7 +27,7 @@ const AssignmentPreview: FunctionComponent = () => {
       id: "fcb1f1bcd4cde0c0b34a80bc21ffda68"
     },
   ]);
-  
+
   // eslint-disable-next-line
 {/*
   useEffect(() => {
@@ -42,7 +42,7 @@ const AssignmentPreview: FunctionComponent = () => {
       }
     )
   }, []);
-  
+
   return (
     <Row className="assignments-preview">
       {assignments.map((assignment) => (
