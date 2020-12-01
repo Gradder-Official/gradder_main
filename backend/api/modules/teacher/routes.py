@@ -25,8 +25,8 @@ def get_existing_assignment_files():
         for file_ in files:
             filename = file_.filename
             blob = upload_blob(
-                uuid.uuid4().hex + "." + file_.content_type.split("/")[-1], file_
-            )
+                uuid.uuid4().hex + "." + file_.content_type.split("/")[-1],
+                file_)
             file_list.append((blob.name, filename))
 
     return file_list
@@ -65,7 +65,8 @@ def add_assignment():
             # weight=request.form['weight']
         )
 
-        Course.get_by_id(request.form["assigned_to"]).add_assignment(new_assignment)
+        Course.get_by_id(
+            request.form["assigned_to"]).add_assignment(new_assignment)
 
         logger.info(f"Assignment {request.form['title']} added")
         return response(flashes=["Assignment sent!"])
@@ -88,17 +89,25 @@ def view_assignments():
         course = Course.get_by_id(course_id)
         course_assignments = course.get_assignments()
         course_data = {
-            "id": str(course_id),
-            "name": course.name,
-            "assignments": list(map(lambda a: a.to_dict(), course_assignments)),
-            "students": list(
-                map(lambda s: Student.get_by_id(s).to_dict(), course.students)
-            ),
-            "description": course.description,
-            "schedule_time": course.schedule_time,
-            "schedule_days": course.schedule_days,
-            "_syllabus": course._syllabus,
-            "course_analytics": course._course_analytics,
+            "id":
+            str(course_id),
+            "name":
+            course.name,
+            "assignments":
+            list(map(lambda a: a.to_dict(), course_assignments)),
+            "students":
+            list(map(lambda s: Student.get_by_id(s).to_dict(),
+                     course.students)),
+            "description":
+            course.description,
+            "schedule_time":
+            course.schedule_time,
+            "schedule_days":
+            course.schedule_days,
+            "_syllabus":
+            course._syllabus,
+            "course_analytics":
+            course._course_analytics,
         }
         courses.append(course_data)
 
@@ -122,13 +131,13 @@ def view_assignment_by_class_id(course_id: str):
     course_assignments = Course.get_by_id(course_id).get_assignments()
 
     return response(
-        data={"assignments": list(map(lambda a: a.to_dict(), course_assignments))}
-    )
+        data={
+            "assignments": list(map(lambda a: a.to_dict(), course_assignments))
+        })
 
 
-@teacher.route(
-    "/assignments/<string:course_id>/<string:assignment_id>", methods=["GET", "POST"]
-)
+@teacher.route("/assignments/<string:course_id>/<string:assignment_id>",
+               methods=["GET", "POST"])
 def edit_assignment(course_id: str, assignment_id: str):
     """Edits assignment for the class
 
@@ -150,8 +159,7 @@ def edit_assignment(course_id: str, assignment_id: str):
     assignments = course.get_assignments()
 
     assignment: Assignment = list(
-        filter(lambda a: str(a.id) == assignment_id, assignments)
-    )[0]
+        filter(lambda a: str(a.id) == assignment_id, assignments))[0]
 
     if assignment is None:
         return error("Could not find assignment"), 400
@@ -218,7 +226,8 @@ def manage_classes_by_id(course_id: str):
             if syllabus_file is not None:
 
                 blob = upload_blob(
-                    uuid.uuid4().hex + "." + syllabus_file.content_type.split("/")[-1],
+                    uuid.uuid4().hex + "." +
+                    syllabus_file.content_type.split("/")[-1],
                     syllabus_file,
                 )
                 syllabus = [blob.name, syllabus_name]
@@ -227,7 +236,8 @@ def manage_classes_by_id(course_id: str):
                 course.update_syllabus(syllabus)
 
                 logger.info(f"Syllabus updated")
-                return response(flashes=["Course information successfully updated!"])
+                return response(
+                    flashes=["Course information successfully updated!"])
 
             else:
                 print("Specify syllabus information")
@@ -247,7 +257,10 @@ def manage_classes_by_id(course_id: str):
 
     return response(
         flashes=["Course information successfully updated!"],
-        data={"courses": courses, "current_description": course.description},
+        data={
+            "courses": courses,
+            "current_description": course.description
+        },
     )
 
 
@@ -270,7 +283,8 @@ def activate_account(token: str):
         return error("That is an expired or incorrect link."), 400
     else:
         if request.form["password_confirmation"] == request.form["password"]:
-            if teacher.activate() and teacher.set_password(request.form["password"]):
+            if teacher.activate() and teacher.set_password(
+                    request.form["password"]):
                 logger.info(f"Student {student._id} activated their account")
                 return response(["Account activated!", "Password set!"]), 200
             else:
@@ -304,8 +318,7 @@ def view_submissions_by_assignment(course_id: str, assignment_id: str):
     assignments = course.get_assignments()
 
     assignment: Assignment = list(
-        filter(lambda a: str(a.id) == assignment_id, assignments)
-    )[0]
+        filter(lambda a: str(a.id) == assignment_id, assignments))[0]
 
     if assignment is None:
         return error("Could not find assignment"), 400
@@ -360,7 +373,8 @@ def enter_info():
         profile_picture_file = request.files["profile_picture"]
         filename = profile_picture_file.filename
         blob = upload_blob(
-            uuid.uuid4().hex + "." + profile_picture_file.content_type.split("/")[-1],
+            uuid.uuid4().hex + "." +
+            profile_picture_file.content_type.split("/")[-1],
             profile_picture_file,
         )
         profile_picture = (blob.name, filename)

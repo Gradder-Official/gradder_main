@@ -20,13 +20,13 @@ class Admin(User):
     _type = "Admin"  # Immutable
 
     def ___init__(
-        self,
-        email: str,
-        first_name: str,
-        last_name: str,
-        courses: List[str] = None,
-        _id: str = None,
-        calendar: Optional[List[CalendarEvent]] = None,
+            self,
+            email: str,
+            first_name: str,
+            last_name: str,
+            courses: List[str] = None,
+            _id: str = None,
+            calendar: Optional[List[CalendarEvent]] = None,
     ):
         r"""Creates a user with Admin access
 
@@ -183,9 +183,10 @@ class Admin(User):
             The email of the student
         """
         student = Student.get_by_email(email)
-        db.courses.update_one(
-            {"_id": ObjectId(class_id)}, {"$push": {"students": ObjectId(student.ID)}}
-        )
+        db.courses.update_one({"_id": ObjectId(class_id)},
+                              {"$push": {
+                                  "students": ObjectId(student.ID)
+                              }})
 
     @staticmethod
     def add_teacher(class_id: str, email: str):
@@ -200,9 +201,10 @@ class Admin(User):
             The email of the teacher
         """
         teacher = Teacher.get_by_email(email)
-        db.courses.update_one(
-            {"_id": ObjectId(class_id)}, {"$set": {"teacher": ObjectId(teacher.ID)}}
-        )
+        db.courses.update_one({"_id": ObjectId(class_id)},
+                              {"$set": {
+                                  "teacher": ObjectId(teacher.ID)
+                              }})
 
     @staticmethod
     def get_by_keyword(keyword: str) -> Admin:
@@ -216,17 +218,26 @@ class Admin(User):
         List[Admin]
         """
         try:
-            admins = db.admins.aggregate(
-                [
-                    {
-                        "$search": {
-                            "autocomplete": {"query": keyword, "path": "first_name"}
+            admins = db.admins.aggregate([
+                {
+                    "$search": {
+                        "autocomplete": {
+                            "query": keyword,
+                            "path": "first_name"
                         }
-                    },
-                    {"$project": {"_id": 1, "first_name": 1, "last_name": 1}},
-                    {"$limit": 5},
-                ]
-            )
+                    }
+                },
+                {
+                    "$project": {
+                        "_id": 1,
+                        "first_name": 1,
+                        "last_name": 1
+                    }
+                },
+                {
+                    "$limit": 5
+                },
+            ])
 
             possible_admins = []
             for admin in admins:
@@ -278,16 +289,21 @@ class Admin(User):
         try:
             db.students.update_one(
                 {"_id": ObjectId(student_id)},
-                {"$push": {"parents": ObjectId(parent_id)}},
+                {"$push": {
+                    "parents": ObjectId(parent_id)
+                }},
             )
             db.parents.update_one(
                 {"_id": ObjectId(parent_id)},
-                {"$push": {"children": ObjectId(student_id)}},
+                {"$push": {
+                    "children": ObjectId(student_id)
+                }},
             )
             logger.debug(f"Added student {student_id} to parent {parent_id}")
             return True
         except:
-            logger.error(f"Error adding student {student_id} to parent {parent_id}")
+            logger.error(
+                f"Error adding student {student_id} to parent {parent_id}")
             return False
 
     @staticmethod
@@ -295,16 +311,22 @@ class Admin(User):
         try:
             db.students.update_one(
                 {"_id": ObjectId(student_id)},
-                {"$pull": {"parents": ObjectId(parent_id)}},
+                {"$pull": {
+                    "parents": ObjectId(parent_id)
+                }},
             )
             db.parents.update_one(
                 {"_id": ObjectId(parent_id)},
-                {"$pull": {"children": ObjectId(student_id)}},
+                {"$pull": {
+                    "children": ObjectId(student_id)
+                }},
             )
-            logger.debug(f"Removed student {student_id} from parent {parent_id}")
+            logger.debug(
+                f"Removed student {student_id} from parent {parent_id}")
             return True
         except:
-            logger.error(f"Error removing student {student_id} from parent {parent_id}")
+            logger.error(
+                f"Error removing student {student_id} from parent {parent_id}")
             return False
 
         return teachers
@@ -337,5 +359,6 @@ class Admin(User):
             )
             return True
         except:
-            logger.exception(f"An error occured while updating school settings")
+            logger.exception(
+                f"An error occured while updating school settings")
             return False

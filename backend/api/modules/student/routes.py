@@ -26,7 +26,8 @@ def student_verification():
     pass
 
 
-@student.route("/submit/<string:course_id>/<string:assignment_id>", methods=["POST"])
+@student.route("/submit/<string:course_id>/<string:assignment_id>",
+               methods=["POST"])
 def submit(course_id: str, assignment_id: str):
     """Submit work for an assignment
     Parameters
@@ -43,7 +44,14 @@ def submit(course_id: str, assignment_id: str):
 
     assignment = db.courses.find_one(
         {"assignments._id": ObjectId(assignment_id)},
-        {"_id": 0, "assignments": {"$elemMatch": {"_id": ObjectId(assignment_id)}}},
+        {
+            "_id": 0,
+            "assignments": {
+                "$elemMatch": {
+                    "_id": ObjectId(assignment_id)
+                }
+            }
+        },
     )["assignments"][0]
 
     if assignment is not None and course_id in current_user.courses:
@@ -54,7 +62,8 @@ def submit(course_id: str, assignment_id: str):
                 for file_ in files:
                     filename = file_.filename
                     blob = upload_blob(
-                        uuid.uuid4().hex + "." + file_.content_type.split("/")[-1],
+                        uuid.uuid4().hex + "." +
+                        file_.content_type.split("/")[-1],
                         file_,
                     )
                     file_list.append((blob.name, filename))
@@ -67,9 +76,9 @@ def submit(course_id: str, assignment_id: str):
                 assignment_id=assignment_id,
             )
 
-            current_user.add_submission(
-                current_user.id, course_id, submission=submission
-            )
+            current_user.add_submission(current_user.id,
+                                        course_id,
+                                        submission=submission)
         except KeyError:
             return error("Not all fields satisfied"), 400
         else:
@@ -125,7 +134,9 @@ def assignment_by_id(course_id: str, assignment_id: str):
     """
     assignments = current_user.get_assignments()
     assignment = get(assignments, id=assignment_id)
-    logger.info(f"All assignments from {course_id} with assignment id {assignment_id}.")
+    logger.info(
+        f"All assignments from {course_id} with assignment id {assignment_id}."
+    )
     return response(data={"assignment": assignment})
 
 
@@ -151,16 +162,17 @@ def get_schedule_assignments():
     assignments = current_user.get_assignments()
     events = []
     for assignment in assignments:
-        assignment_data = {"title": assignment.title, "date": assignment.due_by}
+        assignment_data = {
+            "title": assignment.title,
+            "date": assignment.due_by
+        }
         events.append(assignment_data)
 
     # Dummy event for testing
-    dummy_data = [
-        {
-            "title": "Test assignment",
-            "date": "2020-08-09",
-        }
-    ]
+    dummy_data = [{
+        "title": "Test assignment",
+        "date": "2020-08-09",
+    }]
     events.append(dummy_data)
 
     return response(data={"events": events})
@@ -209,7 +221,8 @@ def activate_account(token: str):
         return error("That is an expired or incorrect link."), 400
     else:
         if request.form["password_confirmation"] == request.form["password"]:
-            if student.activate() and student.set_password(request.form["password"]):
+            if student.activate() and student.set_password(
+                    request.form["password"]):
                 logger.info(f"Student {student._id} activated their account")
                 return response(["Account activated!", "Password set!"]), 200
             else:
@@ -217,7 +230,10 @@ def activate_account(token: str):
 
         else:
             return response(["Passwords don't match!"]), 400
-        db.students.update({"id": ObjectId(student._id)}, {"$set": {"activated": True}})
+        db.students.update({"id": ObjectId(student._id)},
+                           {"$set": {
+                               "activated": True
+                           }})
         return response(["Account activated!"]), 200
 
 
@@ -246,7 +262,8 @@ def enter_info():
         profile_picture_file = request.files["profile_picture"]
         filename = profile_picture_file.filename
         blob = upload_blob(
-            uuid.uuid4().hex + "." + profile_picture_file.content_type.split("/")[-1],
+            uuid.uuid4().hex + "." +
+            profile_picture_file.content_type.split("/")[-1],
             profile_picture_file,
         )
         profile_picture = (blob.name, filename)

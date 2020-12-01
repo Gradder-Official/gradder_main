@@ -30,20 +30,20 @@ class Course:
     _course_analytics: dict
 
     def __init__(
-        self,
-        department: str,
-        number: int,
-        name: str,
-        teacher: Optional[str] = None,
-        students: Optional[List[str]] = None,
-        description: Optional[str] = "Description",
-        schedule_time: Optional[str] = None,
-        schedule_days: Optional[str] = None,
-        syllabus: Optional[Tuple[str, str]] = None,
-        assignments: Optional[List[Assignment]] = None,
-        grade_range: Optional[Tuple[int, int]] = None,
-        _id: str = None,
-        course_analytics: Optional[dict] = None,
+            self,
+            department: str,
+            number: int,
+            name: str,
+            teacher: Optional[str] = None,
+            students: Optional[List[str]] = None,
+            description: Optional[str] = "Description",
+            schedule_time: Optional[str] = None,
+            schedule_days: Optional[str] = None,
+            syllabus: Optional[Tuple[str, str]] = None,
+            assignments: Optional[List[Assignment]] = None,
+            grade_range: Optional[Tuple[int, int]] = None,
+            _id: str = None,
+            course_analytics: Optional[dict] = None,
     ):
         """Initialises the Course object
         Parameters
@@ -138,7 +138,8 @@ class Course:
             else:
                 id = str(id)
         except Exception as e:
-            raise InvalidFormatException(f"Cannot convert provided id to bson.ObjectId")
+            raise InvalidFormatException(
+                f"Cannot convert provided id to bson.ObjectId")
 
         self._id = id
 
@@ -224,7 +225,8 @@ class Course:
 
         try:
             if Teacher.get_by_id(teacher_id) is None:
-                raise Exception(f"The teacher with id {teacher_id} does not exist.")
+                raise Exception(
+                    f"The teacher with id {teacher_id} does not exist.")
         except Exception as e:
             logger.exception(
                 f"Error while validating the existence of teacher {teacher_id}"
@@ -262,12 +264,14 @@ class Course:
             try:
                 ObjectId(student_id)
             except Exception as e:
-                logger.exception(f"Error while validating student id {student_id}")
+                logger.exception(
+                    f"Error while validating student id {student_id}")
                 raise e
 
             try:
                 if Student.get_by_id(student_id) is None:
-                    raise Exception(f"The student with id {student_id} does not exist.")
+                    raise Exception(
+                        f"The student with id {student_id} does not exist.")
             except Exception as e:
                 logger.exception(
                     f"Error while validating the existence of student {student_id}"
@@ -293,15 +297,13 @@ class Course:
             )
 
         if not re.match(
-            r'[\w \.\+\(\)\[\]\{\}\?\*\&\^\%\$\#\/\'"~<>,:;!-_=@]{1,500}',
-            description,
-            flags=re.UNICODE,
+                r'[\w \.\+\(\)\[\]\{\}\?\*\&\^\%\$\#\/\'"~<>,:;!-_=@]{1,500}',
+                description,
+                flags=re.UNICODE,
         ):
             raise InvalidFormatException(
-                r"The format for description doesn't match. Expected '[\w \.\+\(\)\[\]\{\}\?\*\&\^\%\$\#\/\'\"~<>,:;!-_=@]{1, 500}', got {description}".format(
-                    description=description
-                )
-            )
+                r"The format for description doesn't match. Expected '[\w \.\+\(\)\[\]\{\}\?\*\&\^\%\$\#\/\'\"~<>,:;!-_=@]{1, 500}', got {description}"
+                .format(description=description))
 
         self._description = description
 
@@ -321,8 +323,8 @@ class Course:
             return
 
         if not re.match(
-            r"([0-1][0-9]|2[0-4]):[0-5][0-9]-([0-1][0-9]|2[0-4]):[0-5][0-9]",
-            schedule_time,
+                r"([0-1][0-9]|2[0-4]):[0-5][0-9]-([0-1][0-9]|2[0-4]):[0-5][0-9]",
+                schedule_time,
         ):
             raise InvalidFormatException(
                 f"The format for schedule_time doesn't match. Expected '([0-1][0-9] | 2[0-4]):[0-5][0-9]-([0-1][0-9] | 2[0-4]):[0-5][0-9]', got {schedule_time}"
@@ -331,9 +333,9 @@ class Course:
         start_time, finish_time = schedule_time.split("-")
         start_time_h, start_time_m = list(map(int, start_time.split(":")))
         finish_time_h, finish_time_m = list(map(int, finish_time.split(":")))
-        if (
-            start_time_h * 60 + start_time_m >= finish_time_h * 60 + finish_time_m
-        ) and not (start_time_h == 23 and finish_time_h == 0):
+        if (start_time_h * 60 + start_time_m >= finish_time_h * 60 +
+                finish_time_m) and not (start_time_h == 23
+                                        and finish_time_h == 0):
             raise InvalidFormatException(
                 f"The start time for schedule_time must be earlier than the finish time (got {schedule_time})"
             )
@@ -366,11 +368,8 @@ class Course:
             self._syllabus = syllabus
             return
 
-        if (
-            len(syllabus) != 2
-            or not isinstance(syllabus[0], str)
-            or not isinstance(syllabus[1], str)
-        ):
+        if (len(syllabus) != 2 or not isinstance(syllabus[0], str)
+                or not isinstance(syllabus[1], str)):
             # TODO: logger
             raise InvalidFormatException(
                 f"The format for syllabus does not match: expected Tuple[str, str], got {syllabus}"
@@ -388,8 +387,7 @@ class Course:
         if type(grade_range) == tuple and len(grade_range) == 2:
             if grade_range[1] >= grade_range[0]:
                 raise ValueError(
-                    "Max value must be larger than min value for grade range"
-                )
+                    "Max value must be larger than min value for grade range")
             self._grade_range = grade_range
         else:
             raise ValueError("Grade range is not tuple or of length 2")
@@ -450,25 +448,22 @@ class Course:
             number=dictionary["number"],
             name=dictionary["name"],
             teacher=dictionary["teacher"] if "teacher" in dictionary else None,
-            students=dictionary["students"] if "students" in dictionary else None,
+            students=dictionary["students"]
+            if "students" in dictionary else None,
             description=dictionary["description"]
-            if "description" in dictionary
-            else None,
+            if "description" in dictionary else None,
             schedule_time=dictionary["schedule_time"]
-            if "schedule_time" in dictionary
-            else None,
+            if "schedule_time" in dictionary else None,
             schedule_days=dictionary["schedule_days"]
-            if "schedule_days" in dictionary
-            else None,
-            syllabus=dictionary["syllabus"] if "syllabus" in dictionary else None,
+            if "schedule_days" in dictionary else None,
+            syllabus=dictionary["syllabus"]
+            if "syllabus" in dictionary else None,
             assignments=list(
-                map(lambda x: Assignment.from_dict(x), list(dictionary["assignments"]))
-            )
-            if "assignments" in dictionary
-            else None,
+                map(lambda x: Assignment.from_dict(x),
+                    list(dictionary["assignments"])))
+            if "assignments" in dictionary else None,
             grade_range=dictionary["grade_range"]
-            if "grade_range" in dictionary
-            else None,
+            if "grade_range" in dictionary else None,
             _id=dictionary["_id"],
         )
 
@@ -508,9 +503,12 @@ class Course:
         """
         try:
             self.department = department
-            db.courses.find_one_and_update(
-                {"_id": self.id, "$set": {"department": self.department}}
-            )
+            db.courses.find_one_and_update({
+                "_id": self.id,
+                "$set": {
+                    "department": self.department
+                }
+            })
 
             return True
         except Exception as e:
@@ -533,13 +531,15 @@ class Course:
         """
         try:
             self.number = number
-            db.courses.find_one_and_update(
-                {"_id": self.id}, {"$set": {"number": self.number}}
-            )
+            db.courses.find_one_and_update({"_id": self.id},
+                                           {"$set": {
+                                               "number": self.number
+                                           }})
 
             return True
         except Exception as e:
-            logger.exception(f"Error while updating number {number} in class {self.id}")
+            logger.exception(
+                f"Error while updating number {number} in class {self.id}")
 
             return False
 
@@ -556,13 +556,15 @@ class Course:
         """
         try:
             self.name = name
-            db.courses.find_one_and_update(
-                {"_id": self.id}, {"$set": {"name": self.name}}
-            )
+            db.courses.find_one_and_update({"_id": self.id},
+                                           {"$set": {
+                                               "name": self.name
+                                           }})
 
             return True
         except Exception as e:
-            logger.exception(f"Error while updating name {name} in class {self.id}")
+            logger.exception(
+                f"Error while updating name {name} in class {self.id}")
 
             return False
 
@@ -580,8 +582,10 @@ class Course:
         try:
             self.teacher = teacher_id
             db.courses.find_one_and_update(
-                {"_id": self.id}, {"$set": {"teacher": ObjectId(self.teacher)}}
-            )
+                {"_id": self.id},
+                {"$set": {
+                    "teacher": ObjectId(self.teacher)
+                }})
 
             return True
         except Exception as e:
@@ -608,12 +612,14 @@ class Course:
 
         for _id in student_ids:
             try:
-                db.students.find_one(
-                    {"_id": ObjectId(_id)}, {"$push": {"courses": self.id}}
-                )
-                db.courses.find_one(
-                    {"_id": self.id}, {"$push": {"students": ObjectId(_id)}}
-                )
+                db.students.find_one({"_id": ObjectId(_id)},
+                                     {"$push": {
+                                         "courses": self.id
+                                     }})
+                db.courses.find_one({"_id": self.id},
+                                    {"$push": {
+                                        "students": ObjectId(_id)
+                                    }})
 
             except Exception as e:
                 logger.exception(
@@ -637,8 +643,9 @@ class Course:
         try:
             self.description = description
             db.courses.find_one_and_update(
-                {"_id": self.id}, {"$set": {"description": self.description}}
-            )
+                {"_id": self.id}, {"$set": {
+                    "description": self.description
+                }})
 
             return True
         except Exception as e:
@@ -662,8 +669,10 @@ class Course:
         try:
             self.schedule_time = schedule_time
             db.courses.find_one_and_update(
-                {"_id": self.id}, {"$set": {"schedule_time": self.schedule_time}}
-            )
+                {"_id": self.id},
+                {"$set": {
+                    "schedule_time": self.schedule_time
+                }})
 
             return True
         except Exception as e:
@@ -687,8 +696,10 @@ class Course:
         try:
             self.schedule_days = schedule_days
             db.courses.find_one_and_update(
-                {"_id": self.id}, {"$set": {"schedule_days": self.schedule_days}}
-            )
+                {"_id": self.id},
+                {"$set": {
+                    "schedule_days": self.schedule_days
+                }})
 
             return True
         except Exception as e:
@@ -714,14 +725,14 @@ class Course:
             self.syllabus = syllabus
 
             db.courses.find_one_and_update(
-                {"_id": self._id}, {"$set": {"syllabus": self.syllabus}}
-            )
+                {"_id": self._id}, {"$set": {
+                    "syllabus": self.syllabus
+                }})
 
             return True
         except:
             logger.exception(
-                f"Error while updating syllabus {syllabus} in class {self.id}"
-            )
+                f"Error while updating syllabus {syllabus} in class {self.id}")
 
             return False
 
@@ -740,8 +751,9 @@ class Course:
             self.grade_range = grade_range
 
             db.courses.find_one_and_update(
-                {"_id": self._id}, {"$set": {"grade_range": self.grade_range}}
-            )
+                {"_id": self._id}, {"$set": {
+                    "grade_range": self.grade_range
+                }})
 
             return True
         except:
@@ -777,9 +789,11 @@ class Course:
         """
         try:
             if Course.get_by_id(self.id) is None:
-                raise Exception(f"The course with id {self.id} does not exist.")
+                raise Exception(
+                    f"The course with id {self.id} does not exist.")
         except AttributeError:
-            logger.exception(f"The property `id` does not exist for this course")
+            logger.exception(
+                f"The property `id` does not exist for this course")
             return False
         except Exception as e:
             logger.exception(f"Error while updating a course")
@@ -838,8 +852,9 @@ class Course:
             dictionary = assignment.to_dict()
             dictionary["_id"] = ObjectId()
             db.courses.find_one_and_update(
-                {"_id": self._id}, {"$push": {"assignments": dictionary}}
-            )
+                {"_id": self._id}, {"$push": {
+                    "assignments": dictionary
+                }})
         except:
             logger.exception(
                 f"Error while adding assignment {assignment._id} to course {self._id}"
@@ -856,8 +871,13 @@ class Course:
             dictionary = assignment.to_dict()
             dictionary["_id"] = ObjectId(assignment.ID)
             db.classes.update_one(
-                {"_id": self.ID, "assignments._id": dictionary["_id"]},
-                {"$set": {"assignments.$": dictionary}},
+                {
+                    "_id": self.ID,
+                    "assignments._id": dictionary["_id"]
+                },
+                {"$set": {
+                    "assignments.$": dictionary
+                }},
             )
         except:
             logger.exception(
@@ -873,8 +893,12 @@ class Course:
         """
         try:
             db.courses.update(
-                {"_id": self._id}, {"$pull": {"assignments": {"_id": assignment_id}}}
-            )
+                {"_id": self._id},
+                {"$pull": {
+                    "assignments": {
+                        "_id": assignment_id
+                    }
+                }})
         except:
             logger.exception(
                 f"Error while deleting assignment {assignment_id} from class {self._id}"
@@ -910,8 +934,10 @@ class Course:
             The course that was found
         """
         return Course.from_dict(
-            db.courses.find_one({"department": department, "number": number})
-        )
+            db.courses.find_one({
+                "department": department,
+                "number": number
+            }))
 
     def get_full_name(self) -> str:
         r"""Returns name in the format "SOС310 U.S. History" """

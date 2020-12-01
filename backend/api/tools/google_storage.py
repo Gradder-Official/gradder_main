@@ -32,6 +32,5 @@ def get_signed_url(filename):
 
     logger.info(f"File {filename} opened from assignment")
 
-    return blob.generate_signed_url(
-        expiration=datetime.utcnow() + timedelta(seconds=3600)
-    )
+    return blob.generate_signed_url(expiration=datetime.utcnow() +
+                                    timedelta(seconds=3600))

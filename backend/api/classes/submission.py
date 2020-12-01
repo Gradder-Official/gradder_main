@@ -18,14 +18,14 @@ class Submission:
     _id: str
 
     def __init__(
-        self,
-        assignment_id: Union[str, ObjectId],
-        student_id: Union[str, ObjectId],
-        date_time_submitted: Union[datetime, str],
-        content: str,
-        files: Optional[list] = None,
-        grade: Optional[str] = None,
-        _id: Optional[Union[str, ObjectId]] = None,
+            self,
+            assignment_id: Union[str, ObjectId],
+            student_id: Union[str, ObjectId],
+            date_time_submitted: Union[datetime, str],
+            content: str,
+            files: Optional[list] = None,
+            grade: Optional[str] = None,
+            _id: Optional[Union[str, ObjectId]] = None,
     ):
         r"""Initializes the Submission object
 
@@ -105,13 +105,13 @@ class Submission:
         try:
             if Assignment.get_by_id(assignment_id) is None:
                 raise InvalidFormatException(
-                    f"The assignment with provided id {id} does not exist"
-                )
+                    f"The assignment with provided id {id} does not exist")
         except InvalidFormatException as e:
             logger.exception(f"Assignment with id {id} does not exist")
             raise e from InvalidFormatException
         except Exception as e:
-            logger.exception(f"Error while retrieving Assignment with id {id}: {e}")
+            logger.exception(
+                f"Error while retrieving Assignment with id {id}: {e}")
 
         self._assignment_id = assignment_id
 
@@ -139,13 +139,13 @@ class Submission:
         try:
             if Student.get_by_id(student_id) is None:
                 raise InvalidFormatException(
-                    f"The Student with provided id {id} does not exist"
-                )
+                    f"The Student with provided id {id} does not exist")
         except InvalidFormatException as e:
             logger.exception(f"Student with id {id} does not exist")
             raise InvalidFormatException from e
         except Exception as e:
-            logger.exception(f"Error while retrieving Student with id {id}: {e}")
+            logger.exception(
+                f"Error while retrieving Student with id {id}: {e}")
 
         self._student_id = student_id
 

@@ -43,17 +43,17 @@ class User(UserMixin):
     _activated: bool
 
     def __init__(
-        self,
-        email: str,
-        first_name: str,
-        last_name: str,
-        bio: Optional[str] = None,
-        date_of_birth: Optional[str] = None,
-        profile_picture: Optional[str] = None,
-        _id: Optional[str] = None,
-        password: Optional[Union[str, bytes]] = None,
-        calendar: Optional[List[CalendarEvent]] = None,
-        activated: Optional[bool] = None,
+            self,
+            email: str,
+            first_name: str,
+            last_name: str,
+            bio: Optional[str] = None,
+            date_of_birth: Optional[str] = None,
+            profile_picture: Optional[str] = None,
+            _id: Optional[str] = None,
+            password: Optional[Union[str, bytes]] = None,
+            calendar: Optional[List[CalendarEvent]] = None,
+            activated: Optional[bool] = None,
     ):
         r"""Init function for a generic User class.
 
@@ -125,8 +125,8 @@ class User(UserMixin):
             )
 
         if not re.match(
-            r"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", email
-        ):
+                r"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$",
+                email):
             raise InvalidFormatException(
                 f"The email given is not in a valid email format (got {email})"
             )
@@ -176,11 +176,8 @@ class User(UserMixin):
 
         # The hashed password should never begin with $2a$ or $2y$, but better to be safe
         # than sorry :D
-        if not (
-            isinstance(password, bytes)
-            and password.startswith((b"$2a$", b"$2b$", b"$2y$"))
-            and len(password) == 60
-        ):
+        if not (isinstance(password, bytes) and password.startswith(
+            (b"$2a$", b"$2b$", b"$2y$")) and len(password) == 60):
             password = hashpw(password.encode("utf-8"), gensalt(prefix=b"2b"))
 
         self._password = password
@@ -215,7 +212,8 @@ class User(UserMixin):
             else:
                 id = str(id)
         except Exception as e:
-            raise InvalidFormatException(f"Cannot convert provided id to bson.ObjectId")
+            raise InvalidFormatException(
+                f"Cannot convert provided id to bson.ObjectId")
 
         self._id = id
 
@@ -255,15 +253,13 @@ class User(UserMixin):
             )
 
         if not re.match(
-            r'[\w \.\+\(\)\[\]\{\}\?\*\&\^\%\$\#\/\'"~<>,:;!-_=@]{1,100}',
-            bio,
-            flags=re.UNICODE,
+                r'[\w \.\+\(\)\[\]\{\}\?\*\&\^\%\$\#\/\'"~<>,:;!-_=@]{1,100}',
+                bio,
+                flags=re.UNICODE,
         ):
             raise InvalidFormatException(
-                r"The format for bio doesn't match. Expected '[\w \.\+\(\)\[\]\{\}\?\*\&\^\%\$\#\/\'\"~<>,:;!-_=@]{1, 500}', got {bio}".format(
-                    bio=bio
-                )
-            )
+                r"The format for bio doesn't match. Expected '[\w \.\+\(\)\[\]\{\}\?\*\&\^\%\$\#\/\'\"~<>,:;!-_=@]{1, 500}', got {bio}"
+                .format(bio=bio))
 
         self._bio = bio
 

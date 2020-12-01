@@ -16,13 +16,13 @@ class Parent(User):
     _type = "Parent"  # Immutable
 
     def __init__(
-        self,
-        email: str,
-        first_name: str,
-        last_name: str,
-        children: List[str] = None,
-        _id: str = None,
-        calendar: Optional[List[CalendarEvent]] = None,
+            self,
+            email: str,
+            first_name: str,
+            last_name: str,
+            children: List[str] = None,
+            _id: str = None,
+            calendar: Optional[List[CalendarEvent]] = None,
     ):
         """Initialises a user of Parent type
 

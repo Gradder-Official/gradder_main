@@ -20,17 +20,17 @@ class Student(User):
     _type = "Student"  # Immutable
 
     def __init__(
-        self,
-        email: str,
-        first_name: str,
-        last_name: str,
-        password: str = None,
-        courses: List[str] = None,
-        assignments: List[str] = None,
-        _id: str = None,
-        activated: bool = False,
-        calendar: Optional[List[CalendarEvent]] = None,
-        parents: List[str] = None,
+            self,
+            email: str,
+            first_name: str,
+            last_name: str,
+            password: str = None,
+            courses: List[str] = None,
+            assignments: List[str] = None,
+            _id: str = None,
+            activated: bool = False,
+            calendar: Optional[List[CalendarEvent]] = None,
+            parents: List[str] = None,
     ):
         """Initialises a user of Student type
 
@@ -96,7 +96,8 @@ class Student(User):
         Student
         """
         try:
-            return Student.from_dict(db.students.find_one({"_id": ObjectId(id)}))
+            return Student.from_dict(
+                db.students.find_one({"_id": ObjectId(id)}))
         except BaseException as e:
             logger.exception(f"Error while getting a student by id {id}")
             return None
@@ -130,17 +131,26 @@ class Student(User):
         List[Student]
         """
         try:
-            students = db.students.aggregate(
-                [
-                    {
-                        "$search": {
-                            "autocomplete": {"query": keyword, "path": "first_name"}
+            students = db.students.aggregate([
+                {
+                    "$search": {
+                        "autocomplete": {
+                            "query": keyword,
+                            "path": "first_name"
                         }
-                    },
-                    {"$project": {"_id": 1, "first_name": 1, "last_name": 1}},
-                    {"$limit": 5},
-                ]
-            )
+                    }
+                },
+                {
+                    "$project": {
+                        "_id": 1,
+                        "first_name": 1,
+                        "last_name": 1
+                    }
+                },
+                {
+                    "$limit": 5
+                },
+            ])
 
             possible_students = []
             for student in students:
@@ -148,7 +158,8 @@ class Student(User):
             return possible_students
 
         except BaseException as e:
-            logger.exception(f"Error while getting a student by name {id}: {e}")
+            logger.exception(
+                f"Error while getting a student by name {id}: {e}")
             return None
 
     @staticmethod
@@ -247,18 +258,22 @@ class Student(User):
                 "_id": ObjectId(course_id),
                 "assignments._id": ObjectId(submission.assignment_id),
             },
-            {"$push": {"assignments.$.submissions": dictionary}},
+            {"$push": {
+                "assignments.$.submissions": dictionary
+            }},
         )
 
         # TODO: add logger
 
-        unique_submission_string = (
-            course_id + "_" + submission.assignment_id + "_" + submission.id
-        )
+        unique_submission_string = (course_id + "_" +
+                                    submission.assignment_id + "_" +
+                                    submission.id)
 
         db.students.find_one_and_update(
             {"_id": ObjectId(self.id)},
-            {"$push": {"assignments": unique_submission_string}},
+            {"$push": {
+                "assignments": unique_submission_string
+            }},
         )
 
         # TODO: add logger
@@ -306,9 +321,10 @@ class Student(User):
         True if operation was successful, false if it was not
         """
         try:
-            db.students.update(
-                {"_id": ObjectId(self._id)}, {"$set": {"activated": True}}
-            )
+            db.students.update({"_id": ObjectId(self._id)},
+                               {"$set": {
+                                   "activated": True
+                               }})
             self.activated = True
             return True
         except:
@@ -327,7 +343,10 @@ class Student(User):
         """
         try:
             self.password = password
-            db.students.update({"_id": self.id}, {"$set": {"password": self.password}})
+            db.students.update({"_id": self.id},
+                               {"$set": {
+                                   "password": self.password
+                               }})
             return True
         except:
             return False

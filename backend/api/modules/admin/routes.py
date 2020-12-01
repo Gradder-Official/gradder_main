@@ -53,7 +53,8 @@ def add_teacher():
         token = teacher.get_activation_token()
         app = current_app._get_current_object()
         msg = Message(
-            app.config["MAIL_SUBJECT_PREFIX"] + " " + "Account Activation Link",
+            app.config["MAIL_SUBJECT_PREFIX"] + " " +
+            "Account Activation Link",
             sender=app.config["MAIL_SENDER"],
             recipients=[teacher.email],
         )
@@ -97,7 +98,8 @@ def add_student():
         token = current_user.get_activation_token()
         app = current_app._get_current_object()
         msg = Message(
-            app.config["MAIL_SUBJECT_PREFIX"] + " " + "Account Activation Link",
+            app.config["MAIL_SUBJECT_PREFIX"] + " " +
+            "Account Activation Link",
             sender=app.config["MAIL_SENDER"],
             recipients=[student.email],
         )
@@ -126,9 +128,8 @@ def register_courses():
 
     try:
         if Course.get_by_department_number(request.form["number"]):
-            course = Course(
-                request.form["department"], request.form["number"], request.form["name"]
-            )
+            course = Course(request.form["department"], request.form["number"],
+                            request.form["name"])
         else:
             return error("Course already exists"), 400
     except KeyError:
@@ -156,16 +157,24 @@ def get_info_for_new_course():
 
     try:
         departments = db.courses.find({}, {"department": 1, "_id": 0})
-        teachers = db.courses.find(
-            {}, {"name": 1, "email": 1, "department": 1, "_id": 0}
-        )
+        teachers = db.courses.find({}, {
+            "name": 1,
+            "email": 1,
+            "department": 1,
+            "_id": 0
+        })
     except:
         return (
-            error("Unknown error while getting info for departments and teachers"),
+            error(
+                "Unknown error while getting info for departments and teachers"
+            ),
             400,
         )
 
-    return response(flashes, {"departments": departments, "teachers": teachers}), 200
+    return response(flashes, {
+        "departments": departments,
+        "teachers": teachers
+    }), 200
 
 
 @admin.route("/add-student-to-course", methods=["GET", "POST"])
@@ -246,7 +255,8 @@ def manage_courses_by_id(course_id: str):
             syllabus_file = request.form["file"]
             filename = syllabus_file.filename
             blob = upload_blob(
-                uuid.uuid4().hex + "." + syllabus_file.content_type.split("/")[-1],
+                uuid.uuid4().hex + "." +
+                syllabus_file.content_type.split("/")[-1],
                 syllabus_file,
             )
             syllabus = (blob.name, filename)
@@ -279,9 +289,8 @@ def add_student_to_parent():
         Flashes
     """
 
-    if Admin.add_student_to_parent(
-        request.form["parent_id"], request.form["student_id"]
-    ):
+    if Admin.add_student_to_parent(request.form["parent_id"],
+                                   request.form["student_id"]):
         return response(["Added student to parent"]), 200
     else:
         return error("There was an error adding this student"), 400
@@ -296,9 +305,8 @@ def remove_student_from_parent():
         Flashes
     """
 
-    if Admin.remove_student_from_parent(
-        request.form["parent_id"], request.form["student_id"]
-    ):
+    if Admin.remove_student_from_parent(request.form["parent_id"],
+                                        request.form["student_id"]):
         return response(["Removed student from parent"]), 200
     else:
         return error("There was an error removing this student"), 400

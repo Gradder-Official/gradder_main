@@ -15,18 +15,18 @@ class Assignment:
     _id: str
 
     def __init__(
-        self,
-        title: str,
-        date_assigned: time,
-        assigned_by: int,
-        assigned_to: str,
-        due_by: datetime,
-        content: str,  # TODO: this should be represented int Deltas(JSON)
-        filenames: list,
-        estimated_time: int,
-        # weight: int,
-        submissions: List[Submission] = None,
-        _id: str = None,
+            self,
+            title: str,
+            date_assigned: time,
+            assigned_by: int,
+            assigned_to: str,
+            due_by: datetime,
+            content: str,  # TODO: this should be represented int Deltas(JSON)
+            filenames: list,
+            estimated_time: int,
+            # weight: int,
+            submissions: List[Submission] = None,
+            _id: str = None,
     ):
         r"""Initializes the Assignment object
         Parameters
@@ -93,12 +93,12 @@ class Assignment:
     def id(self, id: str):
         if id is not str:
             raise InvalidTypeException(
-                f"The id provided is not a str (type provided is {type(id)})."
-            )
+                f"The id provided is not a str (type provided is {type(id)}).")
 
         try:
             ObjectId(id)
         except Exception as e:
-            raise InvalidFormatException(f"Cannot convert provided id to bson.ObjectId")
+            raise InvalidFormatException(
+                f"Cannot convert provided id to bson.ObjectId")
 
         self._id = id

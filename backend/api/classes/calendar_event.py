@@ -10,9 +10,8 @@ class CalendarEvent:
     _color: str
     _url: str
 
-    def __init__(
-        self, title: str, start: str, end: str, color: Optional[str], url: Optional[str]
-    ):
+    def __init__(self, title: str, start: str, end: str, color: Optional[str],
+                 url: Optional[str]):
         self.title = title
         self.start = start
         self.end = end

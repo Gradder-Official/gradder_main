@@ -81,7 +81,8 @@ def login():
         remember_me = req_data["remember_me"]
 
         for scope in [Student, Teacher, Admin, Parent]:
-            logger.info(f"Trying to find {scope.__name__} with email {email}...")
+            logger.info(
+                f"Trying to find {scope.__name__} with email {email}...")
             user = scope.get_by_email(email)
             if user is not None:
                 logger.info(f"User: {user.first_name}")
@@ -92,16 +93,17 @@ def login():
                     )
 
                     current_user_info = {
-                        "userName": current_user.first_name
-                        + " "
-                        + current_user.last_name,
+                        "userName":
+                        current_user.first_name + " " + current_user.last_name,
                         "userType": current_user._type,
                         "loggedIn": True,
                         "dob": "",
                     }
                     return (
                         response(
-                            flashes=["Log in succesful! Redirecting to dashboard..."],
+                            flashes=[
+                                "Log in succesful! Redirecting to dashboard..."
+                            ],
                             user_info=current_user_info,
                         ),
                         200,
@@ -131,11 +133,8 @@ def logout():
     dict
         The view response
     """
-    logger.info(
-        "LOGGED OUT: {} {} - ACCESS: {}".format(
-            current_user.first_name, current_user.last_name, current_user._type
-        )
-    )
+    logger.info("LOGGED OUT: {} {} - ACCESS: {}".format(
+        current_user.first_name, current_user.last_name, current_user._type))
     logout_user()
     return response(["You have been logged out"]), 200
 
@@ -198,7 +197,8 @@ def request_password_reset():
         The view response
     """
     if current_user.is_authenticated:
-        return error(f"Wrong route, use {url_for('auth.change_password')}."), 303
+        return error(
+            f"Wrong route, use {url_for('auth.change_password')}."), 303
 
     try:
         email = request.form["email"].lower()
@@ -206,7 +206,8 @@ def request_password_reset():
     except KeyError:
         return error("Not all fields satisfied"), 400
     else:
-        return response(["An email has been sent to reset your password."]), 200
+        return response(["An email has been sent to reset your password."
+                         ]), 200
 
 
 @auth.route("/request-password-reset/<string:token>", methods=["POST"])
@@ -224,7 +225,8 @@ def password_reset(token: str):
         The view response
     """
     if current_user.is_authenticated:
-        return error(f"Wrong route, use {url_for('auth.change_password')}."), 303
+        return error(
+            f"Wrong route, use {url_for('auth.change_password')}."), 303
 
     user = User.verify_reset_token(token)
     if user is None:

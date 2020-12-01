@@ -8,13 +8,15 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
     load_dotenv(find_dotenv())
-    SECRET_KEY = os.environ.get("SECRET_KEY") or "329v8qrvnkjehgioqrgh3$##$#UOJ`3r0"
+    SECRET_KEY = os.environ.get(
+        "SECRET_KEY") or "329v8qrvnkjehgioqrgh3$##$#UOJ`3r0"
 
     MONGO_CONNECTION_STRING = os.environ.get("MONGO_CONNECTION_STRING")
 
     MAIL_SERVER = os.environ.get("MAIL_SERVER", "smtp.gmail.com")
     MAIL_PORT = int(os.environ.get("MAIL_PORT", "587"))
-    MAIL_USE_TLS = os.environ.get("MAIL_USE_TLS", "true").lower() in ["true", "on", "1"]
+    MAIL_USE_TLS = os.environ.get("MAIL_USE_TLS",
+                                  "true").lower() in ["true", "on", "1"]
     MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
     MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
     GRADDER_EMAIL = "team@gradder.io"

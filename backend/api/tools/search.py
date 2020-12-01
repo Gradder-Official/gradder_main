@@ -27,10 +27,8 @@ def get(iterable, **kwargs: dict):
     else:
         # More complicated use case
         # Convert nested attributes to dotted attributes
-        converted = [
-            (attrgetter(kwarg.replace("__", ".")), value)
-            for kwarg, value in kwargs.items()
-        ]
+        converted = [(attrgetter(kwarg.replace("__", ".")), value)
+                     for kwarg, value in kwargs.items()]
 
         for element in iterable:
             if all(pred2(element) == value for pred2, value in converted):

@@ -24,9 +24,11 @@ def send_email(app, msg: Message):
         mail.send(msg)
 
 
-def send_async_email(
-    to: List[str], subject: str, template: str, files: fileList = None, **kwargs
-):
+def send_async_email(to: List[str],
+                     subject: str,
+                     template: str,
+                     files: fileList = None,
+                     **kwargs):
     r"""Sends an email in another thread.
     Compiles a flask_mail.Message object from the arguments, and passes it to send_async_mail in a new thread.
     Parameters
