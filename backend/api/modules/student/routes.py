@@ -3,11 +3,15 @@ from datetime import datetime
 
 from api import db
 from api import root_logger as logger
-from api.classes import Course, Student, Submission
+from api.classes import Course
+from api.classes import Student
+from api.classes import Submission
 from api.tools.decorators import required_access
-from api.tools.factory import error, response
+from api.tools.factory import error
+from api.tools.factory import response
 from api.tools.google_storage import upload_blob
-from api.tools.search import get, get_all
+from api.tools.search import get
+from api.tools.search import get_all
 from bson import ObjectId
 from flask import request
 from flask_login import current_user

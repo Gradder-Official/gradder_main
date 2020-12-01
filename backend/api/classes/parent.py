@@ -1,12 +1,15 @@
 from __future__ import annotations
 
-from typing import Dict, List, Tuple
+from typing import Dict
+from typing import List
+from typing import Tuple
 
 from api import db
 from api import root_logger as logger
 from bson import ObjectId
 
-from . import Student, User
+from . import Student
+from . import User
 
 
 class Parent(User):

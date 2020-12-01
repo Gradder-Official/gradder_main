@@ -1,12 +1,16 @@
 from __future__ import annotations
 
 import re
-from typing import Dict, List, Optional, Tuple
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Tuple
 
 from api import db
 from api import root_logger as logger
 from api.classes import Assignment
-from api.tools.exceptions import InvalidFormatException, InvalidTypeException
+from api.tools.exceptions import InvalidFormatException
+from api.tools.exceptions import InvalidTypeException
 from bson import ObjectId
 
 

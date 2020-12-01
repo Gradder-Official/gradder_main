@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from typing import Dict, List, Tuple
+from typing import Dict
+from typing import List
+from typing import Tuple
 
 from api import db
 from api import root_logger as logger
@@ -8,7 +10,8 @@ from bcrypt import hashpw
 from bson import ObjectId
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
-from . import Assignment, Course
+from . import Assignment
+from . import Course
 from .submission import Submission
 from .user import User
 

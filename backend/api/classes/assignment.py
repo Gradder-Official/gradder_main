@@ -1,9 +1,11 @@
 from __future__ import annotations
 
-from datetime import datetime, time
+from datetime import datetime
+from datetime import time
 from typing import List
 
-from api.tools.exceptions import InvalidFormatException, InvalidTypeException
+from api.tools.exceptions import InvalidFormatException
+from api.tools.exceptions import InvalidTypeException
 from bson import ObjectId
 
 from .submission import Submission

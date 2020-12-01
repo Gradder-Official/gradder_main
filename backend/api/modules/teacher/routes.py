@@ -2,9 +2,13 @@ import uuid
 from datetime import datetime
 
 from api import root_logger as logger
-from api.classes import Assignment, Course, Student, Teacher
+from api.classes import Assignment
+from api.classes import Course
+from api.classes import Student
+from api.classes import Teacher
 from api.tools.decorators import required_access
-from api.tools.factory import error, response
+from api.tools.factory import error
+from api.tools.factory import response
 from api.tools.google_storage import upload_blob
 from api.tools.search import get
 from flask import request

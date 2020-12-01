@@ -1,12 +1,19 @@
 from __future__ import annotations
 
-from typing import Dict, List, Optional
+from typing import Dict
+from typing import List
+from typing import Optional
 
 from api import db
 from api import root_logger as logger
 from bson import ObjectId
 
-from . import CalendarEvent, Course, SchoolConfig, Student, Teacher, User
+from . import CalendarEvent
+from . import Course
+from . import SchoolConfig
+from . import Student
+from . import Teacher
+from . import User
 
 
 class Admin(User):

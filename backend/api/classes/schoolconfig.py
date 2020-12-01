@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 import re
-from typing import List, Optional, Union
+from typing import List
+from typing import Optional
+from typing import Union
 
 from api import db
 from api import root_logger as logger
-from api.tools.exceptions import InvalidFormatException, InvalidTypeException
+from api.tools.exceptions import InvalidFormatException
+from api.tools.exceptions import InvalidTypeException
 from bson import ObjectId
 
 

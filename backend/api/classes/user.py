@@ -2,11 +2,17 @@ from __future__ import annotations
 
 import datetime
 import re
-from typing import Dict, List, Optional, Union
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Union
 
 from api import root_logger as logger
-from api.tools.exceptions import InvalidFormatException, InvalidTypeException
-from bcrypt import checkpw, gensalt, hashpw
+from api.tools.exceptions import InvalidFormatException
+from api.tools.exceptions import InvalidTypeException
+from bcrypt import checkpw
+from bcrypt import gensalt
+from bcrypt import hashpw
 from bson import ObjectId
 from flask_login import UserMixin
 
